@@ -255,15 +255,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" target="_self">
-          函数式接口
+        <a href="/2023/03/09/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/10.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" target="_self">
+          最长回文子串
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/09/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/10.%20%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2/" target="_self">
         <div>
-          函数式接口函数式接口在Java中是指：有且仅有一个抽象方法的接口。 函数式接口，即适用于函数式编程场景的接口。而Java中的函数式编程体现就是Lambda，所以函数式接口就是可 以适用于Lambda使用的接口。只有确保接口中有且仅有一个抽象方法，Java中的Lambda才能顺利地进行推导。 @FunctionalInterface注解 与 @Override 注解的作用类似，Java 8中专门为函
+          5. 最长回文子串 给你一个字符串 s，找到 s 中最长的回文子串。 如果字符串的反序与原始字符串相同，则该字符串称为回文字符串。 示例 1： 123输入：s = &quot;babad&quot;输出：&quot;bab&quot;解释：&quot;aba&quot; 同样是符合题意的答案。  示例 2： 12输入：s = &quot;cbbd&quot;输出：&quot;bb&quot;  提
         </div>
       </a>
 
@@ -271,8 +271,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-09 21:11" pubdate>
+              2023-03-09
             </time>
           </div>
         
@@ -287,12 +287,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/Java%E8%BF%9B%E9%98%B6/" class="category-chain-item">Java进阶</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -309,7 +309,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -323,15 +323,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E6%B3%A8%E8%A7%A3/" target="_self">
-          注解
+        <a href="/2023/03/09/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/8.%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%9B%BF%E6%8D%A2/" target="_self">
+          字符串的查找和替换
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E6%B3%A8%E8%A7%A3/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/09/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/8.%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE%E4%B8%8E%E6%9B%BF%E6%8D%A2/" target="_self">
         <div>
-          注解何谓注解Annotation （注解） 是 Java5 开始引入的新特性，可以看作是一种特殊的注释，主要用于修饰类、方法或者变量，提供某些信息供程序在编译或者运行时使用。 注解本质是一个继承了Annotation 的特殊接口： 123456789@Target(ElementType.METHOD)@Retention(RetentionPolicy.SOURCE)public @interf
+          833. 字符串中的查找与替换你会得到一个字符串 s (索引从 0 开始)，你必须对它执行 k 个替换操作。替换操作以三个长度均为 k 的并行数组给出：indices, sources, targets。 要完成第 i 个替换操作:  检查 子字符串 sources[i] 是否出现在 原字符串 s 的索引 indices[i] 处。 如果没有出现， 什么也不做 。 如果出现，则用 targets[
         </div>
       </a>
 
@@ -339,8 +339,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-09 21:11" pubdate>
+              2023-03-09
             </time>
           </div>
         
@@ -355,12 +355,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/Java%E8%BF%9B%E9%98%B6/" class="category-chain-item">Java进阶</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -377,7 +377,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -391,15 +391,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E5%BC%82%E5%B8%B8/" target="_self">
-          异常
+        <a href="/2023/03/09/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/7.%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%8A%A0/" target="_self">
+          字符串相加
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E5%BC%82%E5%B8%B8/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/09/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/7.%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%8A%A0/" target="_self">
         <div>
-          异常Exception 和 Error 有什么区别？在 Java 中，所有的异常都有一个共同的祖先 java.lang 包中的 Throwable 类。Throwable 类有两个重要的子类:  Exception :程序本身可以处理的异常，可以通过 catch 来进行捕获。Exception 又可以分为 Checked Exception (受检查异常，必须处理) 和 Unchecked Exc
+          415. 字符串相加给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和并同样以字符串形式返回。 你不能使用任何內建的用于处理大整数的库（比如 BigInteger）， 也不能直接将输入的字符串转换为整数形式。 示例 1： 12输入：num1 = &quot;11&quot;, num2 = &quot;123&quot;输出：&quot;134&quot;  示例 2： 12输入：
         </div>
       </a>
 
@@ -407,8 +407,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-09 21:11" pubdate>
+              2023-03-09
             </time>
           </div>
         
@@ -423,12 +423,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/Java%E8%BF%9B%E9%98%B6/" class="category-chain-item">Java进阶</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -445,7 +445,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -459,15 +459,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/JavaIO/4.%20%E7%BC%93%E5%86%B2%E6%B5%81%EF%BC%8CBufferedInputStream%EF%BC%8CBufferedOutputStream/" target="_self">
-          缓冲流
+        <a href="/2023/03/09/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/9.%20%E5%9B%9E%E6%96%87%E5%AD%97%E4%B8%B2%E7%9A%84%E6%95%B0%E9%87%8F/" target="_self">
+          回文子串的数量
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/JavaIO/4.%20%E7%BC%93%E5%86%B2%E6%B5%81%EF%BC%8CBufferedInputStream%EF%BC%8CBufferedOutputStream/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/09/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/9.%20%E5%9B%9E%E6%96%87%E5%AD%97%E4%B8%B2%E7%9A%84%E6%95%B0%E9%87%8F/" target="_self">
         <div>
-          缓冲流，BufferedInputStream，BufferedOutputStream缓冲流缓冲流，也叫高效流，是对4个基本的Filexxx流的增强，所以也是4个流，按照数据类型分类： 字节缓冲流：BufferedInputStream，BufferedOutputStream 字符缓冲流：BufferedReader，BufferedWriter IO 操作是很消耗性能的，缓冲流将数据加载至缓
+          647. 回文子串 - 力扣（LeetCode）给你一个字符串 s ，请你统计并返回这个字符串中 回文子串 的数目。 回文字符串 是正着读和倒过来读一样的字符串。 子字符串 是字符串中的由连续字符组成的一个序列。 具有不同开始位置或结束位置的子串，即使是由相同的字符组成，也会被视作不同的子串。 示例 1： 123输入：s = &quot;abc&quot;输出：3解释：三个回文子串: &quot;
         </div>
       </a>
 
@@ -475,8 +475,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-09 21:11" pubdate>
+              2023-03-09
             </time>
           </div>
         
@@ -491,12 +491,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/JavaIO/" class="category-chain-item">JavaIO</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -513,7 +513,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -527,15 +527,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/JavaIO/2.%20%E5%AD%97%E8%8A%82%E6%B5%81%EF%BC%8COutputStream%EF%BC%8CInputStream/" target="_self">
-          字节流
+        <a href="/2023/03/08/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/5.%20KMP%E7%AE%97%E6%B3%95/" target="_self">
+          KMP算法
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/JavaIO/2.%20%E5%AD%97%E8%8A%82%E6%B5%81%EF%BC%8COutputStream%EF%BC%8CInputStream/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/08/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/5.%20KMP%E7%AE%97%E6%B3%95/" target="_self">
         <div>
-          字节流，OutputStream，InputStream  IO 即 Input/Output，输入和输出。数据输入到计算机内存的过程即输入，反之输出到外部存储（比如数据库，文件，远程主机）的过程即输出。数据传输过程类似于水流，因此称为 IO 流。IO 流在 Java 中分为输入流和输出流，而根据数据的处理方式又分为字节流和字符流。 Java IO 流的 40 多个类都是从如下 4 个抽象类基类中
+          28. 找出字符串中第一个匹配项的下标 - 力扣（LeetCode）给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串的第一个匹配项的下标（下标从 0 开始）。如果 needle 不是 haystack 的一部分，则返回 -1 。 示例 1： 1234输入：haystack = &quot;sadbutsad&quot;, needl
         </div>
       </a>
 
@@ -543,8 +543,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-08 21:11" pubdate>
+              2023-03-08
             </time>
           </div>
         
@@ -559,12 +559,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/JavaIO/" class="category-chain-item">JavaIO</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -581,7 +581,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -595,15 +595,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/JavaIO/5.%20%E6%89%93%E5%8D%B0%E6%B5%81%EF%BC%8CPrintStream/" target="_self">
-          打印流
+        <a href="/2023/03/08/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/6.%20%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_self">
+          重复的子字符串
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/JavaIO/5.%20%E6%89%93%E5%8D%B0%E6%B5%81%EF%BC%8CPrintStream/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/08/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/6.%20%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_self">
         <div>
-          打印流平时我们在控制台打印输出，是调用print方法和println方法完成的，这两个方法都来自于java.io.PrintStream类，该类能够方便地打印各种数据类型的值，是一种便捷的输出方式。 java.io.PrintStream 作用：为其他输出流添加了功能，使它们能够方便地打印各种数据值表示形式 PrintStream特点：  只负责数据的输出，不负责数据的读取 与其他输出流不同，Pr
+          459. 重复的子字符串 - 力扣（LeetCode）给定一个非空的字符串 s ，检查是否可以通过由它的一个子串重复多次构成。 示例 1: 123输入: s = &quot;abab&quot;输出: true解释: 可由子串 &quot;ab&quot; 重复两次构成。  示例 2: 12输入: s = &quot;aba&quot;输出: false  示例 3: 123输入: s = &qu
         </div>
       </a>
 
@@ -611,8 +611,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-08 21:11" pubdate>
+              2023-03-08
             </time>
           </div>
         
@@ -627,12 +627,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/JavaIO/" class="category-chain-item">JavaIO</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -649,7 +649,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -663,15 +663,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/JavaIO/7.%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" target="_self">
-          网络编程
+        <a href="/2023/03/07/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/2.%20%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/" target="_self">
+          替换空格
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/JavaIO/7.%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/07/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/2.%20%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/" target="_self">
         <div>
-          网络编程在Java中，提供了两个类用于实现TCP通信程序： 客户端：java.net.Socket类表示。创建Socket对象，向服务端发出连接请求，服务端响应请求，两者建立连接开始通信。 服务端：java.net.ServerSocket类表示。创建ServerSocket对象，相当于开启一个服务，并等待客户端的连接。 Socket类该类实现客户端套接字，套接字指的是两台设备之间通讯的端点。 构
+          剑指 Offer 05. 替换空格 - 力扣（LeetCode）请实现一个函数，把字符串 s 中的每个空格替换成”%20”。 示例 1： 12输入：s = &quot;We are happy.&quot;输出：&quot;We%20are%20happy.&quot;  限制： 10 &lt;= s 的长度 &lt;= 10000      使用StringBuilder，遇到空格则替换 代码1
         </div>
       </a>
 
@@ -679,8 +679,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-07 21:11" pubdate>
+              2023-03-07
             </time>
           </div>
         
@@ -695,12 +695,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/JavaIO/" class="category-chain-item">JavaIO</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -717,7 +717,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -731,15 +731,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/JavaIO/3.%20%E5%AD%97%E7%AC%A6%E6%B5%81%EF%BC%8CWriter%EF%BC%8CReader/" target="_self">
-          字符流
+        <a href="/2023/03/07/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/4.%20%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_self">
+          左旋转字符串
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/JavaIO/3.%20%E5%AD%97%E7%AC%A6%E6%B5%81%EF%BC%8CWriter%EF%BC%8CReader/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/07/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/4.%20%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/" target="_self">
         <div>
-          字符流，Writer，Reader当使用字节流读取文本文件时，可能会有一个小问题。就是遇到中文字符时，可能不会显示完整的字符，那是因为一个中文字符可能占用多个字节存储。所以Java提供一些字符流类，以字符为单位读写数据，专门用于处理文本文件。 字符流，只能操作文本文件，不能操作图片，视频等非文本文件 Reader：字符输入流是字符输入流的最顶层的父类，定义了一些共性的成员方法,是一个抽象类 共性的
+          剑指 Offer 58 - II. 左旋转字符串字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。请定义一个函数实现字符串左旋转操作的功能。比如，输入字符串”abcdefg”和数字2，该函数将返回左旋转两位得到的结果”cdefgab”。 示例 1： 12输入: s = &quot;abcdefg&quot;, k = 2输出: &quot;cdefgab&quot;  示例 2： 1
         </div>
       </a>
 
@@ -747,8 +747,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-07 21:11" pubdate>
+              2023-03-07
             </time>
           </div>
         
@@ -763,12 +763,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/JavaIO/" class="category-chain-item">JavaIO</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -785,7 +785,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -799,15 +799,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/06/26/Java/JavaIO/6.%20%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          序列化
+        <a href="/2023/03/07/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/3.%20%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D/" target="_self">
+          反转字符串中的单词
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/JavaIO/6.%20%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/07/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/3.%20%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E5%8D%95%E8%AF%8D/" target="_self">
         <div>
-          序列化 将数据结构或对象转换成二进制字节流的过程 反序列化：将在序列化过程中所生成的二进制字节流转换成数据结构或者对象的过程  对于 Java 这种面向对象编程语言来说，我们序列化的都是对象（Object）也就是实例化后的类(Class)，但是在 C++这种半面向对象的语言中，struct(结构体)定义的是数据结构类型，而 class 对应的是对象类型。 下面是序列化和反序列化常见应用场景：  对
+          151. 反转字符串中的单词 - 力扣（LeetCode）给你一个字符串 s ，请你反转字符串中 单词 的顺序。 单词 是由非空格字符组成的字符串。s 中使用至少一个空格将字符串中的 单词 分隔开。 返回 单词 顺序颠倒且 单词 之间用单个空格连接的结果字符串。 注意：输入字符串 s中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外
         </div>
       </a>
 
@@ -815,8 +815,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
+            <time datetime="2023-03-07 21:11" pubdate>
+              2023-03-07
             </time>
           </div>
         
@@ -831,12 +831,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/JavaIO/" class="category-chain-item">JavaIO</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -853,7 +853,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -867,15 +867,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2023/05/26/Java/JavaIO/1.%20File%E7%B1%BB/" target="_self">
-          File
+        <a href="/2023/03/06/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/1.%20%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%20II/" target="_self">
+          反转字符串Ⅱ
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/05/26/Java/JavaIO/1.%20File%E7%B1%BB/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/03/06/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/1.%20%E5%8F%8D%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%20II/" target="_self">
         <div>
-          File类java.io.File 类是文件和目录路径名的抽象表示，主要用于文件和目录的创建、查找和删除等操作。 static String pathSeparator 与系统有关的路径分隔符，为了方便，它被表示为一个字符串。 static char pathSeparatorChar 与系统有关的路径分隔符。 static String separator 与系统有关的默认名称分隔符，为了方便，
+          541. 反转字符串 II - 力扣（LeetCode）给定一个字符串 s 和一个整数 k，从字符串开头算起，每计数至 2k 个字符，就反转这 2k 字符中的前 k 个字符。  如果剩余字符少于 k 个，则将剩余字符全部反转。 如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。  示例 1： 12输入：s = &quot;abcdefg&quot;, k = 2
         </div>
       </a>
 
@@ -883,8 +883,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2023-05-26 20:46" pubdate>
-              2023-05-26
+            <time datetime="2023-03-06 21:11" pubdate>
+              2023-03-06
             </time>
           </div>
         
@@ -899,12 +899,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
   
   
     <span>></span>
     
-  <a href="/categories/Java/JavaIO/" class="category-chain-item">JavaIO</a>
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
   
   
 
@@ -921,7 +921,7 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Java/">#Java</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
             
           </div>
         
@@ -933,7 +933,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/27/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/#board">26</a><a class="page-number" href="/page/27/#board">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/#board">29</a><a class="page-number" href="/page/30/#board">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/#board">34</a><a class="extend next" rel="next" href="/page/29/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/27/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/#board">26</a><a class="page-number" href="/page/27/#board">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/#board">29</a><a class="page-number" href="/page/30/#board">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/#board">39</a><a class="extend next" rel="next" href="/page/29/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

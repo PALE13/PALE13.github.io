@@ -1,0 +1,855 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="认证 (Authentication) 和授权 (Authorization)的区别是什么？这是一个绝大多数人都会混淆的问题。首先先从读音上来认识这两个名词，很多人都会把它俩的读音搞混，所以我建议你先先去查一查这两个单词到底该怎么读，他们的具体含义是什么。 说简单点就是：  认证 (Authentication)： 你是谁。 授权 (Authorization)： 你有权限干什么。  稍微正式点（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认证鉴权">
+<meta property="og:url" content="http://example.com/2024/02/28/%E9%A1%B9%E7%9B%AE/%E8%AE%A4%E8%AF%81%E9%89%B4%E6%9D%83/%E8%AE%A4%E8%AF%81%E9%89%B4%E6%9D%83/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="认证 (Authentication) 和授权 (Authorization)的区别是什么？这是一个绝大多数人都会混淆的问题。首先先从读音上来认识这两个名词，很多人都会把它俩的读音搞混，所以我建议你先先去查一查这两个单词到底该怎么读，他们的具体含义是什么。 说简单点就是：  认证 (Authentication)： 你是谁。 授权 (Authorization)： 你有权限干什么。  稍微正式点（">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412205944650.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412210012188.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412212751084.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412213157635.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412213856310.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412215110076.png">
+<meta property="article:published_time" content="2024-02-28T10:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-17T16:50:17.298Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="认证鉴权">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412205944650.png">
+  
+  
+  
+  <title>认证鉴权 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="认证鉴权"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-02-28 18:46" pubdate>
+          2024年2月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">认证鉴权</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="认证-Authentication-和授权-Authorization-的区别是什么？"><a href="#认证-Authentication-和授权-Authorization-的区别是什么？" class="headerlink" title="认证 (Authentication) 和授权 (Authorization)的区别是什么？"></a><strong>认证 (Authentication) 和授权 (Authorization)的区别是什么？</strong></h3><p>这是一个绝大多数人都会混淆的问题。首先先从读音上来认识这两个名词，很多人都会把它俩的读音搞混，所以我建议你先先去查一查这两个单词到底该怎么读，他们的具体含义是什么。</p>
+<p>说简单点就是：</p>
+<ul>
+<li><strong>认证 (Authentication)：</strong> 你是谁。</li>
+<li><strong>授权 (Authorization)：</strong> 你有权限干什么。</li>
+</ul>
+<p>稍微正式点（啰嗦点）的说法就是：</p>
+<ul>
+<li><strong>Authentication（认证）</strong> 是验证您的身份的凭据（例如用户名&#x2F;用户 ID 和密码），通过这个凭据，系统得以知道你就是你，也就是说系统存在你这个用户。所以，Authentication 被称为身份&#x2F;用户验证。</li>
+<li><strong>Authorization（授权）</strong> 发生在 <strong>Authentication（认证）</strong> 之后。授权嘛，光看意思大家应该就明白，它主要掌管我们访问系统的权限。比如有些特定资源只能具有特定权限的人才能访问比如 admin，有些对系统资源操作比如删除、添加、更新只能特定人才具有。</li>
+</ul>
+<h3 id="RBAC-模型了解吗？"><a href="#RBAC-模型了解吗？" class="headerlink" title="RBAC 模型了解吗？"></a><strong>RBAC 模型了解吗？</strong></h3><p>系统权限控制最常采用的访问控制模型就是 <strong>RBAC 模型</strong> 。</p>
+<p><strong>什么是 RBAC 呢？</strong> RBAC 即基于角色的权限访问控制（Role-Based Access Control）。这是一种通过角色关联权限，角色同时又关联用户的授权的方式。</p>
+<p>简单地说：一个用户可以拥有若干角色，每一个角色又可以被分配若干权限，这样就构造成“用户-角色-权限” 的授权模型。在这种模型中，用户与角色、角色与权限之间构成了多对多的关系。</p>
+<p>在 RBAC 权限模型中，权限与角色相关联，用户通过成为包含特定角色的成员而得到这些角色的权限，这就极大地简化了权限的管理。</p>
+<p>为了实现 RBAC 权限模型，数据库表的常见设计如下（一共 5 张表，2 张用户建立表之间的联系）：</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412205944650.png" srcset="/img/loading.gif" lazyload alt="image-20240412205944650" style="zoom:50%;" />
+
+
+
+<p>通过这个权限模型，我们可以创建不同的角色并为不同的角色分配不同的权限范围（菜单）。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412210012188.png" srcset="/img/loading.gif" lazyload alt="image-20240412210012188" style="zoom:50%;" />
+
+<p>通常来说，如果系统对于权限控制要求比较严格的话，一般都会选择使用 RBAC 模型来做权限控制。</p>
+<h3 id="Session和Cookies的区别"><a href="#Session和Cookies的区别" class="headerlink" title="Session和Cookies的区别"></a><strong>Session和Cookies的区别</strong></h3><p><strong>Cookies</strong></p>
+<ul>
+<li>浏览器端第一次发送请求到服务器端</li>
+<li>服务器端创建Cookie，该Cookie中包含用户的信息，然后将该Cookie发送到浏览器端</li>
+<li>浏览器端再次访问服务器端时会携带服务器端创建的Cookie</li>
+<li>服务器端通过Cookie中携带的数据区分不同的用户</li>
+</ul>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412212751084.png" srcset="/img/loading.gif" lazyload alt="image-20240412212751084" style="zoom:50%;" />
+
+
+
+<p>Cookies通常用于存储少量的文本数据，比如用户的偏好设置、登录状态等。cookie 有存储大小限制，4KB 左右。</p>
+<p>浏览器每次请求会携带 cookie 在请求头中。</p>
+<p>字符编码为 Unicode，不支持直接存储中文。</p>
+<p>Cookies相对不太安全，因为它们存储在用户的计算机上，可能会被恶意程序或者其他网站访问。</p>
+<p>cookie 不可跨域，但是在如果设置了 domain，那么它们是可以在一级域名和二级域名之间共享的</p>
+<p><strong>Session</strong></p>
+<p>session 由服务端创建，当一个请求发送到服务端时，服务器会检索该请求里面有没有包含 sessionId 标识，如果包含了 sessionId，则代表服务端已经和客户端创建过 session，然后就通过这个 sessionId 去查找真正的 session，如果没找到，则为客户端创建一个新的 session，并生成一个新的 sessionId 与 session 对应，然后在响应的时候将 sessionId 给客户端，通常是存储在 cookie 中。如果在请求中找到了真正的 session，验证通过，正常处理该请求。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412213157635.png" srcset="/img/loading.gif" lazyload alt="image-20240412213157635" style="zoom: 67%;" />
+
+<p>session 比 cookie 更加安全，因为它是存在服务端的</p>
+<p>cookie 只支持存储字符串数据，session 可以存储任意类型数据（如对象）</p>
+<p>cookie 的有效期可以设置较长时间，session 有效期都比较短</p>
+<p>session 存储空间很大，但如果并发量很高，会比较占用服务器资源</p>
+<p>在集群部署的环境下需要考虑不同服务器的session的共享</p>
+<h3 id="如何使用-Session-Cookie-方案进行身份验证？"><a href="#如何使用-Session-Cookie-方案进行身份验证？" class="headerlink" title="如何使用 Session-Cookie 方案进行身份验证？"></a><strong>如何使用 Session-Cookie 方案进行身份验证？</strong></h3><p>很多时候我们都是通过 <code>SessionID</code> 来实现特定的用户，<code>SessionID</code> 一般会选择存放在 Redis 中。举个例子：</p>
+<ol>
+<li>用户成功登陆系统，然后返回给客户端具有 <code>SessionID</code> 的 <code>Cookie</code> 。</li>
+<li>当用户向后端发起请求的时候会把 <code>SessionID</code> 带上，这样后端就知道你的身份状态了。</li>
+</ol>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412213856310.png" srcset="/img/loading.gif" lazyload alt="image-20240412213856310" style="zoom:50%;" />
+
+
+
+<p>用户向服务器发送用户名、密码、验证码用于登陆系统。</p>
+<p>服务器验证通过后，服务器为用户创建一个 <code>Session</code>，并将 <code>Session</code> 信息存储起来。</p>
+<p>服务器向用户返回一个 <code>SessionID</code>，写入用户的 <code>Cookie</code>。</p>
+<p>当用户保持登录状态时，<code>Cookie</code> 将与每个后续请求一起被发送出去。</p>
+<p>服务器可以将存储在 <code>Cookie</code> 上的 <code>SessionID</code> 与存储在内存中或者数据库中的 <code>Session</code> 信息进行比较，以验证用户的身份，返回给用户客户端响应信息的时候会附带用户当前的状态。</p>
+<p>使用 <code>Session</code> 的时候需要注意下面几个点：</p>
+<ul>
+<li>依赖 <code>Session</code> 的关键业务一定要确保客户端开启了 <code>Cookie</code>。</li>
+<li>注意 <code>Session</code> 的过期时间。</li>
+</ul>
+<p>另外，Spring Session 提供了一种跨多个应用程序或实例管理用户会话信息的机制。如果想详细了解可以查看下面几篇很不错的文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://codeboje.de/spring-Session-tutorial/">Getting Started with Spring Sessionopen in new window</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.baeldung.com/spring-Session">Guide to Spring Sessionopen in new window</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@gvnix/sticky-Sessions-with-spring-Session-redis-bdc6f7438cc3">Sticky Sessions with Spring Session &amp; Redis</a></li>
+</ul>
+<h3 id="如果没有-Cookie-的话-Session-还能用吗？"><a href="#如果没有-Cookie-的话-Session-还能用吗？" class="headerlink" title="如果没有 Cookie 的话 Session 还能用吗？"></a><strong>如果没有 Cookie 的话 Session 还能用吗？</strong></h3><p>一般是通过 <code>Cookie</code> 来保存 <code>SessionID</code> ，假如你使用了 <code>Cookie</code> 保存 <code>SessionID</code> 的方案的话， 如果客户端禁用了 <code>Cookie</code>，那么 <code>Session</code> 就无法正常工作。</p>
+<p>但是，并不是没有 <code>Cookie</code> 之后就不能用 <code>Session</code> 了，比如你可以将 <code>SessionID</code> 放在请求的 <code>url</code> 里面<code>https://javaguide.cn/?Session_id=xxx</code> 。这种方案的话可行，但是安全性和用户体验感降低。当然，为了安全你也可以对 <code>SessionID</code> 进行一次加密之后再传入后端。</p>
+<h3 id="多服务器节点下-Session-Cookie-方案（Session共享问题）"><a href="#多服务器节点下-Session-Cookie-方案（Session共享问题）" class="headerlink" title="多服务器节点下 Session-Cookie 方案（Session共享问题）"></a><strong>多服务器节点下 Session-Cookie 方案（Session共享问题）</strong></h3><p>Session-Cookie 方案在单体环境是一个非常好的身份认证方案。但是，当服务器水平拓展成多节点时，Session-Cookie 方案就要面临挑战了。</p>
+<p>举个例子：假如我们部署了两份相同的服务 A，B，用户第一次登陆的时候 ，Nginx 通过负载均衡机制将用户请求转发到 A 服务器，此时用户的 Session 信息保存在 A 服务器。结果，用户第二次访问的时候 Nginx 将请求路由到 B 服务器，由于 B 服务器没有保存 用户的 Session 信息，导致用户需要重新进行登陆。</p>
+<p><strong>我们应该如何避免上面这种情况的出现呢？</strong></p>
+<p>有几个方案可供大家参考：</p>
+<ol>
+<li>某个用户的所有请求都通过特性的哈希策略分配给同一个服务器处理。这样的话，每个服务器都保存了一部分用户的 Session 信息。服务器宕机，其保存的所有 Session 信息就完全丢失了。</li>
+<li>每一个服务器保存的 Session 信息都是互相同步的，也就是说每一个服务器都保存了全量的 Session 信息。每当一个服务器的 Session 信息发生变化，我们就将其同步到其他服务器。这种方案成本太大，并且，节点越多时，同步成本也越高。</li>
+<li>单独使用一个所有服务器都能访问到的数据节点<strong>（比如缓存）来存放 Session 信息</strong>。为了保证高可用，数据节点尽量要避免是单点。</li>
+<li>Spring Session 是一个用于在多个服务器之间管理会话的项目。它可以与多种后端存储（如 Redis、MongoDB 等）集成，从而实现分布式会话管理。通过 Spring Session，<strong>可以将会话数据存储在共享的外部存储中，以实现跨服务器的会话同步和共享。</strong></li>
+</ol>
+<h3 id="Token"><a href="#Token" class="headerlink" title="Token"></a><strong>Token</strong></h3><p>Token 是一种在客户端和服务端之间传递身份信息的方式。当用户登录成功后，服务端会生成一个 Token，将其发送给客户端。客户端在后续的请求中，需要将 Token 携带在请求头或请求参数中。服务端通过验证 Token 的合法性，就可以确定该请求来自哪个用户，并且可以根据用户的权限进行相应的操作。Token 可以有效地避免了 Cookie 的一些安全问题，比如 CSRF 攻击。</p>
+<h3 id="token的组成"><a href="#token的组成" class="headerlink" title="token的组成"></a><strong>token的组成</strong></h3><p>Token是一个由一串字符组成的令牌，用于在计算机系统中进行身份验证和授权。它通常由三个部分组成：标头、有效载荷、签名。</p>
+<ol>
+<li>标头（Header）：包含了算法和类型，用于指定如何对有效载荷进行编码和签名。常用的算法有HMAC、RSA、SHA等。</li>
+<li>有效载荷（Payload）：包含了一些信息，如用户ID、角色、权限等，用于验证身份和授权。有效载荷可以是加密的，也可以是明文的。</li>
+<li>签名（Signature）：是对标头和有效载荷进行签名后得到的值，用于验证token的完整性和真实性。签名通常使用私钥进行签名，并使用公钥进行验证。</li>
+</ol>
+<p>一个完整的token包含了标头、有效载荷和签名三个部分，它们一起构成了一个安全的令牌，用于进行身份验证和授权。</p>
+<h3 id="token认证流程"><a href="#token认证流程" class="headerlink" title="token认证流程"></a><strong>token认证流程</strong></h3><ol>
+<li>客户端发起登录请求，比如用户输入用户名和密码后登录。</li>
+<li>服务端校验用户名和密码后，将用户 id 和一些其它信息进行加密，生成 token。</li>
+<li>服务端将 token 响应给客户端。</li>
+<li>客户端收到响应后将 token 存储下来。</li>
+<li>下一次发送请求后需要将 token 携带上，比如放在请求头中或者其它地方。</li>
+<li>服务端 token 后校验，校验通过则正常返回数据。</li>
+</ol>
+<p>安全，因为 token 一般只有用户 id，就算被截取了也没什么用。</p>
+<p>无需消耗服务器内存资源，它相当于只存了用户 id，session 相当于存储了用户的所有信息。3.跨域处理较为方便，比如多台服务器之间可以共用一个 token。</p>
+<h3 id="为什么-Cookie-无法防止-CSRF-攻击，而-Token-可以？"><a href="#为什么-Cookie-无法防止-CSRF-攻击，而-Token-可以？" class="headerlink" title="为什么 Cookie 无法防止 CSRF 攻击，而 Token 可以？"></a><strong>为什么 Cookie 无法防止 CSRF 攻击，而 Token 可以？</strong></h3><p><strong>CSRF(Cross Site Request Forgery)</strong> 一般被翻译为 <strong>跨站请求伪造</strong> 。那么什么是 <strong>跨站请求伪造</strong> 呢？说简单点，就是用你的身份去发送一些对你不友好的请求。举个简单的例子：</p>
+<p>小壮登录了某网上银行，他来到了网上银行的帖子区，看到一个帖子下面有一个链接写着“科学理财，年盈利率过万”，小壮好奇的点开了这个链接，结果发现自己的账户少了 10000 元。这是这么回事呢？原来黑客在链接中藏了一个请求，这个请求直接利用小壮的身份给银行发送了一个转账请求,也就是通过你的 Cookie 向银行发出请求。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">src</span>=<span class="hljs-string">http://www.mybank.com/Transfer?bankId</span>=<span class="hljs-string">11&amp;money</span>=<span class="hljs-string">10000</span>&gt;</span>科学理财，年盈利率过万<span class="hljs-tag">&lt;/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>上面也提到过，进行 <code>Session</code> 认证的时候，我们一般使用 <code>Cookie</code> 来存储 <code>SessionId</code>,当我们登陆后后端生成一个 <code>SessionId</code> 放在 Cookie 中返回给客户端，服务端通过 Redis 或者其他存储工具记录保存着这个 <code>SessionId</code>，客户端登录以后每次请求都会带上这个 <code>SessionId</code>，服务端通过这个 <code>SessionId</code> 来标示你这个人。如果别人通过 <code>Cookie</code> 拿到了 <code>SessionId</code> 后就可以代替你的身份访问系统了。</p>
+<p><code>Session</code> 认证中 <code>Cookie</code> 中的 <code>SessionId</code> 是由浏览器发送到服务端的，借助这个特性，攻击者就可以通过让用户误点攻击链接，达到攻击效果。</p>
+<p>但是，<strong>我们使用 <code>Token</code> 的话就不会存在这个问题，在我们登录成功获得 <code>Token</code> 之后</strong>，一般会选择存放在 <code>localStorage</code> （浏览器本地存储）中。然后我们在前端通过某些方式会给每个发到后端的请求加上这个 <code>Token</code>,这样就不会出现 CSRF 漏洞的问题。因为，<strong>即使你点击了非法链接发送了请求到服务端，这个非法请求是不会携带 <code>Token</code> 的</strong>，所以这个请求将是非法的。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412215110076.png" srcset="/img/loading.gif" lazyload alt="image-20240412215110076" style="zoom:50%;" />
+
+<p>需要注意的是：不论是 <code>Cookie</code> 还是 <code>Token</code> 都无法避免 <strong>跨站脚本攻击（Cross Site Scripting）XSS</strong> 。</p>
+<p>跨站脚本攻击（Cross Site Scripting）缩写为 CSS 但这会与层叠样式表（Cascading Style Sheets，CSS）的缩写混淆。因此，有人将跨站脚本攻击缩写为 XSS。</p>
+<p>XSS 中攻击者会用各种方式将恶意代码注入到其他用户的页面中。就可以通过脚本盗用信息比如 <code>Cookie</code>，token</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A4%E8%AF%81%E9%89%B4%E6%9D%83/" class="category-chain-item">认证鉴权</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A4%E8%AF%81%E9%89%B4%E6%9D%83/" class="print-no-link">#认证鉴权</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>认证鉴权</div>
+      <div>http://example.com/2024/02/28/项目/认证鉴权/认证鉴权/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年2月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/08/Redis/Redis%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" title="Redis基本概念">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Redis基本概念</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/02/25/%E9%A1%B9%E7%9B%AE/%E8%AE%A4%E8%AF%81%E9%89%B4%E6%9D%83/JWT/" title="JWT">
+                        <span class="hidden-mobile">JWT</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

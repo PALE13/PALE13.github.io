@@ -255,15 +255,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/15.%20%E5%90%88%E5%B9%B6K%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" target="_self">
-          
+        <a href="/2024/04/05/MySQL/MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" target="_self">
+          MySQL性能优化
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/15.%20%E5%90%88%E5%B9%B6K%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/05/MySQL/MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" target="_self">
         <div>
-          123. 合并 K 个升序链表给你一个链表数组，每个链表都已经按升序排列。 请你将所有链表合并到一个升序链表中，返回合并后的链表。 示例 1： 12345678910输入：lists = [[1,4,5],[1,3,4],[2,6]]输出：[1,1,2,3,4,4,5,6]解释：链表数组如下：[  1-&gt;4-&gt;5,  1-&gt;3-&gt;4,  2-&gt;6]将它们合并到一个有序
+          慢SQL优化count(*) 和 count(1) 有什么区别？哪个性能最好？    count(1) 执行过程是怎样的？ 用下面这条语句作为例子： 1select count(1) from t_order;  如果表里只有主键索引，没有二级索引时。 那么，InnoDB 循环遍历聚簇索引（主键索引），将读取到的记录返回给 server 层，但是不会读取记录中的任何字段的值，因为 count 函数
         </div>
       </a>
 
@@ -271,12 +271,47 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-04-05 20:46" pubdate>
+              2024-04-05
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" class="category-chain-item">MySQL</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/MySQL/">#MySQL</a>
+            
+          </div>
         
       </div>
     </article>
@@ -288,15 +323,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/14.%20%E5%90%88%E5%B9%B6%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" target="_self">
-          
+        <a href="/2024/04/05/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/12.%20%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%89%8D%E7%BC%80/" target="_self">
+          最长公共前缀
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/14.%20%E5%90%88%E5%B9%B6%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/05/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/12.%20%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%89%8D%E7%BC%80/" target="_self">
         <div>
-          21. 合并两个有序链表将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。  示例 1：  12输入：l1 = [1,2,4], l2 = [1,3,4]输出：[1,1,2,3,4,4]  示例 2： 12输入：l1 = [], l2 = []输出：[]  示例 3： 12输入：l1 = [], l2 = [0]输出：[0]  提示：  两个链表的节点
+          14. 最长公共前缀编写一个函数来查找字符串数组中的最长公共前缀。 如果不存在公共前缀，返回空字符串 &quot;&quot;。 示例 1： 12输入：strs = [&quot;flower&quot;,&quot;flow&quot;,&quot;flight&quot;]输出：&quot;fl&quot;  示例 2： 123输入：strs = [&quot;dog&quot;,&quot;
         </div>
       </a>
 
@@ -304,12 +339,47 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-04-05 18:11" pubdate>
+              2024-04-05
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="category-chain-item">字符串</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+            
+          </div>
         
       </div>
     </article>
@@ -321,15 +391,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/13.%20%E5%88%86%E5%89%B2%E9%93%BE%E8%A1%A8/" target="_self">
-          
+        <a href="/2024/04/05/Redis/Redis%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" target="_self">
+          Redis性能优化
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/13.%20%E5%88%86%E5%89%B2%E9%93%BE%E8%A1%A8/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/05/Redis/Redis%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" target="_self">
         <div>
-          86. 分隔链表给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。 你应当 保留 两个分区中每个节点的初始相对位置。 示例 1：  12输入：head = [1,4,3,2,5,2], x = 3输出：[1,2,2,4,3,5]  示例 2： 12输入：head = [2,1], x = 2输出：[1,2]  提
+          Redis 性能优化 除了下面介绍的内容之外，再推荐两篇不错的文章： 你的 Redis 真的变慢了吗？性能优化如何做 - 阿里开发者open in new window Redis 常见阻塞原因总结 - JavaGuide    ###Redis 事务 什么是 Redis 事务？你可以将 Redis 中的事务理解为：Redis 事务提供了一种将多个命令请求打包的功能。然后，再按顺序执行打包的所有命
         </div>
       </a>
 
@@ -337,12 +407,47 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-04-05 17:46" pubdate>
+              2024-04-05
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/" class="category-chain-item">Redis</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Redis/">#Redis</a>
+            
+          </div>
         
       </div>
     </article>
@@ -354,15 +459,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/10.%20%E6%97%8B%E8%BD%AC%E9%93%BE%E8%A1%A8/" target="_self">
-          
+        <a href="/2024/03/29/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/API%E7%BD%91%E5%85%B3/" target="_self">
+          API网关
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/10.%20%E6%97%8B%E8%BD%AC%E9%93%BE%E8%A1%A8/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/03/29/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/API%E7%BD%91%E5%85%B3/" target="_self">
         <div>
-          61. 旋转链表 - 力扣（LeetCode）给你一个链表的头节点 head ，旋转链表，将链表每个节点向右移动 k 个位置。 示例 1：  12输入：head = [1,2,3,4,5], k = 2输出：[4,5,1,2,3]  示例 2：  12输入：head = [0,1,2], k = 4输出：[2,0,1]  提示：  链表中节点的数目在范围 [0, 500] 内 -100 &lt;=
+          API网关微服务背景下，一个系统被拆分为多个服务，但是像安全认证，流量控制，日志，监控等功能是每个服务都需要的，没有网关的话，我们就需要在每个服务中单独实现，这使得我们做了很多重复的事情并且没有一个全局的视图来统一管理这些功能。 一般情况下，网关可以为我们提供请求转发、安全认证（身份&#x2F;权限认证）、流量控制、负载均衡、降级熔断、日志、监控、参数校验、协议转换等功能。 上面介绍了这么多功能，
         </div>
       </a>
 
@@ -370,12 +475,40 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-03-29 18:46" pubdate>
+              2024-03-29
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="category-chain-item">微服务</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">#微服务</a>
+            
+          </div>
         
       </div>
     </article>
@@ -387,15 +520,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/11.%20%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8/" target="_self">
-          
+        <a href="/2024/03/29/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/CND/" target="_self">
+          CDN
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/11.%20%E5%A5%87%E5%81%B6%E9%93%BE%E8%A1%A8/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/03/29/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/CND/" target="_self">
         <div>
-          328. 奇偶链表 - 力扣（LeetCode）给定单链表的头节点 head ，将所有索引为奇数的节点和索引为偶数的节点分别组合在一起，然后返回重新排序的列表。 第一个节点的索引被认为是 奇数 ， 第二个节点的索引为 偶数 ，以此类推。 请注意，偶数组和奇数组内部的相对顺序应该与输入时保持一致。 你必须在 O(1) 的额外空间复杂度和 O(n) 的时间复杂度下解决这个问题。 示例 1:  12输入
+          CDNCDN 全称是 Content Delivery Network&#x2F;Content Distribution Network，翻译过的意思是 内容分发网络 。 我们可以将内容分发网络拆开来看：  内容：指的是静态资源比如图片、视频、文档、JS、CSS、HTML。 分发网络：指的是将这些静态资源分发到位于多个不同的地理位置机房中的服务器上，这样，就可以实现静态资源的就近访问比如北京的用
         </div>
       </a>
 
@@ -403,12 +536,40 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-03-29 18:46" pubdate>
+              2024-03-29
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="category-chain-item">微服务</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">#微服务</a>
+            
+          </div>
         
       </div>
     </article>
@@ -420,15 +581,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/12.%20%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0/" target="_self">
-          
+        <a href="/2024/03/28/%E9%A1%B9%E7%9B%AE/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Linux/" target="_self">
+          Linux
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/12.%20%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/03/28/%E9%A1%B9%E7%9B%AE/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Linux/" target="_self">
         <div>
-          203. 移除链表元素给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回 新的头节点 。 示例 1：  12输入：head = [1,2,6,3,4,5,6], val = 6输出：[1,2,3,4,5]  示例 2： 12输入：head = [], val = 1输出：[]  示例 3： 12输入：head = [7,7,
+          Linux 常用命令常用 sudo + 其他命令：以系统管理者的身份执行指令，也就是说，经由 sudo 所执行的指令就好像是 root 亲自执行。 grep 要搜索的字符串 要搜索的文件 --color：搜索命令，–color 代表高亮显示。 kill -9 进程的pid：杀死进程（-9 表示强制终止）先用 ps 查找进程，然后用 kill 杀掉。 shutdown：shutdown -h now
         </div>
       </a>
 
@@ -436,12 +597,47 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-03-28 20:46" pubdate>
+              2024-03-28
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="category-chain-item">开发工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Linux/">#Linux</a>
+            
+          </div>
         
       </div>
     </article>
@@ -453,15 +649,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/1.%20%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/" target="_self">
-          
+        <a href="/2024/03/25/%E7%AE%97%E6%B3%95/%E6%95%B0%E7%BB%84/13.%20%E4%BA%A4%E6%8D%A2%E6%9C%80%E5%B0%91%E6%AC%A1%E6%95%B0%E4%BD%BF%E6%95%B0%E7%BB%84%E6%9C%89%E5%BA%8F/" target="_self">
+          交换最少次数使数组有序
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/1.%20%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/03/25/%E7%AE%97%E6%B3%95/%E6%95%B0%E7%BB%84/13.%20%E4%BA%A4%E6%8D%A2%E6%9C%80%E5%B0%91%E6%AC%A1%E6%95%B0%E4%BD%BF%E6%95%B0%E7%BB%84%E6%9C%89%E5%BA%8F/" target="_self">
         <div>
-          LCR 024. 反转链表 - 力扣（LeetCode）给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。 示例 1：  12输入：head = [1,2,3,4,5]输出：[5,4,3,2,1]  示例 2：  12输入：head = [1,2]输出：[2,1]  示例 3： 12输入：head = []输出：[]  提示：  链表中节点的数目范围是 [0, 5000] -500
+          交换最少次数使数组有序题目1： 给出一个序列，只交换相邻两数，使得序列升序排列，求出最少交换次数。 思路：如果说只是交换相邻两个数字。那么就是这个序列的逆序数。 1.假设序列个数为n，我们先把最大的数换到最后，因为是相邻数字交换，所以把最大数交换到最后，需要交换的次数为最大数后的数字个数。 2.当完成最大数的交换后，可以将最大数从序列中划去不管了，即此时序列个数为n-1了，我们再在该序列中找到一个
         </div>
       </a>
 
@@ -469,12 +665,47 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-03-25 18:11" pubdate>
+              2024-03-25
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%95%B0%E7%BB%84/" class="category-chain-item">数组</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+            
+          </div>
         
       </div>
     </article>
@@ -486,15 +717,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83/9.%20%E5%88%86%E5%8F%91%E7%B3%96%E6%9E%9C/" target="_self">
-          
+        <a href="/2024/03/25/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" target="_self">
+          负载均衡
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83/9.%20%E5%88%86%E5%8F%91%E7%B3%96%E6%9E%9C/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/03/25/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" target="_self">
         <div>
-          135. 分发糖果 - 力扣（LeetCode）n 个孩子站成一排。给你一个整数数组 ratings 表示每个孩子的评分。 你需要按照以下要求，给这些孩子分发糖果：  每个孩子至少分配到 1 个糖果。 相邻两个孩子评分更高的孩子会获得更多的糖果。  请你给每个孩子分发糖果，计算并返回需要准备的 最少糖果数目 。 示例 1： 123输入：ratings = [1,0,2]输出：5解释：你可以分别给第
+          负载均衡负载均衡 指的是将用户请求分摊到不同的服务器上处理，以提高系统整体的并发处理能力以及可靠性。负载均衡服务可以有由专门的软件或者硬件来完成，一般情况下，硬件的性能更好，软件的价格更便宜 负载均衡可以简单分为服务端负载均衡和客户端负载均衡这两种，服务端负载均衡涉及到的知识点更多，工作中遇到的也比较多       客户端负载均衡客户端负载均衡主要应用于系统内部的不同的服务之间，可以使用现成的负载
         </div>
       </a>
 
@@ -502,12 +733,40 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-03-25 15:46" pubdate>
+              2024-03-25
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="category-chain-item">微服务</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">#微服务</a>
+            
+          </div>
         
       </div>
     </article>
@@ -519,15 +778,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83/8.%20%E5%8A%A0%E6%B2%B9%E7%AB%99/" target="_self">
-          
+        <a href="/2024/03/24/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" target="_self">
+          微服务基本概念
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83/8.%20%E5%8A%A0%E6%B2%B9%E7%AB%99/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/03/24/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" target="_self">
         <div>
-          134. 加油站 - 力扣（LeetCode）在一条环路上有 n 个加油站，其中第 i 个加油站有汽油 gas[i] 升。 你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。 给定两个整数数组 gas 和 cost ，如果你可以按顺序绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1 。如果存在
+          微服务为什么需要服务注册与发现？微服务架构下，一个系统通常由多个微服务组成(比如电商系统可能分为用户服务、商品服务、订单服务等服务)，一个用户请求可能会需要多个服务参与，这些服务之间互相配合以维持系统的正常运行。 在没有服务注册与发现机制之前，每个服务会将其依赖的其他服务的地址信息写死在配置文件里(参考单体架构)。假设我们系统中的订单服务访问量突然变大，我们需要对订单服务进行扩容，也就是多部署些订
         </div>
       </a>
 
@@ -535,12 +794,40 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-03-24 18:46" pubdate>
+              2024-03-24
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="category-chain-item">微服务</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">#微服务</a>
+            
+          </div>
         
       </div>
     </article>
@@ -552,15 +839,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/05/17/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83/7.%20K%20%E6%AC%A1%E5%8F%96%E5%8F%8D%E5%90%8E%E6%9C%80%E5%A4%A7%E5%8C%96%E7%9A%84%E6%95%B0%E7%BB%84%E5%92%8C/" target="_self">
-          
+        <a href="/2024/03/24/%E7%AE%97%E6%B3%95/%E6%95%B0%E7%BB%84/12.%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%80%86%E5%BA%8F%E5%AF%B9/" target="_self">
+          求数组中逆序对
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/17/%E7%AE%97%E6%B3%95/%E8%B4%AA%E5%BF%83/7.%20K%20%E6%AC%A1%E5%8F%96%E5%8F%8D%E5%90%8E%E6%9C%80%E5%A4%A7%E5%8C%96%E7%9A%84%E6%95%B0%E7%BB%84%E5%92%8C/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/03/24/%E7%AE%97%E6%B3%95/%E6%95%B0%E7%BB%84/12.%20%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%80%86%E5%BA%8F%E5%AF%B9/" target="_self">
         <div>
-          1005. K 次取反后最大化的数组和 - 力扣（LeetCode）给你一个整数数组 nums 和一个整数 k ，按以下方法修改该数组：  选择某个下标 i 并将 nums[i] 替换为 -nums[i] 。  重复这个过程恰好 k 次。可以多次选择同一个下标 i 。 以这种方式修改数组后，返回数组 可能的最大和 。 示例 1： 123输入：nums = [4,2,3], k = 1输出：5解释：
+          求数组中的逆序对  变式 给出一个序列，只交换相邻两数，使得序列升序排列，求出最少交换次数。 思路：如果说只是交换相邻两个数字。那么就是这个序列的逆序数。 1.假设序列个数为n，我们先把最大的数换到最后，因为是相邻数字交换，所以把最大数交换到最后，需要交换的次数为最大数后的数字个数。 2.当完成最大数的交换后，可以将最大数从序列中划去不管了，即此时序列个数为n-1了，我们再在该序列中找到一个最大数
         </div>
       </a>
 
@@ -568,12 +855,47 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-05-17 20:23" pubdate>
-              2024-05-17
+            <time datetime="2024-03-24 18:11" pubdate>
+              2024-03-24
             </time>
           </div>
         
         
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%AE%97%E6%B3%95/" class="category-chain-item">算法</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%95%B0%E7%BB%84/" class="category-chain-item">数组</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+            
+          </div>
         
       </div>
     </article>
@@ -583,7 +905,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/#board">34</a><a class="extend next" rel="next" href="/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/2/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/#board">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/#board">4</a><a class="page-number" href="/page/5/#board">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/#board">39</a><a class="extend next" rel="next" href="/page/4/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

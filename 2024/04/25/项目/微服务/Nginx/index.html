@@ -1,0 +1,843 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Nginx什么是 Nginx ?俄罗斯的工程师 lgor Sysoev，在 Rambler Media 工作期间使用 C语言开发并开源了 Nginx。Nginx 同 Apache 一样都是 WEB 服务器，不过，Nginx 更加轻量级，它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。并且，Nginx 可以作为反向代理服务器使用，支持IMAP&#x2F;POP3&#x2F;SMTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx">
+<meta property="og:url" content="http://example.com/2024/04/25/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Nginx/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="Nginx什么是 Nginx ?俄罗斯的工程师 lgor Sysoev，在 Rambler Media 工作期间使用 C语言开发并开源了 Nginx。Nginx 同 Apache 一样都是 WEB 服务器，不过，Nginx 更加轻量级，它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。并且，Nginx 可以作为反向代理服务器使用，支持IMAP&#x2F;POP3&#x2F;SMTP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509200337306.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509202601757.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509202837696.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509203722890.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509204601563.png">
+<meta property="article:published_time" content="2024-04-25T10:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-17T16:49:27.562Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509200337306.png">
+  
+  
+  
+  <title>Nginx - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Nginx"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-25 18:46" pubdate>
+          2024年4月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Nginx</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a><strong>Nginx</strong></h2><p><strong>什么是 Nginx ?</strong><br>俄罗斯的工程师 lgor Sysoev，在 Rambler Media 工作期间使用 C语言开发并开源了 Nginx。<br>Nginx 同 Apache 一样都是 WEB 服务器，不过，Nginx 更加轻量级，它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。并且，Nginx 可以作为反向代理服务器使用，支持IMAP&#x2F;POP3&#x2F;SMTP 服务。</p>
+<h3 id="Nginx-的特点是有哪些"><a href="#Nginx-的特点是有哪些" class="headerlink" title="Nginx 的特点是有哪些?"></a><strong>Nginx 的特点是有哪些?</strong></h3><ul>
+<li>内存占用非常少:一般情况下，10000 个非活跃的 HTTP Keep-Alive 连接在 Nginx 中仅消耗 2.5MB的内存，这是 Nginx 支持高并发连接的基础。</li>
+<li>高并发:单机支持 10 万以上的并发连接</li>
+<li>跨平台:可以运行在 Linux，Windows，FreeBSD，Solaris，AIX，Mac Os 等操作系统上。</li>
+<li>扩展性好:第三方插件非常多</li>
+<li>安装使用简单:对于简单的应用场景，我们很快就能够上手使用。</li>
+<li>稳定性好:bug 少，不会遇到各种奇葩的问题。</li>
+<li>免费:开源软件，免费使用。</li>
+</ul>
+<h3 id="Nginx-能用来做什么"><a href="#Nginx-能用来做什么" class="headerlink" title="Nginx 能用来做什么?"></a><strong>Nginx 能用来做什么?</strong></h3><h4 id="静态资源服务器"><a href="#静态资源服务器" class="headerlink" title="静态资源服务器"></a><strong>静态资源服务器</strong></h4><p>Nginx 可以将服务器上的静态文件(如 HTML、CSS、JS、图片)缓存下来，通过 HTTP 协议展现给客户端。因此，我们可以使用 Nginx 搭建静态资源 Web 服务器&#x2F;缓存服务器。<strong>不过，要记得使用 gzip 压缩静态资源来减少网络传输。</strong><br>当客户端第一次请求静态资源的时候，会从服务器直接返回，Nginx 同时也会缓存一份静态资源。如果后续客户端请求相同的静态资源，只要对应的缓存未被清理且没有过期，就可以直接从 Nginx 缓存中取出返回给客户端了</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509200337306.png" srcset="/img/loading.gif" lazyload alt="image-20240509200337306" style="zoom: 67%;" />
+
+
+
+
+
+<h4 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a><strong>反向代理</strong></h4><p>客户端将请求发送到反向代理服务器，由反向代理服务器去选择目标服务器，获取数据后再返回给客户端。<strong>对外暴露的是反向代理服务器地址，隐藏了真实服务器 IP 地址。</strong>反向代理“代理”的是目标服务器这一个过程对于客户端而言是透明的</p>
+<p>举个例子:公司内网部署了3台服务器，客户端请求直接经过代理服务器，由代理服务器将请求转发到内网服务器并最终决定哪一台服务器处理客户端请求。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509202601757.png" srcset="/img/loading.gif" lazyload alt="image-20240509202601757" style="zoom: 67%;" />
+
+<p>反向代理隐藏了真实的服务器，为服务器收发请求，使真实服务器对客户端不可见。一般在处理跨域请求的时候比较常用。现在基本上所有的大型网站都设置了反向代理。<strong>Nginx 支持配置反向代理，通过反向代理实现网站的负载均衡。</strong></p>
+<h4 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a><strong>正向代理</strong></h4><p>Nginx 主要被作为反向代理服务器使用，不过，其同样也是正向代理服务器的一个选择。</p>
+<p>客户端通过正向代理服务器访问目标服务器。<strong>正向代理“代理”的是客户端，目标服务器不知道客户端是谁，隐藏了客户端的ip地址</strong>，也就是说客户端对目标服务器的这次访问是透明的。代理服务器根据请求的目标地址和规则，将请求转发给目标服务器，然后将目标服务器的响应返回给客户端。</p>
+<p>为了实现正向代理，客户端需要设置正向代理服务器的IP 地址以及代理程序的端口。</p>
+<p>举个例子：我们无法直接访问外网，但是可以借助科学上网工具 VPN 来访问。VPN 会把访问外网服务器(目标服务器)的客户端请求代理到一个可以直接访问外网的代理服务器上去。代理服务器会把外网服务器返回的内容再转发给客户端。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509202837696.png" srcset="/img/loading.gif" lazyload alt="image-20240509202837696" style="zoom:50%;" />
+
+<p><strong>外网服务器并不知道客户端是通过 VPN 访问的，代理服务器帮我们隐藏了客户端的真实 IP 地址</strong></p>
+<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a><strong>负载均衡</strong></h4><p>如果一台服务器处理用户请求处理不过来的话，一个简单的办法就是增加多台服务器(服务器集群)部署相同的服务来处理用户请求，Nginx 可以将接收到的客户端请求以一定的规则(负载均衡策略)均匀地分配到这个服务器集群中所有的服务器上，这个就叫做 负载均衡。</p>
+<p>可以看出，Nginx 在其中充当的就是<strong>反向代理服务器的</strong>作用，负载均衡正是 Nginx 作为反向代理服务器最常见的一个应用。</p>
+<p>除此之外，Nginx 还带有健康检查(服务器心跳检查)功能，会定期轮询向集群里的所有服务器发送健康检查请求，来检查集群中是否有服务器处于异常状态，</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509203722890.png" srcset="/img/loading.gif" lazyload alt="image-20240509203722890" style="zoom: 67%;" />
+
+
+
+
+
+<h3 id="Nginx-为什么适合做负载均衡"><a href="#Nginx-为什么适合做负载均衡" class="headerlink" title="Nginx 为什么适合做负载均衡?"></a><strong>Nginx 为什么适合做负载均衡?</strong></h3><p>Nginx 工作在网络的第七层(应用层)，可以针对 HTTP 应用本身来做分流策略，支持 HTTP、HTTPS 协议的负载均衡。在工作中，我们通常会使用 Nginx 来做七层负载均衡。</p>
+<ul>
+<li>Nginx 为什么适合做负载均衡呢？我简单总结了下面几方面主要原因：</li>
+<li>Nginx 属于软件负载均衡，相比于硬件负载均衡来说，价格非常低廉，一个较低配置的服务器即可满满足。</li>
+<li>Nginx 使用简单，上手比较快。</li>
+<li>Nginx 基于C语言的实现，”性能非常好。一般情况下，10000个非活跃的 HTTP Keep-Alive 连接在Nginx 中仅消耗 2.5MB 的内存，这是 Nginx 支持高并发连接的基础。并且，Nginx 单机支持 10 万以上的并发连接。</li>
+<li>Nginx 自带健康检查(服务器心跳检查)功能，会定期轮询向集群里的所有服务器发送健康检查请求，来检查集群中是否有服务器处于异常状态。</li>
+<li>Nqinx 支持热部署，我们可以在不间断服务的情况下，升级 Nginx，这对于服务的高可用具有重大意义</li>
+<li>Nginx 支持多种负载均衡策略比如轮询(Round Robin，默认)、IP 哈希、最小连接数。</li>
+</ul>
+<h3 id="Nginx-有哪些负载均衡策略"><a href="#Nginx-有哪些负载均衡策略" class="headerlink" title="Nginx 有哪些负载均衡策略?"></a><strong>Nginx 有哪些负载均衡策略?</strong></h3><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1607277">五分钟看懂 Nginx 负载均衡-腾讯云开发者社区-腾讯云 (tencent.com)</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/">HTTP Load Balancing | NGINX Documentation</a></p>
+<h3 id="Nginx-常用命令有哪些"><a href="#Nginx-常用命令有哪些" class="headerlink" title="Nginx 常用命令有哪些?"></a>Nginx 常用命令有哪些?</h3><ul>
+<li>启动 nginx 。</li>
+<li>停止 nginx-s stop或nginx-s quit</li>
+<li>重载配置.&#x2F;sbin&#x2F;nginx-sreload(平滑重启)或 service nginx reload</li>
+<li>重载指定配置文件.nginx-c&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</li>
+<li>查看nginx版本 nginx -v。</li>
+<li>检查配置文件是否正确 nginx-t。</li>
+<li>显示帮助信息 nginx-h</li>
+</ul>
+<h3 id="Nginx-性能优化的常见方式"><a href="#Nginx-性能优化的常见方式" class="headerlink" title="Nginx 性能优化的常见方式?"></a>Nginx 性能优化的常见方式?</h3><ul>
+<li>设置 Nginx 运行工作进程个数:一般设置 CPU 的核心数或者核心数 x2;</li>
+<li>开启 Gzip 压缩:这样可以使网站的图片、CSS、JS 等文件在传输时进行压缩，提高访问速度，优化Nginx 性能。详细介绍可以参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/kevingrace/p/10018914.html">Nginx性能优化功能- Gzip压缩(大幅度提高页面加载速度) - 散尽浮华 - 博客园 (cnblogs.com)</a></li>
+<li>设置单个 worker 进程允许客户端最大连接数:一般设置为 65535 就足够了;</li>
+<li>连接超时时间设置:避免在建立无用连接上消耗太多资源;</li>
+<li>设置缓存 :像图片、CSS、JS等这类一般不会经常修改的文件，我们完全可以设置图片在浏览器本地缓存，提高访问速度，优化 Nginx 性能。</li>
+</ul>
+<h3 id="LVS、Nginx、HAproxy-有什么区别"><a href="#LVS、Nginx、HAproxy-有什么区别" class="headerlink" title="LVS、Nginx、HAproxy 有什么区别?"></a><strong>LVS、Nginx、HAproxy 有什么区别?</strong></h3><p>LVS、Nginx、HAProxy 是目前使用最广泛的三种软件负载均衡软件,</p>
+<p>LVS 是 Linux Virtual Server 的简称，也就是 Linux 虛拟服务器。LVS 是四层负载均衡，建立在 OSI 模型的第四层(传输层)之上，性能非常强大。HAProxy 可以工作在四层和七层(传输层和应用层)，是专门用来做代理服务器的。</p>
+<p>Nginx 负载均衡主要是对七层网络通信模型中的第七层应用层上的 HTTP、HTTPS 进行支持。Nginx是以反向代理的方式进行负载均衡的。</p>
+<h3 id="如何保证-Nginx-服务的高可用"><a href="#如何保证-Nginx-服务的高可用" class="headerlink" title="如何保证 Nginx 服务的高可用?"></a><strong>如何保证 Nginx 服务的高可用?</strong></h3><p>Nginx 可以结合 Keepalived 来实现高可用</p>
+<p>什么是 Keepalived ? 根据官网介绍：Keepalived 是一个用C语言编写的开源路由软件，是 Linux 下一个轻量级别的负载均衡和高可用解决方案。Keepalived 的负载均衡依赖于众所周知且广泛使用的 Linux 虛拟服务器 (IPVS 即 IP Virtual Server内置在 Linux 内核中的传输层负载均衡器)内核模块，提供第4层负载平衡。Keepalived 实现了一组检查器用于根据服务器节点的健康状况动态维护和管理服务器集群。</p>
+<p>Keepalived 的高可用性是通过虚拟路由冗余协议(VRRP 即 Virtual Router Redundancy Protocol，实现路由器高可用的协议)实现的，可以用来解决单点故障。</p>
+<p>Github 地址:<a target="_blank" rel="noopener" href="https://github.com/acassen/keepalived">https://github.com/acassen/keepalived</a></p>
+<p>Keepalived 不仅仅可以和 Nginx 搭配使用，还可以和 LVS、MySQL、HAProxy 等软件配合使用。</p>
+<p>再来简单介绍一下 Keepalived+Nginx 实现高可用的常见方法:</p>
+<p>1.准备 2 台 Nginx 服务器，一台为主服务，一台为备用服务;</p>
+<p>2.在两台 Nginx 服务器上安装并配置 Keepalived;</p>
+<p>3.为两台 Nginx 服务器绑定同一个虚拟 IP;</p>
+<p>4.编写 Nginx 检测脚本用于通过 Keepalived 检测 Nginx 主服务器的状态是否正常;</p>
+<p>如果 Nginx 主服务器宕机的话，会自动进行故障转移，备用 Nginx 主服务器升级为主服务。并且，这个切换对外是透明的，因为使用的虚拟IP，虚拟IP 不会改变</p>
+<p>相关阅读：</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6970093569096810526">Nginx系列教程（五）| 利用 Nginx+Keepalived 实现高可用技术 | 周末学习 - 掘金 (juejin.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://support.huaweicloud.com/bestpractice-vpc/bestpractice_0010.html">搭建Keepalived Nginx高可用Web集群_虚拟私有云 VPC_最佳实践 (huaweicloud.com)</a></p>
+<h3 id="Nginx-如何实现后端服务健康检查"><a href="#Nginx-如何实现后端服务健康检查" class="headerlink" title="Nginx 如何实现后端服务健康检查?"></a>Nginx 如何实现后端服务健康检查?</h3><p>我们可以利用第三方模块 upstream_check module 来检测后端服务的健康状态，如果后端服务器不可用，则所有的请求不转发到这台服务器。</p>
+<p>upstream_check_module 是一款阿里的一位大佬开源的，使用 Perl和C编写而成，Github 地址:<a target="_blank" rel="noopener" href="https://github.com/yaoweibin/nginx">https://github.com/yaoweibin/nginx</a> upstream check module </p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1700001">Nginx负载均衡健康检查功能-腾讯云开发者社区-腾讯云 (tencent.com)</a></p>
+<h3 id="Nginx-总体架构了解吗"><a href="#Nginx-总体架构了解吗" class="headerlink" title="Nginx 总体架构了解吗?"></a><strong>Nginx 总体架构了解吗?</strong></h3><p>关于 Nginx 总结架构的详细解答，请看这篇文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/CxapDUkSdqBbuJU4JrQ8Aw">最近和Nginx杠上了！ (qq.com)</a></p>
+<p>对于传统的 HTTP 和反向代理服务器而言，在处理并发请求的时候会使用单进程或线程的模式处理，同时会止网络或输入&#x2F;输出操作。</p>
+<p>这种方式会消耗大量的内存和 CPU 资源。因为每产生一个单独的进程或线程需要准备一套新的运行时环境，包括分配堆和堆栈内存，以及创建新的执行上下文。</p>
+<p>可以想象在处理多请求时会生成对应数目的线程或进程，导致由于线程在不断上下文切换上耗费大量资源。</p>
+<p>由于上面的原因，Nginx 在设计之初就使用了模块化、事件驱动、异步处理，非阻塞的架构。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509204601563.png" srcset="/img/loading.gif" lazyload alt="image-20240509204601563" style="zoom: 67%;" />
+
+
+
+
+
+
+
+
+
+<h3 id="Nginx-进程模型了解么"><a href="#Nginx-进程模型了解么" class="headerlink" title="Nginx 进程模型了解么?"></a><strong>Nginx 进程模型了解么?</strong></h3><p>关于进程模型的详细解答，请看这篇文章：<a target="_blank" rel="noopener" href="https://learnku.com/articles/38414">Nginx 工作模式和进程模型 | Server 运维论坛 (learnku.com)</a></p>
+<p>Nginx 启动后，会产生一个 master 主进程，主进程执行一系列的工作后会产生一个或者多个工作进程worker 进程。master 进程用来管理 worker 进程， worker 进程负责处理网络请求。也就是说 Nginx 采用的是经典的 master-worker 模型的多进程模型</p>
+<h3 id="Nginx-如何处理-HTTP-请求"><a href="#Nginx-如何处理-HTTP-请求" class="headerlink" title="Nginx 如何处理 HTTP 请求?"></a><strong>Nginx 如何处理 HTTP 请求?</strong></h3><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022348375">Nginx 是如何处理 HTTP 头部的？ - 原少子杨 - SegmentFault 思否</a></p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022709975">万字长文！一次性弄懂 Nginx 处理 HTTP 请求的 11 个阶段 - 原少子杨 - SegmentFault 思否</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="category-chain-item">服务器</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="print-no-link">#服务器</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Nginx</div>
+      <div>http://example.com/2024/04/25/项目/微服务/Nginx/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/04/25/%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91/33.%20%E5%AE%9E%E7%8E%B0%E5%89%8D%E7%BC%80%E6%A0%91/" title="实现前缀树">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">实现前缀树</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/25/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Netty/" title="Netty">
+                        <span class="hidden-mobile">Netty</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

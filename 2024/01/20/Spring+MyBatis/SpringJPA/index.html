@@ -1,0 +1,846 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Spring Data JPAJPA 重要的是实战，这里仅对小部分知识点进行总结。 如何使用 JPA 在数据库中非持久化一个字段？假如我们有下面一个类： 1234567891011121314151617@Entity(name&#x3D;&quot;USER&quot;)public class User &#123;    @Id    @GeneratedValue(strategy &#x3D; Genera">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringJAP">
+<meta property="og:url" content="http://example.com/2024/01/20/Spring+MyBatis/SpringJPA/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="Spring Data JPAJPA 重要的是实战，这里仅对小部分知识点进行总结。 如何使用 JPA 在数据库中非持久化一个字段？假如我们有下面一个类： 1234567891011121314151617@Entity(name&#x3D;&quot;USER&quot;)public class User &#123;    @Id    @GeneratedValue(strategy &#x3D; Genera">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-20T07:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-17T16:40:57.328Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>SpringJAP - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SpringJAP"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-20 15:46" pubdate>
+          2024年1月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SpringJAP</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Spring-Data-JPA"><a href="#Spring-Data-JPA" class="headerlink" title="Spring Data JPA"></a><strong>Spring Data JPA</strong></h2><p>JPA 重要的是实战，这里仅对小部分知识点进行总结。</p>
+<h3 id="如何使用-JPA-在数据库中非持久化一个字段？"><a href="#如何使用-JPA-在数据库中非持久化一个字段？" class="headerlink" title="如何使用 JPA 在数据库中非持久化一个字段？"></a><strong>如何使用 JPA 在数据库中非持久化一个字段？</strong></h3><p>假如我们有下面一个类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Entity(name=&quot;USER&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br><br>    <span class="hljs-meta">@Id</span><br>    <span class="hljs-meta">@GeneratedValue(strategy = GenerationType.AUTO)</span><br>    <span class="hljs-meta">@Column(name = &quot;ID&quot;)</span><br>    <span class="hljs-keyword">private</span> Long id;<br><br>    <span class="hljs-meta">@Column(name=&quot;USER_NAME&quot;)</span><br>    <span class="hljs-keyword">private</span> String userName;<br><br>    <span class="hljs-meta">@Column(name=&quot;PASSWORD&quot;)</span><br>    <span class="hljs-keyword">private</span> String password;<br><br>    <span class="hljs-keyword">private</span> String secrect;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果我们想让<code>secrect</code> 这个字段不被持久化，也就是不被数据库存储怎么办？我们可以采用下面几种方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> String transient1; <span class="hljs-comment">// not persistent because of static</span><br><span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">transient2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Satish&quot;</span>; <span class="hljs-comment">// not persistent because of final</span><br><span class="hljs-keyword">transient</span> String transient3; <span class="hljs-comment">// not persistent because of transient</span><br><span class="hljs-meta">@Transient</span><br>String transient4; <span class="hljs-comment">// not persistent because of @Transient</span><br></code></pre></td></tr></table></figure>
+
+<p>一般使用后面两种方式比较多，我个人使用注解的方式比较多。</p>
+<h3 id="JPA-的审计功能是做什么的？有什么用？"><a href="#JPA-的审计功能是做什么的？有什么用？" class="headerlink" title="JPA 的审计功能是做什么的？有什么用？"></a><strong>JPA 的审计功能是做什么的？有什么用？</strong></h3><p>审计功能主要是帮助我们记录数据库操作的具体行为比如某条记录是谁创建的、什么时间创建的、最后修改人是谁、最后修改时间是什么时候。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-meta">@MappedSuperclass</span><br><span class="hljs-meta">@EntityListeners(value = AuditingEntityListener.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractAuditBase</span> &#123;<br><br>    <span class="hljs-meta">@CreatedDate</span><br>    <span class="hljs-meta">@Column(updatable = false)</span><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">private</span> Instant createdAt;<br><br>    <span class="hljs-meta">@LastModifiedDate</span><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">private</span> Instant updatedAt;<br><br>    <span class="hljs-meta">@CreatedBy</span><br>    <span class="hljs-meta">@Column(updatable = false)</span><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">private</span> String createdBy;<br><br>    <span class="hljs-meta">@LastModifiedBy</span><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">private</span> String updatedBy;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>@CreatedDate</code>: 表示该字段为创建时间字段，在这个实体被 insert 的时候，会设置值</p>
+<p><code>@CreatedBy</code> :表示该字段为创建人，在这个实体被 insert 的时候，会设置值</p>
+<p><code>@LastModifiedDate</code>、<code>@LastModifiedBy</code>同理。</p>
+<h3 id="实体之间的关联关系注解有哪些？"><a href="#实体之间的关联关系注解有哪些？" class="headerlink" title="实体之间的关联关系注解有哪些？"></a><strong>实体之间的关联关系注解有哪些？</strong></h3><ul>
+<li><code>@OneToOne</code> : 一对一。</li>
+<li><code>@ManyToMany</code>：多对多。</li>
+<li><code>@OneToMany</code> : 一对多。</li>
+<li><code>@ManyToOne</code>：多对一。</li>
+</ul>
+<p>利用 <code>@ManyToOne</code> 和 <code>@OneToMany</code> 也可以表达多对多的关联关系。</p>
+<h3 id="SpringBoot-JAP"><a href="#SpringBoot-JAP" class="headerlink" title="SpringBoot JAP"></a><strong>SpringBoot JAP</strong></h3><h4 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a><strong>创建表</strong></h4><p><code>@Entity</code>声明一个类对应一个数据库实体。</p>
+<p><code>@Table</code> 设置表名</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Entity</span><br><span class="hljs-meta">@Table(name = &quot;role&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Role</span> &#123;<br>    <span class="hljs-meta">@Id</span><br>    <span class="hljs-meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span><br>    <span class="hljs-keyword">private</span> Long id;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> String description;<br>    省略getter/setter......<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="创建主键"><a href="#创建主键" class="headerlink" title="创建主键"></a><strong>创建主键</strong></h4><p><code>@Id</code>：声明一个字段为主键。</p>
+<p>使用<code>@Id</code>声明之后，我们还需要定义主键的生成策略。我们可以使用 <code>@GeneratedValue</code> 指定主键生成策略。</p>
+<p><strong>1.通过 <code>@GeneratedValue</code>直接使用 JPA 内置提供的四种主键生成策略来指定主键生成策略。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Id</span><br><span class="hljs-meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span><br><span class="hljs-keyword">private</span> Long id;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>JPA 使用枚举定义了 4 种常见的主键生成策略，如下：</p>
+<p><em>Guide：枚举替代常量的一种用法</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">GenerationType</span> &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 使用一个特定的数据库表格来保存主键</span><br><span class="hljs-comment">     * 持久化引擎通过关系数据库的一张特定的表格来生成主键,</span><br><span class="hljs-comment">     */</span><br>    TABLE,<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *在某些数据库中,不支持主键自增长,比如Oracle、PostgreSQL其提供了一种叫做&quot;序列(sequence)&quot;的机制生成主键</span><br><span class="hljs-comment">     */</span><br>    SEQUENCE,<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 主键自增长</span><br><span class="hljs-comment">     */</span><br>    IDENTITY,<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     *把主键生成策略交给持久化引擎(persistence engine),</span><br><span class="hljs-comment">     *持久化引擎会根据数据库在以上三种主键生成 策略中选择其中一种</span><br><span class="hljs-comment">     */</span><br>    AUTO<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">@GeneratedValue`注解默认使用的策略是`GenerationType.AUTO<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> GeneratedValue &#123;<br><br>    GenerationType <span class="hljs-title function_">strategy</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> AUTO;<br>    String <span class="hljs-title function_">generator</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>一般使用 MySQL 数据库的话，使用<code>GenerationType.IDENTITY</code>策略比较普遍一点（分布式系统的话需要另外考虑使用分布式 ID）。</p>
+<p><strong>通过 <code>@GenericGenerator</code>声明一个主键策略，然后 <code>@GeneratedValue</code>使用这个策略</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Id</span><br><span class="hljs-meta">@GeneratedValue(generator = &quot;IdentityIdGenerator&quot;)</span><br><span class="hljs-meta">@GenericGenerator(name = &quot;IdentityIdGenerator&quot;, strategy = &quot;identity&quot;)</span><br><span class="hljs-keyword">private</span> Long id;<br></code></pre></td></tr></table></figure>
+
+<p>等价于：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Id</span><br><span class="hljs-meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span><br><span class="hljs-keyword">private</span> Long id;<br></code></pre></td></tr></table></figure>
+
+<p>jpa 提供的主键生成策略有如下几种：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DefaultIdentifierGeneratorFactory</span><br>    <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MutableIdentifierGeneratorFactory</span>, Serializable, ServiceRegistryAwareService &#123;<br><br>  <span class="hljs-meta">@SuppressWarnings(&quot;deprecation&quot;)</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">DefaultIdentifierGeneratorFactory</span><span class="hljs-params">()</span> &#123;<br>    register( <span class="hljs-string">&quot;uuid2&quot;</span>, UUIDGenerator.class );<br>    register( <span class="hljs-string">&quot;guid&quot;</span>, GUIDGenerator.class );      <span class="hljs-comment">// can be done with UUIDGenerator + strategy</span><br>    register( <span class="hljs-string">&quot;uuid&quot;</span>, UUIDHexGenerator.class );      <span class="hljs-comment">// &quot;deprecated&quot; for new use</span><br>    register( <span class="hljs-string">&quot;uuid.hex&quot;</span>, UUIDHexGenerator.class );   <span class="hljs-comment">// uuid.hex is deprecated</span><br>    register( <span class="hljs-string">&quot;assigned&quot;</span>, Assigned.class );<br>    register( <span class="hljs-string">&quot;identity&quot;</span>, IdentityGenerator.class );<br>    register( <span class="hljs-string">&quot;select&quot;</span>, SelectGenerator.class );<br>    register( <span class="hljs-string">&quot;sequence&quot;</span>, SequenceStyleGenerator.class );<br>    register( <span class="hljs-string">&quot;seqhilo&quot;</span>, SequenceHiLoGenerator.class );<br>    register( <span class="hljs-string">&quot;increment&quot;</span>, IncrementGenerator.class );<br>    register( <span class="hljs-string">&quot;foreign&quot;</span>, ForeignGenerator.class );<br>    register( <span class="hljs-string">&quot;sequence-identity&quot;</span>, SequenceIdentityGenerator.class );<br>    register( <span class="hljs-string">&quot;enhanced-sequence&quot;</span>, SequenceStyleGenerator.class );<br>    register( <span class="hljs-string">&quot;enhanced-table&quot;</span>, TableGenerator.class );<br>  &#125;<br><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">register</span><span class="hljs-params">(String strategy, Class generatorClass)</span> &#123;<br>    LOG.debugf( <span class="hljs-string">&quot;Registering IdentifierGenerator strategy [%s] -&gt; [%s]&quot;</span>, strategy, generatorClass.getName() );<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">Class</span> <span class="hljs-variable">previous</span> <span class="hljs-operator">=</span> generatorStrategyToClassNameMap.put( strategy, generatorClass );<br>    <span class="hljs-keyword">if</span> ( previous != <span class="hljs-literal">null</span> ) &#123;<br>      LOG.debugf( <span class="hljs-string">&quot;    - overriding [%s]&quot;</span>, previous.getName() );<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="设置字段类型"><a href="#设置字段类型" class="headerlink" title="设置字段类型"></a><strong>设置字段类型</strong></h4><p><code>@Column</code> 声明字段。</p>
+<p><strong>示例：</strong></p>
+<p>设置属性 userName 对应的数据库字段名为 user_name，长度为 32，非空</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Column(name = &quot;user_name&quot;, nullable = false, length=32)</span><br><span class="hljs-keyword">private</span> String userName;<br></code></pre></td></tr></table></figure>
+
+<p>设置字段类型并且加默认值，这个还是挺常用的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Column(columnDefinition = &quot;tinyint(1) default 1&quot;)</span><br><span class="hljs-keyword">private</span> Boolean enabled;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="指定不持久化特定字段"><a href="#指定不持久化特定字段" class="headerlink" title="指定不持久化特定字段"></a><strong>指定不持久化特定字段</strong></h4><p><code>@Transient</code>：声明不需要与数据库映射的字段，在保存的时候不需要保存进数据库 。</p>
+<p>如果我们想让<code>secrect</code> 这个字段不被持久化，可以使用 <code>@Transient</code>关键字声明。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Entity(name=&quot;USER&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br><br>    ......<br>    <span class="hljs-meta">@Transient</span><br>    <span class="hljs-keyword">private</span> String secrect; <span class="hljs-comment">// not persistent because of @Transient</span><br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>除了 <code>@Transient</code>关键字声明， 还可以采用下面几种方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> String secrect; <span class="hljs-comment">// not persistent because of static</span><br><span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">secrect</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Satish&quot;</span>; <span class="hljs-comment">// not persistent because of final</span><br><span class="hljs-keyword">transient</span> String secrect; <span class="hljs-comment">// not persistent because of transient</span><br></code></pre></td></tr></table></figure>
+
+<p>一般使用注解的方式比较多</p>
+<h4 id="声明大字段"><a href="#声明大字段" class="headerlink" title="声明大字段"></a><strong>声明大字段</strong></h4><p><code>@Lob</code>:声明某个字段为大字段。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Lob</span><br><span class="hljs-keyword">private</span> String content;<br></code></pre></td></tr></table></figure>
+
+<p>更详细的声明：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Lob</span><br><span class="hljs-comment">//指定 Lob 类型数据的获取策略， FetchType.EAGER 表示非延迟加载，而 FetchType.LAZY 表示延迟加载 ；</span><br><span class="hljs-meta">@Basic(fetch = FetchType.EAGER)</span><br><span class="hljs-comment">//columnDefinition 属性指定数据表对应的 Lob 字段类型</span><br><span class="hljs-meta">@Column(name = &quot;content&quot;, columnDefinition = &quot;LONGTEXT NOT NULL&quot;)</span><br><span class="hljs-keyword">private</span> String content;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="创建枚举类型的字段"><a href="#创建枚举类型的字段" class="headerlink" title="创建枚举类型的字段"></a><strong>创建枚举类型的字段</strong></h4><p>可以使用枚举类型的字段，不过枚举字段要用<code>@Enumerated</code>注解修饰。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">Gender</span> &#123;<br>    MALE(<span class="hljs-string">&quot;男性&quot;</span>),<br>    FEMALE(<span class="hljs-string">&quot;女性&quot;</span>);<br><br>    <span class="hljs-keyword">private</span> String value;<br>    Gender(String str)&#123;<br>        value=str;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Entity</span><br><span class="hljs-meta">@Table(name = &quot;role&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Role</span> &#123;<br>    <span class="hljs-meta">@Id</span><br>    <span class="hljs-meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span><br>    <span class="hljs-keyword">private</span> Long id;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> String description;<br>    <span class="hljs-meta">@Enumerated(EnumType.STRING)</span><br>    <span class="hljs-keyword">private</span> Gender gender;<br>    省略getter/setter......<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>数据库里面对应存储的是 MALE&#x2F;FEMALE。</p>
+<h4 id="增加审计功能"><a href="#增加审计功能" class="headerlink" title="增加审计功能"></a><strong>增加审计功能</strong></h4><p>只要继承了 <code>AbstractAuditBase</code>的类都会默认加上下面四个字段。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-meta">@MappedSuperclass</span><br><span class="hljs-meta">@EntityListeners(value = AuditingEntityListener.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractAuditBase</span> &#123;<br><br>    <span class="hljs-meta">@CreatedDate</span><br>    <span class="hljs-meta">@Column(updatable = false)</span><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">private</span> Instant createdAt;<br><br>    <span class="hljs-meta">@LastModifiedDate</span><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">private</span> Instant updatedAt;<br><br>    <span class="hljs-meta">@CreatedBy</span><br>    <span class="hljs-meta">@Column(updatable = false)</span><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">private</span> String createdBy;<br><br>    <span class="hljs-meta">@LastModifiedBy</span><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">private</span> String updatedBy;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们对应的审计功能对应地配置类可能是下面这样的（Spring Security 项目）:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@EnableJpaAuditing</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AuditSecurityConfiguration</span> &#123;<br>    <span class="hljs-meta">@Bean</span><br>    AuditorAware&lt;String&gt; <span class="hljs-title function_">auditorAware</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> () -&gt; Optional.ofNullable(SecurityContextHolder.getContext())<br>                .map(SecurityContext::getAuthentication)<br>                .filter(Authentication::isAuthenticated)<br>                .map(Authentication::getName);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>简单介绍一下上面涉及到的一些注解：</p>
+<ol>
+<li><p><code>@CreatedDate</code>: 表示该字段为创建时间字段，在这个实体被 insert 的时候，会设置值</p>
+</li>
+<li><p><code>@CreatedBy</code> :表示该字段为创建人，在这个实体被 insert 的时候，会设置值</p>
+<p><code>@LastModifiedDate</code>、<code>@LastModifiedBy</code>同理。</p>
+</li>
+</ol>
+<p><code>@EnableJpaAuditing</code>：开启 JPA 审计功能。</p>
+<h4 id="删除-修改数据"><a href="#删除-修改数据" class="headerlink" title="删除&#x2F;修改数据"></a><strong>删除&#x2F;修改数据</strong></h4><p><code>@Modifying</code> 注解提示 JPA 该操作是修改操作，注意还要配合<code>@Transactional</code>注解使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Repository</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">UserRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">JpaRepository</span>&lt;User, Integer&gt; &#123;<br><br>    <span class="hljs-meta">@Modifying</span><br>    <span class="hljs-meta">@Transactional(rollbackFor = Exception.class)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">deleteByUserName</span><span class="hljs-params">(String userName)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a><strong>关联关系</strong></h4><ul>
+<li><code>@OneToOne</code> 声明一对一关系</li>
+<li><code>@OneToMany</code> 声明一对多关系</li>
+<li><code>@ManyToOne</code> 声明多对一关系</li>
+<li><code>@ManyToMany</code> 声明多对多关</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Spring/" class="category-chain-item">Spring</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Spring/" class="print-no-link">#Spring</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SpringJAP</div>
+      <div>http://example.com/2024/01/20/Spring+MyBatis/SpringJPA/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/20/Spring+MyBatis/SpringSecurity/" title="SpringSecurity">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SpringSecurity</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/01/17/Spring+MyBatis/Spring%E4%BA%8B%E5%8A%A1/" title="Spring事务">
+                        <span class="hidden-mobile">Spring事务</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
