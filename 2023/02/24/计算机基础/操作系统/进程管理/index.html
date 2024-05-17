@@ -1,0 +1,1043 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="进程进程和线程的区别是什么？定义：进程是正在执行的程序的实例。它是操作系统分配资源的基本单位，拥有独立的内存空间和系统资源。线程是进程内的执行单元，是进程的一个执行流程。一个进程可以包含多个线程。 资源和隔离：每个进程都有独立的内存空间，包括代码、数据、堆栈等。进程之间的资源是相互隔离的，一个进程的崩溃不会影响其他进程。而线程是在进程内共享资源的，包括内存、文件句柄等。线程之间共享同一进程的资源，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程管理">
+<meta property="og:url" content="http://example.com/2023/02/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="进程进程和线程的区别是什么？定义：进程是正在执行的程序的实例。它是操作系统分配资源的基本单位，拥有独立的内存空间和系统资源。线程是进程内的执行单元，是进程的一个执行流程。一个进程可以包含多个线程。 资源和隔离：每个进程都有独立的内存空间，包括代码、数据、堆栈等。进程之间的资源是相互隔离的，一个进程的崩溃不会影响其他进程。而线程是在进程内共享资源的，包括内存、文件句柄等。线程之间共享同一进程的资源，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310221800263.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310222646581.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408142309423.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/26-%E5%93%8D%E5%BA%94%E6%AF%94%E5%85%AC%E5%BC%8F.jpg">
+<meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/27-%E6%97%B6%E9%97%B4%E7%89%87%E8%BD%AE%E8%AF%A2.jpg">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408142531999.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310222750191.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408122558693.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408123911320.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408124145534.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408124327303.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310224231762.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310230430992.png">
+<meta property="article:published_time" content="2023-02-24T01:35:21.000Z">
+<meta property="article:modified_time" content="2024-05-17T13:15:06.374Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="计算机基础">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310221800263.png">
+  
+  
+  
+  <title>进程管理 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>PALE13</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="进程管理"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-24 09:35" pubdate>
+          2023年2月24日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          75 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">进程管理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a><strong>进程</strong></h2><h3 id="进程和线程的区别是什么？"><a href="#进程和线程的区别是什么？" class="headerlink" title="进程和线程的区别是什么？"></a><strong>进程和线程的区别是什么？</strong></h3><p>定义：进程是正在执行的程序的实例。它是操作系统分配资源的基本单位，拥有独立的内存空间和系统资源。线程是进程内的执行单元，是进程的一个执行流程。一个进程可以包含多个线程。</p>
+<p>资源和隔离：每个进程都有独立的内存空间，包括代码、数据、堆栈等。进程之间的资源是相互隔离的，一个进程的崩溃不会影响其他进程。而线程是在进程内共享资源的，包括内存、文件句柄等。线程之间共享同一进程的资源，一个线程的错误可能会影响整个进程的稳定性。</p>
+<p>调度和切换：操作系统通过调度算法来决定哪个进程获得CPU时间片进行执行。进程切换需要保存和恢复进程的上下文信息，代价较高。而线程是由操作系统调度的执行单位，线程切换的代价相对较低，因为线程共享同一进程的资源和上下文。</p>
+<p>通信和同步：进程之间通信和同步的方式比较复杂，需要使用操作系统提供的机制，如管道、信号量、消息队列等。而线程之间共享进程的内存空间，可以通过共享变量直接进行通信和同步，但需要注意同步的安全性。</p>
+<p>创建和销毁：创建和销毁进程的开销较大，需要操作系统进行资源分配和回收。而线程的创建和销毁开销相对较小，可以在进程内动态创建和销毁线程。</p>
+<p>下图是 Java 内存区域，我们从 JVM 的角度来说一下线程和进程之间的关系吧</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310221800263.png" srcset="/img/loading.gif" lazyload alt="image-20240310221800263" style="zoom: 50%;" />
+
+
+
+<p>从上图可以看出：一个进程中可以有多个线程，多个线程共享进程的<strong>堆</strong>和<strong>方法区 (JDK1.8 之后的元空间)**资源，但是每个线程有自己的**程序计数器**、</strong>虚拟机栈** 和 <strong>本地方法栈</strong>。</p>
+<p><strong>总结：</strong></p>
+<ul>
+<li>线程是进程划分成的更小的运行单位,一个进程在其执行的过程中可以产生多个线程。</li>
+<li>线程和进程最大的不同在于基本上各进程是独立的，而各线程则不一定，因为同一进程中的线程极有可能会相互影响。</li>
+<li>线程执行开销小，但不利于资源的管理和保护；而进程正相反。</li>
+</ul>
+<h3 id="什么是协程"><a href="#什么是协程" class="headerlink" title="什么是协程"></a><strong>什么是协程</strong></h3><p>定义：协程是一种轻量级的线程，可以在特定的时机进行挂起和恢复，以实现协作式多任务处理。它由程序员显示地控制执行流程，可以在代码中定义多个协程。</p>
+<p>优点：<br>协程的切换开销很小，因为切换是由程序员控制的，不需要内核介入。<br>协程之间可以进行高效的通信和数据交换，减少了锁和同步机制的使用。<br>协程适用于高度并发的场景，能够提供更好的性能和资源利用率。</p>
+<p>缺点：<br>协程需要程序员显式地管理执行流程，对编程模型要求较高。<br>协程无法利用多核处理器的并行性，只能在单个线程中执行。</p>
+<h3 id="为什么要使用多线程"><a href="#为什么要使用多线程" class="headerlink" title="为什么要使用多线程?"></a><strong>为什么要使用多线程?</strong></h3><p>先从总体上来说：</p>
+<ul>
+<li><strong>从计算机底层来说：</strong> 线程可以比作是轻量级的进程，是程序执行的最小单位,线程间的切换和调度的成本远远小于进程。另外，多核 CPU 时代意味着多个线程可以同时运行，这减少了线程上下文切换的开销。</li>
+<li><strong>从当代互联网发展趋势来说：</strong> 现在的系统动不动就要求百万级甚至千万级的并发量，而多线程并发编程正是开发高并发系统的基础，利用好多线程机制可以大大提高系统整体的并发能力以及性能。</li>
+</ul>
+<p>再深入到计算机底层来探讨：</p>
+<ul>
+<li><strong>单核时代</strong>：在单核时代多线程主要是为了提高单进程利用 CPU 和 IO 系统的效率。 假设只运行了一个 Java 进程的情况，当我们请求 IO 的时候，如果 Java 进程中只有一个线程，此线程被 IO 阻塞则整个进程被阻塞。CPU 和 IO 设备只有一个在运行，那么可以简单地说系统整体效率只有 50%。当使用多线程的时候，一个线程被 IO 阻塞，其他线程还可以继续使用 CPU。从而提高了 Java 进程利用系统资源的整体效率。</li>
+<li><strong>多核时代</strong>: 多核时代多线程主要是为了提高进程利用多核 CPU 的能力。举个例子：假如我们要计算一个复杂的任务，我们只用一个线程的话，不论系统有几个 CPU 核心，都只会有一个 CPU 核心被利用到。而创建多个线程，这些线程可以被映射到底层多个 CPU 上执行，在任务中的多个线程没有资源竞争的情况下，任务执行的效率会有显著性的提高，约等于（单核时执行时间&#x2F;CPU 核心数）。</li>
+</ul>
+<h3 id="PCB-是什么？包含哪些信息？"><a href="#PCB-是什么？包含哪些信息？" class="headerlink" title="PCB 是什么？包含哪些信息？"></a><strong>PCB 是什么？包含哪些信息？</strong></h3><p><strong>PCB（Process Control Block）</strong> 即进程控制块，是操作系统中用来管理和跟踪进程的数据结构，每个进程都对应着一个独立的 PCB。你可以将 PCB 视为进程的大脑。</p>
+<p>当操作系统创建一个新进程时，会为该进程分配一个唯一的进程 ID，并且为该进程创建一个对应的进程控制块。当进程执行时，PCB 中的信息会不断变化，操作系统会根据这些信息来管理和调度进程。</p>
+<p>PCB 主要包含下面几部分的内容</p>
+<ul>
+<li><p>进程的描述信息，包括进程的名称、标识符等等；</p>
+</li>
+<li><p>进程的调度信息，包括进程阻塞原因、进程状态（就绪、运行、阻塞等）、进程优先级（标识进程的重要程度）等等；</p>
+</li>
+<li><p>进程对资源的需求情况，包括 CPU 时间、内存空间、I&#x2F;O 设备等等。</p>
+</li>
+<li><p>进程打开的文件信息，包括文件描述符、文件类型、打开模式等等。</p>
+</li>
+<li><p>处理机的状态信息（由处理机的各种寄存器中的内容组成的），包括通用寄存器、指令计数器、程序状态字 PSW、用户栈指针。</p>
+</li>
+</ul>
+<h3 id="进程有哪几种状态"><a href="#进程有哪几种状态" class="headerlink" title="进程有哪几种状态?"></a><strong>进程有哪几种状态?</strong></h3><p>我们一般把进程大致分为 5 种状态，这一点和线程很像！</p>
+<ul>
+<li>**创建状态(new)**：进程正在被创建，尚未到就绪状态。</li>
+<li>**就绪状态(ready)**：进程已处于准备运行状态，即进程获得了除了处理器之外的一切所需资源，一旦得到处理器资源(处理器分配的时间片)即可运行。</li>
+<li>**运行状态(running)**：进程正在处理器上运行(单核 CPU 下任意时刻只有一个进程处于运行状态)。</li>
+<li>**阻塞状态(waiting)**：又称为等待状态，进程正在等待某一事件而暂停运行如等待某资源为可用或等待 IO 操作完成。即使处理器空闲，该进程也不能运行。</li>
+<li>**结束状态(terminated)**：进程正在从系统中消失。可能是进程正常结束或其他原因中断退出运行。</li>
+</ul>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310222646581.png" srcset="/img/loading.gif" lazyload alt="image-20240310222646581" style="zoom:67%;" />
+
+
+
+<h3 id="进程的调度算法有哪些"><a href="#进程的调度算法有哪些" class="headerlink" title="进程的调度算法有哪些?"></a><strong>进程的调度算法有哪些?</strong></h3><p><strong>先到先服务调度算法(FCFS，First Come, First Served)</strong> </p>
+<p>最简单的一个调度算法，就是非抢占式的<strong>先来先服务（First Come First Severd, FCFS）算法</strong>了</p>
+<p>顾名思义，先来后到，<strong>每次从就绪队列选择最先进入队列的进程，然后一直运行，直到进程退出或被阻塞，才会继续从队列中选择第一个进程接着运行。</strong></p>
+<p>这似乎很公平，但是当一个长作业先运行了，那么后面的短作业等待的时间就会很长，不利于短作业。</p>
+<p>FCFS 对长作业有利，适用于 CPU 繁忙型作业的系统，而不适用于 I&#x2F;O 繁忙型作业的系统。</p>
+<p><strong>短作业优先的调度算法(SJF，Shortest Job First)</strong> </p>
+<p><strong>最短作业优先（*Shortest Job First, SJF*）调度算法</strong>同样也是顾名思义，它会<strong>优先选择运行时间最短的进程来运行</strong>，这有助于提高系统的吞吐量。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408142309423.png" srcset="/img/loading.gif" lazyload alt="image-20240408142309423" style="zoom:50%;" />
+
+<p>这显然对长作业不利，很容易造成一种极端现象。</p>
+<p>比如，一个长作业在就绪队列等待运行，而这个就绪队列有非常多的短作业，那么就会使得长作业不断的往后推，周转时间变长，致使长作业长期不会被运行。</p>
+<p><strong>高响应比优先（Highest Response Ratio Next，HRRN）</strong></p>
+<p>前面的「先来先服务调度算法」和「最短作业优先调度算法」都没有很好的权衡短作业和长作业。</p>
+<p><strong>那么，高响应比优先调度算法主要是权衡了短作业和长作业。</strong></p>
+<p><strong>每次进行进程调度时，先计算「响应比优先级」，然后把「响应比优先级」最高的进程投入运行</strong>，「响应比优先级」的计算公式：</p>
+<img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/26-%E5%93%8D%E5%BA%94%E6%AF%94%E5%85%AC%E5%BC%8F.jpg" srcset="/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
+
+<p>从上面的公式，可以发现：</p>
+<ul>
+<li>如果两个进程的「等待时间」相同时，「要求的服务时间」越短，「响应比」就越高，这样短作业的进程容易被选中运行；</li>
+<li>如果两个进程「要求的服务时间」相同时，「等待时间」越长，「响应比」就越高，这就兼顾到了长作业进程，因为进程的响应比可以随时间等待的增加而提高，当其等待时间足够长时，其响应比便可以升到很高，从而获得运行的机会；</li>
+</ul>
+<p><strong>时间片轮转调度算法（RR，Round-Robin）</strong> </p>
+<p>最古老、最简单、最公平且使用最广的算法就是<strong>时间片轮转（*Round Robin, RR*）调度算法</strong>。</p>
+<img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/27-%E6%97%B6%E9%97%B4%E7%89%87%E8%BD%AE%E8%AF%A2.jpg" srcset="/img/loading.gif" lazyload alt="RR 调度算法" style="zoom: 50%;" />
+
+<p><strong>每个进程被分配一个时间段，称为时间片（*Quantum*），即允许该进程在该时间段中运行。</strong></p>
+<ul>
+<li>如果时间片用完，进程还在运行，那么将会把此进程从 CPU 释放出来，并把 CPU 分配另外一个进程；</li>
+<li>如果该进程在时间片结束前阻塞或结束，则 CPU 立即进行切换；</li>
+</ul>
+<p>另外，时间片的长度就是一个很关键的点：</p>
+<ul>
+<li>如果时间片设得太短会导致过多的进程上下文切换，降低了 CPU 效率；</li>
+<li>如果设得太长又可能引起对短作业进程的响应时间变长。将</li>
+</ul>
+<p>通常时间片设为 <code>20ms~50ms</code> 通常是一个比较合理的折中值。</p>
+<p><strong>优先级调度算法（Priority）</strong></p>
+<p>前面的「时间片轮转算法」做了个假设，即让所有的进程同等重要，也不偏袒谁，大家的运行时间都一样。</p>
+<p>但是，对于多用户计算机系统就有不同的看法了，它们希望调度是有优先级的，即希望调度程序能<strong>从就绪队列中选择最高优先级的进程进行运行，这称为最高优先级（Highest Priority First，HPF）调度算法</strong>。</p>
+<p>进程的优先级可以分为，静态优先级或动态优先级：</p>
+<ul>
+<li>静态优先级：创建进程时候，就已经确定了优先级了，然后整个运行时间优先级都不会变化；</li>
+<li>动态优先级：根据进程的动态变化调整优先级，比如如果进程运行时间增加，则降低其优先级，如果进程等待时间（就绪队列的等待时间）增加，则升高其优先级，也就是<strong>随着时间的推移增加等待进程的优先级</strong>。</li>
+</ul>
+<p>该算法也有两种处理优先级高的方法，非抢占式和抢占式：</p>
+<ul>
+<li>非抢占式：当就绪队列中出现优先级高的进程，运行完当前进程，再选择优先级高的进程。</li>
+<li>抢占式：当就绪队列中出现优先级高的进程，当前进程挂起，调度优先级高的进程运行。</li>
+</ul>
+<p>但是依然有缺点，可能会导致低优先级的进程永远不会运行。</p>
+<p><strong>多级反馈队列调度算法（MFQ，Multi-level Feedback Queue）</strong></p>
+<p><strong>多级反馈队列调度算法</strong>是「时间片轮转算法」和「最高优先级算法」的综合和发展。</p>
+<p>顾名思义：</p>
+<ul>
+<li>「多级」表示有多个队列，每个队列优先级从高到低，同时优先级越高时间片越短。</li>
+<li>「反馈」表示如果有新的进程加入优先级高的队列时，立刻停止当前正在运行的进程，转而去运行优先级高的队列；</li>
+</ul>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408142531999.png" srcset="/img/loading.gif" lazyload alt="image-20240408142531999" style="zoom:50%;" />
+
+<p>来看看，它是如何工作的：</p>
+<ul>
+<li>设置了多个队列，赋予每个队列不同的优先级，每个<strong>队列优先级从高到低</strong>，同时<strong>优先级越高时间片越短</strong>；</li>
+<li>新的进程会被放入到第一级队列的末尾，按先来先服务的原则排队等待被调度，如果在第一级队列规定的时间片没运行完成，则将其转入到第二级队列的末尾，以此类推，直至完成；</li>
+<li>当较高优先级的队列为空，才调度较低优先级的队列中的进程运行。如果进程运行时，有新进程进入较高优先级的队列，则停止当前运行的进程并将其移入到原队列末尾，接着让较高优先级的进程运行；</li>
+</ul>
+<p>可以发现，对于短作业可能可以在第一级队列很快被处理完。对于长作业，如果在第一级队列处理不完，可以移入下次队列等待被执行，虽然等待的时间变长了，但是运行时间也会更长了，所以该算法很好的<strong>兼顾了长短作业，同时有较好的响应时间。</strong></p>
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310222750191.png" srcset="/img/loading.gif" lazyload alt="image-20240310222750191"></p>
+<h3 id="进程间的通信方式有哪些？"><a href="#进程间的通信方式有哪些？" class="headerlink" title="进程间的通信方式有哪些？"></a><strong>进程间的通信方式有哪些？</strong></h3><blockquote>
+<p>下面这部分总结参考了:<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c1015f5ffa74">《进程间通信 IPC (InterProcess Communication)》open in new window</a> 这篇文章，推荐阅读，总结的非常不错。</p>
+</blockquote>
+<h4 id="管道-匿名管道-Pipes"><a href="#管道-匿名管道-Pipes" class="headerlink" title="管道&#x2F;匿名管道(Pipes)"></a><strong>管道&#x2F;匿名管道(Pipes)</strong></h4><p><strong>对于匿名管道，它的通信范围是存在父子关系或兄弟进程的进程</strong>。因为管道没有实体，也就是没有管道文件，只能通过 fork 来复制父进程 fd 文件描述符，来达到通信的目的。</p>
+<p>管道是<strong>半双工</strong>的，数据只能向一个方向流动；需要双方通信时，需要建立起两个管道。</p>
+<p>只能用于父子进程或者兄弟进程之间(具有亲缘关系的进程);</p>
+<p>单独构成一种独立的文件系统：管道对于管道两端的进程而言，就是一个文件，但它不是普通的文件，它不属于某种文件系统，而是自立门户，<strong>是一种特殊的文件，并且只存在与内存中</strong>。<strong>管道的实质是一个内核缓冲区</strong></p>
+<p>数据的读出和写入：一个进程向管道中写的内容被管道另一端的进程读出。写入的内容每次都添加在管道缓冲区的末尾，并且每次都是从缓冲区的头部读出数据。</p>
+<p>只能同步的读写，写数据时必须等待读线程把数据取走，读数据必须等待写线程把数据写入，<strong>管道这种通信方式效率低，不适合进程间频繁地交换数据</strong>。</p>
+<p><strong>Linux具体操作</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ ps auxf | grep mysql<br></code></pre></td></tr></table></figure>
+
+<p>上面命令行里的「<code>|</code>」竖线就是一个<strong>管道</strong>，它的功能是将前一个命令（<code>ps auxf</code>）的输出，作为后一个命令（<code>grep mysql</code>）的输入，从这功能描述，可以看出<strong>管道传输数据是单向的</strong>，如果想相互通信，我们需要创建两个管道才行。</p>
+<p>我们可以使用 <code>fork</code> 创建子进程，<strong>创建的子进程会复制父进程的文件描述符</strong>，这样就做到了两个进程各有两个「 <code>fd[0]</code> 与 <code>fd[1]</code>」，两个进程就可以通过各自的 fd 写入和读取同一个管道文件实现跨进程通信了。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408122558693.png" srcset="/img/loading.gif" lazyload alt="image-20240408122558693" style="zoom:50%;" />
+
+
+
+
+
+<h4 id="有名管道-Named-Pipes"><a href="#有名管道-Named-Pipes" class="headerlink" title="有名管道(Named Pipes)"></a><strong>有名管道(Named Pipes)</strong></h4><p>匿名管道由于没有名字，只能用于亲缘关系的进程间通信。为了克服这个缺点，提出了有名管道。有名管道严格遵循 <strong>先进先出(First In First Out)</strong> 。有名管道以<strong>磁盘文件的方式</strong>存在，可以实现本机任意两个进程通信。<strong>有名管道的名字存在于文件系统中，内容存放在内存中。</strong></p>
+<p>在使用命名管道前，先需要通过 <code>mkfifo</code> 命令来创建，并且指定管道名字：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">mkfifo</span> myPipe<br></code></pre></td></tr></table></figure>
+
+<p>myPipe 就是这个管道的名称，基于 Linux 一切皆文件的理念，所以管道也是以文件的方式存在，我们可以用 ls 看一下，这个文件的类型是 p，也就是 pipe（管道） 的意思：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">ls</span> -l<br>prw-r--r--. 1 root    root         0 Jul 17 02:45 myPipe<br></code></pre></td></tr></table></figure>
+
+<p>接下来，我们往 myPipe 这个管道写入数据：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello&quot;</span> &gt; myPipe  // 将数据写进管道<br>                         // 停住了 ...<br></code></pre></td></tr></table></figure>
+
+<p>你操作了后，你会发现命令执行后就停在这了，这是因为管道里的内容没有被读取，只有当管道里的数据被读完后，命令才可以正常退出。</p>
+<p>于是，我们执行另外一个命令来读取这个管道里的数据：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">cat</span> &lt; myPipe  // 读取管道里的数据<br>hello<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，管道里的内容被读取出来了，并打印在了终端上，另外一方面，echo 那个命令也正常退出了。</p>
+<p><strong>缺点：</strong></p>
+<p>只能同步的读写，写数据时必须等待读线程把数据取走，读数据必须等待写线程把数据写入，<strong>管道这种通信方式效率低，不适合进程间频繁地交换数据</strong>。</p>
+<h4 id="消息队列-Message-Queuing"><a href="#消息队列-Message-Queuing" class="headerlink" title="消息队列(Message Queuing)"></a><strong>消息队列(Message Queuing)</strong></h4><p>前面说到管道的通信方式是效率低的，因此管道不适合进程间频繁地交换数据。</p>
+<p>对于这个问题，<strong>消息队列</strong>的通信模式就可以解决。比如，A 进程要给 B 进程发送消息，A 进程把数据放在对应的消息队列后就可以正常返回了，B 进程需要的时候再去读取数据就可以了。同理，B 进程要给 A 进程发送消息也是如此。</p>
+<p>再来，<strong>消息队列是保存在内核中的消息链表</strong>，在发送数据时，会分成一个一个独立的数据单元，也就是消息体（数据块），消息体是用户自定义的数据类型，消息的发送方和接收方要约定好消息体的数据类型，所以每个消息体都是固定大小的存储块，不像管道是无格式的字节流数据。如果进程从消息队列中读取了消息体，内核就会把这个消息体删除。</p>
+<p>消息队列生命周期随内核，<strong>如果没有释放消息队列或者没有关闭操作系统，消息队列会一直存在</strong>，而前面提到的匿名管道的生命周期，是随进程的创建而建立，随进程的结束而销毁。</p>
+<p><strong>缺点：</strong></p>
+<p><strong>一是通信不及时，二是附件也有大小限制</strong>，这同样也是消息队列通信不足的点。</p>
+<p><strong>消息队列不适合比较大数据的传输</strong>，因为在内核中每个消息体都有一个最大长度的限制，同时所有队列所包含的全部消息体的总长度也是有上限。在 Linux 内核中，会有两个宏定义 <code>MSGMAX</code> 和 <code>MSGMNB</code>，它们以字节为单位，分别定义了一条消息的最大长度和一个队列的最大长度。</p>
+<p><strong>消息队列通信过程中，存在用户态与内核态之间的数据拷贝开销</strong>，因为进程写入数据到内核中的消息队列时，会发生从用户态拷贝数据到内核态的过程，同理另一进程读取内核中的消息数据时，会发生从内核态拷贝数据到用户态的过程。</p>
+<p><strong>共享内存(Shared memory)</strong></p>
+<p>使得多个进程可以访问同一块内存空间，不同进程可以及时看到对方进程中对共享内存中数据的更新。这种方式需要依靠某种<strong>同步操作，如互斥锁和信号量</strong>等。可以说这是最有用的进程间通信方式。</p>
+<p><strong>共享内存的机制，就是拿出一块虚拟地址空间来，映射到相同的物理内存中</strong>。这样这个进程写入的东西，另外一个进程马上就能看到了，都不需要拷贝来拷贝去，传来传去，大大提高了进程间通信的速度。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408123911320.png" srcset="/img/loading.gif" lazyload alt="image-20240408123911320" style="zoom: 67%;" />
+
+
+
+<h4 id="信号量-Semaphores"><a href="#信号量-Semaphores" class="headerlink" title="信号量(Semaphores)"></a><strong>信号量(Semaphores)</strong></h4><p>用了共享内存通信方式，带来新的问题，那就是如果多个进程同时修改同一个共享内存，很有可能就冲突了。例如两个进程都同时写一个地址，那先写的那个进程会发现内容被别人覆盖了。</p>
+<p>为了防止多进程竞争共享资源，而造成的数据错乱，所以需要保护机制，使得共享的资源，在任意时刻只能被一个进程访问。正好，<strong>信号量</strong>就实现了这一保护机制。</p>
+<p><strong>信号量其实是一个整型的计数器，主要用于实现进程间的互斥与同步，而不是用于缓存进程间通信的数据</strong>。</p>
+<h4 id="信号-Signal"><a href="#信号-Signal" class="headerlink" title="信号(Signal)"></a><strong>信号(Signal)</strong></h4><p>上面说的进程间通信，都是常规状态下的工作模式。<strong>对于异常情况下的工作模式，就需要用「信号」的方式来通知进程。</strong></p>
+<p>信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生</p>
+<p>信号是Linux系统中用于进程间互相通信或者操作的一种机制，<strong>信号可以在任何时候发给某一进程，而无需知道该进程的状态。</strong></p>
+<p>如果该进程当前并未处于执行状态，则该信号就有内核保存起来，知道该进程回复执行并传递给它为止。</p>
+<p>如果一个信号被进程设置为阻塞，则该信号的传递被延迟，直到其阻塞被取消是才被传递给进程。</p>
+<p>在 Linux 操作系统中， 为了响应各种各样的事件，提供了几十种信号，分别代表不同的意义。我们可以通过 <code>kill -l</code> 命令，查看所有的信号：</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408124145534.png" srcset="/img/loading.gif" lazyload alt="image-20240408124145534" style="zoom: 67%;" />
+
+<p>运行在 shell 终端的进程，我们可以通过键盘输入某些组合键的时候，给进程发送信号。例如</p>
+<ul>
+<li>Ctrl+C 产生 <code>SIGINT</code> 信号，表示终止该进程；</li>
+<li>Ctrl+Z 产生 <code>SIGTSTP</code> 信号，表示停止该进程，但还未结束；</li>
+</ul>
+<p>如果进程在后台运行，可以通过 <code>kill</code> 命令的方式给进程发送信号，但前提需要知道运行中的进程 PID 号，例如：</p>
+<ul>
+<li>kill -9 1050 ，表示给 PID 为 1050 的进程发送 <code>SIGKILL</code> 信号，用来立即结束该进程；</li>
+</ul>
+<p>所以，信号事件的来源主要有硬件来源（如键盘 Cltr+C ）和软件来源（如 kill 命令）。</p>
+<p>信号是进程间通信机制中<strong>唯一的异步通信机制</strong>，因为可以在任何时候发送信号给某一进程，一旦有信号产生，我们就有下面这几种，用户进程对信号的处理方式。</p>
+<p><strong>1.执行默认操作</strong>。Linux 对每种信号都规定了默认操作，例如，上面列表中的 SIGTERM 信号，就是终止进程的意思。</p>
+<p><strong>2.捕捉信号</strong>。我们可以为信号定义一个信号处理函数。当信号发生时，我们就执行相应的信号处理函数。</p>
+<p><strong>3.忽略信号</strong>。当我们不希望处理某些信号的时候，就可以忽略该信号，不做任何处理。有两个信号是应用进程无法捕捉和忽略的，即 <code>SIGKILL</code> 和 <code>SEGSTOP</code>，它们用于在任何时候中断或结束某一进程。</p>
+<h4 id="套接字-Sockets"><a href="#套接字-Sockets" class="headerlink" title="套接字(Sockets)"></a><strong>套接字(Sockets)</strong></h4><p>此方法主要用于在客户端和服务器之间通过网络进行通信。套接字是支持 TCP&#x2F;IP 的网络通信的基本操作单元，可以看做是<strong>不同主机之间的进程进行双向通信</strong>的端点，简单的说就是通信的两方的一种约定，用套接字中的相关函数来完成通信过程。</p>
+<p>针对 TCP 协议通信的 socket 编程模型</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408124327303.png" srcset="/img/loading.gif" lazyload alt="image-20240408124327303" style="zoom:50%;" />
+
+<ul>
+<li>服务端和客户端初始化 <code>socket</code>，得到文件描述符；</li>
+<li>服务端调用 <code>bind</code>，将绑定在 IP 地址和端口;</li>
+<li>服务端调用 <code>listen</code>，进行监听；</li>
+<li>服务端调用 <code>accept</code>，等待客户端连接；</li>
+<li>客户端调用 <code>connect</code>，向服务器端的地址和端口发起连接请求；</li>
+<li>服务端 <code>accept</code> 返回用于传输的 <code>socket</code> 的文件描述符；</li>
+<li>客户端调用 <code>write</code> 写入数据；服务端调用 <code>read</code> 读取数据；</li>
+<li>客户端断开连接时，会调用 <code>close</code>，那么服务端 <code>read</code> 读取数据的时候，就会读取到了 <code>EOF</code>，待处理完数据后，服务端调用 <code>close</code>，表示连接关闭。</li>
+</ul>
+<p>这里需要注意的是，服务端调用 <code>accept</code> 时，连接成功了会返回一个已完成连接的 socket，后续用来传输数据。</p>
+<p>所以，监听的 socket 和真正用来传送数据的 socket，是「<strong>两个</strong>」 socket，一个叫作<strong>监听 socket</strong>，一个叫作<strong>已完成连接 socket</strong>。</p>
+<p>成功连接建立之后，双方开始通过 read 和 write 函数来读写数据，就像往一个文件流里面写东西一样。</p>
+<h3 id="什么是僵尸进程和孤儿进程？"><a href="#什么是僵尸进程和孤儿进程？" class="headerlink" title="什么是僵尸进程和孤儿进程？"></a><strong>什么是僵尸进程和孤儿进程？</strong></h3><p>在 Unix&#x2F;Linux 系统中，子进程通常是通过 fork()系统调用创建的，该调用会创建一个新的进程，该进程是原有进程的一个副本。子进程和父进程的运行是相互独立的，它们各自拥有自己的 PCB，即使父进程结束了，子进程仍然可以继续运行。</p>
+<p>当一个进程调用 exit()系统调用结束自己的生命时，内核会释放该进程的所有资源，包括打开的文件、占用的内存等，但是该进程对应的 PCB 依然存在于系统中。这些信息只有在父进程调用 wait()或 waitpid()系统调用时才会被释放，以便让父进程得到子进程的状态信息。</p>
+<p>这样的设计可以让父进程在子进程结束时得到子进程的状态信息，并且可以防止出现“僵尸进程”（即子进程结束后 PCB 仍然存在但父进程无法得到状态信息的情况）。</p>
+<ul>
+<li><strong>僵尸进程</strong>：子进程已经终止，但是其父进程仍在运行，<strong>且父进程没有调用 wait()或 waitpid()<strong>等系统调用来获取子进程的状态信息，释放子进程占用的资源，</strong>导致子进程的 PCB 依然存在于系统中</strong>，但无法被进一步使用。这种情况下，子进程被称为“僵尸进程”。避免僵尸进程的产生，<strong>父进程需要及时调用 wait()或 waitpid()系统调用来回收子进程。</strong></li>
+<li><strong>孤儿进程</strong>：一个进程的父进程已经终止或者不存在，但是该进程仍在运行。这种情况下，该进程就是孤儿进程。孤儿进程通常是由于父进程意外终止或未及时调用 wait()或 waitpid()等系统调用来回收子进程导致的。为了避免孤儿进程占用系统资源，操作系统会将孤儿进程的父进程设置为 init 进程（进程号为 1），由 init 进程来回收孤儿进程的资源。</li>
+</ul>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a><strong>死锁</strong></h2><h3 id="死锁和饥饿的区别"><a href="#死锁和饥饿的区别" class="headerlink" title="死锁和饥饿的区别"></a><strong>死锁和饥饿的区别</strong></h3><p><strong>死锁：</strong>一个进程集合内每个进程都在等待只能由此集合中的其他进程才能引发的事件，而无限期僵持的现象。</p>
+<p><strong>饥饿：</strong>是一个可运行进程由于其它进程总是优先于它而被无期限拖延。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310224231762.png" srcset="/img/loading.gif" lazyload alt="image-20240310224231762" style="zoom: 50%;" />
+
+
+
+
+
+<h3 id="产生死锁的四个必要条件是什么"><a href="#产生死锁的四个必要条件是什么" class="headerlink" title="产生死锁的四个必要条件是什么?"></a><strong>产生死锁的四个必要条件是什么?</strong></h3><p>互斥条件：系统中存在临界资源，进程互斥访问这些资源。</p>
+<p>不剥夺条件：进程获得的资源不能由其他进程夺走，只能主动释放。</p>
+<p>请求和保持条件：进程请求资源得不到满足而等待，同时又继续占用已有资源。</p>
+<p>循环等待条件：存在循环等待链，每个进程已获得的资源被下一个进程请求。</p>
+<p><strong>注意 ⚠️</strong>：这四个条件是产生死锁的 <strong>必要条件</strong> ，也就是说只要系统发生死锁，这些条件必然成立，而只要上述条件之一不满足，就不会发生死锁。</p>
+<h3 id="死锁的解决方法"><a href="#死锁的解决方法" class="headerlink" title="死锁的解决方法"></a><strong>死锁的解决方法</strong></h3><p>解决死锁的方法可以从多个角度去分析，一般的情况下，有<strong>预防，避免，检测和解除四种</strong>。</p>
+<ul>
+<li><strong>预防</strong> 是采用某种策略，<strong>限制并发进程对资源的请求</strong>，从而使得死锁的必要条件在系统执行的任何时间上都不满足。</li>
+<li><strong>避免</strong>则是系统在分配资源时，根据资源的使用情况<strong>提前做出预测</strong>，从而<strong>避免死锁的发生</strong></li>
+<li><strong>检测</strong>是指系统设有<strong>专门的机构</strong>，当死锁发生时，该机构能够检测死锁的发生，并精确地确定与死锁有关的进程和资源。</li>
+<li><strong>解除</strong> 是与检测相配套的一种措施，用于<strong>将进程从死锁状态下解脱出来</strong>。</li>
+</ul>
+<p> <strong>死锁的预防</strong></p>
+<p>死锁四大必要条件上面都已经列出来了，很显然，只要破坏四个必要条件中的任何一个就能够预防死锁的发生。</p>
+<p>破坏第一个条件 <strong>互斥条件</strong>：使得资源是可以同时访问的，这是种简单的方法，磁盘就可以用这种方法管理，但是我们要知道，有很多资源 <strong>往往是不能同时访问的</strong> ，所以这种做法在大多数的场合是行不通的。</p>
+<p>破坏第二个条件 <strong>非抢占</strong>：也就是说可以采用 <strong>剥夺式调度算法</strong>，但剥夺式调度方法目前一般仅适用于 <strong>主存资源</strong> 和 <strong>处理器资源</strong> 的分配，并不适用于所有的资源，会导致 <strong>资源利用率下降</strong>。</p>
+<p>所以一般比较实用的 <strong>预防死锁的方法</strong>，是通过考虑破坏第三个条件和第四个条件。</p>
+<p><strong>1、静态分配策略</strong></p>
+<p>静态分配策略可以破坏死锁产生的第三个条件（占有并等待）。所谓静态分配策略，就是指一个进程必须在执行前就<strong>申请到它所需要的全部资源</strong>，并且知道它所要的资源都得到满足之后才开始执行。进程要么占有所有的资源然后开始执行，要么不占有资源，不会出现占有一些资源等待一些资源的情况。</p>
+<p>静态分配策略逻辑简单，实现也很容易，但这种策略 <strong>严重地降低了资源利用率</strong>，因为在每个进程所占有的资源中，有些资源是在比较靠后的执行时间里采用的，甚至有些资源是在额外的情况下才使用的，这样就可能造成一个进程占有了一些 <strong>几乎不用的资源而使其他需要该资源的进程产生等待</strong> 的情况。</p>
+<p><strong>2、层次分配策略</strong></p>
+<p>层次分配策略破坏了产生死锁的第四个条件(循环等待)。在层次分配策略下，所有的资源被分成了多个层次，<strong>一个进程得到某一次的一个资源后，它只能再申请较高一层的资源；</strong>当一个进程要释放某层的一个资源时，<strong>必须先释放所占用的较高层的资源，</strong>按这种策略，是不可能出现循环等待链的，因为那样的话，就出现了已经申请了较高层的资源，反而去申请了较低层的资源，不符合层次分配策略，证明略。</p>
+<p><strong>死锁的避免</strong></p>
+<p>上面提到的 <strong>破坏</strong> 死锁产生的四个必要条件之一就可以成功 <strong>预防系统发生死锁</strong> ，但是会导致 <strong>低效的进程运行</strong> 和 <strong>资源使用率</strong> 。而死锁的避免相反，它的角度是允许系统中<strong>同时存在四个必要条件</strong> ，只要掌握并发进程中与每个进程有关的资源动态申请情况，做出 <strong>明智和合理的选择</strong> ，仍然可以避免死锁，因为四大条件仅仅是产生死锁的必要条件。</p>
+<p>我们将系统的状态分为 <strong>安全状态</strong> 和 <strong>不安全状态</strong> ，每当在未申请者分配资源前先测试系统状态，若把系统资源分配给申请者会产生死锁，则拒绝分配，否则接受申请，并为它分配资源。</p>
+<blockquote>
+<p>如果操作系统能够保证所有的进程在有限的时间内得到需要的全部资源，则称系统处于安全状态，否则说系统是不安全的。很显然，系统处于安全状态则不会发生死锁，系统若处于不安全状态则可能发生死锁。</p>
+</blockquote>
+<p>那么如何保证系统保持在安全状态呢？通过算法，其中最具有代表性的 <strong>避免死锁算法</strong> 就是 Dijkstra 的银行家算法，银行家算法用一句话表达就是：当一个进程申请使用资源的时候，<strong>银行家算法</strong> 通过先 <strong>试探</strong> 分配给该进程资源，然后通过 <strong>安全性算法</strong> 判断分配后系统是否处于安全状态，若不安全则试探分配作废，让该进程继续等待，若能够进入到安全的状态，则就 <strong>真的分配资源给该进程</strong>。</p>
+<p><strong>死锁的检测</strong></p>
+<p>对资源的分配加以限制可以 <strong>预防和避免</strong> 死锁的发生，但是都不利于各进程对系统资源的<strong>充分共享</strong>。解决死锁问题的另一条途径是 <strong>死锁检测和解除</strong> (这里突然联想到了乐观锁和悲观锁，感觉死锁的检测和解除就像是 <strong>乐观锁</strong> ，分配资源时不去提前管会不会发生死锁了，等到真的死锁出现了再来解决嘛，而 <strong>死锁的预防和避免</strong> 更像是悲观锁，总是觉得死锁会出现，所以在分配资源的时候就很谨慎)</p>
+<p>这种方法对资源的分配不加以任何限制，也不采取死锁避免措施，但系统 <strong>定时地运行一个 “死锁检测”</strong> 的程序，判断系统内是否出现死锁，如果检测到系统发生了死锁，再采取措施去解除它</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310230430992.png" srcset="/img/loading.gif" lazyload alt="image-20240310230430992" style="zoom:67%;" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="category-chain-item">计算机基础</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="print-no-link">#计算机基础</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>进程管理</div>
+      <div>http://example.com/2023/02/24/计算机基础/操作系统/进程管理/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/02/24/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86/" title="文件管理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">文件管理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/02/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/8.%20%E7%BD%91%E7%BB%9C%E6%94%BB%E5%87%BB/" title="网络攻击">
+                        <span class="hidden-mobile">网络攻击</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

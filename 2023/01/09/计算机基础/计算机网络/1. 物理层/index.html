@@ -1,0 +1,864 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="物理层奈奎斯特定理（奈氏准则）理想低通信道下的极限数据传输率&#x3D;2Wlog2V  V&#x3D;有多少种不同的码元 给出了码元传输速率限制，没有给出比特传输速率限制 信道的频带越宽，就可以用更高的速率进行码元传输 要提高数据的传输速率，就必须设法使每个码元携带更多个比特的信息量  香农定理在带宽受限且有噪声的信道中，极限数据传输速率&#x3D;Wlog2(1+S&#x2F;N)  信道的带">
+<meta property="og:type" content="article">
+<meta property="og:title" content="物理层">
+<meta property="og:url" content="http://example.com/2023/01/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/1.%20%E7%89%A9%E7%90%86%E5%B1%82/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="物理层奈奎斯特定理（奈氏准则）理想低通信道下的极限数据传输率&#x3D;2Wlog2V  V&#x3D;有多少种不同的码元 给出了码元传输速率限制，没有给出比特传输速率限制 信道的频带越宽，就可以用更高的速率进行码元传输 要提高数据的传输速率，就必须设法使每个码元携带更多个比特的信息量  香农定理在带宽受限且有噪声的信道中，极限数据传输速率&#x3D;Wlog2(1+S&#x2F;N)  信道的带">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240228225812098.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240228230223117.png">
+<meta property="article:published_time" content="2023-01-09T01:35:21.000Z">
+<meta property="article:modified_time" content="2024-05-17T13:19:04.602Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="计算机基础">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240228225812098.png">
+  
+  
+  
+  <title>物理层 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>PALE13</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="物理层"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-09 09:35" pubdate>
+          2023年1月9日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">物理层</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a><strong>物理层</strong></h2><h3 id="奈奎斯特定理（奈氏准则）"><a href="#奈奎斯特定理（奈氏准则）" class="headerlink" title="奈奎斯特定理（奈氏准则）"></a><strong>奈奎斯特定理（奈氏准则）</strong></h3><p>理想低通信道下的极限数据传输率&#x3D;2Wlog2V</p>
+<ul>
+<li>V&#x3D;有多少种不同的码元</li>
+<li>给出了码元传输速率限制，没有给出比特传输速率限制</li>
+<li>信道的频带越宽，就可以用更高的速率进行码元传输</li>
+<li>要提高数据的传输速率，就必须设法使每个码元携带更多个比特的信息量</li>
+</ul>
+<h3 id="香农定理"><a href="#香农定理" class="headerlink" title="香农定理"></a><strong>香农定理</strong></h3><p>在带宽受限且有噪声的信道中，极限数据传输速率&#x3D;Wlog2(1+S&#x2F;N)</p>
+<ul>
+<li>信道的带宽或信噪比越大，信息的极限传输速率越高</li>
+<li>只要信息的传输速率低于信道的极限传输速率，就能找到某种方法来实现无差别的传输</li>
+<li>实际能够达到的传输速率比香农极限传输速率低不少</li>
+<li>要提高数据传输速率，就要提高信噪比</li>
+</ul>
+<p><strong>信道：</strong>模拟信道和数字信道；无线信道与有线信道</p>
+<p><strong>数字数据（数字信号）：</strong>取值仅允许有限的几个离散数值的数据（或信号）</p>
+<p><strong>模拟数据（模拟信号）：</strong>连续变化的数据（或信号）</p>
+<p><strong>基带传输：</strong>将数字信号1和0直接用两种不同电压表示，然后在数字信道上传输。（近距离）</p>
+<p><strong>宽带传输：</strong>将基带信号进行调制后形成频分复用模拟信号，然后在模拟信道上传输。（远距离）</p>
+<h3 id="编码与调制"><a href="#编码与调制" class="headerlink" title="编码与调制"></a><strong>编码与调制</strong></h3><p><strong>编码：</strong>数字数据编码为数字信号****</p>
+<p>NRZ不归零</p>
+<p>曼彻斯特：可用于同步，数据传输率只有调制速率1&#x2F;2</p>
+<p>差分曼彻斯特编码：用于局域网，自动同，抗干扰强</p>
+<p>NRZI反向不归零：0代表信号反转，1代表信号不变</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240228225812098.png" srcset="/img/loading.gif" lazyload alt="image-20240228225812098" style="zoom: 67%;" />
+
+
+
+<p><strong>调制：</strong>数字数据调制为模拟信号</p>
+<p>ASK幅移键控，FSK频移键控，PSK相移键控，QAM正交振幅调制</p>
+<p><strong>（PCM）脉冲编码调制：</strong>模拟信号编码为数字信号</p>
+<p>抽样，量化，编码</p>
+<p>f 采样频率 &gt;&#x3D; 2f 最高频率</p>
+<p><strong>模拟数据调制为模拟信号</strong></p>
+<p>放大器：将衰弱的模拟信号放大再生</p>
+<p>频分复用技术</p>
+<h3 id="三种信道交换方式"><a href="#三种信道交换方式" class="headerlink" title="三种信道交换方式"></a><strong>三种信道交换方式</strong></h3><p><strong>电路交换</strong></p>
+<p>两个结点建立一条专用物理通信线路，在整个数据传输期间一直被独占。分为建立连接，数据传输，释放连接。</p>
+<p>优点：</p>
+<ul>
+<li>通信时延小，实时性强</li>
+<li>数据顺序传送</li>
+<li>全双工通信，无冲突</li>
+<li>控制简单</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>建立连接时间长</li>
+<li>线路独占</li>
+<li>灵活性差，出了故障，就必须重新拨号建立连接</li>
+<li>无差错控制</li>
+</ul>
+<p><strong>报文交换</strong></p>
+<p>以报文为数据交换单位，交换结点采用存储转发，报文长度不一。</p>
+<p>优点：</p>
+<ul>
+<li>无需建立连接</li>
+<li>动态分配线路</li>
+<li>提高线路可靠性</li>
+<li>提高线路利用率</li>
+<li>提供多目标服务</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>转发有时延，实时性差</li>
+<li>报文长度无限制，网络结点需要较大的缓存空间</li>
+</ul>
+<p><strong>分组交换</strong></p>
+<p>将报文分割成若干较短的分组传送，采用存储转发</p>
+<p>优点：（角度：时延，利用率，存储，出错）</p>
+<ul>
+<li>无建立连接时延</li>
+<li>提高线路可靠性</li>
+<li>线路利用率高 </li>
+<li>相比报文交换，简化了存储管理 </li>
+<li>加速传输</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>存在转发时延</li>
+<li>分组增加控制信息</li>
+</ul>
+<h3 id="分组交换分类"><a href="#分组交换分类" class="headerlink" title="分组交换分类"></a><strong>分组交换分类</strong></h3><p><strong>虚电路方式：</strong></p>
+<p>结合数据报与电路交换的优点，建立逻辑上相连的虚电路</p>
+<p>三个阶段：虚电路建立、数据传输与虚电路释放</p>
+<ul>
+<li>建立连接和释放连接需要时间开销。</li>
+<li>分组不携带源地址，目的地址，但有虚电路号。</li>
+<li>保证分组有序到达</li>
+<li>提供可靠的通信功能</li>
+<li>节点故障会导致虚电路破环</li>
+<li>链路可以有多条虚电路</li>
+</ul>
+<p><strong>数据报方式：</strong></p>
+<p>不是事先为分组确定传输路径</p>
+<ul>
+<li>不需要建立连接</li>
+<li>分组需要源地址，目的地址和分组号</li>
+<li>不保证可靠性，尽最大可能交付</li>
+<li>不保证分组有序到达</li>
+<li>有转发时延</li>
+<li>故障适应能力强</li>
+<li>提高线路利用率高</li>
+</ul>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240228230223117.png" srcset="/img/loading.gif" lazyload alt="image-20240228230223117" style="zoom:50%;" />
+
+
+
+
+
+
+
+<h3 id="物理层设备"><a href="#物理层设备" class="headerlink" title="物理层设备"></a><strong>物理层设备</strong></h3><p><strong>中继器</strong> <strong>（转发器）：</strong>将衰减的数字信号整形再生在转发出去。</p>
+<p>工作在物理层，不能隔离冲突域，也不能隔离广播域。</p>
+<p>“5-4-3规则”：5段通信介质，4个中继器，只有三段可以挂计算机。</p>
+<p>不能互联两个物理层不同的网段（不是存储转发设备）</p>
+<p><strong>集线器（Hub）：</strong>多端口中继器。 </p>
+<p>工作在物理层，半双工状态</p>
+<p> <strong>单工，半双工，全双工的区别</strong></p>
+<p><strong>Simple Transmission单工：</strong>只有一个方向的通信而没有反方向的交互，仅需一条信道（收音机）</p>
+<p><strong>Half-Duplex半双工：</strong>通信双方都可以发送消息或接收信息，但不能同时发送和接收，需要两条信道（对讲机）</p>
+<p><strong>Full-Duplex全双工：</strong>通信双方可以同时发送和接收消息，需要两条信道（电话）</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="category-chain-item">计算机基础</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="print-no-link">#计算机基础</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>物理层</div>
+      <div>http://example.com/2023/01/09/计算机基础/计算机网络/1. 物理层/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/01/09/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/0.%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" title="计算机网络体系结构">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机网络体系结构</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/06/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/1-2-%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%8F%91%E5%B1%95/" title="软件工程基础与发展">
+                        <span class="hidden-mobile">软件工程基础与发展</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

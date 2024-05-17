@@ -1,0 +1,817 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="代理模式代理模式（Proxy Pattern）是一种结构型设计模式，它的概念很简单，它通过创建一个代理对象来控制对原始对象的访问。代理模式主要涉及两个角色：代理角色和真实角色。代理类负责代理真实类，为真实类提供控制访问的功能，真实类则完成具体的业务逻辑。这样，当我们不方便或者不能直接访问真实对象时，可以通过代理对象来间接访问。使用代理模式主要有两个目的：一是保护目标对象，二是增强目标对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="代理模式">
+<meta property="og:url" content="http://example.com/2023/10/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/07-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="代理模式代理模式（Proxy Pattern）是一种结构型设计模式，它的概念很简单，它通过创建一个代理对象来控制对原始对象的访问。代理模式主要涉及两个角色：代理角色和真实角色。代理类负责代理真实类，为真实类提供控制访问的功能，真实类则完成具体的业务逻辑。这样，当我们不方便或者不能直接访问真实对象时，可以通过代理对象来间接访问。使用代理模式主要有两个目的：一是保护目标对象，二是增强目标对象。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228220439813.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228220417603.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228220839189.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228221141416.png">
+<meta property="article:published_time" content="2023-10-15T01:35:21.000Z">
+<meta property="article:modified_time" content="2024-05-17T13:22:53.799Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="计算机基础">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228220439813.png">
+  
+  
+  
+  <title>代理模式 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>PALE13</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="代理模式"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-15 09:35" pubdate>
+          2023年10月15日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">代理模式</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a><strong>代理模式</strong></h2><p>代理模式（Proxy Pattern）是一种<strong>结构型设计模式</strong>，它的概念很简单，它通过创建一个代理对象来控制对原始对象的访问。代理模式主要涉及两个角色：代理角色和真实角色。代理类负责代理真实类，为真实类提供控制访问的功能，真实类则完成具体的业务逻辑。这样，当我们不方便或者不能直接访问真实对象时，可以通过代理对象来间接访问。使用代理模式主要有两个目的：一是保护目标对象，二是增强目标对象。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228220439813.png" srcset="/img/loading.gif" lazyload alt="image-20231228220439813" style="zoom: 67%;" />
+
+
+
+<h2 id="如何实现？"><a href="#如何实现？" class="headerlink" title="如何实现？"></a>如何实现？</h2><p>代理模式的原理是将真实类的功能封装在代理类中，最基本的方式就是创建一个代理类，代理类实现和真实类相同的接口，并且在代理类中引用真实类的实例。这样就可以在不修改真实类代码的情况下，通过代理类来控制对真实类的访问。代理类还可以在调用真实类的方法前后添加一些额外的逻辑，来实现对真实类的访问控制、缓存、日志记录等功能。</p>
+<p><strong>实现代理模式有两种方案：</strong>静态代理和动态代理。</p>
+<p><strong>静态代理：</strong>是指代理类在编译期就已经确定，即需要事先手动编写一个代理类。</p>
+<p><strong>动态代理：</strong>是在运行时动态生成代理类。</p>
+<p><strong>动态代理方案有两种实现：</strong></p>
+<p>其一，通过Java本身自带 java.lang.reflect.Proxy 类来实现动态代理功能。</p>
+<p>其二，通过额外引入一个开源的高性能代码生成包CGlib来动态生成代理类。二者底层实现上都应用了反射和操作字节码技术。</p>
+<p>JDK动态代理是基于接口实现的代理，只能代理实现了接口的类。</p>
+<p>CGlib方式是基于继承实现的代理，它不是指真实类需要继承某个父类，而是生成的代理类作为真实类的子类去代理父类，即代理类继承自真实类。这种方式不需实现接口，可以作为JDK代理方式的补充方案。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<li>代理对象可以隐藏原始对象的实现细节，使得客户端无需了解原始对象的具体实现。</li>
+<li>代理对象可以在原始对象的基础上添加额外的功能，例如缓存、安全验证等。</li>
+<li>代理对象可以控制对原始对象的访问，保护原始对象不被非法访问。</li>
+<li>代理对象可以在客户端和原始对象之间起到中介作用，使得客户端与原始对象之间的耦合度降低。</li>
+</ul>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li>引入代理类会增加系统的复杂性，增加了学习和理解的成本。</li>
+<li>由于增加了代理层，导致请求处理速度变慢。</li>
+</ul>
+<h2 id="代理模式和适配器模式比较："><a href="#代理模式和适配器模式比较：" class="headerlink" title="代理模式和适配器模式比较："></a><strong>代理模式和适配器模式比较：</strong></h2><ul>
+<li>适配器模式是<strong>因为新旧接口不一致导致出现了客户端无法得到满足的问题</strong>，但是，由于<strong>旧的接口是不能被完全重构掉的</strong>，因为我们还想使用实现了这个接口的一些服务。那么<strong>为了使用以前实现旧接口的服务</strong>，我们就应该把新的接口转换成旧接口；实现这个转换的类就是抽象意义的转换器；</li>
+<li>代理就不一样了，虽然<strong>代理也同样是增加了一层</strong>，但是，<strong>代理提供的接口和原本的接口是一样的</strong>，代理模式的<strong>作用是不把实现直接暴露给client</strong>，而是通过<strong>代理这个层，代理能够做一些处理；</strong></li>
+<li>代理和适配器都是挡在其他对象的前面，并负责将请求转发给它们。<strong>适配器会改变对象适配的接口</strong>，<strong>而代理则实现相同的接口。</strong></li>
+</ul>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>代理模式主要适用于需要控制、增强或隐藏对象访问的场景。适合代理访问的具体场景如下：</p>
+<p><strong>远程代理：</strong>当客户端需要访问远程对象（位于不同地址空间或网络中）时，可以使用代理模式来隐藏底层网络通信的复杂性，代理对象负责处理网络通信，并将结果返回给客户端。<br><strong>虚拟代理：</strong>当创建和初始化对象的开销很大时，可以使用代理模式延迟对象的实例化，只有在需要真正使用对象时才进行初始化。这样可以提高系统的性能和资源利用率。<br><strong>安全代理：</strong>代理模式可以用于控制对敏感资源的访问，代理对象可以验证客户端的权限或者在访问资源前执行一些安全检查，从而保护真实对象。<br><strong>日志记录代理：</strong>通过代理模式，我们可以在真实对象的方法执行前后进行日志记录，以实现日志记录、调试和性能监测等功能。<br><strong>延迟加载代理：</strong>当需要使用的对象具有较大的开销时，可以使用代理模式来实现延迟加载，只有在真正需要时才加载对象，以节省资源和提高响应速度。<br><strong>缓存代理：</strong>代理模式可以用于实现对象的缓存，当客户端请求某个对象时，代理对象先检查缓存中是否存在该对象，如果存在则直接返回，否则创建新对象并缓存起来，从而提高系统性能。</p>
+<h2 id="静态代理实现"><a href="#静态代理实现" class="headerlink" title="静态代理实现"></a>静态代理实现</h2><p>实现方式比较简单，很容易理解，直接上代码</p>
+<p>抽象接口：定义视频播放器接口Player</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">public</span> interface Player &#123;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">loadVideo</span><span class="hljs-params">(<span class="hljs-type">String</span> filename)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">playVideo</span><span class="hljs-params">(<span class="hljs-type">String</span> filename)</span></span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>真实类：定义接口实现类VPlayer</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">VPlayer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Player</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">loadVideo</span><span class="hljs-params">(String filename)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;加载MP4视频文件：&quot;</span>+filename);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">playVideo</span><span class="hljs-params">(String filename)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;播放MP4视频：&quot;</span>+filename);<br>        <br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>代理类：定义代理类VPlayerProxy，实现同样的接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">VPlayerProxy</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Player</span> &#123;<br><br>    <span class="hljs-keyword">private</span> Player player;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">VPlayerProxy</span><span class="hljs-params">(Player player)</span> &#123;<br>        <span class="hljs-built_in">this</span>.player = player;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">loadVideo</span><span class="hljs-params">(String filename)</span> &#123;<br>        player.loadVideo(filename);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">playVideo</span><span class="hljs-params">(String filename)</span> &#123;<br>        player.playVideo(filename);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>客户端调用</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs haxe"><span class="hljs-keyword">public</span> <span class="hljs-title class_"><span class="hljs-keyword">class</span> <span class="hljs-title">Client1</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> void main(<span class="hljs-keyword">String</span>[] args) &#123;<br>        <span class="hljs-comment">//直连方式</span><br>        Player vplay=<span class="hljs-keyword">new</span> <span class="hljs-type">VPlayer</span>();<br>        vplay.playVideo(<span class="hljs-string">&quot;aaa.mp4&quot;</span>);<br>        System.out.println();<br><br>        <span class="hljs-comment">//代理方式</span><br>        Player proxy=<span class="hljs-keyword">new</span> <span class="hljs-type">VPlayerProxy</span>(vplay);<br>        proxy.loadVideo(<span class="hljs-string">&quot;aaa.mp4&quot;</span>);<br>        proxy.playVideo(<span class="hljs-string">&quot;aaa.mp4&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228220417603.png" srcset="/img/loading.gif" lazyload alt="image-20231228220417603"></p>
+<h2 id="JDK-动态代理实现"><a href="#JDK-动态代理实现" class="headerlink" title="JDK 动态代理实现"></a>JDK 动态代理实现</h2><p>JDK动态代理是Java标准库中提供的一种代理方式，它可以在运行时动态生成一个代理对象，代理对象实现和原始类一样的接口，并将方法调用转发给被代理对象，同时还可以在方法调用前后执行额外的增强处理。JDK动态代理通过反射机制实现代理功能，其原理分为以下几个步骤：</p>
+<p><strong>创建实现InvocationHandler接口的代理类工厂：</strong>在调用Proxy类的静态方法newProxyInstance时，会动态生成一个代理类。该代理类实现了目标接口，并且持有一个InvocationHandler类型的引用。<br><strong>InvocationHandler接口：</strong>InvocationHandler是一个接口，它只有一个方法invoke。在代理对象的方法被调用时，JVM会自动调用代理类的invoke方法，并将被调用的方法名、参数等信息传递给该方法。<br><strong>调用代理对象的方法：</strong>当代理对象的方法被调用时，JVM会自动调用代理类的invoke方法。在invoke方法中，可以根据需要执行各种逻辑，比如添加日志、性能统计、事务管理等。<br><strong>invoke方法调用：</strong>在invoke方法中，通过反射机制调用目标对象的方法，并返回方法的返回值。在调用目标对象的方法前后，可以执行额外的逻辑。</p>
+<p><strong>通用实现代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JDKProxyFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">InvocationHandler</span> &#123;<br><br>    <span class="hljs-comment">//需要被代理的对象</span><br>    <span class="hljs-keyword">private</span> Object object;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">JDKProxyFactory</span><span class="hljs-params">(Object object)</span> &#123;<br>        <span class="hljs-built_in">this</span>.object = object;<br>    &#125;<br><br>    <span class="hljs-meta">@SuppressWarnings(&quot;unchecked&quot;)</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; T <span class="hljs-title function_">getProxy</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> (T) Proxy.newProxyInstance(<br>                Thread.currentThread().getContextClassLoader(),<span class="hljs-comment">//当前线程的上下文ClassLoader</span><br>                object.getClass().getInterfaces(), <span class="hljs-comment">//代理需要实现的接口</span><br>                <span class="hljs-built_in">this</span>); <span class="hljs-comment">// 处理器自身</span><br>    &#125;<br>	<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>		<span class="hljs-comment">//进行方法匹配，调用对应方法名的方法</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;loadVideo&quot;</span>.equals(method.getName())) &#123;<br>            result=method.invoke(object, args);<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;playVideo&quot;</span>.equals(method.getName())) &#123;<br>            System.out.println(<span class="hljs-string">&quot;前置增强&quot;</span>);<br>            result=method.invoke(object, args);<br>            System.out.println(<span class="hljs-string">&quot;后置增强&quot;</span>);<br>        &#125;<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+<p><strong>客户端调用</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Client2</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        Player player=<span class="hljs-keyword">new</span> <span class="hljs-title class_">VPlayer</span>();<br>        Player proxy=<span class="hljs-keyword">new</span> <span class="hljs-title class_">JDKProxyFactory</span>(player).getProxy();<br>        proxy.loadVideo(<span class="hljs-string">&quot;aaa.mp4&quot;</span>);<br>        proxy.playVideo(<span class="hljs-string">&quot;aaa.mp4&quot;</span>);<br><br><span class="hljs-comment">/*      或者</span><br><span class="hljs-comment">        Player p=new VPlayer();</span><br><span class="hljs-comment">        Player o = (Player) Proxy.newProxyInstance(</span><br><span class="hljs-comment">                p.getClass().getClassLoader(),</span><br><span class="hljs-comment">                p.getClass().getInterfaces(),</span><br><span class="hljs-comment">                new VPlayerProxyFactory(p)</span><br><span class="hljs-comment">        );</span><br><span class="hljs-comment">        o.loadVideo(&quot;aaaa.mp4&quot;);</span><br><span class="hljs-comment">*/</span><br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228220839189.png" srcset="/img/loading.gif" lazyload alt="image-20231228220839189"></p>
+<h2 id="CGlib-动态代理实现"><a href="#CGlib-动态代理实现" class="headerlink" title="CGlib 动态代理实现"></a>CGlib 动态代理实现</h2><p>CGLIB（Code Generation Library）是一个基于ASM（Java字节码操作框架）实现的代码生成库，它可以在运行时动态生成目标类的子类作为代理类，并覆盖其中的方法来实现代理功能。与Java自带的JDK动态代理不同，CGlib动态代理可以代理没有实现接口的类。其原理分为以下几个步骤：</p>
+<p><strong>创建Enhancer对象：</strong>Enhancer是CGLIB库中用于动态生成子类的主要类。通过创建Enhancer对象并设置需要代理的目标类、拦截器等参数，可以生成一个代理类。<br><strong>设置回调拦截器：</strong>在生成代理类时，需要指定拦截器。拦截器是实现代理逻辑的关键，它会在代理类的方法被调用时拦截调用，并执行相应的逻辑。在CGLIB中，拦截器需要实现MethodInterceptor接口。<br><strong>创建代理对象：</strong>通过调用Enhancer对象的create方法，可以生成一个代理对象。代理对象会继承目标类的方法，并且在调用代理对象的方法时会先调用拦截器的intercept方法，再执行目标方法。<br><strong>调用代理对象：</strong>通过调用代理对象的方法，会触发拦截器的intercept方法。在intercept方法中，可以根据需要执行各种逻辑，比如添加日志、性能统计、事务管理等。</p>
+<p>单独定义一个没有接口的真实类APlayer</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//音频播放器</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">APlayer</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">loadAudio</span><span class="hljs-params">(String filename)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;加载MP3音频文件：&quot;</span>+filename);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">playAudio</span><span class="hljs-params">(String filename)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;播放MP3：&quot;</span>+filename);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>通用实现代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CglibProxyFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MethodInterceptor</span> &#123;<br><br>    <span class="hljs-meta">@SuppressWarnings(&quot;unchecked&quot;)</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; T <span class="hljs-title function_">getProxy</span><span class="hljs-params">(Class&lt;T&gt; clazz)</span> &#123;<br>        <span class="hljs-type">Enhancer</span> <span class="hljs-variable">en</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Enhancer</span>();<br>        <span class="hljs-comment">//设置代理的父类</span><br>        en.setSuperclass(clazz);<br>        <span class="hljs-comment">//设置方法回调</span><br>        en.setCallback(<span class="hljs-built_in">this</span>);<br>        <span class="hljs-comment">//创建代理实例</span><br>        <span class="hljs-keyword">return</span> (T)en.create();<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-comment">//参数中的object是目标对象，method和args是目标对象的方法和参数，methodProxy是方法代理</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">intercept</span><span class="hljs-params">(Object object, Method method, Object[] args, MethodProxy methodProxy)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;loadAudio&quot;</span>.equals(method.getName())) &#123;<br>            <span class="hljs-comment">//通过继承的方法实现代理，因此这里调用invokeSuper</span><br>            result = methodProxy.invokeSuper(object, args);<br>        &#125;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;playAudio&quot;</span>.equals(method.getName())) &#123;<br>            result = methodProxy.invokeSuper(object, args);<br>        &#125;<br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p>客户端调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Client3</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        APlayer aplayer=<span class="hljs-keyword">new</span> <span class="hljs-title class_">APlayer</span>();<br>        <span class="hljs-type">APlayer</span> <span class="hljs-variable">proxy</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">CglibProxyFactory</span>().getProxy(aplayer.getClass());<br>        <span class="hljs-comment">//验证代理类的父类</span><br>        System.out.println(<span class="hljs-string">&quot;代理类的父类：&quot;</span>+proxy.getClass().getSuperclass().getSimpleName());<br>        System.out.println();<br><br>        proxy.loadAudio(<span class="hljs-string">&quot;荷塘月色.mp3&quot;</span>);<br>        proxy.playAudio(<span class="hljs-string">&quot;荷塘月色.mp3&quot;</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231228221141416.png" srcset="/img/loading.gif" lazyload alt="image-20231228221141416"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>代理模式可以在不修改真实类代码的情况下，实现对真实类的访问控制、性能优化等功能。Java 中有两种实现代理模式的方法：静态代理和动态代理。静态代理需要在编译之前手动编写代理类，而动态代理可以在运行时动态生成代理类。</p>
+<p>其中动态代理又分为JDK动态代理和CGlib动态代理，一般情况下我们使用前者，当代理类没有接口时选用后者作为前者的补充方案。代理模式的优点包括降低系统耦合度、增强代码可扩展性、提高系统安全性和简化接口，但它也会增加系统的复杂性和可能影响性能。在需要控制访问、远程代理、功能增强等场景下，代理模式是一个很好的选择。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="category-chain-item">计算机基础</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="category-chain-item">设计模式</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="print-no-link">#计算机基础</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>代理模式</div>
+      <div>http://example.com/2023/10/15/计算机基础/设计模式/07-代理模式/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/10/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/03-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" title="工厂模式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">工厂模式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/08-%E8%A3%85%E9%A5%B0%E8%80%85%E6%A8%A1%E5%BC%8F/" title="装饰着模式">
+                        <span class="hidden-mobile">装饰着模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

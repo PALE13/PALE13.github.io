@@ -1,0 +1,957 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="继承 继承允许一个类（子类）基于另一个类（父类）来构建，子类可以继承父类的属性和方法。 继承促进了代码的重用，因为子类可以直接使用父类已经定义的方法和属性，而不需要重新实现。 通过继承，可以建立类之间的层次关系，使得代码结构更清晰，易于扩展和维护。  定义：  就是子类继承父类的属性和行为，使得子类对象具有与父类相同的属性、相同的行为。 子类可以直接访问父类中的非私有的属性和行为。 Java只支持">
+<meta property="og:type" content="article">
+<meta property="og:title" content="继承">
+<meta property="og:url" content="http://example.com/2023/05/13/Java/Java%E5%9F%BA%E7%A1%80/%E7%BB%A7%E6%89%BF/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="继承 继承允许一个类（子类）基于另一个类（父类）来构建，子类可以继承父类的属性和方法。 继承促进了代码的重用，因为子类可以直接使用父类已经定义的方法和属性，而不需要重新实现。 通过继承，可以建立类之间的层次关系，使得代码结构更清晰，易于扩展和维护。  定义：  就是子类继承父类的属性和行为，使得子类对象具有与父类相同的属性、相同的行为。 子类可以直接访问父类中的非私有的属性和行为。 Java只支持">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image003.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240224001601846.png">
+<meta property="article:published_time" content="2023-05-13T12:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-17T12:32:14.171Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image003.png">
+  
+  
+  
+  <title>继承 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>PALE13</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="继承"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-13 20:46" pubdate>
+          2023年5月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">继承</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a><strong>继承</strong></h2><ul>
+<li>继承允许一个类（子类）基于另一个类（父类）来构建，子类可以继承父类的属性和方法。</li>
+<li>继承促进了代码的重用，因为子类可以直接使用父类已经定义的方法和属性，而不需要重新实现。</li>
+<li>通过继承，可以建立类之间的层次关系，使得代码结构更清晰，易于扩展和维护。</li>
+</ul>
+<p>定义：</p>
+<ul>
+<li>就是子类继承父类的属性和行为，使得子类对象具有与父类相同的属性、相同的行为。</li>
+<li>子类可以直接访问父类中的非私有的属性和行为。</li>
+<li>Java只支持<strong>单继承</strong>，不支持多继承。</li>
+</ul>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image003.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom: 67%;" />
+
+ 
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java">定义父类的格式：（一个普通的类定义）<br><span class="hljs-keyword">public</span> class 父类名称 &#123;<br>  <span class="hljs-comment">// ...</span><br><br>&#125;<br>定义子类的格式：<br><span class="hljs-keyword">public</span> class 子类名称 extends 父类名称 &#123;<br>  <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="继承的访问规则"><a href="#继承的访问规则" class="headerlink" title="继承的访问规则"></a><strong>继承的访问规则</strong></h3><p>在父子类的继承关系当中，如果成员变量重名，则创建子类对象时，访问有两种方式：</p>
+<p><strong>直接通过子类对象访问成员变量：</strong>等号左边是谁，就优先用谁，没有则向上找。</p>
+<p><strong>间接通过成员方法访问成员变量：</strong>该方法属于谁，就优先用谁，没有则向上找。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">numFu</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodFu</span><span class="hljs-params">()</span> &#123; <span class="hljs-comment">// 使用的是本类当中的，不会向下找子类的</span><br>    System.out.println(num);<span class="hljs-comment">//100</span><br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Zi</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">numZi</span> <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">200</span>;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodZi</span><span class="hljs-params">()</span> &#123; <span class="hljs-comment">// 因为本类当中有num，所以这里用的是本类的num</span><br>    System.out.println(num);<span class="hljs-comment">//200</span><br>  &#125;<br>&#125;<br><br> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-type">Fu</span> <span class="hljs-variable">fu</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Fu</span>(); <span class="hljs-comment">// 创建父类对象</span><br>    System.out.println(fu.numFu); <span class="hljs-comment">// 10, 只能使用父类的东西，没有任何子类内容</span><br>    <span class="hljs-type">Zi</span> <span class="hljs-variable">zi</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Zi</span>();<br>    System.out.println(zi.numFu); <span class="hljs-comment">// 10</span><br>    System.out.println(zi.numZi); <span class="hljs-comment">// 20</span><br>    <span class="hljs-comment">// 等号左边是谁，就优先用谁</span><br>    System.out.println(zi.num); <span class="hljs-comment">// 优先子类，200</span><br>    <span class="hljs-comment">// 这个方法是子类的，优先用子类的，没有再向上找</span><br>    zi.methodZi(); <span class="hljs-comment">// 200</span><br>    <span class="hljs-comment">// 这个方法是父类的，用父类的</span><br>    zi.methodFu(); <span class="hljs-comment">// 100</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>区分子类方法中变量重名</strong></p>
+<ul>
+<li>局部变量：直接写成员变量名</li>
+<li>本类的成员变量：this.成员变量名</li>
+<li>父类的成员变量：super.成员变量名</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Zi</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">30</span>;<br>    System.out.println(num); <span class="hljs-comment">// 30，局部变量</span><br>    System.out.println(<span class="hljs-built_in">this</span>.num); <span class="hljs-comment">// 20，本类的成员变量</span><br>    System.out.println(<span class="hljs-built_in">super</span>.num); <span class="hljs-comment">// 10，父类的成员变量</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p> <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240224001601846.png" srcset="/img/loading.gif" lazyload alt="image-20240224001601846"></p>
+<p><strong>成员方法重名——重写(Override)</strong> </p>
+<p>如果子类父类中出现重名的成员方法，这时的访问是一种特殊情况，叫做方法<strong>重写 (Override</strong>)。</p>
+<p><strong>方法重写</strong> ：子类中出现与父类一模一样的方法时（返回值类型，方法名和参数列表都相同），会出现<strong>覆盖效果</strong>，也称为重写或者复写。声明不变，重新实现。</p>
+<p><strong>方法覆盖重写的注意事项</strong></p>
+<ul>
+<li>必须保证父子类之间方法的名称相同，参数列表也相同。</li>
+</ul>
+<p>@Override：写在方法前面，用来检测是不是有效的正确覆盖重写。</p>
+<p>这个注解就算不写，只要满足要求，也是正确的方法覆盖重写。</p>
+<ul>
+<li>子类方法的返回值必须【小于等于】父类方法的返回值范围。</li>
+</ul>
+<p>小扩展提示：java.lang.Object类是所有类的公共最高父类（祖宗类），java.lang.String就是Object的子类。</p>
+<ul>
+<li>子类方法的权限必须【大于等于】父类方法的权限修饰符。</li>
+</ul>
+<p>小扩展提示：public &gt; protected &gt; (default) &gt; private</p>
+<p>备注：(default)不是关键字default，而是什么都不写，留空</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;父类重名方法执行！&quot;</span>);<br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Zi</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;子类重名方法执行！&quot;</span>);<br>  &#125;<br><br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>  <span class="hljs-type">Zi</span> <span class="hljs-variable">zi</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Zi</span>();<br>  <span class="hljs-comment">// 创建的是new了子类对象，所以优先用子类方法</span><br>  zi.method();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>继承中的构造方法</strong></p>
+<p>继承关系中，父子类构造方法的访问特点：</p>
+<ul>
+<li>子类构造方法当中有一个默认隐含的“super()”调用，所以一定是先调用的父类构造，后执行的子类构造。</li>
+<li>子类构造可以通过super关键字来调用父类重载构造。</li>
+<li>super的父类构造调用，必须是子类构造方法的第一个语句。不能一个子类构造调用多次super构造。</li>
+</ul>
+<p>总结：子类必须调用父类构造方法，不写则赠送super()；写了则用写的指定的super调用，super只能有一个，还必须是第一个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Fu</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;父类无参构造&quot;</span>);<br>  &#125;<br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Fu</span><span class="hljs-params">(<span class="hljs-type">int</span> num)</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;父类有参构造！&quot;</span>);<br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Zi</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Zi</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">super</span>(); <span class="hljs-comment">// 在调用父类无参构造方法</span><br>    <span class="hljs-comment">//super(20); // 在调用父类重载的构造方法</span><br>    System.out.println(<span class="hljs-string">&quot;子类构造方法！&quot;</span>);<br>  &#125;<br>  <br>  <span class="hljs-comment">// 错误写法！只有子类构造方法，才能调用父类构造方法。</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>     <span class="hljs-comment">//super(); </span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>super关键字</strong>的用法有三种：</p>
+<ul>
+<li>在子类的成员方法中，访问父类的成员变量</li>
+<li>在子类的成员方法中，访问父类的成员方法</li>
+<li>在子类的构造方法中，访问父类的构造方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;父类方法&quot;</span>);<br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Zi</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br>  <span class="hljs-comment">//在子类的构造方法中，访问父类的构造方法</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Zi</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">super</span>();<br>  &#125;<br><br> <br>  <span class="hljs-comment">//在子类的成员方法中，访问父类的成员变量</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodZi</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-built_in">super</span>.num); <span class="hljs-comment">// 父类中的num</span><br>  &#125;<br><br>  <span class="hljs-comment">//在子类的成员方法中，访问父类的成员方法</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">super</span>.method(); <span class="hljs-comment">// 访问父类中的method</span><br>    System.out.println(<span class="hljs-string">&quot;子类方法&quot;</span>);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>this关键字</strong>用来访问本类内容。用法也有三种：</p>
+<ul>
+<li>在本类的成员方法中，访问本类的成员变量。</li>
+<li>在本类的成员方法中，访问本类的另一个成员方法。</li>
+<li>在本类的构造方法中，访问本类的另一个构造方法。</li>
+</ul>
+<p>在第三种用法当中要注意：</p>
+<ul>
+<li>this调用本类另一个构造方法，也必须是构造方法的第一个语句，唯一一个。</li>
+<li>super和this两种构造调用，不能同时使用。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">30</span>;<br>&#125;<br><br> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Zi</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Fu</span> &#123;<br>  <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">20</span>;<br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Zi</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//super(); // 这一行不再赠送，super和this两种构造不能同时使用</span><br>    <span class="hljs-built_in">this</span>(<span class="hljs-number">123</span>); <span class="hljs-comment">// 本类的无参构造，调用本类的有参构造</span><br>    <span class="hljs-comment">//this(1, 2); // 错误写法，本类构造调构造必须是第一个且是唯一一个</span><br>  &#125;<br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Zi</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span> &#123;<br>    <span class="hljs-built_in">this</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>);<br>  &#125;<br>  <span class="hljs-keyword">public</span> <span class="hljs-title function_">Zi</span><span class="hljs-params">(<span class="hljs-type">int</span> n, <span class="hljs-type">int</span> m)</span> &#123;<br>    <span class="hljs-built_in">super</span>();<br>  &#125;<br><br><br>  <span class="hljs-comment">//在本类的成员方法中，访问本类的成员变量</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">showNum</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br>    System.out.println(num); <span class="hljs-comment">// 局部变量</span><br>    System.out.println(<span class="hljs-built_in">this</span>.num); <span class="hljs-comment">// 本类中的成员变量</span><br>    System.out.println(<span class="hljs-built_in">super</span>.num); <span class="hljs-comment">// 父类中的成员变量</span><br>  &#125;<br><br><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodA</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;AAA&quot;</span>);<br>  &#125;<br><br>   <span class="hljs-comment">//在本类的成员方法中，访问本类的另一个成员方法</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodB</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">this</span>.methodA(); <span class="hljs-comment">//AAA</span><br>    System.out.println(<span class="hljs-string">&quot;BBB&quot;</span>);<span class="hljs-comment">//BBB</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a><strong>抽象类</strong></h3><p>抽象方法：就是加上<strong>abstract关键字</strong>，然后去掉大括号，直接分号结束。</p>
+<p>抽象类：抽象方法所在的类，必须是抽象类才行。在class之前写上abstract即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Animal</span> &#123;<br>  <span class="hljs-comment">// 这是一个抽象方法，代表吃东西，但是具体吃什么（大括号的内容）不确定。</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">eat</span><span class="hljs-params">()</span>;<br><br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Cat</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Animal</span> &#123;<br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">eat</span><span class="hljs-params">()</span> &#123;  <span class="hljs-comment">//重写抽象方法</span><br>    System.out.println(<span class="hljs-string">&quot;猫吃鱼&quot;</span>);<br>  &#125;<br>&#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DemoMain</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br><span class="hljs-comment">//    Animal animal = new Animal(); // 错误写法！不能直接创建抽象类对象</span><br>    <span class="hljs-type">Cat</span> <span class="hljs-variable">cat</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Cat</span>();<br>    cat.eat();<br>  &#125;<br>&#125;<br><br> <br></code></pre></td></tr></table></figure>
+
+<p><strong>注意事项</strong> </p>
+<p>抽象类中，可以有构造方法，是供子类创建对象时，初始化父类成员使用的。 </p>
+<p>理解：子类的构造方法中，有默认的super()，需要访问父类构造方法。</p>
+<p>抽象类中，不一定包含抽象方法，但是有抽象方法的类必定是抽象类。</p>
+<p>理解：未包含抽象方法的抽象类，目的就是不想让调用者创建该类对象，通常用于某些特殊的类结构设计。</p>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a><strong>接口</strong></h3><p>接口，是Java语言中一种引用类型，是方法的集合，如果说类的内部封装了成员变量、构造方法和成员方法，那么接口的内部主要就是封装了方法。</p>
+<p>备注：换成了关键字interface之后，<strong>编译生成的字节码文件仍然是：.java –&gt; .class</strong>。</p>
+<p>如果是Java 7，那么接口中可以包含的内容有：常量抽象方法</p>
+<p>如果是Java 8，还可以额外包含有：默认方法，静态方法</p>
+<p>如果是Java 9，还可以额外包含有：私有方法</p>
+<p><strong>抽象方法</strong></p>
+<p>注意事项：</p>
+<ul>
+<li><p>接口当中的抽象方法，修饰符必须是两个固定的关键字：public abstract</p>
+</li>
+<li><p>这两个关键字修饰符，可以选择性地省略</p>
+</li>
+<li><p>方法的三要素，可以随意定义</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MyInterfaceAbstract</span> &#123;<br>  <span class="hljs-comment">// 这是一个抽象方法</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs1</span><span class="hljs-params">()</span>;<br>  <span class="hljs-comment">// 这也是抽象方法</span><br>  <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs2</span><span class="hljs-params">()</span>;<br>  <span class="hljs-comment">// 这也是抽象方法</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs3</span><span class="hljs-params">()</span>;<br>  <span class="hljs-comment">// 这也是抽象方法</span><br>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs4</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>接口实现类</strong></p>
+<p>接口不能直接使用，必须有一个<strong>实现类</strong>来实现该接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyInterfaceAbstractImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MyInterfaceAbstract</span> &#123;<br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs1</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;这是第一个方法！&quot;</span>);<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs2</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;这是第二个方法！&quot;</span>);<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs3</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;这是第三个方法！&quot;</span>);<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs4</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;这是第四个方法！&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>创建实现类的对象使用</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs abnf">MyInterfaceAbstractImpl impl <span class="hljs-operator">=</span> new MyInterfaceAbstractImpl()<span class="hljs-comment">;</span><br>impl.methodAbs1()<span class="hljs-comment">;</span><br>impl.methodAbs2()<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>注意事项：</p>
+<p>接口的实现类必须覆盖重写（实现）接口中所有的抽象方法。</p>
+<p>如果实现类并没有覆盖重写接口中所有的抽象方法，那么这个实现类自己就必须是抽象类。</p>
+<p><strong>接口中的默认方法</strong></p>
+<p>以前创建了一个接口，并且已经被大量的类实现。如果需要再扩充这个接口的功能加新的方法，就会导致所有已经实现的子类需要重写这个方法。如果在接口中使用默认方法就不会有这个问题。所以从 JDK8 开始新加了接口默认方法，便于接口的扩展。</p>
+<ul>
+<li><p>接口的默认方法，可以通过接口实现类对象，直接调用。</p>
+</li>
+<li><p>接口的默认方法，也可以被接口实现类进行覆盖重写。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MyInterfaceDefault</span> &#123; <br>  <span class="hljs-comment">// 抽象方法</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs</span><span class="hljs-params">()</span>;<br>  <br>  <span class="hljs-comment">// 新添加的方法，改成默认方法</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodDefault</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;这是新添加的默认方法&quot;</span>);<br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyInterfaceDefaultA</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MyInterfaceDefault</span> &#123; <br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;实现了抽象方法，AAA&quot;</span>);<br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyInterfaceDefaultB</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MyInterfaceDefault</span> &#123; <br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAbs</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;实现了抽象方法，BBB&quot;</span>);<br>  &#125;<br><br>  <span class="hljs-meta">@Override</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodDefault</span><span class="hljs-params">()</span> &#123;  <br>    System.out.println(<span class="hljs-string">&quot;实现类B覆盖重写了接口的默认方法&quot;</span>); <br>  &#125;<br>&#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo02Interface</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-comment">// 创建了实现类对象</span><br>    <span class="hljs-type">MyInterfaceDefaultA</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyInterfaceDefaultA</span>();<br>    a.methodAbs(); <span class="hljs-comment">// 调用抽象方法，实际运行的是右侧实现类。</span><br><br>   <span class="hljs-comment">// 调用默认方法，如果实现类当中没有，会向上找接口</span><br>    a.methodDefault(); <span class="hljs-comment">// 这是新添加的默认方法</span><br><br>   <span class="hljs-type">MyInterfaceDefaultB</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyInterfaceDefaultB</span>();<br>   b.methodAbs();<br>   b.methodDefault(); <span class="hljs-comment">// 实现类B覆盖重写了接口的默认方法</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>接口中的静态方法</strong></p>
+<p>注意事项：不能通过接口实现类的对象来调用接口当中的静态方法。</p>
+<p>正确用法：通过接口名称，直接调用其中的静态方法。因为静态跟对象没关系，通过接口调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MyInterfaceStatic</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodStatic</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;这是接口的静态方法！&quot;</span>);<br>  &#125;<br>&#125;<br><br>    <span class="hljs-comment">// 创建了实现类对象</span><br>    <span class="hljs-type">MyInterfaceStaticImpl</span> <span class="hljs-variable">impl</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyInterfaceStaticImpl</span>();<br>    <span class="hljs-comment">// 错误写法，不能通过接口实现类对象直接调用接口当中的静态方法</span><br>    <span class="hljs-comment">//impl.methodStatic();</span><br>    <span class="hljs-comment">// 直接通过接口名称调用静态方法</span><br>    MyInterfaceStatic.methodStatic();<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>接口中的私有方法</strong></p>
+<p>如果一个接口中有多个默认方法，并且方法中有重复的内容，那么可以抽取出来，封装到私有方法中，供默认方法去调用。从设计的角度讲，私有的方法是对默认方法和静态方法的辅助。</p>
+<ul>
+<li>普通私有方法，解决多个默认方法之间重复代码问题</li>
+<li>静态私有方法，解决多个静态方法之间重复代码问题</li>
+</ul>
+<p>以下以静态私有方法为例，静态私有方法只能通过类内部的静态方法访问</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MyInterfacePrivateB</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodStatic1</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;静态方法1&quot;</span>);<br>    methodStaticCommon();<br>  &#125;<br><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodStatic2</span><span class="hljs-params">()</span> &#123;<br>    System.out.println(<span class="hljs-string">&quot;静态方法2&quot;</span>);<br>    methodStaticCommon();<br><br>  &#125;<br><br><br>  <span class="hljs-comment">//静态方法的公共部分应该私有化，不能被接口实现类访问</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodStaticCommon</span><span class="hljs-params">()</span> &#123; <br>    System.out.println(<span class="hljs-string">&quot;AAA&quot;</span>);<br>    System.out.println(<span class="hljs-string">&quot;BBB&quot;</span>);<br>  &#125;<br>&#125;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    MyInterfacePrivateB.methodStatic1();<span class="hljs-comment">//只有接口中的静态方法才能访问私有方法</span><br>    MyInterfacePrivateB.methodStatic2(); <br>    <span class="hljs-comment">// MyInterfacePrivateB.methodStaticCommon(); // 错误写法！不能直接访问私有静态方法</span><br><br>  &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>接口常量</strong></p>
+<p>接口当中也可以定义成员变量，但是必须使用<strong>public static final</strong>三个关键字进行修饰,从效果上看，这其实就是接口的常量</p>
+<p>备注：一旦使用final关键字进行修饰，说明不可改变。</p>
+<p>注意事项：</p>
+<ul>
+<li>接口当中的常量，可以省略<strong>public static final</strong>，注意：不写也照样是这样。</li>
+<li>接口当中的常量，必须进行赋值；不能不赋值。</li>
+<li>接口中常量的名称，使用完全大写的字母，用下划线进行分隔。（推荐命名规则）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MyInterfaceConst</span> &#123;<br>  <span class="hljs-comment">// 这其实就是一个常量，一旦赋值，不可以修改</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">NUM_OF_MY_CLASS</span> <span class="hljs-operator">=</span> <span class="hljs-number">12</span>;<br>&#125;<br><br><span class="hljs-comment">// 访问接口当中的常量，直接通过接口名称.常量名</span><br>System.out.println(MyInterfaceConst.NUM_OF_MY_CLASS);<br></code></pre></td></tr></table></figure>
+
+<p><strong>接口的多继承</strong></p>
+<p>使用接口的时候，需要注意：</p>
+<ul>
+<li>接口是没有静态代码块或者构造方法的。</li>
+<li>一个类的直接父类是唯一的，但是一个类可以同时实现多个接口。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyInterfaceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MyInterfaceA</span>, MyInterfaceB &#123;<br>  <span class="hljs-comment">// 覆盖重写所有抽象方法</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如果实现类所实现的多个接口当中，存在重复的抽象方法，那么只需要覆盖重写一次即可。</li>
+<li>如果实现类没有覆盖重写所有接口当中的所有抽象方法，那么实现类就必须是一个抽象类。</li>
+<li>如果实现类所实现的多个接口当中，存在重复的默认方法，那么实现类一定要<strong>对冲突的默认方法进行覆盖重写。</strong></li>
+<li>一个类如果其父类当中的方法和所实现接口当中的默认方法产生了冲突，优先用父类当中的方法。</li>
+</ul>
+<p>对冲突的默认方法重写</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">A</span> &#123;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span>&#123;<br>  System.out.println(<span class="hljs-string">&quot;AAAAAAAAAAAAAAAAAAA&quot;</span>);<br>   &#125;<br>&#125;<br><br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">B</span> &#123;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span>&#123;<br>  System.out.println(<span class="hljs-string">&quot;BBBBBBBBBBBBBBBBBBB&quot;</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>子接口必须重写重复的默认方法，并且需要加上default</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">D</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">A</span>,B&#123;<br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>  System.out.println(<span class="hljs-string">&quot;DDDDDDDDDDDDDD&quot;</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="抽象类和接口的区别"><a href="#抽象类和接口的区别" class="headerlink" title="抽象类和接口的区别"></a><strong>抽象类和接口的区别</strong></h3><ol>
+<li><strong>定义方式：</strong><ul>
+<li>抽象类使用 <code>abstract</code> 关键字来定义，<strong>可以包含抽象方法（没有实现的方法）和具体方法（有实现的方法）。</strong></li>
+<li>接口使用 <code>interface</code> 关键字来定义，只能包含抽象方法和常量字段（默认为 <code>public static final</code>）。</li>
+</ul>
+</li>
+<li><strong>方法实现：</strong><ul>
+<li><strong>抽象类可以包含抽象方法和具体方法</strong>，子类可以继承抽象类并实现其中的抽象方法，也可以覆写具体方法。</li>
+<li>接口中的方法默认都是抽象方法，实现接口的类需要实现接口中的所有抽象方法。</li>
+</ul>
+</li>
+<li><strong>多继承：</strong><ul>
+<li><strong>抽象类只能单继承</strong>，即一个类只能有一个直接父类。</li>
+<li><strong>接口可以多继承</strong>，即一个类可以实现多个接口。</li>
+</ul>
+</li>
+<li><strong>构造方法：</strong><ul>
+<li><strong>抽象类可以有构造方法</strong>，并且构造方法可以被子类调用。</li>
+<li><strong>接口不能有构造方法</strong>，因为接口中只能包含常量字段和抽象方法，无法包含具体实现的方法或者状态。</li>
+</ul>
+</li>
+<li><strong>成员变量：</strong><ul>
+<li>抽象类可以包含实例变量、静态变量、常量等。</li>
+<li>接口只能包含常量字段（<code>public static final</code>），不能包含实例变量和静态变量。</li>
+</ul>
+</li>
+<li><strong>默认方法和静态方法：</strong><ul>
+<li>Java 8 引入了接口的默认方法和静态方法，可以在接口中提供默认的方法实现或者静态方法。抽象类没有这种特性。</li>
+</ul>
+</li>
+<li><strong>用途和设计理念：</strong><ul>
+<li>抽象类用于定义类族中的共性特征，提供一部分通用实现，适合于代码重用和继承关系。</li>
+<li>接口用于定义类的行为规范，强调的是能力和协议，适合于实现类的统一约束和多继承需求。</li>
+</ul>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/Java%E5%9F%BA%E7%A1%80/" class="category-chain-item">Java基础</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>继承</div>
+      <div>http://example.com/2023/05/13/Java/Java基础/继承/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/05/13/Java/Java%E5%9F%BA%E7%A1%80/%E6%96%B9%E6%B3%95/" title="方法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/13/Java/Java%E5%A4%9A%E5%B9%B6%E5%8F%91/Atomic/" title="Atomic原子类">
+                        <span class="hidden-mobile">Atomic原子类</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

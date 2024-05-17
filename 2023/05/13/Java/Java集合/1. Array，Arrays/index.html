@@ -1,0 +1,825 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Array属于object类，用来存放一组数据的数据结构，数组是最基本的一种数据结构但不是基本数据类型，数组是相同数据类型组成的集合，数组中的元素按线性顺序排序 1234567891011121314      &#x2F;&#x2F;省略格式静态初始化      int[] a &#x3D; &#123;6,2,6,8&#125;;&#x2F;&#x2F;静态初始化标准格式      int[] a &#x3D; new int[]&#123;1,2,3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Array，Arrays">
+<meta property="og:url" content="http://example.com/2023/05/13/Java/Java%E9%9B%86%E5%90%88/1.%20Array%EF%BC%8CArrays/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="Array属于object类，用来存放一组数据的数据结构，数组是最基本的一种数据结构但不是基本数据类型，数组是相同数据类型组成的集合，数组中的元素按线性顺序排序 1234567891011121314      &#x2F;&#x2F;省略格式静态初始化      int[] a &#x3D; &#123;6,2,6,8&#125;;&#x2F;&#x2F;静态初始化标准格式      int[] a &#x3D; new int[]&#123;1,2,3">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-13T12:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-17T12:44:37.632Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Array，Arrays - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>PALE13</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Array，Arrays"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-13 20:46" pubdate>
+          2023年5月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Array，Arrays</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a><strong>Array</strong></h2><p>属于<strong>object类</strong>，用来存放一组数据的数据结构，数组是最基本的一种数据结构但不是基本数据类型，数组是相同数据类型组成的集合，数组中的元素按<em>线性顺序排序</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java">      <span class="hljs-comment">//省略格式静态初始化</span><br>      <span class="hljs-type">int</span>[] a = &#123;<span class="hljs-number">6</span>,<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">8</span>&#125;;<br><span class="hljs-comment">//静态初始化标准格式</span><br>      <span class="hljs-type">int</span>[] a = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>&#125;;<br><span class="hljs-comment">//可拆分为两个步骤</span><br>      <span class="hljs-type">int</span>[] a;<br>      a = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>&#125;;<br><br><span class="hljs-comment">//错误，省略格式不能拆成两个步骤</span><br><span class="hljs-comment">// int[] a;</span><br><span class="hljs-comment">// a = &#123;6,2,6,8&#125;;</span><br><br>      <span class="hljs-type">int</span>[] arr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[<span class="hljs-number">3</span>];<br>      System.out.println(arr);  <span class="hljs-comment">//地址值</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>数组作为方法参数</strong></p>
+<p>数组作为方法参数传递，传递的参数是数组内存的地址。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span> <span class="hljs-params">(String[]args)</span>&#123;<br>    <span class="hljs-type">int</span>[] result = calculate(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>);<br>    System.out.println(<span class="hljs-string">&quot;main方法接收到的返回值数组是：&quot;</span>);<br>    System.out.println(result); <span class="hljs-comment">// 地址值</span><br>    System.out.println(<span class="hljs-string">&quot;总和：&quot;</span> + result[<span class="hljs-number">0</span>]);<br>    System.out.println(<span class="hljs-string">&quot;平均数：&quot;</span> + result[<span class="hljs-number">1</span>]);<br>&#125;<br><br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span>[] calculate ( <span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)&#123;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">sum</span> <span class="hljs-operator">=</span> a + b + c; <span class="hljs-comment">// 总和</span><br>    <span class="hljs-type">int</span> <span class="hljs-variable">avg</span> <span class="hljs-operator">=</span> sum / <span class="hljs-number">3</span>; <span class="hljs-comment">// 平均数</span><br>    <span class="hljs-comment">// 两个结果都希望进行返回</span><br><br>    <span class="hljs-comment">// 需要一个数组，也就是一个塑料兜，数组可以保存多个结果</span><br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">    int[] array = new int[2];</span><br><span class="hljs-comment">    array[0] = sum; // 总和</span><br><span class="hljs-comment">    array[1] = avg; // 平均数</span><br><span class="hljs-comment">    */</span><br>    <span class="hljs-type">int</span>[] array = &#123;sum, avg&#125;;<br>    System.out.println(<span class="hljs-string">&quot;calculate方法内部数组是：&quot;</span>);<br>    System.out.println(array); <span class="hljs-comment">// 地址值</span><br>    <span class="hljs-keyword">return</span> array;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>数组作为方法的参数，传递进去的其实是数组的地址值。</p>
+<p>数组作为方法的返回值，返回的其实也是数组的地址值。</p>
+<p><strong>二维数组</strong></p>
+<p>存放数组的数组</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs inform7">int<span class="hljs-comment">[]</span><span class="hljs-comment">[]</span> a = new int<span class="hljs-comment">[3]</span> <span class="hljs-comment">[2]</span>;<br></code></pre></td></tr></table></figure>
+
+<p>外围数组长度为3，内部3个数组长度为2，一共有4个数组，内部数组默认值0，外围数组保存的是内部数组的地址。</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs inform7">int<span class="hljs-comment">[]</span><span class="hljs-comment">[]</span> a = new int<span class="hljs-comment">[3]</span> <span class="hljs-comment">[]</span>;<br></code></pre></td></tr></table></figure>
+
+<p>只建一个外围数组长度3，3个位置都是null，之后可以建新数组放入内部。</p>
+<h2 id="Arrays"><a href="#Arrays" class="headerlink" title="**Arrays **"></a>**Arrays **</h2><h3 id="转换为String"><a href="#转换为String" class="headerlink" title="转换为String"></a>转换为String</h3><p><strong>Arrays.toString（数组）</strong>把数组数据连接成字符串。</p>
+<p><strong>Arrays.deepToString(数组)</strong> 把多维数组转成字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span>[] intArray = &#123;<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>&#125;;<br><span class="hljs-comment">// 将int[]数组按照默认格式变成字符串</span><br><span class="hljs-type">String</span> <span class="hljs-variable">intStr</span> <span class="hljs-operator">=</span> Arrays.toString(intArray);<br>System.out.println(intStr); <span class="hljs-comment">// [10, 20, 30]</span><br><br><br><span class="hljs-type">int</span>[][][] dp = &#123;&#123;&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>&#125;,&#123;<span class="hljs-number">3</span>,<span class="hljs-number">4</span>&#125;&#125;,&#123;&#123;<span class="hljs-number">5</span>,<span class="hljs-number">6</span>&#125;,&#123;<span class="hljs-number">7</span>,<span class="hljs-number">8</span>&#125;&#125;,&#123;&#123;<span class="hljs-number">9</span>,<span class="hljs-number">10</span>&#125;,&#123;<span class="hljs-number">11</span>,<span class="hljs-number">12</span>&#125;&#125;&#125;;<br>System.out.println(Arrays.deepToString(dp)); <span class="hljs-comment">//[[[1, 2], [3, 4]], [[5, 6], [7, 8]], [[9, 10], [11, 12]]]</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p><strong>Arrays.sort(）</strong> 数组排序基本类型：优化的快速排序；引用类型：优化的合并排序。</p>
+<p><strong>Arrays.sort(T[] a, Comparator&lt;? super T&gt; c)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span>[] nums = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;<span class="hljs-number">1</span>,-<span class="hljs-number">2</span>,-<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,-<span class="hljs-number">7</span>,<span class="hljs-number">6</span>,-<span class="hljs-number">5</span>&#125;;<br>Arrays.sort(nums);  <span class="hljs-comment">//自然排序</span><br>System.out.println(Arrays.toString(nums));  <span class="hljs-comment">//[-7, -5, -3, -2, 1, 4, 6]</span><br><br><span class="hljs-comment">//重写Compare方法需要引用类型，故需要转换为Integer流</span><br><span class="hljs-type">int</span>[] arr1 = Arrays.stream(nums).boxed().sorted((o1, o2) -&gt; o2 - o1).mapToInt(Integer::intValue).toArray();<br>System.out.println(Arrays.toString(arr1)); <span class="hljs-comment">//[6, 4, 1, -2, -3, -5, -7]</span><br><br><span class="hljs-comment">//引用类型Array可通过重写Compare方法或使用Collections.reverseOrder()</span><br>Integer[] arr2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>[]&#123;<span class="hljs-number">1</span>,-<span class="hljs-number">2</span>,-<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,-<span class="hljs-number">7</span>,<span class="hljs-number">6</span>,-<span class="hljs-number">5</span>&#125;;<br>Arrays.sort(arr2, Collections.reverseOrder());<br>System.out.println(Arrays.toString(arr2));  <span class="hljs-comment">//[6, 4, 1, -2, -3, -5, -7]</span><br><br></code></pre></td></tr></table></figure>
+
+<p>备注：</p>
+<ol>
+<li>如果是数值，sort默认按照升序从小到大</li>
+<li>如果是字符串，sort默认按照字母升序</li>
+<li>如果是自定义的类型，那么这个自定义的类需要有Comparable或者Comparator接口的支持。</li>
+</ol>
+<p><strong>二维数组的排序</strong></p>
+<p>二维数组的元素是引用类型，故可以直接重写compare方法</p>
+<p>按照内部数组第一个元素排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span>[][] a1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[][]&#123;&#123;<span class="hljs-number">1</span>, <span class="hljs-number">3</span>&#125;, &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;, &#123;<span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;, &#123;<span class="hljs-number">3</span>, <span class="hljs-number">7</span>&#125;&#125;;<br>Arrays.sort(a1, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Comparator</span>&lt;<span class="hljs-type">int</span>[]&gt;() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">compare</span><span class="hljs-params">(<span class="hljs-type">int</span>[] o1, <span class="hljs-type">int</span>[] o2)</span> &#123;<br>        <span class="hljs-keyword">return</span> o1[<span class="hljs-number">0</span>] - o2[<span class="hljs-number">0</span>];<br>    &#125;<br>&#125;);<br>System.out.println(Arrays.deepToString(a1)); <span class="hljs-comment">//[[1, 3], [1, 2], [3, 7], [4, 5]]</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>Arrays.binarySearch（数组，目标值）</strong> ：二分法查找，在有序数组中查找目标值下标，找不到返回 -1</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">int</span>[] nums = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[]&#123;<span class="hljs-number">1</span>,-<span class="hljs-number">2</span>,-<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,-<span class="hljs-number">7</span>,<span class="hljs-number">6</span>,-<span class="hljs-number">5</span>&#125;;<br>System.out.println(Arrays.binarySearch(nums,-<span class="hljs-number">2</span>)); <span class="hljs-comment">//1</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h3><p><strong>public static int[] copyOf(int[] original,</strong> <strong>int newLength)：</strong>复制指定的数组，截取或用 0 填充（如有必要），以使副本具有指定的长度。对于在原数组和副本中都有效的所有索引，这两个数组将包含相同的值。对于在副本中有效而在原数组无效的所有索引，副本将包含 0。当且仅当指定长度大于原数组的长度时，这些索引存在。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 原始数组</span><br>     <span class="hljs-type">int</span>[] originalArray = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br>     <span class="hljs-comment">// 使用 Arrays.copyOf() 复制数组</span><br>     <span class="hljs-type">int</span>[] copiedArray = Arrays.copyOf(originalArray, originalArray.length);<br></code></pre></td></tr></table></figure>
+
+<p>通过 <code>Arrays.copyOf()</code> 方法复制的数组是一个全新的数组，与原始数组完全独立，修改原始数组的值并不会影响到复制后的数组。</p>
+<p><strong>arraycopy方法</strong></p>
+<p><strong>public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)：</strong></p>
+<p>将数组中指定的数据拷贝到另一个数组中。</p>
+<p>数组的拷贝动作是系统级的，性能很高。System.arraycopy方法具有5个参数，含义分别为：</p>
+<ul>
+<li>src - 源数组。</li>
+<li>srcPos - 源数组中的起始位置(起始索引)。</li>
+<li>dest - 目标数组。</li>
+<li>destPos - 目标数据中的起始位置。</li>
+<li>length - 要复制的数组元素的数量。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 源数组</span><br><span class="hljs-type">int</span>[] sourceArray = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>&#125;;<br><span class="hljs-comment">// 目标数组，长度至少为源数组的长度</span><br><span class="hljs-type">int</span>[] destinationArray = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[sourceArray.length];<br><span class="hljs-comment">// 使用 arraycopy 方法将源数组的元素复制到目标数组</span><br>System.arraycopy(sourceArray, <span class="hljs-number">0</span>, destinationArray, <span class="hljs-number">0</span>, sourceArray.length);<br>System.out.println(Arrays.toString(destinationArray)); <span class="hljs-comment">//[1, 2, 3, 4, 5]</span><br></code></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li><code>System.arraycopy()</code> 并不返回新的数组，而是在已存在的目标数组上进行原地复制。</li>
+<li><code>Arrays.copyOf()</code> 返回一个新的数组，原数组不受影响。</li>
+</ul>
+<p>如果在方法内运行需要注意Arrays.copyOf()并不会改变原来的数组</p>
+<h3 id="转换为List"><a href="#转换为List" class="headerlink" title="转换为List"></a>转换为List</h3><p><strong>Arrays.asList( )：</strong>注意该方法的返回值是java.util.Arrays类中一个私有静态内部类java.util.Arrays.ArrayList，它并非java.util.ArrayList类。</p>
+<p>java.util.Arrays.ArrayList类具有set()，get()，contains()等方法，但是不支持添加add()或删除remove()方法,调用这些方法会报错。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//因为list中是包装类。所以数组创建时也需要使用包装类</span><br>Integer[] num = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Integer</span>[]&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>&#125;;<br>List&lt;Integer&gt; ans1 = Arrays.asList(num);<br><span class="hljs-comment">//此时得到的list 不能 使用 add() 与 remove()方法；</span><br><span class="hljs-comment">// 解决办法：</span><br><span class="hljs-comment">//创建一个新的list 对象，将残缺的list加入进去</span><br>List&lt;Integer&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;(ans1);<br>list.add(<span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/Java%E9%9B%86%E5%90%88/" class="category-chain-item">Java集合</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Array，Arrays</div>
+      <div>http://example.com/2023/05/13/Java/Java集合/1. Array，Arrays/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/05/13/Java/Java%E5%A4%9A%E5%B9%B6%E5%8F%91/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" title="线程池">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">线程池</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/13/Java/Java%E9%9B%86%E5%90%88/6.%20Collections%EF%BC%8CComparator/" title="Collection，Comparator">
+                        <span class="hidden-mobile">Collection，Comparator</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

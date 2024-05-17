@@ -60,7 +60,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -70,6 +70,35 @@
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
 
 
   
@@ -220,33 +249,84 @@
                 
 
 <div class="list-group">
-  <p class="h4">共计 3 篇文章</p>
+  <p class="h4">共计 46 篇文章</p>
   <hr>
   
   
     
       
+      <p class="h5">2024</p>
+    
+    <a href="/2024/03/23/Java/JVM/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" class="list-group-item list-group-item-action">
+      <time>03-23</time>
+      <div class="list-group-item-title">JVM垃圾回收</div>
+    </a>
+  
+    
+    <a href="/2024/02/23/Java/JVM/JVM%E8%B0%83%E4%BC%98/" class="list-group-item list-group-item-action">
+      <time>02-23</time>
+      <div class="list-group-item-title">JVM调优</div>
+    </a>
+  
+    
+      
       <p class="h5">2023</p>
     
-    <a href="/2023/05/13/Java/Java%E5%9F%BA%E7%A1%80/Java%E5%9F%BA%E7%A1%80/" class="list-group-item list-group-item-action">
-      <time>05-13</time>
-      <div class="list-group-item-title">Java基础</div>
+    <a href="/2023/09/30/Java/Java%E9%9B%86%E5%90%88/8.%20%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8/" class="list-group-item list-group-item-action">
+      <time>09-30</time>
+      <div class="list-group-item-title">并发容器</div>
     </a>
   
     
-    <a href="/2023/05/13/Java/Java%E5%9F%BA%E7%A1%80/Untitled/" class="list-group-item list-group-item-action">
-      <time>05-13</time>
-      <div class="list-group-item-title">Java基础</div>
+    <a href="/2023/09/20/Java/JVM/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" class="list-group-item list-group-item-action">
+      <time>09-20</time>
+      <div class="list-group-item-title">Java内存模型</div>
     </a>
   
     
-    <a href="/2023/05/13/Java/Java%E5%9F%BA%E7%A1%80/2.%20%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E5%8C%85%E8%A3%85%E7%B1%BB/" class="list-group-item list-group-item-action">
-      <time>05-13</time>
-      <div class="list-group-item-title">Java基础</div>
+    <a href="/2023/09/20/Java/JVM/%E7%B1%BB%E5%8A%A0%E8%BD%BD/" class="list-group-item list-group-item-action">
+      <time>09-20</time>
+      <div class="list-group-item-title">类加载</div>
+    </a>
+  
+    
+    <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/Lambada%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="list-group-item list-group-item-action">
+      <time>06-26</time>
+      <div class="list-group-item-title">Lambada表达式</div>
+    </a>
+  
+    
+    <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/SPI%E6%9C%BA%E5%88%B6/" class="list-group-item list-group-item-action">
+      <time>06-26</time>
+      <div class="list-group-item-title">SPI机制</div>
+    </a>
+  
+    
+    <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/Stream%E6%B5%81/" class="list-group-item list-group-item-action">
+      <time>06-26</time>
+      <div class="list-group-item-title">Stream流</div>
+    </a>
+  
+    
+    <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E5%8F%8D%E5%B0%84/" class="list-group-item list-group-item-action">
+      <time>06-26</time>
+      <div class="list-group-item-title">反射</div>
+    </a>
+  
+    
+    <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/" class="list-group-item list-group-item-action">
+      <time>06-26</time>
+      <div class="list-group-item-title">函数式接口</div>
     </a>
   
 </div>
 
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/tags/Java/page/2/#board">2</a><a class="page-number" href="/tags/Java/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/tags/Java/page/5/#board">5</a><a class="extend next" rel="next" href="/tags/Java/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
 
 
 
@@ -299,6 +379,31 @@
     </div>
   
   
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
   
   
 </div>
@@ -349,6 +454,8 @@
 
 
 
+
+  <script defer src="/js/leancloud.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 

@@ -1,0 +1,865 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="函数式接口函数式接口在Java中是指：有且仅有一个抽象方法的接口。 函数式接口，即适用于函数式编程场景的接口。而Java中的函数式编程体现就是Lambda，所以函数式接口就是可 以适用于Lambda使用的接口。只有确保接口中有且仅有一个抽象方法，Java中的Lambda才能顺利地进行推导。 @FunctionalInterface注解 与 @Override 注解的作用类似，Java 8中专门为函">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数式接口">
+<meta property="og:url" content="http://example.com/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="函数式接口函数式接口在Java中是指：有且仅有一个抽象方法的接口。 函数式接口，即适用于函数式编程场景的接口。而Java中的函数式编程体现就是Lambda，所以函数式接口就是可 以适用于Lambda使用的接口。只有确保接口中有且仅有一个抽象方法，Java中的Lambda才能顺利地进行推导。 @FunctionalInterface注解 与 @Override 注解的作用类似，Java 8中专门为函">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-26T12:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-17T13:05:26.519Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>函数式接口 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>PALE13</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="函数式接口"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-26 20:46" pubdate>
+          2023年6月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">函数式接口</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a><strong>函数式接口</strong></h2><p>函数式接口在Java中是指：<strong>有且仅有一个抽象方法的接口。</strong></p>
+<p>函数式接口，即适用于函数式编程场景的接口。而Java中的函数式编程体现就是Lambda，所以函数式接口就是可 以适用于Lambda使用的接口。只有确保接口中有且仅有一个抽象方法，Java中的Lambda才能顺利地进行推导。</p>
+<p><strong>@FunctionalInterface注解</strong></p>
+<p>与 @Override 注解的作用类似，Java 8中专门为函数式接口引入了的新的注解</p>
+<p>该注解可用于一个接口的定义上</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FunctionalInterface</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MyFunctionalInterface</span> &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">myMethod</span><span class="hljs-params">()</span>;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyFunctionalInterfaceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">MyFunctionalInterface</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>一旦使用该注解来定义接口，编译器将会强制检查该接口是否确实有且仅有一个抽象方法，否则将会报错。需要注意的是，即使不使用该注解，只要满足函数式接口的定义，这仍然是一个函数式接口，使用起来都一样。</p>
+<p><strong>函数式接口的使用</strong></p>
+<p>定义一个方法，参数使用函数式接口MyFunctionalInterface</p>
+<p>使用此方法时，需要重写接口的method方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo</span> &#123;<br>  	<span class="hljs-comment">//定义一个方法,参数使用函数式接口MyFunctionalInterface</span><br>  	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">show</span><span class="hljs-params">(MyFunctionalInterface myInter)</span>&#123;<br>    	myInter.method(); <br> &#125;<br><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-comment">//调用show方法,方法的参数是一个接口,所以可以传递接口的实现类对象    </span><br>    show(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MyFunctionalInterfaceImpl</span>());<br><br><br>    <span class="hljs-comment">//调用show方法,方法的参数是一个接口,所以我们可以传递接口的匿名内部类    </span><br>    show(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MyFunctionalInterface</span>() &#123;   <br>     	 <span class="hljs-meta">@Override</span>    <br>      	 <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123; <br>        	System.out.println(<span class="hljs-string">&quot;使用匿名内部类重写接口中的抽象方法&quot;</span>);    <br>      	 &#125;   <br>    &#125;);<br><br><br>    <span class="hljs-comment">//调用show方法,方法的参数是一个函数式接口,所以我们可以Lambda表达式</span><br>    show(()-&gt;&#123;<br>          System.out.println(<span class="hljs-string">&quot;使用Lambda表达式重写接口中的抽象方法&quot;</span>);    <br>    &#125;);<br><br>   <span class="hljs-comment">//简化Lambda表达式</span><br>    show(()-&gt; System.out.println(<span class="hljs-string">&quot;使用Lambda表达式重写接口中的抽象方法&quot;</span>));<br>  &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>函数式编程</strong></p>
+<p>日志案例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo01Logger</span> &#123;<br>  <span class="hljs-comment">//定义一个根据日志的级别,显示日志信息的方法</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">showLog</span><span class="hljs-params">(<span class="hljs-type">int</span> level, String message)</span>&#123;<br>    <span class="hljs-comment">//对日志的等级进行判断,如果是1级别,那么输出日志信息</span><br>    <span class="hljs-keyword">if</span>(level==<span class="hljs-number">1</span>)&#123;<br>      System.out.println(message);<br>    &#125;<br>  &#125;<br><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-comment">//定义三个日志信息</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">msg1</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Hello&quot;</span>;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">msg2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;World&quot;</span>;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">msg3</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Java&quot;</span>;<br>    <span class="hljs-comment">//调用showLog方法,传递日志级别和日志信息</span><br>    showLog(<span class="hljs-number">2</span>, msg1 + msg2 + msg3);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>发现以上代码存在的一些性能浪费的问题，调用showLog方法，传递的第二个参数是一个拼接后的字符串，先把字符串拼接好，然后在调用showLog方法，showLog方法中如果传递的日志等级不是1级，那么就不会是如此拼接后的字符串，所以感觉字符串就白拼接了，存在了浪费。</p>
+<p><strong>Lambda的延迟执行的好处</strong></p>
+<p>有些场景的代码执行后，结果不一定会被使用，从而造成性能浪费。而Lambda表达式是延迟执行的，这正好可以作为解决方案，提升性能。</p>
+<p><strong>参数为函数式接口</strong></p>
+<p>使用Lambda表达式作为参数传递，仅仅是把参数传递到showLog方法中。</p>
+<ul>
+<li><p>只有满足条件，日志的等级是1级，才会调用接口MessageBuilder中的方法builderMessage，才会进行字符串的拼接</p>
+</li>
+<li><p>如果条件不满足，日志的等级不是1级，那么MessageBuilder接口中的方法builderMessage也不会执行，所以拼接字符串的代码也不会执行，不会存在性能的浪费</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FunctionalInterface</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MessageBuilder</span> &#123;<br>  <span class="hljs-comment">//定义一个拼接消息的抽象方法,返回被拼接的消息</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> String <span class="hljs-title function_">builderMessage</span><span class="hljs-params">()</span>;<br>&#125;<br><br> <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo02Lambda</span> &#123;<br>  <span class="hljs-comment">//定义一个显示日志的方法,方法的参数传递日志的等级和MessageBuilder接口</span><br><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">showLog</span><span class="hljs-params">(<span class="hljs-type">int</span> level, MessageBuilder mb)</span>&#123;<br>    <span class="hljs-comment">//对日志的等级进行判断,如果是1级,则调用MessageBuilder接口中的builderMessage方法</span><br>    <span class="hljs-keyword">if</span>(level == <span class="hljs-number">1</span>)&#123;<br>      System.out.println(mb.builderMessage());<br>    &#125;<br>  &#125;<br><br><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-comment">//定义三个日志信息</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">msg1</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Hello&quot;</span>;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">msg2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;World&quot;</span>;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">msg3</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;Java&quot;</span>;<br><br>    <span class="hljs-comment">//调用showLog方法,参数MessageBuilder是一个函数式接口,所以可以传递Lambda表达式</span><br>    <span class="hljs-comment">/*showLog(2,()-&gt;&#123;</span><br><span class="hljs-comment">      	//返回一个拼接好的字符串</span><br><span class="hljs-comment">     	return msg1+msg2+msg3;</span><br><span class="hljs-comment">    &#125;);*/</span><br><br>    showLog(<span class="hljs-number">1</span>,()-&gt;&#123;<br>      System.out.println(<span class="hljs-string">&quot;不满足条件不执行&quot;</span>);    <br>      <span class="hljs-comment">//返回一个拼接好的字符串</span><br>      <span class="hljs-keyword">return</span> msg1+msg2+msg3;<br>    &#125;);<br><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>方法返回函数式接口</strong></p>
+<p>如果一个方法的返回值类型是一个函数式接口，那么就可以直接返回一个Lambda表达式。</p>
+<p> 当需要通过一个方法来获取一个<strong>java.util.Comparator接口</strong>类型的对象作为排序器时,就可以调该方法获取。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo02Comparator</span> &#123;<br><br>  <span class="hljs-comment">//定义一个方法,方法的返回值类型使用函数式接口Comparator</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Comparator&lt;String&gt; <span class="hljs-title function_">getComparator</span><span class="hljs-params">()</span>&#123;<br><br>    <span class="hljs-comment">//方法的返回值类型是一个接口,那么我们可以返回这个接口的匿名内部类</span><br>    <span class="hljs-comment">/*return new Comparator&lt;String&gt;() &#123;</span><br><span class="hljs-comment">      @Override</span><br><span class="hljs-comment">      public int compare(String o1, String o2) &#123;</span><br><span class="hljs-comment">        //按照字符串的降序排序</span><br><span class="hljs-comment">        return o2.length()-o1.length();</span><br><span class="hljs-comment">      &#125;</span><br><span class="hljs-comment">   &#125;;*/</span><br><br> <br><br>    <span class="hljs-comment">//方法的返回值类型是一个函数式接口,所有我们可以返回一个Lambda表达式</span><br>    <span class="hljs-comment">/*return (String o1, String o2)-&gt;&#123;</span><br><span class="hljs-comment">      //按照字符串的降序排序</span><br><span class="hljs-comment">      return o2.length()-o1.length();</span><br><span class="hljs-comment">    &#125;;*/</span><br><br>    <span class="hljs-comment">//继续优化Lambda表达式</span><br>    <span class="hljs-keyword">return</span> (o1, o2)-&gt;o2.length()-o1.length();<br>  &#125;<br><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-comment">//创建一个字符串数组</span><br>    String[] arr = &#123;<span class="hljs-string">&quot;aaa&quot;</span>,<span class="hljs-string">&quot;b&quot;</span>,<span class="hljs-string">&quot;cccccc&quot;</span>,<span class="hljs-string">&quot;dddddddddddd&quot;</span>&#125;;<br>    <span class="hljs-comment">//输出排序前的数组</span><br>    System.out.println(Arrays.toString(arr));<span class="hljs-comment">//[aaa, b, cccccc, dddddddddddd]</span><br>    <span class="hljs-comment">//调用Arrays中的sort方法,对字符串数组进行排序</span><br>    Arrays.sort(arr,getComparator());<br>    <span class="hljs-comment">//输出排序后的数组</span><br>    System.out.println(Arrays.toString(arr));<span class="hljs-comment">//[dddddddddddd, cccccc, aaa, b]</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="常用的函数式接口"><a href="#常用的函数式接口" class="headerlink" title="常用的函数式接口"></a>常用的函数式接口</h4><h5 id="Supplier接口"><a href="#Supplier接口" class="headerlink" title="Supplier接口"></a><strong>Supplier接口</strong></h5><p><strong>java.util.function.Supplier&lt; T&gt;</strong> ：仅包含一个无参的方法 </p>
+<p><strong>T get()</strong> ：用来获取一个泛型参数指定类型的对象数据。由于这是一个函数式接口，这也就意味着对应的Lambda表达式需要“对外提供”一个符合泛型类型的对象数据。</p>
+<p>Supplier&lt; T&gt;接口被称之为生产型接口，指定接口的泛型是什么类型，那么接口中的get方法就会生产（return）什么类型的数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo01Supplier</span> &#123;<br>    <span class="hljs-comment">//定义一个方法,方法的参数传递Supplier&lt;T&gt;接口,泛型执行String,get方法就会返回一个String</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">getString</span><span class="hljs-params">(Supplier&lt;String&gt; sup)</span>&#123;<br>        <span class="hljs-keyword">return</span> sup.get();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//调用getString方法,方法的参数Supplier是一个函数式接口,所以可以传递Lambda表达式</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> getString(()-&gt;&#123;<br>            <span class="hljs-comment">//生产一个字符串,并返回</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;胡歌&quot;</span>;<br>        &#125;);<br>        System.out.println(s);<br><br><br>        <span class="hljs-comment">//优化Lambda表达式</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> getString(()-&gt;<span class="hljs-string">&quot;胡歌&quot;</span>);<br>        System.out.println(s2);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>练习：求数组元素最大值</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo02Test</span> &#123;<br>    <span class="hljs-comment">//定义一个方法,用于获取int类型数组中元素的最大值,方法的参数传递Supplier接口,泛型使用Integer</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getMax</span><span class="hljs-params">(Supplier&lt;Integer&gt; sup)</span>&#123;<br>        <span class="hljs-keyword">return</span> sup.get();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//定义一个int类型的数组,并赋值</span><br>        <span class="hljs-type">int</span>[] arr = &#123;<span class="hljs-number">100</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">50</span>,<span class="hljs-number">880</span>,<span class="hljs-number">99</span>,<span class="hljs-number">33</span>,-<span class="hljs-number">30</span>&#125;;<br>        <span class="hljs-comment">//调用getMax方法,方法的参数Supplier是一个函数式接口,所以可以传递Lambda表达式</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">maxValue</span> <span class="hljs-operator">=</span> getMax(()-&gt;&#123;<br>            <span class="hljs-comment">//获取数组的最大值,并返回</span><br>            <span class="hljs-comment">//定义一个变量,把数组中的第一个元素赋值给该变量,记录数组中元素的最大值</span><br>            <span class="hljs-type">int</span> <span class="hljs-variable">max</span> <span class="hljs-operator">=</span> arr[<span class="hljs-number">0</span>];<br>            <span class="hljs-comment">//遍历数组,获取数组中的其他元素</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i : arr) &#123;<br>                <span class="hljs-comment">//使用其他的元素和最大值比较</span><br>                <span class="hljs-keyword">if</span>(i&gt;max)&#123;<br>                    <span class="hljs-comment">//如果i大于max,则替换max作为最大值</span><br>                    max = i;<br>                &#125;<br>            &#125;<br>            <span class="hljs-comment">//返回最大值</span><br>            <span class="hljs-keyword">return</span> max;<br>        &#125;);<br>        System.out.println(<span class="hljs-string">&quot;数组中元素的最大值是:&quot;</span>+maxValue);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="Consumer接口"><a href="#Consumer接口" class="headerlink" title="Consumer接口"></a><strong>Consumer接口</strong></h5><p><strong>java.util.function.Consumer&lt; T&gt;</strong> ：正好与Supplier接口相反，它不是生产一个数据，而是消费一个数据，其数据类型由泛型决定。 接口中包含抽象方法 </p>
+<p><strong>void accept(T t)</strong> ：意为消费一个指定泛型的数据。泛型是什么数据类型，就传入什么类型的参数</p>
+<p>使用消费者作为方法的参数，一般要定义另一个参数，其类型等于消费者接口的泛型，或者该泛型的数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo01Consumer</span> &#123;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">        定义一个方法</span><br><span class="hljs-comment">        方法的参数传递一个字符串的姓名</span><br><span class="hljs-comment">        方法的参数传递Consumer接口,泛型使用String</span><br><span class="hljs-comment">        可以使用Consumer接口消费字符串的姓名</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">(String name, Consumer&lt;String&gt; con)</span>&#123;<br>        con.accept(name);<br>    &#125;<br><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//调用method方法,传递字符串姓名,方法的另一个参数是Consumer接口,是一个函数式接口,所以可以传递Lambda表达式</span><br>        method(<span class="hljs-string">&quot;赵丽颖&quot;</span>,(String name)-&gt;&#123;<br>            <span class="hljs-comment">//对传递的字符串进行消费</span><br>            <span class="hljs-comment">//消费方式:直接输出字符串</span><br>            <span class="hljs-comment">//System.out.println(name);</span><br>            <span class="hljs-comment">//消费方式:把字符串进行反转输出</span><br>            <span class="hljs-type">String</span> <span class="hljs-variable">reName</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuffer</span>(name).reverse().toString();<br>            System.out.println(reName);<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>default Consumer andThen(Consumer super &lt; T&gt; after)</strong></p>
+<p>如果一个方法的参数和返回值全都是 Consumer 类型，那么就可以实现效果：消费数据的时候，首先做一个操作， 然后再做一个操作，实现组合。而这个方法就是 Consumer 接口中的默认方法方法andThen</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scss">default Consumer <span class="hljs-built_in">andThen</span>(Consumer super &lt;T&gt; after) &#123;<br>     Objects<span class="hljs-selector-class">.requireNonNull</span>(after);<br>     return (T t) -&gt; &#123; <br>     		<span class="hljs-built_in">accept</span>(t); <br>     		after<span class="hljs-selector-class">.accept</span>(t); <br>     		&#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>常用写法</p>
+<p>Consumer1&lt; T&gt;.andThen(Consumer2&lt; T&gt;).accept(T)：谁写前边谁先消费</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo02AndThen</span> &#123;<br>     <span class="hljs-comment">//定义一个方法,方法的参数传递一个字符串和两个Consumer接口,Consumer接口的泛型使用字符串</span><br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">(String s, Consumer&lt;String&gt; con1 ,Consumer&lt;String&gt; con2)</span>&#123;<br>         <span class="hljs-comment">//con1.accept(s);</span><br>         <span class="hljs-comment">//con2.accept(s);</span><br>         <span class="hljs-comment">//使用andThen方法,把两个Consumer接口连接到一起,在消费数据</span><br>         con1.andThen(con2).accept(s);<span class="hljs-comment">//con1连接con2,先执行con1消费数据,在执行con2消费数据</span><br>     &#125;<br><br><br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>         <span class="hljs-comment">//调用method方法,传递一个字符串,两个Lambda表达式</span><br>         method(<span class="hljs-string">&quot;Hello&quot;</span>,<br>                 (t)-&gt;&#123;<br>                     <span class="hljs-comment">//消费方式:把字符串转换为大写输出</span><br>                     System.out.println(t.toUpperCase());<br>                 &#125;,<br>                 (t)-&gt;&#123;<br>                     <span class="hljs-comment">//消费方式:把字符串转换为小写输出</span><br>                     System.out.println(t.toLowerCase());<br>                 &#125;);<br>     &#125;<br> &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>练习：格式化打印信息</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo03Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        String[] array = &#123;<span class="hljs-string">&quot;迪丽热巴,女&quot;</span>, <span class="hljs-string">&quot;古力娜扎,女&quot;</span>, <span class="hljs-string">&quot;马尔扎哈,男&quot;</span>&#125;;<br>        printInfo(s-&gt; System.out.print(<span class="hljs-string">&quot;姓名：&quot;</span> + s.split(<span class="hljs-string">&quot;,&quot;</span>)[<span class="hljs-number">0</span>]),<br>                s-&gt; System.out.println(<span class="hljs-string">&quot;。性别：&quot;</span> + s.split(<span class="hljs-string">&quot;,&quot;</span>)[<span class="hljs-number">1</span>] + <span class="hljs-string">&quot;。&quot;</span>),<br>                array);<br>    &#125;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">printInfo</span><span class="hljs-params">(Consumer&lt;String&gt; one, Consumer&lt;String&gt; two, String[] array)</span> &#123;<br>        <span class="hljs-keyword">for</span> (String info : array) &#123;<br>            <span class="hljs-comment">//使用andThen方法将连接两个Consumer接口，消费字符串</span><br>            one.andThen(two).accept(info); <span class="hljs-comment">// 姓名：迪丽热巴。性别：女。</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>Predicate接口</strong></p>
+<p><strong>java.util.function.Predicate&lt; T&gt;</strong> ：有时候我们需要对某种类型的数据进行判断，从而得到一个boolean值结果，这时可以使用接口。Predicate 接口中包含一个抽象方法</p>
+<p><strong>boolean test(T t)</strong> ：用于对输入进行条件判断</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo01Predicate</span> &#123;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">        定义一个方法</span><br><span class="hljs-comment">        参数传递一个String类型的字符串</span><br><span class="hljs-comment">        传递一个Predicate接口,泛型使用String</span><br><span class="hljs-comment">        使用Predicate中的方法test对字符串进行判断,并把判断的结果返回</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">checkString</span><span class="hljs-params">(String s, Predicate&lt;String&gt; pre)</span> &#123;<br>        <span class="hljs-keyword">return</span> pre.test(s);<br>    &#125;<br><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//定义一个字符串</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;abcdef&quot;</span>;<br><br>        <span class="hljs-comment">//调用checkString方法对字符串进行校验,参数传递字符串和Lambda表达式</span><br>		<span class="hljs-comment">/*boolean b = checkString(s,(String str)-&gt;&#123;</span><br><span class="hljs-comment">    		//对参数传递的字符串进行判断,判断字符串的长度是否大于5,并把判断的结果返回</span><br><span class="hljs-comment">    		return str.length() &gt; 5;</span><br><span class="hljs-comment">			&#125;);*/</span><br>			<br>        <span class="hljs-comment">//优化Lambda表达式</span><br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> checkString(s, str -&gt; str.length() &gt; <span class="hljs-number">5</span>);<br>        System.out.println(b);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>default Predicate&lt; T&gt; and(Predicate&lt;? super T&gt; other)</strong></p>
+<p>Predicate接口中有一个方法and，表示并且关系，也可以用于连接两个判断条件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-keyword">default</span> Predicate&lt;T&gt; <span class="hljs-title function_">and</span><span class="hljs-params">(Predicate&lt;? <span class="hljs-built_in">super</span> T&gt; other)</span> &#123;<br>    Objects.requireNonNull(other);<br>    <span class="hljs-keyword">return</span> (t) -&gt; <span class="hljs-built_in">this</span>.test(t) &amp;&amp; other.test(t);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>方法内部的两个判断条件，也是使用&amp;&amp;运算符连接起来的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo02Predicate_and</span> &#123;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">        定义一个方法,方法的参数,传递一个字符串</span><br><span class="hljs-comment">        传递两个Predicate接口</span><br><span class="hljs-comment">            一个用于判断字符串的长度是否大于5</span><br><span class="hljs-comment">            一个用于判断字符串中是否包含a</span><br><span class="hljs-comment">            两个条件必须同时满足</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">checkString</span><span class="hljs-params">(String s, Predicate&lt;String&gt; pre1, Predicate&lt;String&gt; pre2)</span>&#123;<br>        <span class="hljs-comment">//return pre1.test(s) &amp;&amp; pre2.test(s);</span><br>        <span class="hljs-keyword">return</span> pre1.and(pre2).test(s);<span class="hljs-comment">//等价于return pre1.test(s) &amp;&amp; pre2.test(s);</span><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//定义一个字符串</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;abcdef&quot;</span>;<br>        <span class="hljs-comment">//调用checkString方法,参数传递字符串和两个Lambda表达式</span><br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> checkString(s, str-&gt;&#123;<br>            <span class="hljs-comment">//判断字符串的长度是否大于5</span><br>            <span class="hljs-keyword">return</span> str.length()&gt;<span class="hljs-number">5</span>;<br>        &#125;, str-&gt;&#123;<br>            <span class="hljs-comment">//判断字符串中是否包含a</span><br>            <span class="hljs-keyword">return</span> str.contains(<span class="hljs-string">&quot;a&quot;</span>);<br>        &#125;);<br>        System.out.println(b);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>default Predicate&lt; T&gt; or(Predicate&lt;? super T&gt; other)</strong></p>
+<p>表示或者关系，也可以用于连接两个判断条件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">default</span> Predicate&lt;T&gt; <span class="hljs-title function_">or</span><span class="hljs-params">(Predicate&lt;? <span class="hljs-built_in">super</span> T&gt; other)</span> &#123;<br>    Objects.requireNonNull(other);<br>    <span class="hljs-keyword">return</span> (t) -&gt; test(t) || other.test(t);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>default Predicate&lt; T&gt; negate()</strong></p>
+<p>表示取反，返回的是一个Predicate接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">default</span> Predicate&lt;T&gt; <span class="hljs-title function_">negate</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">return</span> (t) -&gt; !test(t);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>返回当前 <code>Predicate</code> 对象的逻辑非（negation），即返回一个新的 <code>Predicate</code> 对象，其判断条件与原始 <code>Predicate</code> 对象相反。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 创建一个 Predicate 对象，判断整数是否为正数</span><br>Predicate&lt;Integer&gt; isPositive = num -&gt; num &gt; <span class="hljs-number">0</span>;<br><br><span class="hljs-comment">// 使用 test 方法进行条件判断</span><br>System.out.println(isPositive.test(<span class="hljs-number">5</span>));  <span class="hljs-comment">// 输出 true</span><br>System.out.println(isPositive.test(-<span class="hljs-number">3</span>)); <span class="hljs-comment">// 输出 false</span><br><br><span class="hljs-comment">// 使用 negate 方法获取逻辑非的 Predicate 对象</span><br>Predicate&lt;Integer&gt; isNotPositive = isPositive.negate();<br><br><span class="hljs-comment">// 使用 test 方法进行条件判断</span><br>System.out.println(isNotPositive.test(<span class="hljs-number">5</span>));  <span class="hljs-comment">// 输出 false</span><br>System.out.println(isNotPositive.test(-<span class="hljs-number">3</span>)); <span class="hljs-comment">// 输出 true</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="Function接口"><a href="#Function接口" class="headerlink" title="Function接口"></a><strong>Function接口</strong></h5><p><strong>java.util.function.Function&lt;T,R&gt;</strong> ：用来根据一个类型的数据得到另一个类型的数据，前者称为前置条件，后者称为后置条件，Function 接口中最主要的抽象方法为： </p>
+<p><strong>R apply(T t)</strong> ，根据类型T的参数获取类型R的结果</p>
+<p>使用的场景：将 String 类型转换为 Integer 类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo01Function</span> &#123;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">        定义一个方法</span><br><span class="hljs-comment">        方法的参数传递一个字符串类型的整数</span><br><span class="hljs-comment">        方法的参数传递一个Function接口,泛型使用&lt;String,Integer&gt;</span><br><span class="hljs-comment">        使用Function接口中的方法apply,把字符串类型的整数,转换为Integer类型的整数</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">change</span><span class="hljs-params">(String s, Function&lt;String,Integer&gt; fun)</span>&#123;<br>        <span class="hljs-comment">//Integer in = fun.apply(s);</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> fun.apply(s);<span class="hljs-comment">//自动拆箱 Integer-&gt;int</span><br>        System.out.println(in);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//定义一个字符串类型的整数</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;1234&quot;</span>;<br>        <span class="hljs-comment">//调用change方法,传递字符串类型的整数,和Lambda表达式</span><br>        change(s,(String str)-&gt;&#123;<br>            <span class="hljs-comment">//把字符串类型的整数,转换为Integer类型的整数返回</span><br>            <span class="hljs-keyword">return</span> Integer.parseInt(str);<br>        &#125;);<br>        <span class="hljs-comment">//优化Lambda</span><br>        change(s, str-&gt;Integer.parseInt(str));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>default &lt; V&gt; Function&lt;T, V&gt; andThen(Function&lt;? super R, ? extends V&gt; after)</strong></p>
+<p>用于将当前 <code>Function</code> 对象的输出作为参数传递给另一个 <code>Function</code> 对象，并返回一个新的 <code>Function</code> 对象，实现了这两个函数的串联操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">default</span> &lt;V&gt; Function&lt;T, V&gt; <span class="hljs-title function_">andThen</span><span class="hljs-params">(Function&lt;? <span class="hljs-built_in">super</span> R, ? extends V&gt; after)</span> &#123;<br>    Objects.requireNonNull(after);<br>    <span class="hljs-keyword">return</span> (T t) -&gt; after.apply(apply(t));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>该方法同样用于“先做什么，再做什么”的场景，和 Consumer 中的 andThen 差不多</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Demo02Function_andThen</span> &#123;<br>    <span class="hljs-comment">/*</span><br><span class="hljs-comment">        定义一个方法</span><br><span class="hljs-comment">        参数串一个字符串类型的整数</span><br><span class="hljs-comment">        参数再传递两个Function接口</span><br><span class="hljs-comment">            一个泛型使用Function&lt;String,Integer&gt;</span><br><span class="hljs-comment">            一个泛型使用Function&lt;Integer,String&gt;</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">change</span><span class="hljs-params">(String s, Function&lt;String,Integer&gt; fun1,Function&lt;Integer,String&gt; fun2)</span>&#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">ss</span> <span class="hljs-operator">=</span> fun1.andThen(fun2).apply(s); <span class="hljs-comment">//fun1先将String转为Integer,fun2后将Integer转为String</span><br>        System.out.println(ss);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">//定义一个字符串类型的整数</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">s</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;123&quot;</span>;<br>        <span class="hljs-comment">//调用change方法,传递字符串和两个Lambda表达式</span><br>        change(s,(String str)-&gt;&#123;<br>            <span class="hljs-comment">//把字符串转换为整数+10</span><br>            <span class="hljs-keyword">return</span> Integer.parseInt(str) + <span class="hljs-number">10</span>;<br>        &#125;,(Integer i)-&gt;&#123;<br>            <span class="hljs-comment">//把整数转换为字符串</span><br>            <span class="hljs-keyword">return</span> i+<span class="hljs-string">&quot;&quot;</span>;<br>        &#125;);<br><br><br>        <span class="hljs-comment">//优化Lambda表达式</span><br>        change(s, str-&gt;Integer.parseInt(str) + <span class="hljs-number">10</span>, i-&gt; i + <span class="hljs-string">&quot;&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/Java%E8%BF%9B%E9%98%B6/" class="category-chain-item">Java进阶</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>函数式接口</div>
+      <div>http://example.com/2023/06/26/Java/Java进阶/函数式接口/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E5%8F%8D%E5%B0%84/" title="反射">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">反射</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E6%B3%A8%E8%A7%A3/" title="注解">
+                        <span class="hidden-mobile">注解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

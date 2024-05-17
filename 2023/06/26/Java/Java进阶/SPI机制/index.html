@@ -1,0 +1,858 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="SPISPI（Service Provider Interface）是 Java 中一种用于实现服务发现机制的标准扩展机制。它允许在应用程序中定义服务接口，然后在运行时通过服务提供者动态注册实现这些接口的具体实现类。     一般模块之间都是通过通过接口进行通讯，那我们在服务调用方和服务实现方（也称服务提供者）之间引入一个“接口”。 API: 当实现方提供了接口和实现，我们可以通过调用实现方的接口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SPI机制">
+<meta property="og:url" content="http://example.com/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/SPI%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="SPISPI（Service Provider Interface）是 Java 中一种用于实现服务发现机制的标准扩展机制。它允许在应用程序中定义服务接口，然后在运行时通过服务提供者动态注册实现这些接口的具体实现类。     一般模块之间都是通过通过接口进行通讯，那我们在服务调用方和服务实现方（也称服务提供者）之间引入一个“接口”。 API: 当实现方提供了接口和实现，我们可以通过调用实现方的接口">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240305214709454.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240401095623282.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240401105401398.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240401110117977.png">
+<meta property="article:published_time" content="2023-06-26T12:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-17T13:07:33.345Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240305214709454.png">
+  
+  
+  
+  <title>SPI机制 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>PALE13</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SPI机制"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-26 20:46" pubdate>
+          2023年6月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SPI机制</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a><strong>SPI</strong></h2><p>SPI（Service Provider Interface）是 Java 中一种用于<strong>实现服务发现机制</strong>的标准扩展机制。它允许在应用程序中定义服务接口，然后在运行时通过服务提供者动态注册实现这些接口的具体实现类。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240305214709454.png" srcset="/img/loading.gif" lazyload alt="image-20240305214709454" style="zoom: 33%;" />
+
+
+
+<p>一般模块之间都是通过通过接口进行通讯，那我们在服务调用方和服务实现方（也称服务提供者）之间引入一个“接口”。</p>
+<p><strong>API:</strong> 当实现方提供了接口和实现，我们可以通过调用实现方的接口从而拥有实现方给我们提供的能力，这就是 API ，这种接口和实现都是放在实现方的。</p>
+<p><strong>SPI:</strong> 当接口存在于调用方这边时，就是 SPI <strong>，由接口调用方确定接口规则，然后由不同的厂商去根据这个规则对这个接口进行实现，从而提供服务。</strong></p>
+<h3 id="实战演示"><a href="#实战演示" class="headerlink" title="实战演示"></a><strong>实战演示</strong></h3><p>SLF4J （Simple Logging Facade for Java）是 Java 的一个日志门面（接口），其具体实现有几种，比如：Logback、Log4j、Log4j2 等等，<strong>而且还可以切换，在切换日志具体实现的时候我们是不需要更改项目代码的</strong>，只需要在 Maven 依赖里面修改一些 pom 依赖就好了。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240401095623282.png" srcset="/img/loading.gif" lazyload alt="image-20240401095623282" style="zoom: 67%;" />
+
+<p>这就是依赖 SPI 机制实现的，那我们接下来就实现一个简易版本的日志框架。</p>
+<p>新建一个 Java 项目 <code>service-provider-interface</code> 目录结构如下：（注意直接新建 Java 项目就好了，不用新建 Maven 项目，Maven 项目会涉及到一些编译配置，如果有私服的话，直接 deploy 会比较方便，但是没有的话，在过程中可能会遇到一些奇怪的问题。）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java">│  service-provider-interface.iml<br>│<br>├─.idea<br>│  │  .gitignore<br>│  │  misc.xml<br>│  │  modules.xml<br>│  └─ workspace.xml<br>│<br>└─src<br>    └─edu<br>        └─jiangxuan<br>            └─up<br>                └─spi<br>                        Logger.java<br>                        LoggerService.java<br>                        Main.class<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="Logger接口"><a href="#Logger接口" class="headerlink" title="Logger接口"></a><strong>Logger接口</strong></h4><p>新建 <code>Logger</code> 接口，这个就是 SPI ， 服务提供者接口，后面的服务提供者就要针对这个接口进行实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> edu.jiangxuan.up.spi;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Logger</span> &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">info</span><span class="hljs-params">(String msg)</span>;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">debug</span><span class="hljs-params">(String msg)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="LoggerService"><a href="#LoggerService" class="headerlink" title="LoggerService"></a><strong>LoggerService</strong></h4><p>接下来就是 <code>LoggerService</code> 类，这个主要是为服务使用者（调用方）提供特定功能的。这个类也是实现 Java SPI 机制的关键所在，如果存在疑惑的话可以先往后面继续看。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> edu.jiangxuan.up.spi;<br><br><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.List;<br><span class="hljs-keyword">import</span> java.util.ServiceLoader;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LoggerService</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">LoggerService</span> <span class="hljs-variable">SERVICE</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LoggerService</span>();<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Logger logger;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;Logger&gt; loggerList;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-title function_">LoggerService</span><span class="hljs-params">()</span> &#123;<br>        ServiceLoader&lt;Logger&gt; loader = ServiceLoader.load(Logger.class);<br>        List&lt;Logger&gt; list = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (Logger log : loader) &#123;<br>            list.add(log);<br>        &#125;<br>        <span class="hljs-comment">// LoggerList 是所有 ServiceProvider</span><br>        loggerList = list;<br>        <span class="hljs-keyword">if</span> (!list.isEmpty()) &#123;<br>            <span class="hljs-comment">// Logger 只取一个</span><br>            logger = list.get(<span class="hljs-number">0</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            logger = <span class="hljs-literal">null</span>;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> LoggerService <span class="hljs-title function_">getService</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> SERVICE;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">info</span><span class="hljs-params">(String msg)</span> &#123;<br>        <span class="hljs-keyword">if</span> (logger == <span class="hljs-literal">null</span>) &#123;<br>            System.out.println(<span class="hljs-string">&quot;info 中没有发现 Logger 服务提供者&quot;</span>);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            logger.info(msg);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">debug</span><span class="hljs-params">(String msg)</span> &#123;<br>        <span class="hljs-keyword">if</span> (loggerList.isEmpty()) &#123;<br>            System.out.println(<span class="hljs-string">&quot;debug 中没有发现 Logger 服务提供者&quot;</span>);<br>        &#125;<br>        loggerList.forEach(log -&gt; log.debug(msg));<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>程序结果：</p>
+<blockquote>
+<p>info 中没有发现 Logger 服务提供者<br> debug 中没有发现 Logger 服务提供者</p>
+</blockquote>
+<p>此时我们只是空有接口，并没有为 <code>Logger</code> 接口提供任何的实现，所以输出结果中没有按照预期打印相应的结果。</p>
+<h4 id="Service-Provider"><a href="#Service-Provider" class="headerlink" title="Service Provider"></a><strong>Service Provider</strong></h4><p>接下来新建一个项目用来实现 <code>Logger</code> 接口</p>
+<p>新建项目 <code>service-provider</code> 目录结构如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java">│  service-provider.iml<br>│<br>├─.idea<br>│  │  .gitignore<br>│  │  misc.xml<br>│  │  modules.xml<br>│  └─ workspace.xml<br>│<br>├─lib<br>│      service-provider-interface.jar<br>|<br>└─src<br>    ├─edu<br>    │  └─jiangxuan<br>    │      └─up<br>    │          └─spi<br>    │              └─service<br>    │                      Logback.java<br>    │<br>    └─META-INF<br>        └─services<br>                edu.jiangxuan.up.spi.Logger<br><br><br></code></pre></td></tr></table></figure>
+
+<p>将 <code>service-provider-interface</code> 的 jar 导入项目中。</p>
+<p>新建 lib 目录，然后将 jar 包拷贝过来，再添加到项目中。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240401105401398.png" srcset="/img/loading.gif" lazyload alt="image-20240401105401398" style="zoom:50%;" />
+
+<p>实现 <code>Logger</code> 接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> edu.jiangxuan.up.spi.service;<br><br><span class="hljs-keyword">import</span> edu.jiangxuan.up.spi.Logger;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Logback</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Logger</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">info</span><span class="hljs-params">(String s)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;Logback info 打印日志：&quot;</span> + s);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">debug</span><span class="hljs-params">(String s)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;Logback debug 打印日志：&quot;</span> + s);<br>    &#125;<br>&#125;<br><br><br></code></pre></td></tr></table></figure>
+
+<p>在 <code>src</code> 目录下新建 <code>META-INF/services</code> 文件夹，然后新建文件 <code>edu.jiangxuan.up.spi.Logger</code> （SPI 的全类名），文件里面的内容是：<code>edu.jiangxuan.up.spi.service.Logback</code> （Logback 的全类名，即 SPI 的实现类的包名 + 类名）。</p>
+<p><strong>这是 JDK SPI 机制 ServiceLoader 约定好的标准。</strong></p>
+<p>这里先大概解释一下：Java 中的 <strong>SPI 机制就是在每次类加载的时候会先去找到 class 相对目录下的 <code>META-INF</code> 文件夹下的 services 文件夹下的文件，将这个文件夹下面的所有文件先加载到内存中</strong>，然后根据这些文件的文件名和里面的文件内容找到相应接口的具体实现类，找到实现类后就可以通过反射去生成对应的对象，保存在一个 list 列表里面，所以可以通过迭代或者遍历的方式<strong>拿到对应的实例对象，生成不同的实现</strong>。</p>
+<p>所以会提出一些规范要求：文件名一定要是接口的全类名，然后里面的内容一定要是实现类的全类名，实现类可以有多个，直接换行就好了，多个实现类的时候，会一个一个的迭代加载。</p>
+<p>接下来同样将 <code>service-provider</code> 项目打包成 jar 包，这个 jar 包就是服务提供方的实现。通常我们导入 maven 的 pom 依赖就有点类似这种，只不过我们现在没有将这个 jar 包发布到 maven 公共仓库中，所以在需要使用的地方只能手动的添加到项目中。</p>
+<h4 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a><strong>效果展示</strong></h4><p>为了更直观的展示效果，我这里再新建一个专门用来测试的工程项目：<code>java-spi-test</code></p>
+<p>然后先导入 <code>Logger</code> 的接口 jar 包，再导入具体的实现类的 jar 包。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240401110117977.png" srcset="/img/loading.gif" lazyload alt="image-20240401110117977" style="zoom: 67%;" />
+
+<p>新建 Main 方法测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> edu.jiangxuan.up.service;<br><br><span class="hljs-keyword">import</span> edu.jiangxuan.up.spi.LoggerService;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TestJavaSPI</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">LoggerService</span> <span class="hljs-variable">loggerService</span> <span class="hljs-operator">=</span> LoggerService.getService();<br>        loggerService.info(<span class="hljs-string">&quot;你好&quot;</span>);<br>        loggerService.debug(<span class="hljs-string">&quot;测试Java SPI 机制&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<blockquote>
+<p>Logback info 打印日志：你好<br> Logback debug 打印日志：测试 Java SPI 机制</p>
+</blockquote>
+<p>说明导入 jar 包中的实现类生效了,</p>
+<p>如果我们不导入具体的实现类的 jar 包，那么此时程序运行的结果就会是：</p>
+<blockquote>
+<p>info 中没有发现 Logger 服务提供者<br> debug 中没有发现 Logger 服务提供者</p>
+</blockquote>
+<p>通过使用 SPI 机制，<strong>可以看出服务（<code>LoggerService</code>）和 服务提供者两者之间的耦合度非常低</strong>，如果说我们想要换一种实现，那么其实只需要修改 <code>service-provider</code> 项目中针对 <code>Logger</code> 接口的具体实现就可以了，<strong>只需要换一个 jar 包即可，也可以有在一个项目里面有多个实现</strong>，这不就是 SLF4J 原理吗？</p>
+<p>如果某一天需求变更了，此时需要将日志输出到消息队列，或者做一些别的操作，这个时候完全不需要更改 Logback 的实现，只需要新增一个服务实现（service-provider）可以通过在本项目里面新增实现也可以从外部引入新的服务实现 jar 包。我们可以在服务(LoggerService)中选择一个具体的 服务实现(service-provider) 来完成我们需要的操作。</p>
+<p>那么接下来我们具体来说说 —— <strong>ServiceLoader</strong> </p>
+<h4 id="ServiceLoader"><a href="#ServiceLoader" class="headerlink" title="ServiceLoader"></a><strong>ServiceLoader</strong></h4><p>是Java SPI 工作的重点原理</p>
+<p>主要的流程就是：</p>
+<ol>
+<li>通过 URL 工具类从 jar 包的 <code>/META-INF/services</code> 目录下面找到对应的文件，</li>
+<li>读取这个文件的名称找到对应的 spi 接口，</li>
+<li>通过 <code>InputStream</code> 流将文件里面的具体实现类的全类名读取出来，</li>
+<li>根据获取到的全类名，先判断跟 spi 接口是否为同一类型，如果是的，那么就通过反射的机制构造对应的实例对象，</li>
+<li>将构造出来的实例对象添加到 <code>Providers</code> 的列表中。</li>
+</ol>
+<p>想要使用 Java 的 SPI 机制是需要依赖 <code>ServiceLoader</code> 来实现的，那么我们接下来看看 <code>ServiceLoader</code> 具体是怎么做的：<code>ServiceLoader</code> 是 JDK 提供的一个工具类， 位于<code>package java.util;</code>包下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">A facility to load implementations of a service.<br></code></pre></td></tr></table></figure>
+
+<p>这是 JDK 官方给的注释：<strong>一种加载服务实现的工具。</strong></p>
+<p>再往下看，我们发现这个类是一个 <code>final</code> 类型的，所以是不可被继承修改，同时它实现了 <code>Iterable</code> 接口。之所以实现了迭代器，是为了方便后续我们能够通过迭代的方式得到对应的服务实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServiceLoader</span>&lt;S&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Iterable</span>&lt;S&gt;&#123; xxx...&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到一个熟悉的常量定义：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">private</span> <span class="hljs-type">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> PREFIX = <span class="hljs-string">&quot;META-INF/services/&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>下面是 <code>load</code> 方法：可以发现 <code>load</code> 方法支持两种重载后的入参；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;S&gt; ServiceLoader&lt;S&gt; <span class="hljs-title function_">load</span><span class="hljs-params">(Class&lt;S&gt; service)</span> &#123;<br>    <span class="hljs-type">ClassLoader</span> <span class="hljs-variable">cl</span> <span class="hljs-operator">=</span> Thread.currentThread().getContextClassLoader();<br>    <span class="hljs-keyword">return</span> ServiceLoader.load(service, cl);<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;S&gt; ServiceLoader&lt;S&gt; <span class="hljs-title function_">load</span><span class="hljs-params">(Class&lt;S&gt; service,</span><br><span class="hljs-params">                                        ClassLoader loader)</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServiceLoader</span>&lt;&gt;(service, loader);<br>&#125;<br><br><span class="hljs-keyword">private</span> <span class="hljs-title function_">ServiceLoader</span><span class="hljs-params">(Class&lt;S&gt; svc, ClassLoader cl)</span> &#123;<br>    service = Objects.requireNonNull(svc, <span class="hljs-string">&quot;Service interface cannot be null&quot;</span>);<br>    loader = (cl == <span class="hljs-literal">null</span>) ? ClassLoader.getSystemClassLoader() : cl;<br>    acc = (System.getSecurityManager() != <span class="hljs-literal">null</span>) ? AccessController.getContext() : <span class="hljs-literal">null</span>;<br>    reload();<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">reload</span><span class="hljs-params">()</span> &#123;<br>    providers.clear();<br>    lookupIterator = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LazyIterator</span>(service, loader);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>根据代码的调用顺序，在 <code>reload()</code> 方法中是通过一个内部类 <code>LazyIterator</code> 实现的。先继续往下面看。</p>
+<p><code>ServiceLoader</code> 实现了 <code>Iterable</code> 接口的方法后，具有了迭代的能力，在这个 <code>iterator</code> 方法被调用时，首先会在 <code>ServiceLoader</code> 的 <code>Provider</code> 缓存中进行查找，如果缓存中没有命中那么则在 <code>LazyIterator</code> 中进行查找。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> Iterator&lt;S&gt; <span class="hljs-title function_">iterator</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Iterator</span>&lt;S&gt;() &#123;<br><br>        Iterator&lt;Map.Entry&lt;String, S&gt;&gt; knownProviders<br>                = providers.entrySet().iterator();<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">hasNext</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">if</span> (knownProviders.hasNext())<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            <span class="hljs-keyword">return</span> lookupIterator.hasNext(); <span class="hljs-comment">// 调用 LazyIterator</span><br>        &#125;<br><br>        <span class="hljs-keyword">public</span> S <span class="hljs-title function_">next</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">if</span> (knownProviders.hasNext())<br>                <span class="hljs-keyword">return</span> knownProviders.next().getValue();<br>            <span class="hljs-keyword">return</span> lookupIterator.next(); <span class="hljs-comment">// 调用 LazyIterator</span><br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">remove</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>();<br>        &#125;<br>    &#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在调用 <code>LazyIterator</code> 时，具体实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">hasNext</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">if</span> (acc == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> hasNextService();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        PrivilegedAction&lt;Boolean&gt; action = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrivilegedAction</span>&lt;Boolean&gt;() &#123;<br>            <span class="hljs-keyword">public</span> Boolean <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> hasNextService();<br>            &#125;<br>        &#125;;<br>        <span class="hljs-keyword">return</span> AccessController.doPrivileged(action, acc);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">private</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">hasNextService</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">if</span> (nextName != <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (configs == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//通过PREFIX（META-INF/services/）和类名 获取对应的配置文件，得到具体的实现类</span><br>            <span class="hljs-type">String</span> <span class="hljs-variable">fullName</span> <span class="hljs-operator">=</span> PREFIX + service.getName();<br>            <span class="hljs-keyword">if</span> (loader == <span class="hljs-literal">null</span>)<br>                configs = ClassLoader.getSystemResources(fullName);<br>            <span class="hljs-keyword">else</span><br>                configs = loader.getResources(fullName);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException x) &#123;<br>            fail(service, <span class="hljs-string">&quot;Error locating configuration files&quot;</span>, x);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">while</span> ((pending == <span class="hljs-literal">null</span>) || !pending.hasNext()) &#123;<br>        <span class="hljs-keyword">if</span> (!configs.hasMoreElements()) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        pending = parse(service, configs.nextElement());<br>    &#125;<br>    nextName = pending.next();<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><br><span class="hljs-keyword">public</span> S <span class="hljs-title function_">next</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">if</span> (acc == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> nextService();<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        PrivilegedAction&lt;S&gt; action = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrivilegedAction</span>&lt;S&gt;() &#123;<br>            <span class="hljs-keyword">public</span> S <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> nextService();<br>            &#125;<br>        &#125;;<br>        <span class="hljs-keyword">return</span> AccessController.doPrivileged(action, acc);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">private</span> S <span class="hljs-title function_">nextService</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">if</span> (!hasNextService())<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NoSuchElementException</span>();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">cn</span> <span class="hljs-operator">=</span> nextName;<br>    nextName = <span class="hljs-literal">null</span>;<br>    Class&lt;?&gt; c = <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">try</span> &#123;<br>        c = Class.forName(cn, <span class="hljs-literal">false</span>, loader);<br>    &#125; <span class="hljs-keyword">catch</span> (ClassNotFoundException x) &#123;<br>        fail(service,<br>                <span class="hljs-string">&quot;Provider &quot;</span> + cn + <span class="hljs-string">&quot; not found&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span> (!service.isAssignableFrom(c)) &#123;<br>        fail(service,<br>                <span class="hljs-string">&quot;Provider &quot;</span> + cn + <span class="hljs-string">&quot; not a subtype&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-type">S</span> <span class="hljs-variable">p</span> <span class="hljs-operator">=</span> service.cast(c.newInstance());<br>        providers.put(cn, p);<br>        <span class="hljs-keyword">return</span> p;<br>    &#125; <span class="hljs-keyword">catch</span> (Throwable x) &#123;<br>        fail(service,<br>                <span class="hljs-string">&quot;Provider &quot;</span> + cn + <span class="hljs-string">&quot; could not be instantiated&quot;</span>,<br>                x);<br>    &#125;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>();          <span class="hljs-comment">// This cannot happen</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/Java%E8%BF%9B%E9%98%B6/" class="category-chain-item">Java进阶</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SPI机制</div>
+      <div>http://example.com/2023/06/26/Java/Java进阶/SPI机制/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/Lambada%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="Lambada表达式">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lambada表达式</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/Stream%E6%B5%81/" title="Stream流">
+                        <span class="hidden-mobile">Stream流</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
