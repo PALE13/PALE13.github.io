@@ -1,0 +1,832 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="TCPdumpTCPdump，全称dump the traffic on anetwork，是一个运行在linux平台可以根据使用者需求对网络上传输的数据包进行捕获的抓包工具。 tcpdump可以支持的功能:  1、在Linux平台将网络中传输的数据包全部捕获过来进行分析 2、支持网络层、传输层协议等协议捕获过滤; 3、数据发送和接收的主机、网卡和端口等各种过滤捕获数据规则 4、提供and、or、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux">
+<meta property="og:url" content="http://example.com/2024/05/12/%E9%A1%B9%E7%9B%AE/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Linux%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7tcpdump/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="TCPdumpTCPdump，全称dump the traffic on anetwork，是一个运行在linux平台可以根据使用者需求对网络上传输的数据包进行捕获的抓包工具。 tcpdump可以支持的功能:  1、在Linux平台将网络中传输的数据包全部捕获过来进行分析 2、支持网络层、传输层协议等协议捕获过滤; 3、数据发送和接收的主机、网卡和端口等各种过滤捕获数据规则 4、提供and、or、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518204923058.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518215558610.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518215909352.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518234525526.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519005134852.png">
+<meta property="article:published_time" content="2024-05-12T08:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-18T16:53:34.763Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518204923058.png">
+  
+  
+  
+  <title>Linux - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-12 16:46" pubdate>
+          2024年5月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Linux</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="TCPdump"><a href="#TCPdump" class="headerlink" title="TCPdump"></a><strong>TCPdump</strong></h2><p>TCPdump，全称dump the traffic on anetwork，是一个运行在linux平台可以根据使用者需求对网络上传输的数据包进行捕获的抓包工具。</p>
+<p>tcpdump可以支持的功能:</p>
+<ul>
+<li>1、在Linux平台将网络中传输的数据包全部捕获过来进行分析</li>
+<li>2、支持网络层、传输层协议等协议捕获过滤;</li>
+<li>3、数据发送和接收的主机、网卡和端口等各种过滤捕获数据规则</li>
+<li>4、提供and、or、not等语句进行逻辑组合捕获数据包或去掉不用的信息</li>
+<li>5、结合wireshark工具分析捕获的报文</li>
+</ul>
+<h3 id="tcpdump-的常用参数"><a href="#tcpdump-的常用参数" class="headerlink" title="tcpdump 的常用参数"></a><strong>tcpdump 的常用参数</strong></h3><p>tcpdump 这个工具有非常丰富的参数，可以提供不同的功能，满足多样的抓包需求</p>
+<p>基本命令</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">tcpdump <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[expression]</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>常见选项</strong></p>
+<ul>
+<li><code>-i &lt;interface&gt;</code>：指定网络接口（例如，<code>eth0</code>, <code>wlan0</code>）。</li>
+<li><code>-n</code>：不解析主机名和服务名，只显示 IP 地址和端口号。</li>
+<li><code>-nn</code>：不解析主机名和服务名，只显示 IP 地址和数字端口号。</li>
+<li><code>-v</code>：详细输出。</li>
+<li><code>-vv</code>：更详细的输出。</li>
+<li><code>-vvv</code>：非常详细的输出。</li>
+<li><code>-c &lt;count&gt;</code>：捕获指定数量的数据包。</li>
+<li><code>-s &lt;snaplen&gt;</code>：指定捕获数据包的最大长度（默认为 65535 字节）。</li>
+<li><code>-w &lt;file&gt;</code>：将捕获的数据包保存到文件中。</li>
+<li><code>-r &lt;file&gt;</code>：从文件读取数据包进行分析。</li>
+<li><code>-X</code>：以十六进制和 ASCII 格式显示数据包内容。</li>
+</ul>
+<p><strong>过滤表达式</strong></p>
+<ul>
+<li><code>host &lt;hostname&gt;</code>：捕获指定主机的流量。</li>
+<li><code>net &lt;network&gt;</code>：捕获指定网络的流量。</li>
+<li><code>port &lt;port&gt;</code>：捕获指定端口的流量。</li>
+<li><code>src &lt;address&gt;</code>：捕获来自指定源地址的流量。</li>
+<li><code>dst &lt;address&gt;</code>：捕获发往指定目标地址的流量。</li>
+<li><code>tcp</code>：捕获 TCP 流量。</li>
+<li><code>udp</code>：捕获 UDP 流量。</li>
+<li><code>icmp</code>：捕获 ICMP 流量。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">tcpdump</span> <span class="hljs-built_in">ip</span> dst <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> src <span class="hljs-number">192</span>.<span class="hljs-number">168</span>.<span class="hljs-number">10</span>.<span class="hljs-number">10</span> <span class="hljs-keyword">and</span> port <span class="hljs-number">80</span> <span class="hljs-keyword">and</span> host ! www.baidu.com<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="不加任何参数"><a href="#不加任何参数" class="headerlink" title="不加任何参数"></a><strong>不加任何参数</strong></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">tcpdump</span><br></code></pre></td></tr></table></figure>
+
+<p>默认输入 tcpdump 这个命令，回车操作之后，它将监视第一个网络接口上所有流过的数据包，一般是 eth0，如下图所示：</p>
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518204923058.png" srcset="/img/loading.gif" lazyload alt="image-20240518204923058"></p>
+<p>第一列：报文的时间<br>第二列：网络协议 IP<br>第三列：发送方的ip地址、端口号、域名<br>第四列：箭头 &gt;， 表示数据流向<br>第五列：接收方的ip地址、端口号、域名<br>第六列：冒号<br>第七列：数据包内容，报文头的摘要信息，有ttl、报文类型、标识值、序列、包的大小等信息</p>
+<h4 id="监视指定网络接口的数据包"><a href="#监视指定网络接口的数据包" class="headerlink" title="监视指定网络接口的数据包"></a><strong>监视指定网络接口的数据包</strong></h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">tcpdump -<span class="hljs-selector-tag">i</span> lo<br></code></pre></td></tr></table></figure>
+
+<p>一般情况下，我们可能关心的数据并不是 eth0 的接口，这时就需要指定端口进行数据包的捕获。在 tcpdump 后面加一个 -i 的参数，后面跟具体需要捕获的接口名称，就可以抓取经过这个具体接口的所有数据包。　</p>
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518215558610.png" srcset="/img/loading.gif" lazyload alt="image-20240518215558610"></p>
+<blockquote>
+<p>可以使用ifconfig获取所有网络接口的信息</p>
+</blockquote>
+<h4 id="监视指定主机的数据包"><a href="#监视指定主机的数据包" class="headerlink" title="监视指定主机的数据包"></a><strong>监视指定主机的数据包</strong></h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">tcpdump</span> host <span class="hljs-number">172.19.241.98</span><br></code></pre></td></tr></table></figure>
+
+<p>如果你非常明确关心的是哪个主机的收发报文，那么就可以直接过滤这个主机的数据包。 host 后面加主机的 IP 地址，就可以只抓取这个主机的所有数据包，其他主机的数据包就会被过滤掉。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518215909352.png" srcset="/img/loading.gif" lazyload alt="image-20240518215909352" style="zoom: 80%;" />
+
+
+
+<p>如果需要捕获该主机与特定某主机的交互数据包，可以用逻辑运算符来表示：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">tcpdump</span> host <span class="hljs-number">175.8.50.137</span> and <span class="hljs-number">100.27.48.1</span><br></code></pre></td></tr></table></figure>
+
+<p>这就表示只有主机 175.8.50.137 和 主机 100.27.48.1 的交互数据报文才会被捕获到。</p>
+<h4 id="监视指定协议和端口的数据包"><a href="#监视指定协议和端口的数据包" class="headerlink" title="监视指定协议和端口的数据包"></a><strong>监视指定协议和端口的数据包</strong></h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tcpdump</span> tcp port <span class="hljs-number">22</span><br></code></pre></td></tr></table></figure>
+
+<p>加上具体某个协议的某个端口，就可以更加精确的捕获对应的业务的数据报文了。如上，就会只抓取 TCP 协议的 22 端口的数据报，也就是 SSH 协议的数据报文：</p>
+<h4 id="显示协议头和包内容"><a href="#显示协议头和包内容" class="headerlink" title="显示协议头和包内容"></a><strong>显示协议头和包内容</strong></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">tcpdump -X</span><br></code></pre></td></tr></table></figure>
+
+<p>加-X 参数，可以把协议头和包内容都原原本本的显示出来（tcpdump 会以 16 进制和 ASCII 的形式显示），这在进行协议分析时是绝对的利器。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240518234525526.png" srcset="/img/loading.gif" lazyload alt="image-20240518234525526" style="zoom: 67%;" />
+
+
+
+<h4 id="控制捕获的数据包数量"><a href="#控制捕获的数据包数量" class="headerlink" title="控制捕获的数据包数量"></a><strong>控制捕获的数据包数量</strong></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">tcpdump -c xxx</span><br></code></pre></td></tr></table></figure>
+
+<p>-c 参数，即 Count 的含义，设置希望 tcpdump 帮我们抓几个包。</p>
+<h4 id="保存捕获到的数据包"><a href="#保存捕获到的数据包" class="headerlink" title="保存捕获到的数据包"></a><strong>保存捕获到的数据包</strong></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">tcpdump -w xxx</span><br></code></pre></td></tr></table></figure>
+
+<p>参数-w 直接将包写入文件中，存储到磁盘上，为后续使用。如下图所示，就是将捕获到的数据保存到 test.cap 的文件里：</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519005134852.png" srcset="/img/loading.gif" lazyload alt="image-20240519005134852" style="zoom:50%;" />
+
+<p>当然，这个保存的保存可以通过 xftp 传出到本地，然后用 wireshark 工具可以打开</p>
+<h4 id="将流量进行回放"><a href="#将流量进行回放" class="headerlink" title="将流量进行回放"></a><strong>将流量进行回放</strong></h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">tcpdump -r xxx</span><br></code></pre></td></tr></table></figure>
+
+<p>参数-r 可以实现“流量回放”的功能，就是把历史上的某一时间段的流量，重新模拟回放出来，用于流量分析。比如下图所示：就是将上面捕获保存的流量包 test.cap 进行回放：</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="category-chain-item">开发工具</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/" class="print-no-link">#Linux</a>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="print-no-link">#计算机网络</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux</div>
+      <div>http://example.com/2024/05/12/项目/开发工具/Linux抓包工具tcpdump/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/28/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/19.%20%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%AD%E9%97%B4%E8%8A%82%E7%82%B9/" title="链表的中间节点">
+                        <span class="hidden-mobile">链表的中间节点</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
