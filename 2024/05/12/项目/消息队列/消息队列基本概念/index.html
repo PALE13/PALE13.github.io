@@ -1,0 +1,919 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="消息队列我们可以把消息队列看作是一个存放消息的容器，当我们需要使用消息的时候，直接从容器中取出消息供自己使用即可。由于队列 Queue 是一种先进先出的数据结构，所以消费消息时也是按照顺序来消费的。 如下为：发布&#x2F;订阅（Pub&#x2F;Sub）模型   我们知道操作系统中的进程通信的一种很重要的方式就是消息队列。我们这里提到的消息队列稍微有点区别，更多指的是各个服务以及系统内部各个组件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息队列基本概念">
+<meta property="og:url" content="http://example.com/2024/05/12/%E9%A1%B9%E7%9B%AE/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="消息队列我们可以把消息队列看作是一个存放消息的容器，当我们需要使用消息的时候，直接从容器中取出消息供自己使用即可。由于队列 Queue 是一种先进先出的数据结构，所以消费消息时也是按照顺序来消费的。 如下为：发布&#x2F;订阅（Pub&#x2F;Sub）模型   我们知道操作系统中的进程通信的一种很重要的方式就是消息队列。我们这里提到的消息队列稍微有点区别，更多指的是各个服务以及系统内部各个组件">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519010330477.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519010530615.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519151914416.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519152936923.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519153046416.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519155026744.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519155142515.png">
+<meta property="article:published_time" content="2024-05-12T04:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-19T07:55:01.147Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="消息队列">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519010330477.png">
+  
+  
+  
+  <title>消息队列基本概念 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="消息队列基本概念"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-12 12:46" pubdate>
+          2024年5月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">消息队列基本概念</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a><strong>消息队列</strong></h2><p>我们可以把消息队列看作是一个存放消息的容器，当我们需要使用消息的时候，直接从容器中取出消息供自己使用即可。由于队列 Queue 是一种先进先出的数据结构，所以消费消息时也是按照顺序来消费的。</p>
+<p>如下为：发布&#x2F;订阅（Pub&#x2F;Sub）模型</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519010330477.png" srcset="/img/loading.gif" lazyload alt="image-20240519010330477" style="zoom: 67%;" />
+
+<p>我们知道操作系统中的进程通信的一种很重要的方式就是消息队列。我们这里提到的消息队列稍微有点区别，更多指的是各个服务以及系统内部各个组件&#x2F;模块之前的通信，属于一种 <strong>中间件</strong> 。</p>
+<h3 id="消息队列有什么用？"><a href="#消息队列有什么用？" class="headerlink" title="消息队列有什么用？"></a><strong>消息队列有什么用？</strong></h3><p>通常来说，使用消息队列主要能为我们的系统带来下面三点好处：</p>
+<ol>
+<li>通过异步处理提高系统性能（减少响应所需时间）</li>
+<li>削峰&#x2F;限流</li>
+<li>降低系统耦合性</li>
+</ol>
+<p>除了这三点之外，消息队列还有其他的一些应用场景，例如实现分布式事务、顺序保证和数据流处理。</p>
+<h4 id="通过异步处理提高系统性能（减少响应时间）"><a href="#通过异步处理提高系统性能（减少响应时间）" class="headerlink" title="通过异步处理提高系统性能（减少响应时间）"></a><strong>通过异步处理提高系统性能（减少响应时间）</strong></h4><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519010530615.png" srcset="/img/loading.gif" lazyload alt="image-20240519010530615" style="zoom: 67%;" />
+
+<p>将用户的请求数据存储到消息队列之后就立即返回结果。随后，系统再对消息进行消费。</p>
+<p>因为用户请求数据写入消息队列之后就立即返回给用户了，但是请求数据在后续的业务校验、写数据库等操作中可能失败。因此，<strong>使用消息队列进行异步处理之后，需要适当修改业务流程进行配合</strong>，比如用户在提交订单之后，订单数据写入消息队列，不能立即返回用户订单提交成功，需要在消息队列的订单消费者进程真正处理完该订单之后，甚至出库后，再通过电子邮件或短信通知用户订单成功，以免交易纠纷。这就类似我们平时手机订火车票和电影票。</p>
+<h4 id="削峰-限流"><a href="#削峰-限流" class="headerlink" title="削峰&#x2F;限流"></a><strong>削峰&#x2F;限流</strong></h4><p><strong>先将短时间高并发产生的事务消息存储在消息队列中，然后后端服务再慢慢根据自己的能力去消费这些消息，这样就避免直接把后端服务打垮掉。</strong></p>
+<p>举例：在电子商务一些秒杀、促销活动中，合理使用消息队列可以有效抵御促销活动刚开始大量订单涌入对系统的冲击。如下图所示：</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519151914416.png" srcset="/img/loading.gif" lazyload alt="image-20240519151914416" style="zoom: 67%;" />
+
+
+
+<h4 id="降低系统耦合性"><a href="#降低系统耦合性" class="headerlink" title="降低系统耦合性"></a><strong>降低系统耦合性</strong></h4><p>使用消息队列还可以降低系统耦合性。我们知道如果模块之间不存在直接调用，那么新增模块或者修改模块就对其他模块影响较小，这样系统的可扩展性无疑更好一些。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519152936923.png" srcset="/img/loading.gif" lazyload alt="image-20240519152936923" style="zoom:50%;" />
+
+<p>生产者（客户端）发送消息到消息队列中去，接受者（服务端）处理消息，需要消费的系统直接去消息队列取消息进行消费即可而不需要和其他系统有耦合，这显然也提高了系统的扩展性。</p>
+<p><strong>消息队列使用发布-订阅模式工作，消息发送者（生产者）发布消息，一个或多个消息接受者（消费者）订阅消息。</strong> 从上图可以看到<strong>消息发送者（生产者）和消息接受者（消费者）之间没有直接耦合</strong>，消息发送者将消息发送至分布式消息队列即结束对消息的处理，消息接受者从分布式消息队列获取该消息后进行后续处理，并不需要知道该消息从何而来。<strong>对新增业务，只要对该类消息感兴趣，即可订阅该消息，对原有系统和业务没有任何影响，从而实现网站业务的可扩展性设计</strong>。</p>
+<p>例如，我们商城系统分为用户、订单、财务、仓储、消息通知、物流、风控等多个服务。用户在完成下单后，需要调用财务（扣款）、仓储（库存管理）、物流（发货）、消息通知（通知用户发货）、风控（风险评估）等服务。使用消息队列后，下单操作和后续的扣款、发货、通知等操作就解耦了，下单完成发送一个消息到消息队列，需要用到的地方去订阅这个消息进行消息即可。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519153046416.png" srcset="/img/loading.gif" lazyload alt="image-20240519153046416" style="zoom: 67%;" />
+
+<p>另外，为了避免消息队列服务器宕机造成消息丢失，会将成功发送到消息队列的消息存储在消息生产者服务器上，等消息真正被消费者服务器处理后才删除消息。在消息队列服务器宕机后，生产者服务器会选择分布式消息队列服务器集群中的其他服务器发布消息。</p>
+<blockquote>
+<p><strong>备注：</strong> 不要认为消息队列只能利用发布-订阅模式工作，只不过在解耦这个特定业务环境下是使用发布-订阅模式的。除了发布-订阅模式，还有点对点订阅模式（一个消息只有一个消费者），我们比较常用的是发布-订阅模式。另外，这两种消息模型是 JMS 提供的，AMQP 协议还提供了另外 5 种消息模型。</p>
+</blockquote>
+<h4 id="实现分布式事务"><a href="#实现分布式事务" class="headerlink" title="实现分布式事务"></a><strong>实现分布式事务</strong></h4><p>我们知道分布式事务的解决方案之一就是 MQ 事务。</p>
+<p>RocketMQ、 Kafka、Pulsar、QMQ 都提供了事务相关的功能。事务允许事件流应用将消费，处理，生产消息整个过程定义为一个原子操作。</p>
+<h4 id="顺序保证"><a href="#顺序保证" class="headerlink" title="顺序保证"></a><strong>顺序保证</strong></h4><p>在很多应用场景中，处理数据的顺序至关重要。消息队列保证数据按照特定的顺序被处理，适用于那些对数据顺序有严格要求的场景。大部分消息队列，例如 RocketMQ、RabbitMQ、Pulsar、Kafka，都支持顺序消息。</p>
+<h4 id="延时-定时处理"><a href="#延时-定时处理" class="headerlink" title="延时&#x2F;定时处理"></a><strong>延时&#x2F;定时处理</strong></h4><p>消息发送后不会立即被消费，而是指定一个时间，到时间后再消费。大部分消息队列，例如 RocketMQ、RabbitMQ、Pulsar、Kafka，都支持定时&#x2F;延时消息。</p>
+<h4 id="数据流处理"><a href="#数据流处理" class="headerlink" title="数据流处理"></a><strong>数据流处理</strong></h4><p>针对分布式系统产生的海量数据流，如业务日志、监控数据、用户行为等，消息队列可以实时或批量收集这些数据，并将其导入到大数据处理引擎中，实现高效的数据流管理和处理。</p>
+<h3 id="使用消息队列会带来哪些问题？"><a href="#使用消息队列会带来哪些问题？" class="headerlink" title="使用消息队列会带来哪些问题？"></a><strong>使用消息队列会带来哪些问题？</strong></h3><ul>
+<li><strong>系统可用性降低：</strong> 系统可用性在某种程度上降低，为什么这样说呢？在加入 MQ 之前，你不用考虑消息丢失或者说 MQ 挂掉等等的情况，但是，引入 MQ 之后你就需要去考虑了&#x2F;</li>
+<li><strong>系统复杂性提高：</strong> 加入 MQ 之后，你需要保证消息没有被重复消费、处理消息丢失的情况、保证消息传递的顺序性等等问题。</li>
+<li><strong>一致性问题：</strong> 我上面讲了消息队列可以实现异步，消息队列带来的异步确实可以提高系统响应速度。但是，万一消息的真正消费者并没有正确消费消息怎么办？这样就会导致数据不一致的情况了。</li>
+</ul>
+<h3 id="JMS-是什么？"><a href="#JMS-是什么？" class="headerlink" title="JMS 是什么？"></a><strong>JMS 是什么？</strong></h3><p>JMS（JAVA Message Service,java 消息服务）是 Java 的消息服务，JMS 的客户端之间可以通过 JMS 服务进行异步的消息传输。<strong>JMS（JAVA Message Service，Java 消息服务）API 是一个消息服务的标准或者说是规范</strong>，允许应用程序组件基于 JavaEE 平台创建、发送、接收和读取消息。它使分布式通信耦合度更低，消息服务更加可靠以及异步性。</p>
+<p>JMS 定义了五种不同的消息正文格式以及调用的消息类型，允许你发送并接收以一些不同形式的数据：</p>
+<ul>
+<li><code>StreamMessage：Java</code> 原始值的数据流</li>
+<li><code>MapMessage</code>：一套名称-值对</li>
+<li><code>TextMessage</code>：一个字符串对象</li>
+<li><code>ObjectMessage</code>：一个序列化的 Java 对象</li>
+<li><code>BytesMessage</code>：一个字节的数据流</li>
+</ul>
+<h4 id="JMS-两种消息模型"><a href="#JMS-两种消息模型" class="headerlink" title="JMS 两种消息模型"></a><strong>JMS 两种消息模型</strong></h4><h4 id="点到点（P2P）模型"><a href="#点到点（P2P）模型" class="headerlink" title="点到点（P2P）模型"></a><strong>点到点（P2P）模型</strong></h4><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519155026744.png" srcset="/img/loading.gif" lazyload alt="image-20240519155026744" style="zoom: 67%;" />
+
+<p>使用**队列（Queue）作为消息通信载体；满足**生产者与消费者模式**，一条消息只能被一个消费者使用，未被消费的消息在队列中保留直到被消费或超时。比如：我们生产者发送 100 条消息的话，两个消费者来消费一般情况下两个消费者会按照消息发送的顺序各自消费一半（也就是你一个我一个的消费）</p>
+<h4 id="发布-订阅（Pub-Sub）模型"><a href="#发布-订阅（Pub-Sub）模型" class="headerlink" title="发布&#x2F;订阅（Pub&#x2F;Sub）模型"></a><strong>发布&#x2F;订阅（Pub&#x2F;Sub）模型</strong></h4><p>发布订阅模型（Pub&#x2F;Sub） 使用**主题（Topic）**作为消息通信载体，类似于**广播模式**；发布者发布一条消息，该消息通过主题传递给所有的订阅者。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519155142515.png" srcset="/img/loading.gif" lazyload alt="image-20240519155142515" style="zoom:50%;" />
+
+<h3 id="AMQP-是什么？"><a href="#AMQP-是什么？" class="headerlink" title="AMQP 是什么？"></a><strong>AMQP 是什么？</strong></h3><p>AMQP，即 Advanced Message Queuing Protocol，一个提供统一消息服务的应用层标准 <strong>高级消息队列协议</strong>（二进制应用层协议），是应用层协议的一个开放标准，为面向消息的中间件设计，兼容 JMS。基于此协议的客户端与消息中间件可传递消息，并不受客户端&#x2F;中间件同产品，不同的开发语言等条件的限制</p>
+<p><strong>RabbitMQ 就是基于 AMQP 协议实现的</strong></p>
+<h4 id="JMS-vs-AMQP"><a href="#JMS-vs-AMQP" class="headerlink" title="JMS vs AMQP"></a><strong>JMS vs AMQP</strong></h4><table>
+<thead>
+<tr>
+<th align="center">对比方向</th>
+<th align="center">JMS</th>
+<th align="left">AMQP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">定义</td>
+<td align="center">Java API</td>
+<td align="left">协议</td>
+</tr>
+<tr>
+<td align="center">跨语言</td>
+<td align="center">否</td>
+<td align="left">是</td>
+</tr>
+<tr>
+<td align="center">跨平台</td>
+<td align="center">否</td>
+<td align="left">是</td>
+</tr>
+<tr>
+<td align="center">支持消息类型</td>
+<td align="center">提供两种消息模型：①Peer-2-Peer;②Pub&#x2F;sub</td>
+<td align="left">提供了五种消息模型：①direct exchange；②fanout exchange；③topic change；④headers exchange；⑤system exchange。本质来讲，后四种和 JMS 的 pub&#x2F;sub 模型没有太大差别，仅是在路由机制上做了更详细的划分；</td>
+</tr>
+<tr>
+<td align="center">支持消息类型</td>
+<td align="center">支持多种消息类型 ，我们在上面提到过</td>
+<td align="left">byte[]（二进制）</td>
+</tr>
+</tbody></table>
+<h3 id="不同消息队列对比"><a href="#不同消息队列对比" class="headerlink" title="不同消息队列对比"></a><strong>不同消息队列对比</strong></h3><table>
+<thead>
+<tr>
+<th>消息队列</th>
+<th>吞吐量（QPS）</th>
+<th>时效性</th>
+<th>可用性</th>
+<th>可靠性</th>
+<th>优势</th>
+<th>缺点</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ActiveMQ</td>
+<td>中等：万级</td>
+<td>高</td>
+<td>高</td>
+<td>中等</td>
+<td>成熟的JMS支持、简单易学</td>
+<td>性能相对较低</td>
+<td>中小型企业应用，可靠的消息传递和事务</td>
+</tr>
+<tr>
+<td>RabbitMQ</td>
+<td>中等：万级</td>
+<td><strong>极高（微秒单位）</strong></td>
+<td>高</td>
+<td>高</td>
+<td>灵活的路由策略、生态好、<strong>时效性高、易学</strong></td>
+<td>对大吞吐量的支持相对较弱</td>
+<td>复杂的消息路由和灵活的消息处理、适用于大部分的分布式系统</td>
+</tr>
+<tr>
+<td>Kafka</td>
+<td><strong>高：十万级</strong></td>
+<td>高（毫秒以内）</td>
+<td><strong>极高</strong></td>
+<td><strong>极高</strong></td>
+<td>高吞吐量和低延迟、可靠性、<strong>强大的数据流处理能力</strong></td>
+<td>复杂性较高，初学者上手难度大</td>
+<td>大数据流处理，日志收集，实时数据流传输、事件流收集传输等</td>
+</tr>
+<tr>
+<td>RocketMQ</td>
+<td>高：十万级</td>
+<td>高（毫秒）</td>
+<td><strong>极高</strong></td>
+<td><strong>极高</strong></td>
+<td>可靠性、可用性、吞吐量大、<strong>分布式事务支持</strong></td>
+<td>对复杂性的支持相对不足</td>
+<td>大规模的分布式应用，高可用性和事务一致性要求<br />适用于<strong>金融</strong>、电商等对可靠性要求较高的场景，适合大规模的消息处理</td>
+</tr>
+<tr>
+<td>ZeroMQ</td>
+<td>中等：万级</td>
+<td>高</td>
+<td>高</td>
+<td>低</td>
+<td>简单的消息传递机制</td>
+<td>缺乏对复杂消息路由的支持</td>
+<td>轻量级异步通信，构建快速分布式系统</td>
+</tr>
+<tr>
+<td>Pulsar</td>
+<td>高：十万级</td>
+<td>高（毫秒）</td>
+<td><strong>极高</strong></td>
+<td><strong>极高</strong></td>
+<td>可靠性、可用性很高、基于发布订阅模型、新兴技术结构、云原生架构支持</td>
+<td>部署和运维相对复杂</td>
+<td>适用大规模数据处理，实时分析，高并发的分布式系统。适合实时分析、事件流处理、IoT数据处理等。</td>
+</tr>
+<tr>
+<td>Apache InLong (Tube)</td>
+<td>高：十万级</td>
+<td>高</td>
+<td>高</td>
+<td>高</td>
+<td>数据传输和大数据处理集成</td>
+<td>社区生态相对较小</td>
+<td>实时分析，数据集成</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="category-chain-item">消息队列</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="print-no-link">#消息队列</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>消息队列基本概念</div>
+      <div>http://example.com/2024/05/12/项目/消息队列/消息队列基本概念/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/05/12/%E9%A1%B9%E7%9B%AE/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/Linux%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7tcpdump/" title="Linux抓包工具tcpdump">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux抓包工具tcpdump</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/28/%E7%AE%97%E6%B3%95/%E9%93%BE%E8%A1%A8/19.%20%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%AD%E9%97%B4%E8%8A%82%E7%82%B9/" title="链表的中间节点">
+                        <span class="hidden-mobile">链表的中间节点</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

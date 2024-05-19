@@ -1,0 +1,1092 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="智能BI平台面试题 个人介绍： 面试官好，我叫周瑞彬，目前就读于南京大学软件工程专业，我比较热爱编程，在校期间开发过两个项目，主要参与的是后台开发的工作，使用的技术栈是Java。然后我介绍一下我的项目，首先是智能BI系统，他的功能主要是对用户数据进行智能分析，用户只需要输入原始数据和分析需求，系统就可以智能的生成分析结论和图表，然后我在这个项目中主要的职责是通过自定义的线程池实现了AICG的并发执">
+<meta property="og:type" content="article">
+<meta property="og:title" content="智能BI平台面试题">
+<meta property="og:url" content="http://example.com/2024/05/12/%E9%A1%B9%E7%9B%AE/%E6%99%BA%E8%83%BDBI%E5%B9%B3%E5%8F%B0/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="智能BI平台面试题 个人介绍： 面试官好，我叫周瑞彬，目前就读于南京大学软件工程专业，我比较热爱编程，在校期间开发过两个项目，主要参与的是后台开发的工作，使用的技术栈是Java。然后我介绍一下我的项目，首先是智能BI系统，他的功能主要是对用户数据进行智能分析，用户只需要输入原始数据和分析需求，系统就可以智能的生成分析结论和图表，然后我在这个项目中主要的职责是通过自定义的线程池实现了AICG的并发执">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240327095915641.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240205140509769.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304224021135.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png">
+<meta property="article:published_time" content="2024-05-12T04:46:25.000Z">
+<meta property="article:modified_time" content="2024-05-19T07:56:57.317Z">
+<meta property="article:author" content="PALE13">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240327095915641.png">
+  
+  
+  
+  <title>智能BI平台面试题 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="智能BI平台面试题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-12 12:46" pubdate>
+          2024年5月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          88 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">智能BI平台面试题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>智能BI平台面试题</p>
+<p><strong>个人介绍：</strong></p>
+<p>面试官好，我叫周瑞彬，目前就读于南京大学软件工程专业，我比较热爱编程，在校期间开发过两个项目，主要参与的是后台开发的工作，使用的技术栈是Java。然后我介绍一下我的项目，首先是智能BI系统，他的功能主要是对用户数据进行智能分析，用户只需要输入原始数据和分析需求，系统就可以智能的生成分析结论和图表，然后我在这个项目中主要的职责是通过自定义的线程池实现了AICG的并发执行和异步化，提高用户的响应体验，后期通过RabbitMQ来接受并持久化消息，提高了系统的可靠性。然后，第二个项目是一个校园开发API平台，管理员可以在平台上传接口，校园开发者可以通过下载SDK或引入依赖的方式调用一些通用的接口，以提高开发的效率，我在这个项目的主要职责是使用Spring Cloud Gateway作为API的网关，来对调用的接口进行路由转发，统一的鉴权和调用技术统计，后期又使用Dubbo抽离模型层和业务层以降低系统的耦合性，减少了重复的代码。</p>
+<h4 id="你的项目中使用了哪些技术栈"><a href="#你的项目中使用了哪些技术栈" class="headerlink" title="你的项目中使用了哪些技术栈"></a><strong>你的项目中使用了哪些技术栈</strong></h4><p>项目技术栈：SSM+Spring Boot、Redis、RabbitMQ、MySQL、MyBatis-Plus、Hutool 工具库</p>
+<p>Spring Boot：用于快速构建基础的后端项目，只需要修改配置文件，就能轻松整合 SSM、MySQL、Redis.RabbitMQ 等依赖。</p>
+<p>Redis：基于内存的高性能键值对存储，在项目中负责分布式 Session 存储、限流功能的实现。</p>
+<p>RabbitMQ：时效性极高的消息队列，在项目中用于将 AIGC 生成图表这一耗时任务进行异步化和解耦。</p>
+<h4 id="如何使用-AIGC-来生成指定格式的-json"><a href="#如何使用-AIGC-来生成指定格式的-json" class="headerlink" title="**如何使用 AIGC 来生成指定格式的 json **"></a>**如何使用 AIGC 来生成指定格式的 json **</h4><p>我使用了第三方 AI助手平台(本质上和 OpenAIGPT 一样的)，首先创建了一个智能 BI 助手，并且编写了一段系统预设 prompt，全局指定助手的职责、输入内容和回复格式。</p>
+<p>在这个过程中，我不断地更改 prompt 并调试输出效果，最终得到了生成内容比较稳定的 Promot。可以根据我上传的分析目标和原始数据自动生成 Apache ECharts 可视化库接受的图表配置 JSON。创建好助手后，我通过 AI 助手平台官方的 SDK 调用该助手完成内容的生成。值得一提的是，AI 生成内容是一个比较耗时的操作，为了提高用户的体验，我使用消息队列将生成过程从同步改造为异步。</p>
+<h4 id="你给-AI-预设的-Prompt-结构"><a href="#你给-AI-预设的-Prompt-结构" class="headerlink" title="你给 AI 预设的 Prompt 结构"></a><strong>你给 AI 预设的 Prompt 结构</strong></h4><p>几个优化 Prompt 的小技巧:</p>
+<p>1.使用系统预设全局改变 A1助手的行为，并且给 AI一个角色的定义比如“你是一个数据分析师和前端开发专家”)</p>
+<p>2.控制输入格式，便于 AI精确地理解我们的需求(比如“接下来我会按照以下固定格式给你提供内容”)</p>
+<p>3.控制输出格式，便于处理AI返回的内容(比如“此外不要输出任何多余的开头、结尾、注释”)</p>
+<p>4.给 Al 指定一组示例问答(few-shot)</p>
+<h4 id="如何保证用户上传的数据文件的安全性"><a href="#如何保证用户上传的数据文件的安全性" class="headerlink" title="如何保证用户上传的数据文件的安全性"></a><strong>如何保证用户上传的数据文件的安全性</strong></h4><p>只要涉及到用户自主上传文件的操作，就一定要进行校验!我在项目中主要采用以下几种方式校验文件:</p>
+<p>1.文件类型验证：通过检查文件的扩展名或 MIME 类型实现，比如后缀名必须为 xsx。</p>
+<p>2.文件大小限制：从 MultipartFie 对象中获取文件大小信息，限制不能超过 1-10 MB。</p>
+<p>此外，还有一些更严格的校验方式，比如:</p>
+<p>1.文件格式校验：防止用户改文件后缀名上传非法格式的文件，可以通过匹配特定格式文件的开头或结尾来校验内容</p>
+<p>2:文件内容安全：防止用户上传一些敏感违规内容，可以使用腾讯云数据万象等第三方内容安全服务自动检测</p>
+<h4 id="Excel数据如何转化为CSV"><a href="#Excel数据如何转化为CSV" class="headerlink" title="Excel数据如何转化为CSV"></a><strong>Excel数据如何转化为CSV</strong></h4><p>CSV（Comma-Separated Values）是一种文本文件格式，用于表示表格数据。在CSV文件中，数据以纯文本形式存储，不包含字体、颜色或其他样式信息。CSV文件的主要特点是通过特定的分隔符将不同的数据字段分隔开，最常用的分隔符是逗号（<code>,</code>），但也可以使用其他字符，如分号、制表符等。</p>
+<p>AI 接口普遍者都有输入字数处限制，尽可能压缩数据，能够允许多传一些数据</p>
+<p>使用csv对excel文件的数据进行提取和压缩</p>
+<p><strong>将Excel文件转换为CSV文件的算法可以分为以下步骤：</strong></p>
+<ol>
+<li><strong>读取Excel文件：</strong> 使用Excel文件读取库或API（例如Apache POI、JExcelApi、EasyExcel等）读取Excel文件中的数据。</li>
+<li><strong>遍历Excel数据：</strong> 遍历Excel文件中的每一行和每一列，过滤掉空的数据，将单元格中的数据提取出来。</li>
+<li><strong>生成CSV格式数据：</strong> 根据CSV文件的格式，将<strong>提取出的数据以逗号分隔并组织成CSV格式</strong>的字符串。通常，需要处理特殊字符、换行符等情况。</li>
+<li><strong>写入CSV文件：</strong> 将生成的CSV格式数据写入到CSV文件中。可以使用文本文件写入操作或专门的CSV库。</li>
+</ol>
+<h4 id="CSV数据存储到一个字段里面，需要进一步压缩吗？"><a href="#CSV数据存储到一个字段里面，需要进一步压缩吗？" class="headerlink" title="CSV数据存储到一个字段里面，需要进一步压缩吗？"></a><strong>CSV数据存储到一个字段里面，需要进一步压缩吗？</strong></h4><p>如果将 CSV 格式的数据存储到 MySQL 数据库的一个字段中，并且数据量较大，那么有时候可能需要进一步压缩这些数据。压缩可以节省存储空间，并且在某些情况下还可以提高数据的传输效率和处理速度。以下是一些考虑压缩 CSV 数据的情况：</p>
+<ol>
+<li><strong>数据量大：</strong> 如果 CSV 数据量很大，会占用大量的存储空间。在这种情况下，可以考虑使用压缩算法（如 gzip、bzip2、LZ4 等）对 CSV 数据进行压缩，减少存储空间的占用。</li>
+<li><strong>网络传输：</strong> 如果需要通过网络传输 CSV 数据，压缩可以减少数据传输的时间和成本。压缩后的数据体积更小，传输速度更快。</li>
+<li><strong>数据库性能：</strong> 在某些情况下，压缩后的数据可以提高数据库的性能。虽然压缩和解压缩会消耗一定的 CPU 资源，但是可以减少磁盘 I&#x2F;O，降低数据库负载。</li>
+<li><strong>备份和恢复：</strong> 压缩后的数据可以减少备份文件的大小，节省备份空间和时间。同时，在恢复数据时也可以加快恢复速度。</li>
+</ol>
+<p>需要注意的是，压缩和解压缩数据会消耗一定的 CPU 资源，因此在选择是否压缩数据时需要权衡存储空间、网络传输、数据库性能等因素。另外，MySQL 提供了一些内置的压缩函数和存储引擎（如 InnoDB 的压缩功能），也可以考虑使用这些功能来压缩存储数据。</p>
+<h4 id="分库分表"><a href="#分库分表" class="headerlink" title="分库分表"></a><strong>分库分表</strong></h4><p>分库分表是一种数据库架构设计方法，通过将单一的数据库划分为多个子数据库(分库)和多个表(分表)，将数据进行分散存储，从而提高查询性能、扩展性和负载均衡，解决大规模数据存储和查询的性能问题。</p>
+<p><strong>分库分表的思路</strong></p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240327095915641.png" srcset="/img/loading.gif" lazyload alt="image-20240327095915641" style="zoom: 50%;" />
+
+<p>在数据库设计中考虑使用分库分表的思路可以有效地解决大数据量和高并发的问题。可以分水平分表和垂直分库两种方式。</p>
+<p><strong>水平分表</strong></p>
+<p>水平分表指在数据量大的情况下，将表按照某个字段的值进行拆分和分散存储，例如拆分出前万个用户一个表，后1万个用户一个表。比如常见的按<strong>会员维度</strong>切分，根据一定的规则把不同的会员相关的数据散落在不同的库表中。由于我们的业务场景决定都是从会员视角进行数据读写，所以，我们就选择按照水平方式进行数据库切分。</p>
+<p>如果你执行一个扫描不带分片键，则需要在每个库上查一遍。刚刚我们按照order_id分成了5个库，但是我们查询是name&#x3D;’AAA’的条件并且不带order_id字段时，它并不知道在哪个分片上查，则会创建5个连接，然后每个库都检索一遍。这种广播查询则会造成连接数增多。因为它需要在每个库上都创立连接。如果是高并发的系统，执行这种广播查询，系统的thread很快就会告警。</p>
+<p>水平拆分的优点有以下：</p>
+<ul>
+<li>水平扩展能无线扩展。不存在某个库某个表过大的情况。</li>
+<li>能够较好的应对高并发，同时可以将热点数据打散。</li>
+<li>应用侧的改动较小，不需要根据业务来拆分。</li>
+</ul>
+<p>水平拆分的缺点：</p>
+<ul>
+<li>路由是个问题，需要增加一层路由的计算，而且像前面说的一样，不带分片键查询会产生广播SQL。</li>
+<li>跨库join的性能比较差。</li>
+<li>需要处理分布式事务的一致性问题。</li>
+</ul>
+<p><strong>垂直分表</strong></p>
+<p>垂直切分可以简单理解为，把一张表的不同字段拆分到不同的表中。</p>
+<p>垂直分库则是将不同的业务按照相关性进行划分，例如将用户中心用户相关的内容划分到一个库中，订单、支付信息和订单相关的划分到另一个库中，从而提高系统的可扩展性和稳定性。</p>
+<p>也有一种情况，如果一张表有10个字段，其中只有3个字段需要频繁修改，那么就可以考虑把这3个字段拆分到子表。避免在修改这3个数据时，影响到其余7个字段的查询行锁定。</p>
+<p>垂直拆分有以下优点：</p>
+<ul>
+<li>跟随业务进行分割，和最近流行的微服务概念相似，方便解耦之后的管理及扩展。</li>
+<li>高并发的场景下，垂直拆分使用多台服务器的CPU、I&#x2F;O、内存能提升性能，同时对单机数据库连接数、一些资源限制也得到了提升。</li>
+<li>能实现冷热数据的分离。</li>
+</ul>
+<p>垂直拆分的缺点：</p>
+<ul>
+<li>部分业务表无法join，应用层需要很大的改造，只能通过聚合的方式来实现。增加了开发的难度。</li>
+<li>当单库中的表数据量增大的时候依然没有得到有效的解决。</li>
+<li>分布式事务也是一个难题。</li>
+</ul>
+<h4 id="本项目的分表思路"><a href="#本项目的分表思路" class="headerlink" title="本项目的分表思路"></a><strong>本项目的分表思路</strong></h4><p>本项目将用户上传的excel原始数据、生成代码、生成结果等多种信息存放在chart表这一个表中，如果用户想修改原始数据就会非常麻烦。<strong>因为原始数据是以字段的形式存在chart表中</strong>，难以对原始数据进行精细化修改和操作，因此引入了分库分表的思想，以原始数据每一列作为表的字段，原chart表的id作为表名，配合MyBatis自定义创建表的DDL语句。</p>
+<p>把每个图表对应的原始数据单独保存为一个新的数据表，而不是都存在一个字段里。</p>
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240205140509769.png" srcset="/img/loading.gif" lazyload alt="image-20240205140509769"></p>
+<p>优点：</p>
+<ol>
+<li>存储时，能够分开存储，互不影响（也增加安全性）</li>
+<li>查询时，可以使用各种 SQL 语句灵活取出需要的字段，查询性能更快</li>
+</ol>
+<blockquote>
+<p>优点构思：</p>
+<p>使用分开存储的方式可以带来很多好处，其中一个好处就是存储的值相互独立，不会互相影响。例如，如果我们将一个100G的数据保存到同一个表中，其他用户在访问这个数据表时会受到很大的影响，甚至在读取这个数据时可能会非常慢。</p>
+<p>而通过将<strong>每个表单独存储</strong>，即使一个用户上传了很大的数据，其他用户在访问时也不会受到影响。这样可以保证数据的安全性和稳定性，同时也提高系统的处理能力和效率。</p>
+<p>以后进行图表数据查询时，可以先根据图表的ID来查找，然后进行数据查询，方便我们排查问题。甚至返回用户原始数据，通过全表扫描的方式直接捞出所有数据，这比对数据库查询数据进行处理更加快速和高效。</p>
+</blockquote>
+<p>分库分表的缺点是会增加项目和架构的复杂性，如果业务涉及关联査询、跨分表查询，查询逻辑会变得更加复杂。<br>所以还是要根据自己的实际业务场景和数据特点来决定是否选用分库分表。</p>
+<h4 id="什么是-Redisson-的-RateLimiter"><a href="#什么是-Redisson-的-RateLimiter" class="headerlink" title="什么是 Redisson 的 RateLimiter"></a><strong>什么是 Redisson 的 RateLimiter</strong></h4><p>RateLimiter 是 Redisson 基于 Redis 实现的分布式限流组件，底层使用<strong>令牌桶算法</strong>，能够控制某个操作或服务在一定时间内的请求频率，保护系统不被过多的请求压垮。在项目中，考虑到 AI生成图表是一个耗时且耗费资源的操作，我决定给 AI生成图表接口增加限流，具体的策略是：单个用户每秒内最多执行2次生成图表操作。</p>
+<p>具体的实现方式如下:<br>1)集中管理限流器：创建一个 RedisLimiterManager 类，集中管理整个项日中所有的限流器，并提供创建限流器的接口。</p>
+<p>2)创建限流器：通过向 redissonClient 传入指定的 key 来创建限流器，<strong>每个用户对应的 key 不同</strong>，对应的限流<br>器也不同，从而<strong>实现不同用户的独立限流</strong></p>
+<p>3)设置限流规则：通过 rateLimiter 的 trySetRate 方法制定限流规则，每秒内最多获取 2 个令牌</p>
+<p>4)请求令牌：当用户要执行操作时，会执行对应 rateLimiter 的 tryAcquire 方法尝试获取令牌，如果能够获取到，可以执行后续操作，否则抛出 TOO MANY REQUEST 异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RedisLimiterManager</span> &#123;<br><br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> RedissonClient redissonClient;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 限流操作</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> key 区分不同的限流器，比如不同的用户 id 应该分别统计</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doRateLimit</span><span class="hljs-params">(String key)</span> &#123;<br>        <span class="hljs-comment">// 创建一个限流器</span><br>        <span class="hljs-type">RRateLimiter</span> <span class="hljs-variable">rateLimiter</span> <span class="hljs-operator">=</span> redissonClient.getRateLimiter(key);<br>        <span class="hljs-comment">// 每秒最多访问 2 次</span><br>        <span class="hljs-comment">// 参数1 type：限流类型,OVERALL是全局限流 ，PER_CLIENT是单Client限流</span><br>        <span class="hljs-comment">// 参数2 rate：限流速率，即单位时间内允许通过的请求数量(令牌数量)。</span><br>        <span class="hljs-comment">// 参数3 rateInterval：限流时间间隔，即限流速率的计算周期长度。</span><br>        <span class="hljs-comment">// 参数4 unit：限流时间间隔单位，可以是秒、毫秒等。</span><br>        rateLimiter.trySetRate(RateType.OVERALL, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, RateIntervalUnit.SECONDS);<br>        <span class="hljs-comment">// 每当一个操作来了后，请求一个令牌</span><br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">canOp</span> <span class="hljs-operator">=</span> rateLimiter.tryAcquire(<span class="hljs-number">1</span>);<br>        ThrowUtils.throwIf(!canOp, ErrorCode.TOO_MANY_REQUEST);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h4 id="限流和限流算法"><a href="#限流和限流算法" class="headerlink" title="限流和限流算法"></a><strong>限流和限流算法</strong></h4><p>限流是一种用于控制请求或事件流量的策略，防止系统在短时间内接收过多的请求或事件，从而导致系统过载或崩溃，从而确保系统的稳定性和可用性。</p>
+<p>在本项目中，由于 AIGC是一个消耗资源和成本的重操作，所以我使用 Redisson 提供的 <strong>RateLimiter 实现了对单用户使用 AI 生成图表功能的限流</strong>，从而保护系统。</p>
+<p><strong>我了解的限流算法:</strong></p>
+<p><strong>1、固定窗口限流</strong></p>
+<p>单位时间内允许部分操作</p>
+<p>限定：1小时只允许10个用户操作</p>
+<p>优点：最简单</p>
+<p>缺点：可出现流量突刺</p>
+<p>比如：前59分钟没有1个操作，第59分钟来了10个操作；第1小时01分钟又来了10个操作。相当于2分钟内执行了20个操作，<strong>服务器仍然有高峰危险。</strong></p>
+<p><strong>2、滑动窗口限流</strong></p>
+<p>假设单位时间还是1s，滑动窗口算法把它划分为5个小周期，也就是滑动窗口（单位时间）被划分为5个小格子。每格表示0.2s。每过0.2s，时间窗口就会往右滑动一格。然后呢，每个小周期，都有自己独立的计数器，如果请求是0.83s到达的，0.8~1.0s对应的计数器就会加1。 </p>
+<p>只要窗口中所有单元格的计数总和不超过阈值都可以放行</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304224021135.png" srcset="/img/loading.gif" lazyload alt="image-20240304224021135" style="zoom:50%;" />
+
+
+
+
+<blockquote>
+<p>解决了固定窗口限流存在的问题</p>
+</blockquote>
+<p>优点：能够解决上述流量突刺的问题，因为第59分钟时，限流窗口是59分~1小时59分，这个时间段内只能接受10次请求，只要还在这个窗口内，更多的操作就会被拒绝。</p>
+<p>缺点：实现相对固定窗口来说比较复杂，限流效果和你的滑动单位有关，滑动单位越小，限流效果越好，但往往很难选取到一个特别合适的滑动单位。滑动窗口算法虽然解决了<strong>固定窗口的临界问题</strong>，但是一旦到达限流后，请求都会直接暴力被拒绝。酱紫我们会损失一部分请求，这其实对于产品来说，并不太友好。</p>
+<p><strong>3、漏桶限流</strong></p>
+<p>特点：以固定的速率处理请求（漏水），当请求桶满了后，拒绝请求。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png" srcset="/img/loading.gif" lazyload alt="image-20240304225935821" style="zoom:50%;" />
+
+<p>举例：每秒处理10个请求，桶的容量是10，每0.1秒固定处理一次请求，如果1秒内来了10个请求，这10此请求都可以处理完，但如果1秒内来了11个请求，最后那个请求就会溢出桶，被拒绝请求。</p>
+<p>优点：能够一定程度上应对流量突刺，<strong>能够固定速率处理请求</strong>，保证服务器的安全。</p>
+<p>缺点：漏桶算法存在目的主要是用来<strong>平滑突发的流量</strong>，提供一种机制来确保网络中的突发流量被整合成平滑稳定的额流量。不过由于漏桶对流量的控制过于严格，在有些场景下<strong>不能充分使用系统资源</strong>，因为漏桶的漏出速率是固定的，即使在某一时刻下游能够处理更大的流量，漏桶也不允许突发流量通过。</p>
+<p><strong>4、令牌桶限流</strong></p>
+<blockquote>
+<p>可以解决漏桶存在的问题</p>
+</blockquote>
+<p>管理员先生成一批令牌，每秒生成10个令牌；当用户要操作前，先去拿到一个令牌，有令牌的人就有资格执行操作、同时执行操作；拿不到令牌的就等着</p>
+<p>优点：<strong>能够并发处理同时的请求</strong>，并发性能会更高</p>
+<p>比如，当令牌桶满的时候有10个可用令牌，此时允许10个请求同时通过限流器（<strong>允许流量一定程度的突发</strong>），这10个请求瞬间消耗完令牌后，后续的流量只能按照速率r通过限流器。</p>
+<p>需要考虑的问题：还是存在时间单位选取的问题</p>
+<p>如果令牌发放的策略正确，这个系统即不会被拖垮，也能提高机器的利用率。Guava的RateLimiter限流组件，就是基于<strong>令牌桶算法</strong>实现的</p>
+<p>缺点：令牌桶算法可以缓解漏桶算法的缺点，但在一些场景下可能存在一定问题。比如在应对<strong>短时间内的高并发请求时，由于令牌数有限</strong>，引入过大的并发请求会导致严重的性能问题，也可能会造成请求失败或者拒绝。</p>
+<p>限流粒度</p>
+<ol>
+<li>针对某个方法限流，即单位时间内最多允许同时X个操作使用这个方法</li>
+<li>针对某个用户限流，比如单个用户单位时间内最多执行X次操作</li>
+<li>针对某个用户X方法限流，比如单个用户单位时间内最多执行X次这个方法</li>
+</ol>
+<p>我在项目中使用的 Redisson 的 RateLimiter 底层是基于令牌桶算法实现的。</p>
+<p>建议阅读这篇文章:<a target="_blank" rel="noopener" href="https://juejin.cn/post/6967742960540581918">https://juejin.cn/post/6967742960540581918</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RedisLimiterManager</span> &#123;<br><br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> RedissonClient redissonClient;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 限流操作</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> key 区分不同的限流器，比如不同的用户 id 应该分别统计</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doRateLimit</span><span class="hljs-params">(String key)</span> &#123;<br>        <span class="hljs-comment">// 创建一个限流器</span><br>        <span class="hljs-type">RRateLimiter</span> <span class="hljs-variable">rateLimiter</span> <span class="hljs-operator">=</span> redissonClient.getRateLimiter(key);<br>        <span class="hljs-comment">// 每秒最多访问 2 次</span><br>        <span class="hljs-comment">// 参数1 type：限流类型，可以是自定义的任何类型，用于区分不同的限流策略。</span><br>        <span class="hljs-comment">// 参数2 rate：限流速率，即单位时间内允许通过的请求数量。</span><br>        <span class="hljs-comment">// 参数3 rateInterval：限流时间间隔，即限流速率的计算周期长度。</span><br>        <span class="hljs-comment">// 参数4 unit：限流时间间隔单位，可以是秒、毫秒等。</span><br>        rateLimiter.trySetRate(RateType.OVERALL, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, RateIntervalUnit.SECONDS);<br>        <span class="hljs-comment">// 每当一个操作来了后，请求一个令牌</span><br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">canOp</span> <span class="hljs-operator">=</span> rateLimiter.tryAcquire(<span class="hljs-number">1</span>);<br>        ThrowUtils.throwIf(!canOp,ErrorCode.TOO_MANY_REQUEST);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>本项目是根据用户id进行限流的</p>
+<h4 id="本项目如何实现异步"><a href="#本项目如何实现异步" class="headerlink" title="本项目如何实现异步"></a><strong>本项目如何实现异步</strong></h4><ol>
+<li>当用户要进行耗时很长的操作时，点击提交后，<strong>不需要在界面长时间的等待，而是应该把这个任务保存到数据库中记录下来</strong></li>
+<li>用户要执行新任务时：<ol>
+<li>任务提交成功：<ol>
+<li>如果我们的程序还有多余的空闲线程，可以立刻去执行这个任务。</li>
+<li>如果我们的程序的线程都在繁忙，无法继续处理，那就放到等待队列里。</li>
+</ol>
+</li>
+<li>任务提交失败：比如我们的程序所有线程都在忙，<strong>任务队列满了</strong>。<ol>
+<li>拒绝掉这个任务，再也不去执行。</li>
+<li>通过保存到数据库中的记录来看到提交失败的任务，并且在程序空闲的时候，可以把任务从数据库中回调到程序里，再次去执行此任务。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>我们的程序（线程）从任务队列中取出任务依次执行，每完成一件事情要修改一下的任务的状态。</li>
+<li>用户可以查询任务的执行状态，或者在任务执行成功或失败时能得到通知（发邮件、系统消息提示、短信），从而优化体验。</li>
+<li>如果我们要执行的任务非常复杂，包含很多环节，在每一个小任务完成时，要在程序（数据库中）记录一下任务的执行状态（进度）。</li>
+</ol>
+<h4 id="为什么在本项目中选择IO密集型线程池"><a href="#为什么在本项目中选择IO密集型线程池" class="headerlink" title="为什么在本项目中选择IO密集型线程池?"></a><strong>为什么在本项目中选择IO密集型线程池?</strong></h4><p>此构造方法的参数如下：</p>
+<ol>
+<li><p><code>int corePoolSize</code>：核心线程数（正式员工人数）&#x3D;&#x3D;正常情况下，我们的系统应该能同时工作的线程数（随时就绪的状态)&#x3D;&#x3D;，线程池中一直存在的线程数，即使线程闲置。</p>
+</li>
+<li><p><code>int maximumPoolSize</code>：（最大线程数 &#x3D;&gt;  哪怕任务再多，你也只能最多招5个人），&#x3D;&#x3D;极限情况下，我们的线程池最多有多少个线程？&#x3D;&#x3D;，线程池中允许存在的最大线程数。</p>
+</li>
+<li><p><code>long keepAliveTime</code>：（空闲线程存活时间），&#x3D;&#x3D;非核心线程在没有任务的情况下，过多久要删除（理解为开除临时工），从而释放无用的线程资源&#x3D;&#x3D;。非核心线程的空闲线程存活时间，单位：毫秒。</p>
+</li>
+<li><p><code>TimeUnit unit</code>：（空闲线程存活时间的单位）存活时间的单位，可选的单位包括：<code>TimeUnit.MILLISECONDS、TimeUnit.SECONDS、TimeUnit.MINUTES、TimeUnit.HOURS、TimeUnit.DAYS</code>（时分秒）等等。</p>
+</li>
+<li><p><code>BlockingQueue&lt;Runnable&gt; workQueue</code>：（工作队列）&#x3D;&#x3D;用于存放给线程执行的任务，存在一个队列的长度（一定要设置，不要说队列长度无限，因为也会占用资源)&#x3D;&#x3D;。结合实际请况去设置，可以设置为20 （2n+1）</p>
+<blockquote>
+<p>用于存放线程任务的阻塞队列，当线程池中的线程数达到了<code>corePoolSize</code>，而阻塞队列中任务满了时，线程池会创建新的线程，直到达到<code>maximumPoolSize</code>，此时达到线程池最大容量，若阻塞队列不为空，新加入的任务将会被拒绝，同时也可以通过设置<code>RejectedExecutionHandler</code>处理满了阻塞队列和饱和的情况。</p>
+</blockquote>
+</li>
+<li><p><code>ThreadFactory threadFactory</code>：（线程工厂）线程创建工厂，&#x3D;&#x3D;控制每个线程的生成、线程的属性（比如线程名）&#x3D;&#x3D;，用于创建新的线程，可以自定义ThreadFactory。</p>
+</li>
+<li><p><code>RejectedExecutionHandler handler</code>：（拒绝策略）线程池拒绝策略，&#x3D;&#x3D;任务队列满的时候，我们采取什么措施，比如抛异常、不抛异常、自定义策略&#x3D;&#x3D;。</p>
+<blockquote>
+<p>当任务无法处理时，会根据设置的拒绝策略进行处理，可选的策略有：AbortPolicy（直接抛出异常，终止程序的执行）、CallerRunsPolicy（让当前的线程来处理该任务）、DiscardPolicy（直接丢弃该任务），DiscardOldestPolicy（丢弃队列中已经存在最久的任务，将当前任务插入队列尝试提交）。</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>资源隔离策略：不同的程度的任务，分为不同的队列，比如VIP一个队列，普通用户一个队列。</p>
+</blockquote>
+<p>我是根据任务的类型以及消耗资源的情况来调整线程池的参数。比如本项目中，需要线程池执行的任务为”AI生成内容”，该任务需要等待第三方 AI接口的返回，需要消耗较长的时间，在这期间不需要高强度的 CPU 计算。所以我选择 <strong>IO密集型线程池</strong>，将核心线程数设置得更大，比如 CPU 核心数的 2-4倍，能够提高系统的并发性能。</p>
+<p><strong>CPU 密集型任务(N+1)：</strong> 这种任务消耗的主要是 CPU 资源，可以将线程数设置为 N（CPU 核心数）+1。比 CPU 核心数多出来的一个线程是为了防止线程偶发的缺页中断，或者其它原因导致的任务暂停而带来的影响。一旦任务暂停，CPU 就会处于空闲状态，而在这种情况下多出来的一个线程就可以充分利用 CPU 的空闲时间。</p>
+<p><strong>I&#x2F;O 密集型任务(2N)：</strong> 这种任务应用起来，系统会用大部分的时间来处理 I&#x2F;O 交互，而线程在处理 I&#x2F;O 的时间段内不会占用 CPU 来处理，这时就可以将 CPU 交出给其它线程使用。因此在 I&#x2F;O 密集型任务的应用中，我们可以多配置一些线程，具体的计算方法是 2N。</p>
+<h4 id="你在项目中为什么使用分布式消息队列来存储任务消息"><a href="#你在项目中为什么使用分布式消息队列来存储任务消息" class="headerlink" title="你在项目中为什么使用分布式消息队列来存储任务消息?"></a><strong>你在项目中为什么使用分布式消息队列来存储任务消息?</strong></h4><p> <strong>1、分析当前系统的不足</strong></p>
+<blockquote>
+<p>系统不足：只是在单机系统上进行操作</p>
+</blockquote>
+<p>异步实现现状：目前的异步是通过本地的线程池实现的。</p>
+<p> <strong>1.1 无法集中限制，只能单机限制</strong></p>
+<p>假如 AI 服务限制只有2个用户同时使用，单个线程池可以限制最大核心线程数为2来实现。</p>
+<p>假设系统用量增大，改为分布式，多台服务器，每个服务器都要有2个线程，就有可能有2N个线程，超过了AI 服务的限制。</p>
+<ul>
+<li>解决方案：在一个集中的地方去管理下发任务（比如集中存储当前正在执行的任务数）</li>
+</ul>
+<p> <strong>1.2 任务由于是放在内存中执行的，可能会丢失</strong></p>
+<p>虽然可以人工从数据库捞出来再重试，但是其实需要额外开发（比如定时任务），这种重试的场景是非常典型的，其实是不需要我们开发者过于关心、或者自己实现的。</p>
+<ul>
+<li>解决方案：把任务放在一个可以持久化存储的硬盘</li>
+</ul>
+<p><strong>1.3 优化</strong></p>
+<p>如果你的系统功越来越多，长耗时任务越来越多，系统会越来越复杂（比如要开多个线程池、资源可能会出现项目抢占)。</p>
+<ul>
+<li>服务拆分（应用解耦）：其实我们可以把长耗时、消耗很多的任务把它单独抽成一个程序，不要影响主业务。</li>
+<li>解决方案：可以有一个中间人，让中间人帮我们去连接两个系统（比如核心系统和智能生成业务）</li>
+</ul>
+<p><strong>相比于通过本地内存开启队列来存储任务消息，使用分布式消息队列有如下好处</strong></p>
+<p>分布式存储：<strong>消息存储在分布式的消息队列中而不是本地</strong>，有利于分布式系统的扩展。</p>
+<p>提高系统可靠性：分布式消息队列通常会保证消息的可靠传递，确保消息不会丢失，未即时处理的任务可以在消费者准备好时再次处理。</p>
+<p>异步处理：可以将耗时的任务作为消息放入消息队列中，然后由单个或多个工作线程来处理，从而提高系统性能和响应速度。</p>
+<p>高可扩展性：使用分布式消息队列，可以轻松地添加多个任务消费者，提高系统的并发处理能力。</p>
+<p>任务重试：分布式消息队列通常支持消息的重试机制。如果某个任务由于某种原因未能成功处理，消息队列可以重新将其推送给消费者，直到成功为止。</p>
+<p>在本项目中，使用了 RabbitMQ 的消息确认机制，<strong>只有接受消息并处理成功的情况下，才会确认消息</strong>；否则拒绝消息并通过死信队列进行降级处理(比如修改任务状态为失败)。通过这种机制，可以确保每一个任务都被系统处理，不会出现丢失。</p>
+<p>在本项目中，使用 RabbitMQ 消息队列来对耗时的 AI生成任务进行异步化处理，同时可以解耦创建任务和执行任务模块，<strong>在系统负载增大时，可以开启多个任务执行服务，用轮询的方式消费消息、并发处理任务。</strong></p>
+<h4 id="为什么使用-RabbitMQ-这个消息队列"><a href="#为什么使用-RabbitMQ-这个消息队列" class="headerlink" title="为什么使用 RabbitMQ 这个消息队列"></a><strong>为什么使用 RabbitMQ 这个消息队列</strong></h4><p>在选用 RabbitMQ 消息队列前，我做过充分的技术选型和调研。发现, RabbitMQ 不仅简单易用(通过阅读官方文档就能上手开发)，而且其时效性极低(延迟最低，微秒级)。</p>
+<p>此外，RabbitMQ 支持消息确认机制、延迟队列、死信队列等特性，能够满足业务对于消息可靠性的需求，这是我选择它的原因。</p>
+<table>
+<thead>
+<tr>
+<th>消息队列</th>
+<th>吞吐量（QPS）</th>
+<th>时效性</th>
+<th>可用性</th>
+<th>可靠性</th>
+<th>优势</th>
+<th>缺点</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ActiveMQ</td>
+<td>中等：万级</td>
+<td>高</td>
+<td>高</td>
+<td>中等</td>
+<td>成熟的JMS支持、简单易学</td>
+<td>性能相对较低</td>
+<td>中小型企业应用，可靠的消息传递和事务</td>
+</tr>
+<tr>
+<td>RabbitMQ</td>
+<td>中等：万级</td>
+<td><strong>极高（微秒单位）</strong></td>
+<td>高</td>
+<td>高</td>
+<td>灵活的路由策略、生态好、<strong>时效性高、易学</strong></td>
+<td>对大吞吐量的支持相对较弱</td>
+<td>复杂的消息路由和灵活的消息处理、适用于大部分的分布式系统</td>
+</tr>
+<tr>
+<td>Kafka</td>
+<td><strong>高：十万级</strong></td>
+<td>高（毫秒以内）</td>
+<td><strong>极高</strong></td>
+<td><strong>极高</strong></td>
+<td>高吞吐量和低延迟、可靠性、<strong>强大的数据流处理能力</strong></td>
+<td>复杂性较高，初学者上手难度大</td>
+<td>大数据流处理，日志收集，实时数据流传输、事件流收集传输等</td>
+</tr>
+<tr>
+<td>RocketMQ</td>
+<td>高：十万级</td>
+<td>高（毫秒）</td>
+<td><strong>极高</strong></td>
+<td><strong>极高</strong></td>
+<td>可靠性、可用性、吞吐量大、<strong>分布式事务支持</strong></td>
+<td>对复杂性的支持相对不足</td>
+<td>大规模的分布式应用，高可用性和事务一致性要求<br />适用于<strong>金融</strong>、电商等对可靠性要求较高的场景，适合大规模的消息处理</td>
+</tr>
+<tr>
+<td>ZeroMQ</td>
+<td>中等：万级</td>
+<td>高</td>
+<td>高</td>
+<td>低</td>
+<td>简单的消息传递机制</td>
+<td>缺乏对复杂消息路由的支持</td>
+<td>轻量级异步通信，构建快速分布式系统</td>
+</tr>
+<tr>
+<td>Pulsar</td>
+<td>高：十万级</td>
+<td>高（毫秒）</td>
+<td><strong>极高</strong></td>
+<td><strong>极高</strong></td>
+<td>可靠性、可用性很高、基于发布订阅模型、新兴技术结构、云原生架构支持</td>
+<td>部署和运维相对复杂</td>
+<td>适用大规模数据处理，实时分析，高并发的分布式系统。适合实时分析、事件流处理、IoT数据处理等。</td>
+</tr>
+<tr>
+<td>Apache InLong (Tube)</td>
+<td>高：十万级</td>
+<td>高</td>
+<td>高</td>
+<td>高</td>
+<td>数据传输和大数据处理集成</td>
+<td>社区生态相对较小</td>
+<td>实时分析，数据集成</td>
+</tr>
+</tbody></table>
+<p><strong>为什么用RabbitMQ，与Kafka区别</strong></p>
+<p>吞吐量和延迟：</p>
+<p>RabbitMQ：适用于<strong>实时性要求较高的场景</strong>，可以提供较低的延迟，但相对吞吐量可能较低。</p>
+<p>Kafka：适用于大规模数据流的处理，具有高吞吐量和低延迟的特点。Kafka的设计目标是<strong>处理大量的实时数据流</strong>，可以支持高并发和高吞吐量的数据处理。</p>
+<p>扩展性：</p>
+<p>RabbitMQ：支持<strong>多种消息交换机类型和队列绑定方式，可以根据需求进行灵活的消息路由和处理</strong>。可以通过集群方式实现水平扩展，提高处理能力和可用性。</p>
+<p>Kafka：通过分区和分布式架构来实现高度可扩展性。Kafka的分区机制可以将数据分布在多个节点上，并支持水平扩展和负载均衡。</p>
+<h4 id="本项目如何如果进行消息确认"><a href="#本项目如何如果进行消息确认" class="headerlink" title="本项目如何如果进行消息确认"></a><strong>本项目如何如果进行消息确认</strong></h4><p>如果消费者没有成功消费消息，比如查询到的图表id为空，或者请求用户id不满足条件，就拒绝掉该请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.basicConsume(TASK_QUEUE_NAME, <span class="hljs-literal">false</span>, deliverCallback, consumerTag -&gt; &#123;&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>basicConsume()方法源码：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-function"><span class="hljs-type">String</span> <span class="hljs-title">basicConsume</span><span class="hljs-params">(<span class="hljs-type">String</span> queue, <span class="hljs-type">boolean</span> autoAck, DeliverCallback deliverCallback, CancelCallback cancelCallback)</span> throws IOException</span>;<br></code></pre></td></tr></table></figure>
+
+<p>为了保证消息成功被消费（快递成功被取走），rabbitmg提供了消息确认机制，当消费者接收到消息后，比如要给一个反馈：</p>
+<ul>
+<li><strong>ack：</strong>消费成功（成功取到快递，我已确认收货，我的消息不用在保存在消息队列）</li>
+<li><strong>nack：</strong>消费失败（未能去到快递，可能出于快递消失了、被人拿走了、快递存在问题等等的原因，我需要退货，需要和商家协调，你不能就此将我的消息去除）</li>
+<li><strong>reject：</strong>拒绝</li>
+</ul>
+<blockquote>
+<p>如果告诉 Rabbit MQ 服务器消费成功，服务器才会放心地移除消息。</p>
+<p>支持配置autoack，会自动执行 ack 命令，接收到消息立刻就成功了。</p>
+<p>一般建议 autoack 改为 false ，根据实际情况，去手动确认。</p>
+<p>比如：</p>
+<p>false时，就要自己手动的签收快递，等我收到快递之后，查看没有问题了，再去签收快递，这样可以按照流程减少不必要的事情。</p>
+<p>true时，就是快递员不通知你就帮你签收了快递。（万一快递出了问题就不好搞了，不过现实中帮你签收了的情况也不少，有问题也还是可以处理的）</p>
+</blockquote>
+<p><strong>指定确认某条消息</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.basicAck(delivery.getEnvelope().getDeliveryTag(),<span class="hljs-literal">false</span>);<br></code></pre></td></tr></table></figure>
+
+<p>源码</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">basicAck</span><span class="hljs-params">(<span class="hljs-keyword">long</span> deliveryTag, <span class="hljs-keyword">boolean</span> multiple)</span> <span class="hljs-keyword">throws</span> IOException</span>;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参数解释：</p>
+<ol>
+<li><code>deliveryTag</code>：表示要确认的消息的标识符。每个消息都有一个唯一的<code>deliveryTag</code>，用于标识消息的顺序。</li>
+<li><code>multiple</code>：表示是否批量确认消息。如果设置为<code>true</code>，则表示确认所有在<code>deliveryTag</code>之前的未确认消息；如果设置为<code>false</code>，则只确认当前<code>deliveryTag</code>的消息。</li>
+</ol>
+<p>第二参数 multiple 批量确认：是指是否要一次性确认所有的历史消息直到当前这条</p>
+</blockquote>
+<p><strong>指定拒绝某条消息</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">channel.basicNack(delivery.getEnvelope().getDeliveryTag(),<span class="hljs-literal">false</span>,<span class="hljs-literal">false</span>);<br></code></pre></td></tr></table></figure>
+
+<p>源码</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">basicNack</span><span class="hljs-params">(<span class="hljs-keyword">long</span> deliveryTag, <span class="hljs-keyword">boolean</span> multiple, <span class="hljs-keyword">boolean</span> requeue)</span></span><br><span class="hljs-function">            <span class="hljs-keyword">throws</span> IOException</span>;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参数解释：</p>
+<ol>
+<li><code>deliveryTag</code>：表示要否定确认的消息的标识符。每个消息都有一个唯一的<code>deliveryTag</code>，用于标识消息的顺序。</li>
+<li><code>multiple</code>：表示是否批量否定确认消息。如果设置为<code>true</code>，则表示否定所有在<code>deliveryTag</code>之前的未确认消息；如果设置为<code>false</code>，则只否定当前<code>deliveryTag</code>的消息。</li>
+<li><code>requeue</code>：表示是否将消息重新放回队列。如果设置为<code>true</code>，则消息将被重新放回队列并可以被其他消费者重新消费；如果设置为<code>false</code>，则消息将会被丢弃。</li>
+</ol>
+<p>第三个参数表示是否重新入队，可用于重试</p>
+</blockquote>
+<p><strong>RabbitMQ 有哪几种交换机？你在项目中选择了哪个交换机?</strong><br>RabbitMQ 主要有 4 种交换机:</p>
+<ol>
+<li><strong>Fanout Exchange</strong>（广播类型）：Fanout交换机<strong>将消息广播到其绑定的所有队列</strong>。当消息被发送到Fanout交换机时，它会将消息复制到所有绑定的队列上，<strong>而不考虑路由键的值</strong>。因此，无论消息的路由键是什么，都会被广播到所有队列。Fanout交换机主要用于广播消息给所有的消费者。</li>
+<li><strong>Direct Exchange</strong>（直连类型）：Direct交换机是<strong>根据消息的路由键选择将消息路由到与消息具有相同路由键绑定的队列</strong>。例如，<strong>当消息的路由键与绑定键完全匹配时</strong>，消息将被路由到对应的队列。Direct交换机主要用于一对一的消息路由。</li>
+<li><strong>Topic Exchange</strong>（主题类型）：Topic交换机<strong>将消息根据路由键的模式进行匹配，并将消息路由到与消息的路由键匹配的队列</strong>。路由键可以<strong>使用通配符匹配</strong>，支持两种通配符符号，”#”表示匹配一个或多个单词，”*”表示匹配一个单词。Topic交换机主要用于灵活的消息路由。</li>
+<li><strong>Headers Exchange</strong>（头类型）：Headers交换机是<strong>根据消息的头部信息进行匹配，并将消息路由到匹配的队列</strong>。头部信息通常是<strong>一组键值对</strong>，可以使用各种自定义的标准和非标准的头部信息进行匹配。Headers交换机主要用于复杂的匹配规则。</li>
+</ol>
+<p>我在项目中使用了 Direct 类型的交换机，因为项目只有1种生产者、1 组消费者、1 种消息类型，选用 Direct 交换机的点对点通信已经能够满足需求，且便于理解。</p>
+<p><strong>你在 Spring Boot 项目中是如何使用 RabbitMQ 的？请简述消息发送和处理流程。</strong><br>1)引入 spring-boot-starter-amqp 依赖，并且在 application.yml 中编写 rabbitmg 连接配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">  # rabbitmq 信息<br>  rabbitmq:<br>    host: localhost<br>#    password: <span class="hljs-number">123456</span><br>#    username: pale<br>    port: <span class="hljs-number">5672</span><br></code></pre></td></tr></table></figure>
+
+<p>2)编写初始化队列类，创建 Direct 交换机、队列，以及交换机和队列的绑定</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BiMqInit</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">ConnectionFactory</span> <span class="hljs-variable">factory</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConnectionFactory</span>();<br>            <span class="hljs-comment">// 设置 rabbitmq 对应的信息</span><br>            factory.setHost(BiMqConstant.BI_MQ_HOST);<br><span class="hljs-comment">//            factory.setUsername(BiMqConstant.BI_MQ_USERNAME);</span><br><span class="hljs-comment">//            factory.setPassword(BiMqConstant.BI_MQ_PASSWORD);</span><br><br>            <span class="hljs-type">Connection</span> <span class="hljs-variable">connection</span> <span class="hljs-operator">=</span> factory.newConnection();<br>            <span class="hljs-type">Channel</span> <span class="hljs-variable">channel</span> <span class="hljs-operator">=</span> connection.createChannel();<br><br>            <span class="hljs-type">String</span> <span class="hljs-variable">biExchange</span> <span class="hljs-operator">=</span> BiMqConstant.BI_EXCHANGE_NAME;<br><br>            channel.exchangeDeclare(biExchange, BiMqConstant.BI_DIRECT_EXCHANGE);<br><br>            <span class="hljs-comment">// 创建队列，分配一个队列名称</span><br>            <span class="hljs-type">String</span> <span class="hljs-variable">queueName</span> <span class="hljs-operator">=</span> BiMqConstant.BI_QUEUE;<br>            channel.queueDeclare(queueName, <span class="hljs-literal">true</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">null</span>);<br>            channel.queueBind(queueName, biExchange, BiMqConstant.BI_ROUTING_KEY);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>3)创建生产者类:通过 Spring Boot 整合的 RabbitTemplate 类来操作 MQ，比如调用其 convertAndSend 方法，向指定的交换机发送指定路由键的消息，比如发送 AI 生成任务的 id（这里使用图表ID）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BiMqMessageProducer</span> &#123;<br><br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> RabbitTemplate rabbitTemplate;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 发送消息</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> message</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendMessage</span><span class="hljs-params">(String message)</span> &#123;<br>        rabbitTemplate.convertAndSend(BiMqConstant.BI_EXCHANGE_NAME,BiMqConstant.BI_ROUTING_KEY, message);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Service层</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 先插入数据到数据库</span><br><span class="hljs-type">Chart</span> <span class="hljs-variable">chart</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chart</span>();<br>chartName = StringUtils.isBlank(chartName) ? ChartUtils.genDefaultChartName() : chartName;<br>chart.setGoal(goal);<br>chart.setChartData(csvData);<br>chart.setChartName(chartName);<br>chart.setChartType(chartType);<br>chart.setStatus(ChartStatusEnum.WAIT.getValue());<br>chart.setUserId(loginUser.getId());<br><span class="hljs-type">boolean</span> <span class="hljs-variable">saveResult</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.save(chart);<br>ThrowUtils.throwIf(!saveResult, ErrorCode.SYSTEM_ERROR, <span class="hljs-string">&quot;图表保存失败&quot;</span>);<br><br><br><span class="hljs-type">Long</span> <span class="hljs-variable">newChartId</span> <span class="hljs-operator">=</span> chart.getId();<br><span class="hljs-comment">//生产者向消息队列发送消息，为图表的id，消费者获取到该id就可以进行消费</span><br>biMqMessageProducer.sendMessage(String.valueOf(newChartId));<br></code></pre></td></tr></table></figure>
+
+
+
+<p>4)创建消费者类:通过 <strong>@RabbitListener</strong> 注解标识处理消息的方法，并在方法内编写对应的业务逻辑(比如获取 AI 生成任务的 id、消息确认等)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Slf4j</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BiMqMessageConsumer</span> &#123;<br><br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> ChartService chartService;<br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> AiManager aiManager;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 指定程序监听的消息队列和确认机制</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> message</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> channel</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> deliveryTag</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@SneakyThrows</span><br>    <span class="hljs-meta">@RabbitListener(queues = &#123;BiMqConstant.BI_QUEUE&#125;, ackMode = &quot;MANUAL&quot;)</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">receiveMessage</span><span class="hljs-params">(String message, Channel channel, <span class="hljs-meta">@Header(AmqpHeaders.DELIVERY_TAG)</span> <span class="hljs-type">long</span> deliveryTag)</span> &#123;<br>        log.info(<span class="hljs-string">&quot;receiveMessage message=&#123;&#125;&quot;</span>, message);<br>        <span class="hljs-keyword">if</span> (StringUtils.isBlank(message)) &#123;<br>            <span class="hljs-comment">// 消息为空，则拒绝掉消息</span><br>            channel.basicNack(deliveryTag, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessException</span>(ErrorCode.PARAMS_ERROR, <span class="hljs-string">&quot;接受到的消息为空&quot;</span>);<br>        &#125;<br>        <span class="hljs-comment">// 获取到图表的id</span><br>        <span class="hljs-type">long</span> <span class="hljs-variable">chartId</span> <span class="hljs-operator">=</span> Long.parseLong(message);<br>        <span class="hljs-comment">// 从数据库中取出id</span><br>        <span class="hljs-type">Chart</span> <span class="hljs-variable">chart</span> <span class="hljs-operator">=</span> chartService.getById(chartId);<br>        <span class="hljs-keyword">if</span> (chart == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-comment">// 将消息拒绝</span><br>            channel.basicNack(deliveryTag, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessException</span>(ErrorCode.PARAMS_ERROR, <span class="hljs-string">&quot;图表为空&quot;</span>);<br>        &#125;<br>        <span class="hljs-comment">// 等待--&gt;执行中--&gt; 成功/失败</span><br>        <span class="hljs-type">Chart</span> <span class="hljs-variable">updateChart</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chart</span>();<br>        updateChart.setId(chart.getId());<br>        updateChart.setStatus(ChartStatusEnum.RUNNING.getValue());<br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">updateChartById</span> <span class="hljs-operator">=</span> chartService.updateById(updateChart);<br>        <span class="hljs-keyword">if</span> (!updateChartById) &#123;<br>            <span class="hljs-comment">// 将消息拒绝</span><br>            channel.basicNack(deliveryTag, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);<br>            <span class="hljs-type">Chart</span> <span class="hljs-variable">updateChartFailed</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chart</span>();<br>            updateChartFailed.setId(chart.getId());<br>            updateChartFailed.setStatus(ChartStatusEnum.FAILED.getValue());<br>            chartService.updateById(updateChartFailed);<br>            chartService.handleChartUpdateError(chart.getId(), <span class="hljs-string">&quot;更新图表·执行中状态·失败&quot;</span>);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">// 调用AI</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">userInput</span> <span class="hljs-operator">=</span> buildUserInput(chart);<br>        System.out.printf(userInput);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">chartResult</span> <span class="hljs-operator">=</span> aiManager.doChat(userInput);<br>        System.out.println(chartResult);<br><br><br>        <span class="hljs-comment">// 解析内容</span><br>        String[] splits = chartResult.split(GEN_CONTENT_SPLITS);<br>        <span class="hljs-keyword">if</span> (splits.length &lt; GEN_ITEM_NUM) &#123;<br>            <span class="hljs-comment">//throw new BusinessException(ErrorCode.SYSTEM_ERROR, &quot;&quot;);</span><br>            chartService.handleChartUpdateError(chart.getId(), <span class="hljs-string">&quot;AI生成错误&quot;</span>);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">// 生成前的内容</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">preGenChart</span> <span class="hljs-operator">=</span> splits[GEN_CHART_IDX].trim();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">genResult</span> <span class="hljs-operator">=</span> splits[GEN_RESULT_IDX].trim();<br>        <span class="hljs-comment">// 生成后端检验</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">validGenChart</span> <span class="hljs-operator">=</span> ChartUtils.getValidGenChart(preGenChart);<br><br>        <span class="hljs-comment">// 生成的最终结果-成功</span><br>        <span class="hljs-type">Chart</span> <span class="hljs-variable">updateChartResult</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chart</span>();<br>        updateChartResult.setId(chart.getId());<br>        updateChartResult.setGenChart(preGenChart);<br>        <span class="hljs-comment">//updateChartResult.setGenChart(validGenChart);</span><br>        updateChartResult.setGenResult(genResult);<br>        updateChartResult.setStatus(ChartStatusEnum.SUCCEED.getValue());<br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">updateResult</span> <span class="hljs-operator">=</span> chartService.updateById(updateChartResult);<br>        <span class="hljs-keyword">if</span> (!updateResult) &#123;<br>            <span class="hljs-comment">// 将消息拒绝</span><br>            channel.basicNack(deliveryTag, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>);<br>            <span class="hljs-type">Chart</span> <span class="hljs-variable">updateChartFailed</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Chart</span>();<br>            updateChartFailed.setId(chart.getId());<br>            updateChartFailed.setStatus(ChartStatusEnum.FAILED.getValue());<br>            chartService.updateById(updateChartFailed);<br>            chartService.handleChartUpdateError(chart.getId(), <span class="hljs-string">&quot;更新图表·成功状态·失败&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-comment">// 成功，则确认消息</span><br>        channel.basicAck(deliveryTag, <span class="hljs-literal">false</span>);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 构建用户的输入信息</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> chart</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> String <span class="hljs-title function_">buildUserInput</span><span class="hljs-params">(Chart chart)</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">goal</span> <span class="hljs-operator">=</span> chart.getGoal();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">chartType</span> <span class="hljs-operator">=</span> chart.getChartType();<br>        <span class="hljs-type">String</span> <span class="hljs-variable">chartData</span> <span class="hljs-operator">=</span> chart.getChartData();<br><br>        <span class="hljs-comment">// 无需Prompt，直接调用现有模型</span><br>        <span class="hljs-comment">// 构造用户输入</span><br>        <span class="hljs-type">StringBuilder</span> <span class="hljs-variable">userInput</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuilder</span>();<br>        userInput.append(<span class="hljs-string">&quot;分析需求：&quot;</span>).append(<span class="hljs-string">&quot;\n&quot;</span>);<br>        <span class="hljs-comment">// 拼接分析目标</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">userGoal</span> <span class="hljs-operator">=</span> goal;<br>        <span class="hljs-keyword">if</span> (StringUtils.isNotBlank(chartType)) &#123;<br>            userGoal += <span class="hljs-string">&quot;，请使用&quot;</span> + chartType;<br>        &#125;<br>        userInput.append(userGoal).append(<span class="hljs-string">&quot;\n&quot;</span>);<br>        userInput.append(<span class="hljs-string">&quot;原始数据：&quot;</span>).append(<span class="hljs-string">&quot;\n&quot;</span>);<br>        userInput.append(chartData).append(<span class="hljs-string">&quot;\n&quot;</span>);<br>        <span class="hljs-keyword">return</span> userInput.toString();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>智能BI平台面试题</div>
+      <div>http://example.com/2024/05/12/项目/智能BI平台/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
