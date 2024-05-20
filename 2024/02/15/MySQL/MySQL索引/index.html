@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240320160638660.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/948ac3e63c36a93101860e7da11ddc42.png">
 <meta property="article:published_time" content="2024-02-15T03:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-17T16:35:21.613Z">
+<meta property="article:modified_time" content="2024-05-19T17:01:15.145Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -258,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.1k 字
+          8.3k 字
         
       </span>
     
@@ -269,7 +269,7 @@
         
         
         
-          68 分钟
+          70 分钟
         
       </span>
     
@@ -373,7 +373,7 @@
 <p><strong>缺点</strong>：</p>
 <ul>
 <li><strong>依赖于有序的数据</strong>：因为 B+树是多路平衡树，如果索引的数据不是有序的，那么就需要在插入时排序，如果数据是整型还好，否则类似于字符串或 UUID 这种又长又难比较的数据，插入或查找的速度肯定比较慢。</li>
-<li><strong>更新代价大</strong>：如果对索引列的数据被修改时，那么对应的索引也将会被修改，而且聚簇索引的叶子节点还存放着数据，修改代价肯定是较大的，所以对于主键索引来说，主键一般都是不可被修改的。</li>
+<li><strong>更新代价大</strong>：如果对索引列的数据被修改时，那么对应的索引也将会被修改，<strong>而且聚簇索引的叶子节点还存放着数据，修改代价肯定是较大的，所以对于主键索引来说，主键一般都是不可被修改的。</strong></li>
 </ul>
 <h3 id="非聚簇索引"><a href="#非聚簇索引" class="headerlink" title="非聚簇索引"></a><strong>非聚簇索引</strong></h3><p><strong>非聚簇索引(Non-Clustered Index)即索引结构和数据分开存放的索引，并不是一种单独的索引类型。二级索引(辅助索引)就属于非聚簇索引。MySQL 的 MyISAM 引擎，不管主键还是非主键，使用的都是非聚簇索引。</strong></p>
 <p>非聚簇索引的叶子节点并不一定存放数据的指针，因为二级索引的叶子节点就存放的是主键，根据主键再回表查数据。</p>
@@ -387,6 +387,10 @@
 <li><p>**可能会二次查询(回表)**：这应该是非聚簇索引最大的缺点了。 当查到索引对应的指针或主键后，可能还需要根据指针或主键再到数据文件或表中查询。</p>
 </li>
 </ul>
+<h4 id="为什么有了聚簇索引还要有非聚簇索引？"><a href="#为什么有了聚簇索引还要有非聚簇索引？" class="headerlink" title="为什么有了聚簇索引还要有非聚簇索引？"></a><strong>为什么有了聚簇索引还要有非聚簇索引？</strong></h4><p><strong>多个索引支持：</strong>一个表可以有多个非聚簇索引，这意味着可以为不同的查询需求创建不同的索引，从而提高查询性能。</p>
+<p><strong>覆盖索引：</strong>可以创建覆盖索引，这意味着查询所需的所有列都包含在索引中，查询可以直接从索引中获取数据而无需访问实际表，从而显著提高查询速度。</p>
+<p><strong>更小的索引大小：</strong>只包含索引列和指向实际数据行的指针，索引大小通常比聚簇索引小，因此占用的存储空间更少，查询时的I&#x2F;O操作更少。</p>
+<p><strong>更新代价小：</strong>非聚簇索引只包含索引列和指向数据行的指针，通常比整个数据行要小。这意味着在更新索引时，涉及的数据量和页数较少。</p>
 <h4 id="非聚簇索引一定回表查询吗-覆盖索引"><a href="#非聚簇索引一定回表查询吗-覆盖索引" class="headerlink" title="非聚簇索引一定回表查询吗(覆盖索引)?"></a><strong>非聚簇索引一定回表查询吗(覆盖索引)?</strong></h4><p><strong>非聚簇索引不一定回表查询。</strong></p>
 <p>试想一种情况，用户准备使用 SQL 查询用户名，而用户名字段正好建立了索引。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> name <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">WHERE</span> name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;guang19&#x27;</span>;<br></code></pre></td></tr></table></figure>

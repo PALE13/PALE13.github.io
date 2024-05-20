@@ -255,6 +255,74 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2023/09/20/Java/JVM/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_self">
+          Java内存模型
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2023/09/20/Java/JVM/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" target="_self">
+        <div>
+          Java内存模型  程序计数器程序计数器是一块较小的内存空间，可以看作是当前线程所执行的字节码的行号指示器。字节码解释器工作时通过改变这个计数器的值来选取下一条需要执行的字节码指令，分支、循环、跳转、异常处理、线程恢复等功能都需要依赖这个计数器来完成。 另外，为了线程切换后能恢复到正确的执行位置，每条线程都需要有一个独立的程序计数器，各线程之间计数器互不影响，独立存储，我们称这类内存区域为“线程私
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-09-20 09:35" pubdate>
+              2023-09-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java/" class="category-chain-item">Java</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java/JVM/" class="category-chain-item">JVM</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Java/">#Java</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2023/09/20/Java/JVM/%E7%B1%BB%E5%8A%A0%E8%BD%BD/" target="_self">
           类加载
         </a>
@@ -808,74 +876,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/SPI%E6%9C%BA%E5%88%B6/" target="_self">
         <div>
           SPISPI（Service Provider Interface）是 Java 中一种用于实现服务发现机制的标准扩展机制。它允许在应用程序中定义服务接口，然后在运行时通过服务提供者动态注册实现这些接口的具体实现类。     一般模块之间都是通过通过接口进行通讯，那我们在服务调用方和服务实现方（也称服务提供者）之间引入一个“接口”。 API: 当实现方提供了接口和实现，我们可以通过调用实现方的接口
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2023-06-26 20:46" pubdate>
-              2023-06-26
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/Java/" class="category-chain-item">Java</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/Java/Java%E8%BF%9B%E9%98%B6/" class="category-chain-item">Java进阶</a>
-  
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Java/">#Java</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/Stream%E6%B5%81/" target="_self">
-          Stream流
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/Stream%E6%B5%81/" target="_self">
-        <div>
-          Stream流Stream（流）是一个来自数据源的元素队列 元素是特定类型的对象，形成一个队列。 Java中的Stream并不会存储元素，而是按需计算。 数据源流的来源，可以是集合，数组等。 和以前的Collection操作不同， Stream操作还有两个基础的特征： Pipelining：中间操作都会返回流对象本身。 这样多个操作可以串联成一个管道， 如同流式风格（fluent style）。
         </div>
       </a>
 
