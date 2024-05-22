@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310224231762.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240310230430992.png">
 <meta property="article:published_time" content="2023-02-24T01:35:21.000Z">
-<meta property="article:modified_time" content="2024-05-17T16:34:58.196Z">
+<meta property="article:modified_time" content="2024-05-20T06:54:37.846Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="计算机基础">
 <meta name="twitter:card" content="summary_large_image">
@@ -486,8 +486,7 @@
 <p><strong>一是通信不及时，二是附件也有大小限制</strong>，这同样也是消息队列通信不足的点。</p>
 <p><strong>消息队列不适合比较大数据的传输</strong>，因为在内核中每个消息体都有一个最大长度的限制，同时所有队列所包含的全部消息体的总长度也是有上限。在 Linux 内核中，会有两个宏定义 <code>MSGMAX</code> 和 <code>MSGMNB</code>，它们以字节为单位，分别定义了一条消息的最大长度和一个队列的最大长度。</p>
 <p><strong>消息队列通信过程中，存在用户态与内核态之间的数据拷贝开销</strong>，因为进程写入数据到内核中的消息队列时，会发生从用户态拷贝数据到内核态的过程，同理另一进程读取内核中的消息数据时，会发生从内核态拷贝数据到用户态的过程。</p>
-<p><strong>共享内存(Shared memory)</strong></p>
-<p>使得多个进程可以访问同一块内存空间，不同进程可以及时看到对方进程中对共享内存中数据的更新。这种方式需要依靠某种<strong>同步操作，如互斥锁和信号量</strong>等。可以说这是最有用的进程间通信方式。</p>
+<h4 id="共享内存-Shared-memory"><a href="#共享内存-Shared-memory" class="headerlink" title="共享内存(Shared memory)"></a><strong>共享内存(Shared memory)</strong></h4><p>使得多个进程可以访问同一块内存空间，不同进程可以及时看到对方进程中对共享内存中数据的更新。这种方式需要依靠某种<strong>同步操作，如互斥锁和信号量</strong>等。可以说这是最有用的进程间通信方式。</p>
 <p><strong>共享内存的机制，就是拿出一块虚拟地址空间来，映射到相同的物理内存中</strong>。这样这个进程写入的东西，另外一个进程马上就能看到了，都不需要拷贝来拷贝去，传来传去，大大提高了进程间通信的速度。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240408123911320.png" srcset="/img/loading.gif" lazyload alt="image-20240408123911320" style="zoom: 67%;" />
 

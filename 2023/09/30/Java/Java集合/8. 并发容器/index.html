@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240406214644397.png">
 <meta property="article:published_time" content="2023-09-30T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-18T09:50:47.216Z">
+<meta property="article:modified_time" content="2024-05-20T10:33:46.652Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -330,7 +330,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ArrayBlockingQueue</span>&lt;E&gt;<br><span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractQueue</span>&lt;E&gt;<br><span class="hljs-keyword">implements</span> <span class="hljs-title class_">BlockingQueue</span>&lt;E&gt;, Serializable&#123;&#125;<br></code></pre></td></tr></table></figure>
 
 <p><code>ArrayBlockingQueue</code> 一旦创建，容量不能改变。其<strong>并发控制采用可重入锁 <code>ReentrantLock</code></strong> ，不管是插入操作还是读取操作，都需要获取到锁才能进行操作。当队列容量满时，尝试将元素放入队列将导致操作阻塞;尝试从一个空队列中取一个元素也会同样阻塞。</p>
-<p><code>ArrayBlockingQueue</code> 默认情况下不能保证线程访问队列的公平性，所谓公平性是指严格按照线程等待的绝对时间顺序，即最先等待的线程能够最先访问到 <code>ArrayBlockingQueue</code>。而非公平性则是指访问 <code>ArrayBlockingQueue</code> 的顺序不是遵守严格的时间顺序，有可能存在，当 <code>ArrayBlockingQueue</code> 可以被访问时，长时间阻塞的线程依然无法访问到 <code>ArrayBlockingQueue</code>。如果保证公平性，通常会降低吞吐量。</p>
+<p><strong><code>ArrayBlockingQueue</code> 默认情况下不能保证线程访问队列的公平性</strong>，所谓公平性是指严格按照线程等待的绝对时间顺序，即最先等待的线程能够最先访问到 <code>ArrayBlockingQueue</code>。而非公平性则是指访问 <code>ArrayBlockingQueue</code> 的顺序不是遵守严格的时间顺序，有可能存在，当 <code>ArrayBlockingQueue</code> 可以被访问时，长时间阻塞的线程依然无法访问到 <code>ArrayBlockingQueue</code>。如果保证公平性，通常会降低吞吐量。</p>
 <p>如果需要获得公平性的 <code>ArrayBlockingQueue</code>，可采用如下代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ArrayBlockingQueue&lt;Integer&gt; blockingQueue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBlockingQueue</span>&lt;Integer&gt;(<span class="hljs-number">10</span>,<span class="hljs-literal">true</span>）;<br></code></pre></td></tr></table></figure>
 
@@ -339,7 +339,6 @@
 <h4 id="LinkedBlockingQueue"><a href="#LinkedBlockingQueue" class="headerlink" title="LinkedBlockingQueue"></a><strong>LinkedBlockingQueue</strong></h4><p><code>LinkedBlockingQueue</code> 底层基于<strong>单向链表</strong>实现的阻塞队列，可以当做无界队列也可以当做有界队列来使用，同样满足 FIFO 的特性，与 <code>ArrayBlockingQueue</code> 相比起来具有更高的吞吐量，为了防止 <code>LinkedBlockingQueue</code> 容量迅速增，损耗大量内存。<strong>通常在创建 <code>LinkedBlockingQueue</code> 对象时，会指定其大小，如果未指定，容量等于 <code>Integer.MAX_VALUE</code> 。</strong></p>
 <p><strong>相关构造方法:</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *某种意义上的无界队列</span><br><span class="hljs-comment"> * Creates a &#123;<span class="hljs-doctag">@code</span> LinkedBlockingQueue&#125; with a capacity of</span><br><span class="hljs-comment"> * &#123;<span class="hljs-doctag">@link</span> Integer#MAX_VALUE&#125;.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkedBlockingQueue</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">this</span>(Integer.MAX_VALUE);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *有界队列</span><br><span class="hljs-comment"> * Creates a &#123;<span class="hljs-doctag">@code</span> LinkedBlockingQueue&#125; with the given (fixed) capacity.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> capacity the capacity of this queue</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> IllegalArgumentException if &#123;<span class="hljs-doctag">@code</span> capacity&#125; is not greater</span><br><span class="hljs-comment"> *         than zero</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkedBlockingQueue</span><span class="hljs-params">(<span class="hljs-type">int</span> capacity)</span> &#123;<br>    <span class="hljs-keyword">if</span> (capacity &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>();<br>    <span class="hljs-built_in">this</span>.capacity = capacity;<br>    last = head = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>&lt;E&gt;(<span class="hljs-literal">null</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
-
 
 
 
@@ -461,7 +460,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/10/07/%E7%AE%97%E6%B3%95/%E6%A0%88%EF%BC%8C%E9%98%9F%E5%88%97%EF%BC%8C%E5%A0%86/2.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/" title="用队列实现栈">
+                      <a href="/2023/10/07/%E7%AE%97%E6%B3%95/%E9%98%9F%E5%88%97%E5%92%8C%E6%A0%88/2.%20%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88/" title="用队列实现栈">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">用队列实现栈</span>
                         <span class="visible-mobile">上一篇</span>
