@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/2019-4%E6%AD%BB%E9%94%811.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418160202135.png">
 <meta property="article:published_time" content="2023-05-13T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-17T12:33:58.301Z">
+<meta property="article:modified_time" content="2024-05-23T03:26:45.633Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -503,7 +503,7 @@
 <h4 id="sleep-方法和-wait-方法对比"><a href="#sleep-方法和-wait-方法对比" class="headerlink" title="sleep() 方法和 wait() 方法对比"></a><strong>sleep() 方法和 wait() 方法对比</strong></h4><p><strong>共同点</strong>：两者都可以暂停线程的执行。</p>
 <p><strong>区别</strong>：</p>
 <ul>
-<li><code>sleep()</code> 方法没有释放锁，而 <code>wait()</code> 方法释放了锁 。</li>
+<li><code>sleep()</code> 方法没有释放锁，但不占用CPU资源，而 <code>wait()</code> 方法释放了锁，也不占用CPU资源 。</li>
 <li><code>wait()</code> 通常被用于线程间交互&#x2F;通信，<code>sleep()</code>通常被用于暂停执行。</li>
 <li><code>wait()</code> 方法被调用后，线程不会自动苏醒，需要别的线程调用同一个对象上的 <code>notify()</code>或者 <code>notifyAll()</code> 方法。<code>sleep()</code>方法执行完成后，线程会自动苏醒，或者也可以使用 <code>wait(long timeout)</code> 超时后线程会自动苏醒。</li>
 <li><code>sleep()</code> 是 <code>Thread</code> 类的静态本地方法，<code>wait()</code> 则是 <code>Object</code> 类的本地方法。为什么这样设计呢？下一个问题就会聊到。</li>

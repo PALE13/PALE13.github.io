@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240428135855109.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240428140446265.png">
 <meta property="article:published_time" content="2024-04-18T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-17T17:01:34.464Z">
+<meta property="article:modified_time" content="2024-05-24T02:07:01.904Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary_large_image">
@@ -384,7 +384,6 @@
 <p>通过 <code>docker rmi [image]</code> （等价于<code>docker image rm [image]</code>）删除镜像之前首先要确保这个镜像没有被容器引用（可以通过标签名称或者镜像 ID 删除）。通过我们前面讲的<code>docker ps</code>命令即可查看。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">➜  ~ docker ps<br>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES<br>c4cd691d9f80        mysql:5.7           <span class="hljs-string">&quot;docker-entrypoint.s…&quot;</span>   7 weeks ago         Up 12 days          0.0.0.0:3306-&gt;3306/tcp, 33060/tcp   mysql<br></code></pre></td></tr></table></figure>
 
-<p>可以看到 mysql 正在被 id 为 c4cd691d9f80 的容器引用，我们需要首先通过 <code>docker stop c4cd691d9f80</code> 或者 <code>docker stop mysql</code>暂停这个容器。</p>
 <p>可以看到 mysql 正在被 id 为 c4cd691d9f80 的容器引用，我们需要首先通过 <code>docker stop c4cd691d9f80</code> 或者 <code>docker stop mysql</code>暂停这个容器。</p>
 <p>然后查看 mysql 镜像的 id</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">➜  ~ docker images<br>REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE<br>mysql                   5.7                 f6509bac4980        3 months ago        373MB<br></code></pre></td></tr></table></figure>

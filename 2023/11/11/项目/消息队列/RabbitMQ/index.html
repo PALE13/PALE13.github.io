@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240323201143766.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519202549914.png">
 <meta property="article:published_time" content="2023-11-11T04:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-19T12:34:44.936Z">
+<meta property="article:modified_time" content="2024-05-22T07:33:52.411Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary_large_image">
@@ -381,7 +381,7 @@
 <p>RabbitMQ 本身是没有延迟队列的，要实现延迟消息，一般有两种方式：</p>
 <p>1、通过 RabbitMQ 本身队列的特性来实现，需要使用 RabbitMQ 的死信交换机（Exchange）和消息的存活时间 TTL（Time To Live）。</p>
 <blockquote>
-<p>假如一条消息需要延迟 30 分钟执行，我们就设置这条消息的有效期为 30 分钟，同时为这条消息配置死信交换机和死信 routing_key，并且不为这个消息队列设置消费者，那么 30 分钟后，这条消息由于没有被消费者消费而进入死信队列，此时我们有一个消费者就在“蹲点”这个死信队列，消息一进入死信队列，就立马被消费了。</p>
+<p>假如一条消息需要延迟 30 分钟执行，我们就设置这条消息的有效期为 30 分钟，同时为这条消息配置死信交换机和死信 routing_key，<strong>并且不为这个消息队列设置消费者</strong>，那么 30 分钟后，这条消息由于没有被消费者消费而进入死信队列，此时我们有一个消费者就在“蹲点”这个死信队列，消息一进入死信队列，就立马被消费了。</p>
 </blockquote>
 <p>2、在 RabbitMQ 3.5.7 及以上的版本提供了一个插件（rabbitmq-delayed-message-exchange）来实现延迟队列功能。同时，插件依赖 Erlang&#x2F;OPT 18.0 及以上。</p>
 <p>也就是说，<strong>AMQP 协议以及 RabbitMQ 本身没有直接支持延迟队列的功能，但是可以通过 TTL 和 DLX 模拟出延迟队列的功能。</strong></p>
