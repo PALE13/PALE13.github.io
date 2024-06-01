@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412213856310.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240412215110076.png">
 <meta property="article:published_time" content="2024-02-28T10:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-19T11:41:06.943Z">
+<meta property="article:modified_time" content="2024-05-30T06:56:18.587Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="认证鉴权">
 <meta name="twitter:card" content="summary_large_image">
@@ -411,8 +411,9 @@
 <li>下一次发送请求后需要将 token 携带上，比如放在请求头中或者其它地方。</li>
 <li>服务端 token 后校验，校验通过则正常返回数据。</li>
 </ol>
-<p>安全，因为 token 一般只有用户 id，就算被截取了也没什么用。</p>
-<p>无需消耗服务器内存资源，它相当于只存了用户 id，session 相当于存储了用户的所有信息。3.跨域处理较为方便，比如多台服务器之间可以共用一个 token。</p>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a><strong>优点</strong></h4><p>安全，因为 token 一般只有用户 id，就算被截取了也没什么用。</p>
+<p>无需消耗服务器内存资源，它相当于只存了用户 id，session 相当于存储了用户的所有信息。</p>
+<p>跨域处理较为方便，比如多台服务器之间可以共用一个 token。</p>
 <h3 id="为什么-Cookie-无法防止-CSRF-攻击，而-Token-可以？"><a href="#为什么-Cookie-无法防止-CSRF-攻击，而-Token-可以？" class="headerlink" title="为什么 Cookie 无法防止 CSRF 攻击，而 Token 可以？"></a><strong>为什么 Cookie 无法防止 CSRF 攻击，而 Token 可以？</strong></h3><p><strong>CSRF(Cross Site Request Forgery)</strong> 一般被翻译为 <strong>跨站请求伪造</strong> 。那么什么是 <strong>跨站请求伪造</strong> 呢？说简单点，就是用你的身份去发送一些对你不友好的请求。举个简单的例子：</p>
 <p>小壮登录了某网上银行，他来到了网上银行的帖子区，看到一个帖子下面有一个链接写着“科学理财，年盈利率过万”，小壮好奇的点开了这个链接，结果发现自己的账户少了 10000 元。这是这么回事呢？原来黑客在链接中藏了一个请求，这个请求直接利用小壮的身份给银行发送了一个转账请求,也就是通过你的 Cookie 向银行发出请求。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">src</span>=<span class="hljs-string">http://www.mybank.com/Transfer?bankId</span>=<span class="hljs-string">11&amp;money</span>=<span class="hljs-string">10000</span>&gt;</span>科学理财，年盈利率过万<span class="hljs-tag">&lt;/&gt;</span><br></code></pre></td></tr></table></figure>
@@ -424,7 +425,7 @@
 
 <p>需要注意的是：不论是 <code>Cookie</code> 还是 <code>Token</code> 都无法避免 <strong>跨站脚本攻击（Cross Site Scripting）XSS</strong> 。</p>
 <p>跨站脚本攻击（Cross Site Scripting）缩写为 CSS 但这会与层叠样式表（Cascading Style Sheets，CSS）的缩写混淆。因此，有人将跨站脚本攻击缩写为 XSS。</p>
-<p>XSS 中攻击者会用各种方式将恶意代码注入到其他用户的页面中。就可以通过脚本盗用信息比如 <code>Cookie</code>，token</p>
+<p>XSS 中攻击者会用各种方式将恶意代码注入到其他用户的页面中。<strong>就可以通过脚本盗用信息比如 <code>Cookie</code>，token</strong></p>
 
                 
               </div>

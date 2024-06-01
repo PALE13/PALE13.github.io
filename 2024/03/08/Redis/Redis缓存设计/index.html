@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/redis/%E5%85%AB%E8%82%A1%E6%96%87/WriteThrough.jpg">
 <meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/redis/%E5%85%AB%E8%82%A1%E6%96%87/writeback.png">
 <meta property="article:published_time" content="2024-03-08T13:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-24T02:45:10.712Z">
+<meta property="article:modified_time" content="2024-05-28T06:47:26.119Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
@@ -391,12 +391,12 @@
 <p>综上，我们可以得出：<strong>布隆过滤器说某个元素存在，小概率会误判（bit位为1的重叠了）。布隆过滤器说某个元素不在，那么这个元素一定不在。</strong></p>
 <h3 id="如何减少误判的概率？"><a href="#如何减少误判的概率？" class="headerlink" title="如何减少误判的概率？"></a><strong>如何减少误判的概率？</strong></h3><p>增加bit位，但需要增加更多的存储空间</p>
 <p>增加hash运算，但消耗跟多的CPU资源，降低布隆过滤器性能</p>
-<h3 id="布隆过滤器使用场景"><a href="#布隆过滤器使用场景" class="headerlink" title="布隆过滤器使用场景"></a><strong>布隆过滤器使用场景</strong></h3><ol>
+<h3 id="布隆过滤器使用场景"><a href="#布隆过滤器使用场景" class="headerlink" title="布隆过滤器使用场景"></a><strong>布隆过滤器使用场景</strong></h3><p>布隆过滤器主要是为了解决海量数据的存在性问题。</p>
+<ol>
 <li>判断给定数据是否存在：比如判断一个数字是否存在于包含大量数字的数字集中（数字集很大，上亿）、 防止缓存穿透（判断请求的数据是否有效避免直接绕过缓存请求数据库）等等、</li>
 <li>黑名单过滤：<strong>将黑名单加入到布隆过滤器中，检索时如果存在，直接返回。</strong>例如邮箱的垃圾邮件过滤（判断一个邮件地址是否在垃圾邮件列表中）、黑名单功能（判断一个 IP 地址或手机号码是否在黑名单中）等等。</li>
-<li>去重：比如爬给定网址的时候对已经爬取过的 URL 去重、对巨量的 QQ 号&#x2F;订单号去重。</li>
+<li>去重：比如爬给定网址的时候对已经爬取过的 URL 去重、对巨量的 QQ 号&#x2F;订单号去重。把已经处理过的操作存放在布隆过滤器。</li>
 </ol>
-<p>去重场景也需要用到判断给定数据是否存在，因此布隆过滤器主要是为了解决海量数据的存在性问题。</p>
 <h2 id="缓存更新策略"><a href="#缓存更新策略" class="headerlink" title="缓存更新策略"></a><strong>缓存更新策略</strong></h2><p>常见的缓存更新策略共有3种：</p>
 <ul>
 <li>Cache Aside（旁路缓存）策略；</li>
@@ -416,7 +416,7 @@
 <li>如果读取的数据命中了缓存，则直接返回数据；</li>
 <li>如果读取的数据没有命中缓存，则从数据库中读取数据，然后将数据写入到缓存，并且返回给用户。</li>
 </ul>
-<h4 id="为什么不能先删除缓存再更新数据库？"><a href="#为什么不能先删除缓存再更新数据库？" class="headerlink" title="为什么不能先删除缓存再更新数据库？"></a><strong>为什么不能先删除缓存再更新数据库？</strong></h4><p>注意，写策略的步骤的顺序不能倒过来，即<strong>不能先删除缓存再更新数据库</strong>，原因是在「读+写」并发的时候，会出现缓存和数据库的数据不一致性的问题。</p>
+<h4 id="先更新数据库在删除缓存"><a href="#先更新数据库在删除缓存" class="headerlink" title="先更新数据库在删除缓存"></a><strong>先更新数据库在删除缓存</strong></h4><p>注意，写策略的步骤的顺序不能倒过来，即<strong>不能先删除缓存再更新数据库</strong>，原因是在「读+写」并发的时候，会出现缓存和数据库的数据不一致性的问题。</p>
 <p>举个例子，假设某个用户的年龄是 20，请求 A 要更新用户年龄为 21，所以它会删除缓存中的内容。这时，另一个请求 B 要读取这个用户的年龄，它查询缓存发现未命中后，会从数据库中读取到年龄为 20，并且写入到缓存中，然后请求 A 继续更改数据库，将用户的年龄更新为 21。</p>
 <img src="https://cdn.xiaolincoding.com//mysql/other/cc208c2931b4e889d1a58cb655537767-20230309232342573.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:67%;" />
 

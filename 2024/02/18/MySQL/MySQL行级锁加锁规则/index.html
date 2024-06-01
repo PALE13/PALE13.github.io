@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/1aa886fe95e7bc791c296e2d342fa435.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/63e055617720853f5b64c99576227c09.png">
 <meta property="article:published_time" content="2024-02-18T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-17T16:35:29.732Z">
+<meta property="article:modified_time" content="2024-06-01T15:27:19.245Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -261,7 +261,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.1k 字
+          7.3k 字
         
       </span>
     
@@ -272,7 +272,7 @@
         
         
         
-          60 分钟
+          62 分钟
         
       </span>
     
@@ -342,6 +342,27 @@
 <p><strong>加锁的对象是索引，加锁的基本单位是 next-key lock</strong>，它是由记录锁和间隙锁组合而成的，<strong>next-key lock 是前开后闭区间，而间隙锁是前开后开区间</strong>。</p>
 <p>但是，next-key lock 在一些场景下会退化成记录锁或间隙锁。</p>
 <p>那到底是什么场景呢？总结一句，<strong>在能使用记录锁或者间隙锁就能避免幻读现象的场景下， next-key lock 就会退化成记录锁或间隙锁</strong>。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h4><p><strong>对于 <code>主键索引</code> 来说：</strong></p>
+<ul>
+<li>等值条件，命中，则加记录锁</li>
+<li>等值条件，未命中，则加间隙锁</li>
+<li>范围条件，命中<ul>
+<li>大于等于加记录锁</li>
+<li>小于等于加临键锁</li>
+</ul>
+</li>
+<li>范围条件，没有命中<ul>
+<li>小于或小于等于加间隙锁</li>
+<li>大于或大于等于加临键锁</li>
+</ul>
+</li>
+</ul>
+<p><strong>对于 <code>辅助索引</code> 来说：</strong></p>
+<ul>
+<li>等值条件，命中，则对命中的记录的 <code>辅助索引项</code> 和 <code>主键索引项</code> 加 <code>记录锁</code> ，辅助索引项两侧加 <code>间隙锁</code></li>
+<li>等值条件，未命中，则加间隙锁</li>
+<li>范围条件，对包含 where 条件的临建区间加临键锁，对命中纪录的 id 索引项加记录锁</li>
+</ul>
 <h4 id="唯一索引等值查询"><a href="#唯一索引等值查询" class="headerlink" title="唯一索引等值查询"></a><strong>唯一索引等值查询</strong></h4><p>当我们用唯一索引进行等值查询的时候，查询的记录存不存在，加锁的规则也会不同：</p>
 <ul>
 <li>当查询的记录是「存在」的，在索引树上定位到这一条记录后，将该记录的索引中的 next-key lock 会<strong>退化成「记录锁」</strong>。</li>
@@ -367,15 +388,11 @@
 
 <p>接下来，如果有其他事务插入 id 值为 2、3、4 这一些记录的话，这些插入语句都会发生阻塞。</p>
 <p>注意，如果其他事务插入的 id &#x3D; 1 或者 id &#x3D; 5 的记录话，并不会发生阻塞，而是报主键冲突的错误，因为表中已经存在 id &#x3D; 1 和 id &#x3D; 5 的记录了。</p>
-<blockquote>
-<p>间隙锁的范围<code>(1, 5)</code> ，是怎么确定的？</p>
-</blockquote>
+<p><strong>间隙锁的范围<code>(1, 5)</code> ，是怎么确定的？</strong></p>
 <p>根据我的经验，如果 LOCK_MODE 是 next-key 锁或者间隙锁，那么 LOCK_DATA 就表示锁的范围「右边界」，此次的事务 A 的 LOCK_DATA 是 5。</p>
 <p>然后锁范围的「左边界」是表中 id 为 5 的上一条记录的 id 值，即 1。</p>
 <p>因此，间隙锁的范围<code>(1, 5)</code>。</p>
-<blockquote>
-<p>为什么唯一索引等值查询并且查询记录「不存在」的场景下，在索引树找到第一条大于该查询记录的记录后，要将该记录的索引中的 next-key lock 会退化成「间隙锁」？</p>
-</blockquote>
+<p><strong>为什么唯一索引等值查询并且查询记录「不存在」的场景下，在索引树找到第一条大于该查询记录的记录后，要将该记录的索引中的 next-key lock 会退化成「间隙锁」？</strong></p>
 <p>原因就是在唯一索引等值查询并且查询记录不存在的场景下，仅靠间隙锁就能避免幻读的问题。</p>
 <ul>
 <li>为什么 id &#x3D; 5 记录上的主键索引的锁不可以是 next-key lock？如果是 next-key lock，就意味着其他事务无法删除 id &#x3D; 5 这条记录，但是这次的案例是查询 id &#x3D; 2 的记录，只要保证前后两次查询 id &#x3D; 2 的结果集相同，就能避免幻读的问题了，所以即使 id &#x3D;5 被删除，也不会有什么影响，那就没必须加 next-key lock，因此只需要在 id &#x3D; 5 加间隙锁，避免其他事务插入 id &#x3D; 2 的新记录就行了。</li>
@@ -554,6 +571,11 @@
 
 <p><strong>在 age &gt;&#x3D; 22  的范围查询中，明明查询 age &#x3D; 22 的记录存在并且属于等值查询，为什么不会像唯一索引那样，将 age &#x3D; 22 记录的二级索引上的 next-key 锁退化为记录锁？</strong></p>
 <p>因为 age 字段是非唯一索引，不具有唯一性，所以如果只加记录锁（记录锁无法防止插入，只能防止删除或者修改），就会导致其他事务插入一条 age &#x3D; 22 的记录，这样前后两次查询的结果集就不相同了，出现了幻读现象。</p>
+<p><strong>为什么主键索引中也需要加锁呢？</strong></p>
+<p>如果主键不加锁，其他并发SQL就可以通过主键索引进行修改</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">set</span> age <span class="hljs-operator">=</span> <span class="hljs-number">22</span> <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+
+<p>就会导致这条 update 语句并不知道这条记录已经被锁定</p>
 <h4 id="没有加索引的查询"><a href="#没有加索引的查询" class="headerlink" title="没有加索引的查询"></a><strong>没有加索引的查询</strong></h4><p>前面的案例，我们的查询语句都有使用索引查询，也就是查询记录的时候，是通过索引扫描的方式查询的，然后对扫描出来的记录进行加锁。</p>
 <p>如果锁定读查询语句，<strong>没有使用索引列作为查询条件，或者查询语句没有走索引查询，导致扫描是全表扫描。那么，每一条记录的索引上都会加 next-key 锁，这样就相当于锁住的全表，</strong>这时如果其他事务对该表进行增、删、改操作的时候，都会被阻塞。</p>
 <p>不只是锁定读查询语句不加索引才会导致这种情况，update 和 delete 语句如果查询条件不加索引，那么由于扫描的方式是全表扫描，于是就会对每一条记录的索引上都会加 next-key 锁，这样就相当于锁住的全表。</p>
@@ -697,8 +719,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/02/18/MySQL/MySQL%E9%94%81/" title="MySQL锁">
-                        <span class="hidden-mobile">MySQL锁</span>
+                      <a href="/2024/02/18/MySQL/MySQL%E9%94%81/" title="">
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

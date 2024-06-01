@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image020.gif">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image022.gif">
 <meta property="article:published_time" content="2024-02-15T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-17T16:35:17.503Z">
+<meta property="article:modified_time" content="2024-06-01T09:16:22.354Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -406,7 +406,7 @@
 </ul>
 <p>然而再其更新数据时，却发现了影响了3行数据，因为update语句会把其他事务insert的数据更新为自己的版本号所以能读取到该新增的数据，产生幻读。</p>
 <p><strong>为什么事务自己修改后就能读取到修改后的数据？</strong></p>
-<p>当一个事务修改数据时，数据库会为这个修改创建一个新版本，并且这个新版本会与当前事务的事务ID关联。这个新版本成为当前事务的私有版本，只有在当前事务内部是可见的。这种机制确保了在可重复读隔离级别下，同一个事务内的修改对自己是可见的，而对其他事务则是隔离的。</p>
+<p>当一个事务修改数据时，数据库会为这个修改创建一个新版本，<strong>并且这个新版本会与当前事务的事务ID关联。这个新版本成为当前事务的私有版本，只有在当前事务内部是可见的。</strong>这种机制确保了在可重复读隔离级别下，同一个事务内的修改对自己是可见的，而对其他事务则是隔离的。</p>
 <p><strong>结论：</strong>如果事务中都使用快照读（即在RR隔离级别下，只使用select <em>from…where…语句），那么就不会产生幻读现象，因为快照读只在第一次select时生成一个readView，之后每次读取都是用这个readView，所以即使其他事务新增的数据也不会影响快照读，但是*<em>快照读和当前读混用就会产生幻读。</em></em></p>
 <h3 id="MySQL-是怎么解决幻读的？"><a href="#MySQL-是怎么解决幻读的？" class="headerlink" title="MySQL 是怎么解决幻读的？"></a><strong>MySQL 是怎么解决幻读的？</strong></h3><p>MySQL InnoDB 引擎的默认隔离级别虽然是「可重复读」，但是它很大程度上避免幻读现象（并不是完全解决了，详见这篇<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/transaction/phantom.html">文章 (opens new window)</a>），解决的方案有两种：</p>
 <ul>
@@ -614,9 +614,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/02/18/MySQL/MySQL%E9%94%81/" title="MySQL锁">
+                      <a href="/2024/02/18/MySQL/MySQL%E9%94%81/" title="">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MySQL锁</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

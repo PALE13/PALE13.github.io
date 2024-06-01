@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240320160638660.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/948ac3e63c36a93101860e7da11ddc42.png">
 <meta property="article:published_time" content="2024-02-15T03:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-23T06:04:16.072Z">
+<meta property="article:modified_time" content="2024-06-01T05:36:08.350Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -400,7 +400,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">WHERE</span> id<span class="hljs-operator">=</span><span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
 
 <p>主键索引本身的 key 就是主键，查到返回就行了。这种情况就称之为覆盖索引了。</p>
-<h4 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a><strong>覆盖索引</strong></h4><p>如果一个索引包含（或者说覆盖）所有需要查询的字段的值，我们就称之为 <strong>覆盖索引（Covering Index）</strong> 。我们知道在 InnoDB 存储引擎中，如果不是主键索引，叶子节点存储的是主键+列值。最终还是要“回表”，也就是要通过主键再查找一次，这样就会比较慢。而覆盖索引就是把要查询出的列和索引是对应的，不做回表操作！</p>
+<h3 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a><strong>覆盖索引</strong></h3><p>如果一个索引包含（或者说覆盖）所有需要查询的字段的值，我们就称之为 <strong>覆盖索引（Covering Index）</strong> 。我们知道在 InnoDB 存储引擎中，如果不是主键索引，叶子节点存储的是主键+列值。最终还是要“回表”，也就是要通过主键再查找一次，这样就会比较慢。而覆盖索引就是把要查询出的列和索引是对应的，不做回表操作！</p>
 <p><strong>覆盖索引即需要查询的字段正好是索引的字段，那么直接根据该索引，就可以查到数据了，而无需回表查询。</strong></p>
 <h3 id="联合索引"><a href="#联合索引" class="headerlink" title="联合索引"></a><strong>联合索引</strong></h3><p>使用表中的多个字段创建索引，就是 <strong>联合索引</strong>，也叫 <strong>组合索引</strong> 或 <strong>复合索引</strong>。</p>
 <p>以 <code>score</code> 和 <code>name</code> 两个字段建立联合索引：</p>
