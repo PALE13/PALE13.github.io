@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240320162011142.png">
 <meta property="article:published_time" content="2024-04-05T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-01T16:03:36.990Z">
+<meta property="article:modified_time" content="2024-06-12T06:32:12.693Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -310,7 +310,7 @@
 
 <p><strong>count(1) 执行过程是怎样的？</strong></p>
 <p>用下面这条语句作为例子：</p>
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">select count(1) from t_order;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">count</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">from</span> t_order;<br></code></pre></td></tr></table></figure>
 
 <p>如果表里只有主键索引，没有二级索引时。</p>
 <p>那么，InnoDB 循环遍历聚簇索引（主键索引），将读取到的记录返回给 server 层，<strong>但是不会读取记录中的任何字段的值</strong>，因为 count 函数的参数是 1，不是字段，所以不需要读取记录中的字段值。<strong>因此 server 层每从 InnoDB 读取到一条记录，就将 count 变量加 1，包括NULL</strong></p>
@@ -448,7 +448,7 @@
 <p><code>EXPLAIN</code> 并不会真的去执行相关的语句，而是通过 <strong>查询优化器</strong> 对语句进行分析，找出最优的查询方案，并显示对应的信息。</p>
 <p><code>EXPLAIN</code> 适用于 <code>SELECT</code>, <code>DELETE</code>, <code>INSERT</code>, <code>REPLACE</code>, 和 <code>UPDATE</code>语句，我们一般分析 <code>SELECT</code> 查询较多。</p>
 <p>我们这里简单来演示一下 <code>EXPLAIN</code> 的使用。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java\">mysql&gt; EXPLAIN SELECT `score`,`name` FROM `cus_order` ORDER BY `score` DESC;<br>+----+-------------+-----------+------------+------+---------------+------+---------+------+--------+----------+----------------+<br>| id | select_type | table     | partitions | type | possible_keys | key  | key_len | ref  | rows   | filtered | Extra          |<br>+----+-------------+-----------+------------+------+---------------+------+---------+------+--------+----------+----------------+<br>|  1 | SIMPLE      | cus_order | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 997572 |   100.00 | Using filesort |<br>+----+-------------+-----------+------------+------+---------------+------+---------+------+--------+----------+----------------+<br>1 row in set, 1 warning (0.00 sec)<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">mysql&gt; EXPLAIN SELECT `score`,`name` FROM `cus_order` ORDER BY `score` DESC;<br>+----+-------------+-----------+------------+------+---------------+------+---------+------+--------+----------+----------------+<br>| <span class="hljs-built_in">id</span> | select_type | table     | partitions | <span class="hljs-built_in">type</span> | possible_keys | key  | key_len | ref  | rows   | filtered | Extra          |<br>+----+-------------+-----------+------------+------+---------------+------+---------+------+--------+----------+----------------+<br>|  1 | SIMPLE      | cus_order | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 997572 |   100.00 | Using filesort |<br>+----+-------------+-----------+------------+------+---------------+------+---------+------+--------+----------+----------------+<br>1 row <span class="hljs-keyword">in</span> <span class="hljs-built_in">set</span>, 1 warning (0.00 sec)<br><br></code></pre></td></tr></table></figure>
 
 
 
@@ -477,7 +477,7 @@
 <td>匹配的分区，对于未分区的表，值为 NULL</td>
 </tr>
 <tr>
-<td>type</td>
+<td><strong>type</strong></td>
 <td>表的访问方法</td>
 </tr>
 <tr>
@@ -485,7 +485,7 @@
 <td>可能用到的索引</td>
 </tr>
 <tr>
-<td>key</td>
+<td><strong>key</strong></td>
 <td>实际用到的索引</td>
 </tr>
 <tr>

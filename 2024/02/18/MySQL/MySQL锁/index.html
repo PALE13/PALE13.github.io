@@ -16,12 +16,12 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MySQL锁Innodb锁分类全局锁 全局锁是怎么用的？  要使用全局锁，则要执行这条命令： 1flush tables with read lock  执行后，整个数据库就处于只读状态了，这时其他线程执行以下操作，都会被阻塞：  对数据的增删改操作，比如 insert、delete、update等语句； 对表结构的更改操作，比如 alter table、drop table 等语句。  如果要释">
+    <meta name="description" content="MySQL锁Innodb锁分类全局锁全局锁是怎么用的？ 要使用全局锁，则要执行这条命令： 1flush tables with read lock  执行后，整个数据库就处于只读状态了，这时其他线程执行以下操作，都会被阻塞：  对数据的增删改操作，比如 insert、delete、update等语句； 对表结构的更改操作，比如 alter table、drop table 等语句。  如果要释放全">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PALE13">
+<meta property="og:title" content="MySQL锁">
 <meta property="og:url" content="http://example.com/2024/02/18/MySQL/MySQL%E9%94%81/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="MySQL锁Innodb锁分类全局锁 全局锁是怎么用的？  要使用全局锁，则要执行这条命令： 1flush tables with read lock  执行后，整个数据库就处于只读状态了，这时其他线程执行以下操作，都会被阻塞：  对数据的增删改操作，比如 insert、delete、update等语句； 对表结构的更改操作，比如 alter table、drop table 等语句。  如果要释">
+<meta property="og:description" content="MySQL锁Innodb锁分类全局锁全局锁是怎么用的？ 要使用全局锁，则要执行这条命令： 1flush tables with read lock  执行后，整个数据库就处于只读状态了，这时其他线程执行以下操作，都会被阻塞：  对数据的增删改操作，比如 insert、delete、update等语句； 对表结构的更改操作，比如 alter table、drop table 等语句。  如果要释放全">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/Image.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240320164532325.png">
@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/c296c1889f0101d335699311b4ef20a8.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/f380ef357d065498d8d54ad07f145e09.png">
 <meta property="article:published_time" content="2024-02-18T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-01T15:41:37.398Z">
+<meta property="article:modified_time" content="2024-06-12T07:46:07.011Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -42,7 +42,7 @@
   
   
   
-  <title>PALE13</title>
+  <title>MySQL锁 - PALE13</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -237,7 +237,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="MySQL锁"></span>
           
         </div>
 
@@ -308,14 +308,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">MySQL锁</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a><strong>MySQL锁</strong></h2><h3 id="Innodb锁分类"><a href="#Innodb锁分类" class="headerlink" title="Innodb锁分类"></a><strong>Innodb锁分类</strong><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/Image.png" srcset="/img/loading.gif" lazyload alt="Image" style="zoom:50%;" /></h3><h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a><strong>全局锁</strong></h3><blockquote>
-<p>全局锁是怎么用的？</p>
-</blockquote>
+                <h2 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a><strong>MySQL锁</strong></h2><h3 id="Innodb锁分类"><a href="#Innodb锁分类" class="headerlink" title="Innodb锁分类"></a><strong>Innodb锁分类</strong><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/Image.png" srcset="/img/loading.gif" lazyload alt="Image" style="zoom:50%;" /></h3><h3 id="全局锁"><a href="#全局锁" class="headerlink" title="全局锁"></a><strong>全局锁</strong></h3><p><strong>全局锁是怎么用的？</strong></p>
 <p>要使用全局锁，则要执行这条命令：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">flush tables <span class="hljs-keyword">with</span> read lock<br></code></pre></td></tr></table></figure>
 
@@ -398,19 +396,21 @@
 <p>那么有了「意向锁」，由于在对记录加独占锁前，先会加上表级别的意向独占锁，那么在加「独占表锁」时，直接查该表是否有意向独占锁，如果有就意味着表里已经有记录被加了独占锁，这样就不用去遍历表里的记录。</p>
 <p>所以，<strong>意向锁的目的是为了快速判断表里是否有记录被加锁</strong>。</p>
 <h4 id="自增锁（Auto-Increment-Lock）"><a href="#自增锁（Auto-Increment-Lock）" class="headerlink" title="自增锁（Auto-Increment Lock）"></a><strong>自增锁（Auto-Increment Lock）</strong></h4><p>自增锁的主要目的是<strong>确保在多个并发事务中，每次插入新行时自增列的值是唯一的</strong>。这样可以避免多个事务同时插入数据时出现冲突。</p>
-<p>例如，MySQL 中使用的 AUTO_INCREMENT 关键字就是一种自增列的实现方式。当定义了 AUTO_INCREMENT 的列时，MySQL 会为该列自动分配唯一的递增值。在事务中插入新行时，系统会自动获取并管理这个自增锁，确保生成的值不会冲突。</p>
+<p>例如，MySQL 中使用的 AUTO_INCREMENT 关键字就是一种自增列的实现方式。当定义了 AUTO_INCREMENT 的列时，MySQL 会为该列自动分配唯一的递增值。在事务中插入新行时，<strong>系统会自动获取并管理这个自增锁，确保生成的值不会冲突。</strong></p>
 <p>在MYSQL 5.1.22版本前，自增列使用<strong>AUTO_INC Locking</strong>方式来实现，即采用一种特殊的表锁机制来保证并发插入下自增操作依然是串行操作，为提高插入效率，该锁会在插入语句完成后立即释放，而不是插入语句所在事务提交时释放。该设计并发性能太差，尤其在大批量数据在一条语句中插入时(INSERT SELECT ), 会导致该语句长时间持有这个“表锁”，从而阻塞其他事务的插入操作。</p>
 <p>在MYSQL 5.1.22版本开始，InnoDB存储引使用一种<strong>轻量级互斥锁(Mutex)<strong>来控制自增列增长，并提供</strong>innodb_autoinc_lock_mode</strong>参数来控制。</p>
 <p>自增长方式可分为下面四类：</p>
-<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sas">1.<span class="hljs-keyword">INSERT</span>-<span class="hljs-keyword">LIKE</span>：指所有的插入语句，比如 <span class="hljs-keyword">INSERT</span>、<span class="hljs-keyword">REPLACE</span>、<span class="hljs-keyword">INSERT</span>…<span class="hljs-keyword">SELECT</span>、<span class="hljs-keyword">REPLACE</span>…<span class="hljs-keyword">SELECT</span>,LOAD DATA等。<br>2.Simple <span class="hljs-keyword">insert</span>：指在插入前就能确定插入行数的语句，包括<span class="hljs-keyword">INSERT</span>、<span class="hljs-keyword">REPLACE</span>，不包含<span class="hljs-keyword">INSERT</span>…<span class="hljs-keyword">ON</span> DUPLICATE <span class="hljs-keyword">KEY</span> <span class="hljs-keyword">UPDATE</span>这类语句。<br>3.Bulk inserts：指在插入前不能确定得到插入行的语句。如<span class="hljs-keyword">INSERT</span>…<span class="hljs-keyword">SELECT</span>,<span class="hljs-keyword">REPLACE</span>…<span class="hljs-keyword">SELECT</span>,LOAD DATA.<br>4.Mixed-mode inserts:指其中一部分是子增长的，有一部分是确定的。<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">1.INSERT-LIKE：指所有的插入语句，比如 INSERT、REPLACE、INSERT…SELECT、REPLACE…SELECT,LOAD DATA等。<br>2.Simple insert：指在插入前就能确定插入行数的语句，包括INSERT、REPLACE，不包含INSERT…ON DUPLICATE KEY UPDATE这类语句。<br>3.Bulk inserts：指在插入前不能确定得到插入行的语句。如INSERT…SELECT,REPLACE…SELECT,LOAD DATA.<br>4.Mixed-mode inserts:指其中一部分是子增长的，有一部分是确定的。<br></code></pre></td></tr></table></figure>
+
+
 
 <p>innodb_autoinc_lock_mode参数取值</p>
 <p><strong>innodb_autoinc_lock_mode&#x3D;0 传统锁定模式</strong></p>
 <p>5.1.22之前的方式，也就是所有INSERT-LIKE操作都用AUTO-inc locking。</p>
 <p><strong>innodb_autoinc_lock_mode&#x3D;1 连续锁定模式</strong></p>
-<p>这个参数是5.1.22之后出现的也是之后的默认值，对于SIMPLE INSERT，使用轻量级互斥锁，对于BULK INSERT，使用AUTO-inc locking。</p>
-<p>“Simple insert”操作能在插入前知道插入的记录数量，因此无需在整个插入操作过程中持有表级别的AUTO-INC锁，通过轻量级互斥锁来控制INSERT操作获取自增值的过程，并在INSERT操作获取到自增值后快速释放互斥锁，通过降低锁颗粒度和锁持续周期，实现”Simple insert”操作并发执行。当其他事物对表持有AUTO-INC锁时，”Simple insert”操作也会升级使用AUTO-INC锁并被阻塞。</p>
-<p>在语句复制格式下**(BINLOG_FORMAT&#x3D;STATEMENT)<strong>，</strong>BINLOG**中没有记录主库执行过程中获取到的所有自增值及其对应行的信息，要保证”Bulk insert”操作主从复制数据一致就必须保证语句在主库和从库执行时获取到相同自增值，而因此只能通过控制“获取连续自增值”的方式来实现，同时为避免受其他事务插入操作影响，就必须在表级别加锁且保证持有锁至语句结束。</p>
+<p>这个参数是5.1.22之后出现的也是之后的默认值，对于SIMPLE INSERT，<strong>使用轻量级互斥锁</strong>，对于BULK INSERT，使用AUTO-inc locking。</p>
+<p>“Simple insert”操作能在插入前知道插入的记录数量，因此无需在整个插入操作过程中持有表级别的AUTO-INC锁，<strong>通过轻量级互斥锁来控制INSERT操作获取自增值的过程，并在INSERT操作获取到自增值后快速释放互斥锁</strong>，通过降低锁颗粒度和锁持续周期，实现”Simple insert”操作并发执行。当其他事物对表持有AUTO-INC锁时，”Simple insert”操作也会升级使用AUTO-INC锁并被阻塞。</p>
+<p>在语句复制格式下**(BINLOG_FORMAT&#x3D;STATEMENT)<strong>，</strong>BINLOG<strong>中没有记录主库执行过程中获取到的所有自增值及其对应行的信息，要保证”Bulk insert”操作主从复制数据一致就必须保证语句在主库和从库执行时获取到相同自增值，而因此只能通过控制“获取连续自增值”的方式来实现，同时为避免受其他事务插入操作影响，</strong>就必须在表级别加锁且保证持有锁至语句结束。**</p>
 <p>在行复制格式下**(BINLOG_FORMAT&#x3D;ROW)**，主库BINLOG中保存有记录的所有列信息包括自增列值，因此无需通过AUTO-INC锁来保证主从数据一致。</p>
 <p><strong>innodb_autoinc_lock_mode&#x3D;2 交错锁定模式</strong></p>
 <p>指不管什么情况都使用轻量级互斥的锁，效率最高，但是复制只能使用row-basereplication，因为statement-base replication会出现问题。</p>
@@ -421,7 +421,7 @@
 <li><strong>Row</strong> 只记录被修改的行，所以Row记录的binlog日志量一般来说会比Statement格式要多。基于Row的binlog日志非常完整、清晰，记录了所有数据的变动，但是缺点是可能会非常多，例如一条<code>update</code>语句，有可能是所有的数据都有修改；再例如<code>alter table</code>之类的，修改了某个字段，同样的每条记录都有改动。</li>
 <li><strong>Mixed</strong> Statement和Row的结合，怎么个结合法呢。例如像<code>alter table</code>之类的对表结构的修改，采用Statement格式。其余的对数据的修改例如<code>update</code>和<code>delete</code>采用Row格式进行记录。</li>
 </ul>
-<p>如果 MySQL 采用的格式为 <code>Statement</code> ，那么 MySQL 的主从同步实际上同步的就是一条一条的 SQL 语句。如果此时我们采用了交叉模式，那么并发情况下 <code>INSERT</code> 语句的执行顺序就无法得到保障。</p>
+<p><strong>如果 MySQL 采用的格式为 <code>Statement</code> ，那么 MySQL 的主从同步实际上同步的就是一条一条的 SQL 语句。如果此时我们采用了交叉模式，那么并发情况下 <code>INSERT</code> 语句的执行顺序就无法得到保障。</strong></p>
 <p>在MySQL 8.0版本前，参数BINLOG_FORMAT的默认值为STATEMENT，参数innodb_autoinc_lock_mode的默认值为1。</p>
 <p>在MySQL 8.0版本后，参数BINLOG_FORMAT的默认值被调整为ROW格式，参数innodb_autoinc_lock_mode的默认值为2。</p>
 <p><strong>自增值间隙</strong></p>
@@ -568,7 +568,7 @@
 </ul>
 <p><img src="https://cdn.xiaolincoding.com//mysql/other/f380ef357d065498d8d54ad07f145e09.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p>上面这个两种策略是「当有死锁发生时」的避免方式。</p>
-<p>我们可以回归业务的角度来预防死锁，对订单做幂等性校验的目的是为了保证不会出现重复的订单，那我们可以直接将 order_no 字段设置为唯一索引列，利用它的唯一性来保证订单表不会出现重复的订单，不过有一点不好的地方就是在我们插入一个已经存在的订单记录时就会抛出异常。</p>
+<p>我们可以回归业务的角度来预防死锁，对订单做幂等性校验的目的是<strong>为了保证不会出现重复的订单，那我们可以直接将 order_no 字段设置为唯一索引列，利用它的唯一性来保证订单表不会出现重复的订单</strong>，不过有一点不好的地方就是在我们插入一个已经存在的订单记录时就会抛出异常。</p>
 
                 
               </div>
@@ -621,7 +621,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
+      <div>MySQL锁</div>
       <div>http://example.com/2024/02/18/MySQL/MySQL锁/</div>
     </div>
     <div class="license-meta">

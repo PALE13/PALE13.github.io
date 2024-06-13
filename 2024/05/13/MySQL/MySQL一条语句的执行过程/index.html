@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240601122636393.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240601131414882.png">
 <meta property="article:published_time" content="2024-05-13T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-01T15:56:59.361Z">
+<meta property="article:modified_time" content="2024-06-12T06:25:15.834Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -364,7 +364,7 @@
 <p>如果 SQL 是查询语句（select 语句），MySQL 就会先去查询缓存（ Query Cache ）里查找缓存数据，看看之前有没有执行过这一条命令，这个查询缓存是以 key-value 形式保存在内存中的，<strong>key 为 SQL 查询语句，value 为 SQL 语句查询的结果。</strong></p>
 <p>如果查询的语句命中查询缓存，那么就会直接返回 value 给客户端。如果查询的语句没有命中查询缓存中，那么就要往下继续执行，等执行完后，查询的结果就会被存入查询缓存中。</p>
 <p>这么看，查询缓存还挺有用，但是其实<strong>查询缓存挺鸡肋</strong>的。</p>
-<p>对于更新比较频繁的表，查询缓存的命中率很低的，因为只要一个表有更新操作，那么这个表的查询缓存就会被清空。如果刚缓存了一个查询结果很大的数据，还没被使用的时候，刚好这个表有更新操作，查询缓冲就被清空了，相当于缓存了个寂寞。</p>
+<p><strong>对于更新比较频繁的表，查询缓存的命中率很低的</strong>，因为只要一个表有更新操作，那么这个表的查询缓存就会被清空。如果刚缓存了一个查询结果很大的数据，还没被使用的时候，刚好这个表有更新操作，查询缓冲就被清空了，相当于缓存了个寂寞。</p>
 <p>所以，MySQL 8.0 版本直接将查询缓存删掉了，也就是说 MySQL 8.0 开始，执行一条 SQL 查询语句，不会再走到查询缓存这个阶段了。</p>
 <p>对于 MySQL 8.0 之前的版本，如果想关闭查询缓存，我们可以通过将参数 query_cache_type 设置成 DEMAND。</p>
 <p>TIP</p>
@@ -389,7 +389,7 @@
 <td>userinfo</td>
 </tr>
 </tbody></table>
-<p>第二件事情，<strong>语法分析</strong>。根据词法分析的结果，语法解析器会根据语法规则，判断你输入的这个 SQL 语句是否满足 MySQL 语法，如果没问题就会构建出 SQL 语法树，这样方便后面模块获取 SQL 类型、表名、字段名、 where 条件等等。</p>
+<p>第二件事情，<strong>语法分析</strong>。根据词法分析的结果，语法解析器会根据语法规则，判断你输入的这个 SQL 语句是否满足 MySQL 语法，如果没问题就会构建出 <strong>SQL 语法树</strong>，这样方便后面模块获取 SQL 类型、表名、字段名、 where 条件等等。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240601115500710.png" srcset="/img/loading.gif" lazyload alt="image-20240601115500710" style="zoom: 67%;" />
 
 <p>如果我们输入的 SQL 语句语法不对，就会在解析器这个阶段报错。比如，我下面这条查询语句，把 from 写成了 form，这时 MySQL 解析器就会给报错。</p>
@@ -402,7 +402,7 @@
 <li>optimize 阶段，也就是优化阶段；</li>
 <li>execute 阶段，也就是执行阶段；</li>
 </ul>
-<h4 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a><strong>预处理器</strong></h4><p>我们先来说说预处理阶段做了什么事情。</p>
+<h4 id="预处理器"><a href="#预处理器" class="headerlink" title="预处理器"></a><strong>预处理器</strong></h4><p>我们先来说说预处理阶段做了什么事情</p>
 <ul>
 <li><strong>检查</strong> SQL 查询语句中的<strong>表或者字段是否存在</strong>；</li>
 <li>将 <code>select *</code> 中的 <code>*</code> 符号，扩展为表上的所有列；</li>

@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240416002341474.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240416002421548.png">
 <meta property="article:published_time" content="2024-03-28T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-17T17:01:39.670Z">
+<meta property="article:modified_time" content="2024-06-11T16:19:58.666Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -253,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.8k 字
+          4.4k 字
         
       </span>
     
@@ -264,7 +264,7 @@
         
         
         
-          32 分钟
+          37 分钟
         
       </span>
     
@@ -306,14 +306,14 @@
             
               <div class="markdown-body">
                 
-                <h3 id="Linux-常用命令"><a href="#Linux-常用命令" class="headerlink" title="Linux 常用命令"></a><strong>Linux 常用命令</strong></h3><h4 id="常用"><a href="#常用" class="headerlink" title="常用"></a><strong>常用</strong></h4><ul>
+                <h2 id="Linux-常用命令"><a href="#Linux-常用命令" class="headerlink" title="Linux 常用命令"></a><strong>Linux 常用命令</strong></h2><h3 id="常用"><a href="#常用" class="headerlink" title="常用"></a><strong>常用</strong></h3><ul>
 <li><code>sudo + 其他命令</code>：以系统管理者的身份执行指令，也就是说，经由 sudo 所执行的指令就好像是 root 亲自执行。</li>
 <li><code>grep 要搜索的字符串 要搜索的文件 --color</code>：搜索命令，–color 代表高亮显示。</li>
 <li><code>kill -9 进程的pid</code>：杀死进程（-9 表示强制终止）先用 ps 查找进程，然后用 kill 杀掉。</li>
 <li><code>shutdown</code>：<code>shutdown -h now</code>：指定现在立即关机；<code>shutdown +5 &quot;System will shutdown after 5 minutes&quot;</code>：指定 5 分钟后关机，同时送出警告信息给登入用户</li>
 <li><code>reboot</code>：<code>reboot</code>：重开机。<code>reboot -w</code>：做个重开机的模拟（只有纪录并不会真的重开机）</li>
 </ul>
-<h4 id="系统状态"><a href="#系统状态" class="headerlink" title="系统状态"></a><strong>系统状态</strong></h4><ul>
+<h3 id="系统状态"><a href="#系统状态" class="headerlink" title="系统状态"></a><strong>系统状态</strong></h3><ul>
 <li><code>top [选项]</code>：用于实时查看系统的 CPU 使用率、内存使用率、进程信息等。</li>
 </ul>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418175647685.png" srcset="/img/loading.gif" lazyload alt="image-20240418175647685" style="zoom:50%;" />
@@ -329,41 +329,101 @@
 <li><code>ps [选项]</code>：用于查看系统中的进程信息，包括进程的 ID、状态、资源使用情况等。<code>ps -ef</code>&#x2F;<code>ps -aux</code>：这两个命令都是查看当前系统正在运行进程，两者的区别是展示格式不同。如果想要查看特定的进程可以使用这样的格式：<code>ps aux|grep redis</code> （查看包括 redis 字符串的进程），也可使用 <code>pgrep redis -a</code>。</li>
 <li><code>systemctl [命令] [服务名称]</code>：用于管理系统的服务和单元，可以查看系统服务的状态、启动、停止、重启等。</li>
 </ul>
-<h4 id="目录切换"><a href="#目录切换" class="headerlink" title="目录切换"></a><strong>目录切换</strong></h4><ul>
+<h3 id="目录切换"><a href="#目录切换" class="headerlink" title="目录切换"></a><strong>目录切换</strong></h3><ul>
 <li><code>cd usr</code>：切换到该目录下 usr 目录</li>
 <li><code>cd ..（或cd../）</code>：切换到上一层目录</li>
 <li><code>cd /</code>：切换到系统根目录</li>
 <li><code>cd ~</code>：切换到用户主目录</li>
 <li><strong><code>cd -</code>：</strong> 切换到上一个操作所在目录</li>
 </ul>
-<h4 id="目录操作"><a href="#目录操作" class="headerlink" title="目录操作"></a><strong>目录操作</strong></h4><ul>
-<li><p><code>ls</code>：显示目录中的文件和子目录的列表。例如：<code>ls /home</code>，显示 <code>/home</code> 目录下的文件和子目录列表。</p>
+<h3 id="目录操作"><a href="#目录操作" class="headerlink" title="目录操作"></a><strong>目录操作</strong></h3><ul>
+<li><code>ls</code>：显示目录中的文件和子目录的列表。例如：<code>ls /home</code>，显示 <code>/home</code> 目录下的文件和子目录列表。</li>
+<li><code>ll</code>：<code>ll</code> 是 <code>ls -l</code> 的别名，ll 命令可以看到该目录下的所有目录和文件的详细信息</li>
+<li><code>mkdir [选项] 目录名</code>：创建新目录（增）。例如：<code>mkdir -m 755 my_directory</code>，创建一个名为 <code>my_directory</code> 的新目录，并将其权限设置为 755，即所有用户对该目录有读、写和执行的权限。</li>
+<li><code>find [路径] [表达式]</code>：在指定目录及其子目录中搜索文件或目录（查），非常强大灵活。例如：<ul>
+<li>① 列出当前目录及子目录下所有文件和文件夹: <code>find .</code>；</li>
+<li>② 在<code>/home</code>目录下查找以 <code>.txt</code> 结尾的文件名:<code>find /home -name &quot;*.txt&quot;</code> ,忽略大小写: <code>find /home -i name &quot;*.txt&quot;</code> ；</li>
+<li>③ 当前目录及子目录下查找所有以 <code>.txt</code> 和 <code>.pdf</code> 结尾的文件:<code>find . \( -name &quot;*.txt&quot; -o -name &quot;*.pdf&quot; \)</code>或<code>find . -name &quot;*.txt&quot; -o -name &quot;*.pdf&quot;</code>。</li>
+</ul>
 </li>
-<li><p><code>ll</code>：<code>ll</code> 是 <code>ls -l</code> 的别名，ll 命令可以看到该目录下的所有目录和文件的详细信息</p>
+<li><code>pwd</code>：显示当前工作目录的路径。</li>
+<li><code>rmdir [选项] 目录名</code>：删除空目录（删）。例如：<code>rmdir -p my_directory</code>，删除名为 <code>my_directory</code> 的空目录，并且会递归删除<code>my_directory</code>的空父目录，直到遇到非空目录或根目录。</li>
+<li><code>rm [选项] 文件或目录名</code>：删除文件&#x2F;目录（删）。例如：<code>rm -r my_directory</code>，删除名为 <code>my_directory</code> 的目录，<code>-r</code>(recursive,递归) 表示会递归删除指定目录及其所有子目录和文件。</li>
+<li><code>cp [选项] 源文件/目录 目标文件/目录</code>：复制文件或目录（移）。例如：<code>cp file.txt /home/file.txt</code>，将 <code>file.txt</code> 文件复制到 <code>/home</code> 目录下，并重命名为 <code>file.txt</code>。<code>cp -r source destination</code>，将 <code>source</code> 目录及其下的所有子目录和文件复制到 <code>destination</code> 目录下，并保留源文件的属性和目录结构。</li>
+<li><code>mv [选项] 源文件/目录 目标文件/目录</code>：移动文件或目录（移），也可以用于重命名文件或目录。例如：<code>mv file.txt /home/file.txt</code>，将 <code>file.txt</code> 文件移动到 <code>/home</code> 目录下，并重命名为 <code>file.txt</code>。<code>mv</code> 与 <code>cp</code> 的结果不同，<code>mv</code> 好像文件“搬家”，文件个数并未增加。而 <code>cp</code> 对文件进行复制，文件个数增加了。</li>
+</ul>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a><strong>文件操作</strong></h3><p>像 <code>mv</code>、<code>cp</code>、<code>rm</code> 等文件和目录都适用的命令，这里就不重复列举了。</p>
+<h4 id="创建文件"><a href="#创建文件" class="headerlink" title="创建文件"></a><strong>创建文件</strong></h4><ul>
+<li><code>touch filename</code>: 创建一个空文件，或者更新文件的时间戳。</li>
+<li><code>echo &quot;content&quot; &gt; filename</code>: 创建一个包含指定内容的文件。</li>
+<li><code>cat &gt; filename</code>: 创建一个文件并向其中写入内容，按 <code>Ctrl+D</code> 结束。</li>
+</ul>
+<h4 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a><strong>删除文件</strong></h4><ul>
+<li><code>rm filename</code>: 删除指定文件。</li>
+<li><code>rm -f filename</code>: 强制删除指定文件，不提示确认。</li>
+</ul>
+<h4 id="文件链接"><a href="#文件链接" class="headerlink" title="文件链接"></a><strong>文件链接</strong></h4><ul>
+<li><code>ln [选项] &lt;源文件&gt; &lt;硬链接/软链接文件&gt;</code>：创建硬链接&#x2F;软链接。</li>
+<li>例如：<code>ln -s file.txt file_link</code>，创建名为 <code>file_link</code> 的软链接，指向 <code>file.txt</code> 文件。<code>-s</code> 选项代表的就是创建软链接，s 即 symbolic（软链接又名符号链接）</li>
+</ul>
+<h4 id="文件查看"><a href="#文件查看" class="headerlink" title="文件查看"></a><strong>文件查看</strong></h4><ul>
+<li><code>du [选项] [文件]</code>：用于查看指定目录或文件的磁盘空间使用情况，可以指定不同的选项来控制输出格式和单位</li>
+<li><code>cat [-n/-b] filename</code> : 显示文件的全部内容。<ul>
+<li><code>-n</code>：显示行号。</li>
+<li><code>-b</code>：显示非空行的行号。</li>
+</ul>
 </li>
-<li><p><code>mkdir [选项] 目录名</code>：创建新目录（增）。例如：<code>mkdir -m 755 my_directory</code>，创建一个名为 <code>my_directory</code> 的新目录，并将其权限设置为 755，即所有用户对该目录有读、写和执行的权限。</p>
+<li><code>tac filename</code> : 逆序显示文件的内容（从最后一行到第一行）。</li>
+<li><code>more filename</code> : 分页显示文件内容。</li>
+<li><code>less filename</code> : 分页显示文件内容。</li>
+<li><code>head [-n N] filename</code> : 显示文件的前10行。<ul>
+<li><code>-n N</code>：显示前N行。</li>
+</ul>
 </li>
-<li><p><code>find [路径] [表达式]</code>：在指定目录及其子目录中搜索文件或目录（查），非常强大灵活。例如：① 列出当前目录及子目录下所有文件和文件夹: <code>find .</code>；② 在<code>/home</code>目录下查找以 <code>.txt</code> 结尾的文件名:<code>find /home -name &quot;*.txt&quot;</code> ,忽略大小写: <code>find /home -i name &quot;*.txt&quot;</code> ；③ 当前目录及子目录下查找所有以 <code>.txt</code> 和 <code>.pdf</code> 结尾的文件:<code>find . \( -name &quot;*.txt&quot; -o -name &quot;*.pdf&quot; \)</code>或<code>find . -name &quot;*.txt&quot; -o -name &quot;*.pdf&quot;</code>。</p>
-</li>
-<li><p><code>pwd</code>：显示当前工作目录的路径。</p>
-</li>
-<li><p><code>rmdir [选项] 目录名</code>：删除空目录（删）。例如：<code>rmdir -p my_directory</code>，删除名为 <code>my_directory</code> 的空目录，并且会递归删除<code>my_directory</code>的空父目录，直到遇到非空目录或根目录。</p>
-</li>
-<li><p><code>rm [选项] 文件或目录名</code>：删除文件&#x2F;目录（删）。例如：<code>rm -r my_directory</code>，删除名为 <code>my_directory</code> 的目录，<code>-r</code>(recursive,递归) 表示会递归删除指定目录及其所有子目录和文件。</p>
-</li>
-<li><p><code>cp [选项] 源文件/目录 目标文件/目录</code>：复制文件或目录（移）。例如：<code>cp file.txt /home/file.txt</code>，将 <code>file.txt</code> 文件复制到 <code>/home</code> 目录下，并重命名为 <code>file.txt</code>。<code>cp -r source destination</code>，将 <code>source</code> 目录及其下的所有子目录和文件复制到 <code>destination</code> 目录下，并保留源文件的属性和目录结构。</p>
-</li>
-<li><p><code>mv [选项] 源文件/目录 目标文件/目录</code>：移动文件或目录（移），也可以用于重命名文件或目录。例如：<code>mv file.txt /home/file.txt</code>，将 <code>file.txt</code> 文件移动到 <code>/home</code> 目录下，并重命名为 <code>file.txt</code>。<code>mv</code> 与 <code>cp</code> 的结果不同，<code>mv</code> 好像文件“搬家”，文件个数并未增加。而 <code>cp</code> 对文件进行复制，文件个数增加了。</p>
+<li><code>tail [-n N/ -f] filename</code> : 显示文件的后10行。<ul>
+<li><code>-n N</code>：显示后N行。</li>
+<li><code>-f</code>：对某个文件进行动态监控，常用于查看日志文件。</li>
+</ul>
 </li>
 </ul>
-<h4 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a><strong>文件操作</strong></h4><p>像 <code>mv</code>、<code>cp</code>、<code>rm</code> 等文件和目录都适用的命令，这里就不重复列举了。</p>
+<h4 id="文件内容查找"><a href="#文件内容查找" class="headerlink" title="文件内容查找"></a><strong>文件内容查找</strong></h4><ul>
+<li><p><code>grep [-i/-v/-r] &quot;pattern&quot; filename</code> : 搜索文件中包含指定模式的行。</p>
 <ul>
-<li><code>touch [选项] 文件名..</code>：创建新文件或更新已存在文件（增）。例如：<code>touch file1.txt file2.txt file3.txt</code> ，创建 3 个文件。</li>
-<li><code>ln [选项] &lt;源文件&gt; &lt;硬链接/软链接文件&gt;</code>：创建硬链接&#x2F;软链接。例如：<code>ln -s file.txt file_link</code>，创建名为 <code>file_link</code> 的软链接，指向 <code>file.txt</code> 文件。<code>-s</code> 选项代表的就是创建软链接，s 即 symbolic（软链接又名符号链接） 。</li>
-<li><code>cat/more/less/tail 文件名</code>：文件的查看（查） 。命令 <code>tail -f 文件</code> 可以对某个文件进行动态监控，例如 Tomcat 的日志文件， 会随着程序的运行，日志会变化，可以使用 <code>tail -f catalina-2016-11-11.log</code> 监控 文 件的变化 。</li>
-<li><code>vim 文件名</code>：修改文件的内容（改）。vim 编辑器是 Linux 中的强大组件，是 vi 编辑器的加强版，vim 编辑器的命令和快捷方式有很多，但此处不一一阐述，大家也无需研究的很透彻，使用 vim 编辑修改文件的方式基本会使用就可以了。在实际开发中，使用 vim 编辑器主要作用就是修改配置文件，下面是一般步骤：<code>vim 文件------&gt;进入文件-----&gt;命令模式------&gt;按i进入编辑模式-----&gt;编辑文件 -------&gt;按Esc进入底行模式-----&gt;输入：wq/q!</code> （输入 wq 代表写入内容并退出，即保存；输入 q!代表强制退出不保存）。</li>
+<li><code>-i</code>：忽略大小写。</li>
+<li><code>-v</code>：反转匹配，显示不匹配的行。</li>
+<li><code>-r</code>：递归搜索目录。</li>
+<li><code>-n</code>：显示行号。</li>
+<li><code>-l</code>：只显示匹配的文件名。</li>
+<li><code>-c</code>：只显示匹配的行数。</li>
+<li><code>--color</code>：高亮显示匹配的字符串。</li>
 </ul>
-<h4 id="文件压缩"><a href="#文件压缩" class="headerlink" title="文件压缩"></a><strong>文件压缩</strong></h4><p><strong>1）打包并压缩文件：</strong></p>
+</li>
+<li><p><code>awk &#39;pattern &#123; action &#125;&#39; filename</code> : 逐行扫描文件，并执行指定的动作。</p>
+<ul>
+<li><code>awk &#39;/pattern/ &#123; print &#125;&#39; filename</code> : 打印匹配模式的行。</li>
+<li><code>awk &#39;&#123; print $1 &#125;&#39; filename</code> : 打印每行的第一个字段。</li>
+<li><code>awk &#39;NR % 2 == 0&#39; filename</code> : 打印文件中的偶数行。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">awk <span class="hljs-string">&#x27;/hello/ &#123; print &#125;&#x27;</span> myfile.txt  <span class="hljs-comment"># 打印包含hello的行</span><br>awk <span class="hljs-string">&#x27;&#123; print $1 &#125;&#x27;</span> myfile.txt  <span class="hljs-comment"># 打印每行的第一个字段</span><br>awk <span class="hljs-string">&#x27;NR % 2 == 0&#x27;</span> myfile.txt  <span class="hljs-comment"># 打印偶数行</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>sed &#39;script&#39; filename</code> : 以流编辑器模式处理文件。<ul>
+<li><code>sed &#39;s/old/new/g&#39; filename</code> : 将文件中的所有”old”替换为”new”。</li>
+<li><code>sed -n &#39;/pattern/p&#39; filename</code> : 只打印匹配模式的行。</li>
+<li><code>sed &#39;1,3d&#39; filename</code> : 删除第1到第3行。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">sed <span class="hljs-string">&#x27;s/old/new/g&#x27;</span> myfile.txt  <span class="hljs-comment"># 将文件中的所有&quot;old&quot;替换为&quot;new&quot;</span><br>sed -n <span class="hljs-string">&#x27;/hello/p&#x27;</span> myfile.txt  <span class="hljs-comment"># 只打印包含hello的行</span><br>sed <span class="hljs-string">&#x27;1,3d&#x27;</span> myfile.txt  <span class="hljs-comment"># 删除第1到第3行</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="文件修改"><a href="#文件修改" class="headerlink" title="文件修改"></a><strong>文件修改</strong></h4><ul>
+<li><code>vim 文件名</code>：修改文件的内容（改）。vim 编辑器是 Linux 中的强大组件，是 vi 编辑器的加强版，vim 编辑器的命令和快捷方式有很多，但此处不一一阐述，大家也无需研究的很透彻，使用 vim 编辑修改文件的方式基本会使用就可以了。在实际开发中，使用 vim 编辑器主要作用就是修改配置文件，下面是一般步骤：<code>vim 文件------&gt;进入文件-----&gt;命令模式------&gt;按i进入编辑模式-----&gt;编辑文件 -------&gt;按Esc进入底行模式-----&gt;输入：wq/q!</code> （输入 wq 代表写入内容并退出，即保存；输入 q! 代表强制退出不保存）。</li>
+</ul>
+<h3 id="文件压缩"><a href="#文件压缩" class="headerlink" title="文件压缩"></a><strong>文件压缩</strong></h3><p><strong>1）打包并压缩文件：</strong></p>
 <p>Linux 中的打包文件一般是以 <code>.tar</code> 结尾的，压缩的命令一般是以 <code>.gz</code> 结尾的。而一般情况下打包和压缩是一起进行的，打包并压缩后的文件的后缀名一般 <code>.tar.gz</code>。</p>
 <p>命令：<code>tar -zcvf 打包压缩后的文件名 要打包压缩的文件</code> ，其中：</p>
 <ul>
@@ -381,12 +441,12 @@
 <li>将 <code>/test</code> 下的 <code>test.tar.gz</code> 解压到当前目录下可以使用命令：<code>tar -xvf test.tar.gz</code></li>
 <li>将 &#x2F;test 下的 test.tar.gz 解压到根目录&#x2F;usr 下:<code>tar -xvf test.tar.gz -C /usr</code>（<code>-C</code> 代表指定解压的位置）</li>
 </ul>
-<h4 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a><strong>文件传输</strong></h4><ul>
+<h3 id="文件传输"><a href="#文件传输" class="headerlink" title="文件传输"></a><strong>文件传输</strong></h3><ul>
 <li><code>scp [选项] 源文件 远程文件</code> （scp 即 secure copy，安全复制）：用于通过 SSH 协议进行安全的文件传输，可以实现从本地到远程主机的上传和从远程主机到本地的下载。例如：<code>scp -r my_directory user@remote:/home/user</code> ，将本地目录<code>my_directory</code>上传到远程服务器 <code>/home/user</code> 目录下。<code>scp -r user@remote:/home/user/my_directory</code> ，将远程服务器的 <code>/home/user</code> 目录下的<code>my_directory</code>目录下载到本地。需要注意的是，<code>scp</code> 命令需要在本地和远程系统之间建立 SSH 连接进行文件传输，因此需要确保远程服务器已经配置了 SSH 服务，并且具有正确的权限和认证方式。</li>
 <li><code>rsync [选项] 源文件 远程文件</code> : 可以在本地和远程系统之间高效地进行文件复制，并且能够智能地处理增量复制，节省带宽和时间。例如：<code>rsync -r my_directory user@remote:/home/user</code>，将本地目录<code>my_directory</code>上传到远程服务器 <code>/home/user</code> 目录下。</li>
 <li><code>ftp</code> (File Transfer Protocol)：提供了一种简单的方式来连接到远程 FTP 服务器并进行文件上传、下载、删除等操作。使用之前需要先连接登录远程 FTP 服务器，进入 FTP 命令行界面后，可以使用 <code>put</code> 命令将本地文件上传到远程主机，可以使用<code>get</code>命令将远程主机的文件下载到本地，可以使用 <code>delete</code> 命令删除远程主机的文件。这里就不进行演示了。</li>
 </ul>
-<h4 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a><strong>文件权限</strong></h4><p>操作系统中每个文件都拥有特定的权限、所属用户和所属组。权限是操作系统用来限制资源访问的机制，在 Linux 中权限一般分为读(readable)、写(writable)和执行(executable)，分为三组。分别对应文件的属主(owner)，属组(group)和其他用户(other)，通过这样的机制来限制哪些用户、哪些组可以对特定的文件进行什么样的操作。</p>
+<h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a><strong>文件权限</strong></h3><p>操作系统中每个文件都拥有特定的权限、所属用户和所属组。权限是操作系统用来限制资源访问的机制，在 Linux 中权限一般分为读(readable)、写(writable)和执行(executable)，分为三组。分别对应文件的属主(owner)，属组(group)和其他用户(other)，通过这样的机制来限制哪些用户、哪些组可以对特定的文件进行什么样的操作。</p>
 <p>通过 <strong><code>ls -l</code></strong> 命令我们可以 查看某个目录下的文件或目录的权限</p>
 <p>示例：在随意某个目录下<code>ls -l</code></p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240416002341474.png" srcset="/img/loading.gif" lazyload alt="image-20240416002341474" style="zoom:50%;" />
@@ -470,7 +530,7 @@
 <li>把 zookeeper 这个脚本添加到开机启动项里面，命令是：<code>chkconfig --add zookeeper</code></li>
 <li>如果想看看是否添加成功，命令是：<code>chkconfig --list</code></li>
 </ol>
-<h4 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a><strong>用户管理</strong></h4><p>Linux 系统是一个多用户多任务的分时操作系统，任何一个要使用系统资源的用户，都必须首先向系统管理员申请一个账号，然后以这个账号的身份进入系统。</p>
+<h3 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a><strong>用户管理</strong></h3><p>Linux 系统是一个多用户多任务的分时操作系统，任何一个要使用系统资源的用户，都必须首先向系统管理员申请一个账号，然后以这个账号的身份进入系统。</p>
 <p>用户的账号一方面可以帮助系统管理员对使用系统的用户进行跟踪，并控制他们对系统资源的访问；另一方面也可以帮助用户组织文件，并为用户提供安全性保护。</p>
 <p><strong>Linux 用户管理相关命令:</strong></p>
 <ul>
@@ -480,7 +540,7 @@
 <li><code>passwd [选项] 用户名</code>: 设置用户的认证信息，包括用户密码、密码过期时间等。。例如：<code>passwd -S 用户名</code> ，显示用户账号密码信息。<code>passwd -d 用户名</code>: 清除用户密码，会导致用户无法登录。<code>passwd 用户名</code>，修改用户密码，随后系统会提示输入新密码并确认密码。</li>
 <li><code>su [选项] 用户名</code>（su 即 Switch User，切换用户）：在当前登录的用户和其他用户之间切换身份。</li>
 </ul>
-<h4 id="用户组管理"><a href="#用户组管理" class="headerlink" title="用户组管理"></a><strong>用户组管理</strong></h4><p>每个用户都有一个用户组，系统可以对一个用户组中的所有用户进行集中管理。不同 Linux 系统对用户组的规定有所不同，如 Linux 下的用户属于与它同名的用户组，这个用户组在创建用户时同时创建。</p>
+<h3 id="用户组管理"><a href="#用户组管理" class="headerlink" title="用户组管理"></a><strong>用户组管理</strong></h3><p>每个用户都有一个用户组，系统可以对一个用户组中的所有用户进行集中管理。不同 Linux 系统对用户组的规定有所不同，如 Linux 下的用户属于与它同名的用户组，这个用户组在创建用户时同时创建。</p>
 <p>用户组的管理涉及用户组的添加、删除和修改。组的增加、删除和修改实际上就是对<code>/etc/group</code>文件的更新。</p>
 <p><strong>Linux 系统用户组的管理相关命令:</strong></p>
 <ul>
@@ -488,12 +548,39 @@
 <li><code>groupdel 用户组</code>:要删除一个已有的用户组。</li>
 <li><code>groupmod [选项] 用户组</code> : 修改用户组的属性。</li>
 </ul>
-<h4 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a><strong>网络通信</strong></h4><ul>
-<li><code>ping [选项] 目标主机</code>：测试与目标主机的网络连接。</li>
-<li><code>ifconfig</code> 或 <code>ip</code>：用于查看系统的网络接口信息，包括网络接口的 IP 地址、MAC 地址、状态等。</li>
-<li><code>netstat [选项]</code>：用于查看系统的网络连接状态和网络统计信息，可以查看当前的网络连接情况、监听端口、网络协议等。</li>
-<li><code>ss [选项]</code>：比 <code>netstat</code> 更好用，提供了更快速、更详细的网络连接信息。</li>
+<h3 id="网络通信"><a href="#网络通信" class="headerlink" title="网络通信"></a><strong>网络通信</strong></h3><ul>
+<li><p><code>ping [选项] 目标主机</code>：测试与目标主机的网络连接。</p>
+</li>
+<li><p><code>ifconfig</code> 或 <code>ip</code>：用于查看系统的<strong>网络接口信息</strong>，包括网络接口的 IP 地址、MAC 地址、状态等。</p>
+</li>
+<li><pre><code class="hljs">eth0      Link encap:Ethernet  HWaddr 00:0c:29:4b:8e:92  
+          inet addr:192.168.1.100  Bcast:192.168.1.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:34567 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:12345 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:4567890 (4.5 MB)  TX bytes:1234567 (1.2 MB)
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><br>  <br><br>- `netstat [选项]`：用于查看系统的网络连接状态和网络统计信息，可以查看当前的网络连接情况、监听端口、网络协议等。<br><br></code></pre></td></tr></table></figure>
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 192.168.1.100:22        192.168.1.101:54223     ESTABLISHED
+tcp        0      0 192.168.1.100:80        192.168.1.102:55555     TIME_WAIT
+</code></pre>
+</li>
 </ul>
+<pre><code class="hljs">
+
+
+- `ss [选项]`：比 `netstat` 更好用，提供了更快速、更详细的网络连接信息。
+
+
+
+
+
+
+
+
+</code></pre>
 
                 
               </div>
