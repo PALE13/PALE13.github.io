@@ -30,13 +30,14 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240312111716723.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240417152009972.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240421185318570.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240730083918450.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240312121734960.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511160427427.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511171849766.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511171529766.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511172505838.png">
 <meta property="article:published_time" content="2024-01-15T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-28T08:13:59.813Z">
+<meta property="article:modified_time" content="2024-07-31T01:18:08.914Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -262,7 +263,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.3k 字
+          7.8k 字
         
       </span>
     
@@ -273,7 +274,7 @@
         
         
         
-          62 分钟
+          65 分钟
         
       </span>
     
@@ -451,7 +452,8 @@
 <li>把成员变量声明到方法中</li>
 <li>在类中定义一个 <code>ThreadLocal</code> 成员变量，将需要的可变成员变量保存在 <code>ThreadLocal</code> 中（推荐的一种方式）。</li>
 </ol>
-<h3 id="Bean-的生命周期"><a href="#Bean-的生命周期" class="headerlink" title="Bean 的生命周期"></a><strong>Bean 的生命周期</strong></h3><p><strong>启动容器：</strong>首先Spring容器启动之后，会根据使用不同类型的ApplicationContext，通过不同的方式去加载Bean配置，如xml方式、注解方式，将这些Bean配置加载到容器中，<strong>作为Bean定义包装成BeanDefinition对象保存起来</strong>，为下一步创建Bean做准备。</p>
+<h3 id="Bean-的生命周期"><a href="#Bean-的生命周期" class="headerlink" title="Bean 的生命周期"></a><strong>Bean 的生命周期</strong></h3><p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240421185318570.png" srcset="/img/loading.gif" lazyload alt="image-20240421185318570"></p>
+<p><strong>启动容器：</strong>首先Spring容器启动之后，会根据使用不同类型的ApplicationContext，通过不同的方式去加载Bean配置，如xml方式、注解方式，将这些Bean配置加载到容器中，<strong>作为Bean定义包装成BeanDefinition对象保存起来</strong>，为下一步创建Bean做准备。</p>
 <p><strong>创建 Bean 的实例</strong>：根据加载的Bean定义信息，<strong>通过反射来创建Bean实例</strong>，如果是普通Bean，则直接创建Bean，如果是FactoryBean，说明真正要创建的对象为getObject()的返回值，调用getObject()将返回值作为Bean。</p>
 <p><strong>Bean 属性赋值&#x2F;填充</strong>：为 Bean 设置相关属性和依赖，例如<code>@Autowired</code> 等注解注入的对象、<code>@Value</code> 注入的值、<code>setter</code>方法或构造函数注入依赖和值、<code>@Resource</code>注入的各种资源。</p>
 <p><strong>Bean 初始化</strong>： </p>
@@ -464,8 +466,9 @@
 </ul>
 </li>
 <li>如果有和加载这个 Bean 的 Spring 容器相关的 <code>BeanPostProcessor</code> 对象，执行<code>postProcessBeforeInitialization()</code> 方法</li>
+<li>执行被@PostConstruct 注解的方法</li>
 <li>如果 Bean 实现了<code>InitializingBean</code>接口，执行<code>afterPropertiesSet()</code>方法。afterPropertiesSet 方法通常用于执行那些不能在配置文件中完成的初始化操作，<strong>需要借助外界才能完成初始化，如数据库连接池的相关初始化等。</strong></li>
-<li>如果 Bean 在配置文件中的定义包含 <code>init-method</code> 属性，执行指定的方法。</li>
+<li>如果 Bean 在0配置文件中的定义包含 <code>init-method</code> 属性，执行指定的方法。</li>
 <li>如果有和加载这个 Bean 的 Spring 容器相关的 <code>BeanPostProcessor</code> 对象，执行<code>postProcessAfterInitialization()</code> 方法。</li>
 </ul>
 <p><strong>使用Bean：</strong></p>
@@ -474,12 +477,13 @@
 <li>如果Bean是多例的话，容器将Bean返回给用户，剩下的生命周期由用户控制（手动销毁或通过JVM GC）。</li>
 </ul>
 <p><strong>销毁 Bean</strong>：销毁并不是说要立马把 Bean 给销毁掉，而是把 Bean 的销毁方法先记录下来，将来需要销毁 Bean 或者销毁容器的时候，就调用这些方法去释放 Bean 所持有的资源。 </p>
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240730083918450.png" srcset="/img/loading.gif" lazyload alt="image-20240730083918450"></p>
 <ul>
+<li>执行<code>@PreDestroy</code> 注解标记 Bean 销毁之前执行的方法。</li>
 <li>如果 Bean 实现了 <code>DisposableBean</code> 接口，执行 <code>destroy()</code> 方法。</li>
-<li>如果 Bean 在配置文件中的定义包含 <code>destroy-method</code> 属性，执行指定的 Bean 销毁方法。或者，也可以直接通过<code>@PreDestroy</code> 注解标记 Bean 销毁之前执行的方法。</li>
+<li>如果 Bean 在配置文件中的定义包含 <code>destroy-method</code> 属性，执行指定的 Bean 销毁方法。</li>
 </ul>
-<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240421185318570.png" srcset="/img/loading.gif" lazyload alt="image-20240421185318570"></p>
-<p>这个过程是由Spring容器自动管理的其中有两个环节我们可以进行干预。</p>
+<p>这个过程是由Spring容器自动管理的，其中有两个环节我们可以进行干预。</p>
 <p>我们可以自定义初始化方法，并在该方法前增加@PostConstruct注解。届时Spring容器将在调用SetBeanFactory方法之后调用该方法。</p>
 <p>我们可以自定义销毁方法，并在该方法前增加@PreDestroy注解，届时Spring容器将在自身销毁前，调用这个方法。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240312121734960.png" srcset="/img/loading.gif" lazyload alt="image-20240312121734960" style="zoom:50%;" />
@@ -516,8 +520,15 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 注意：必须将自己定义的MyBeanPostProcessor也加入到spring容器中去，这样Spring才能发现我们实现的这个post processor</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyBeanPostProcessor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">BeanPostProcessor</span> &#123;<br><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessBeforeInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>		<span class="hljs-comment">// 可以针对某一个bean进行处理！否则默认会对所有bean生效</span><br>		<span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;userService&quot;</span>.equals(beanName)) &#123;<br>			System.out.println(<span class="hljs-string">&quot;执行 userService 初始化之前的方法...&quot;</span>);<br>		&#125;<br>		<span class="hljs-keyword">return</span> bean;<br>	&#125;<br><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessAfterInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>		<span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;userService&quot;</span>.equals(beanName)) &#123;<br>			System.out.println(<span class="hljs-string">&quot;执行 userService 初始化之后的方法...&quot;</span>);<br>		&#125;<br>		<span class="hljs-keyword">return</span> bean;<br>	&#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
 <p>当定义多个BeanPostProcessor的时候，如果想要自定义各个BeanPostProcessor的执行顺序，也可以实现Orderd接口，执行order属性的值，order越小，优先级越高，BeanPostProcessor最先被执行。</p>
-<h3 id="BeanFactory和FactoryBean的区别？"><a href="#BeanFactory和FactoryBean的区别？" class="headerlink" title="BeanFactory和FactoryBean的区别？"></a><strong>BeanFactory和FactoryBean的区别？</strong></h3><p><strong>BeanFactory</strong>：是所有Spring Bean的容器根接口，给Spring 的容器定义一套规范，给IOC容器提供了一套完整的规范，比如我们常用到的getBean方法等</p>
-<p><strong>FactoryBean</strong>：是一个bean。但是他不是一个普通的bean，是可以创建对象的bean。。通常是用来创建比较复杂的bean，一般的bean 直接用xml配置即可，但如果一个bean的创建过程中涉及到很多其他的bean 和复杂的逻辑，直接用xml配置比较麻烦，这时可以考虑用FactoryBean，可以隐藏实例化复杂Bean的具体的细节.</p>
+<h3 id="BeanFactory和FactoryBean的区别？"><a href="#BeanFactory和FactoryBean的区别？" class="headerlink" title="BeanFactory和FactoryBean的区别？"></a><strong>BeanFactory和FactoryBean的区别？</strong></h3><p><strong>BeanFactory</strong>：是所有Spring Bean的容器根接口，给Spring 的容器定义一套规范，给IOC容器提供了一套完整的规范。BeanFactory中定义了管理Bean的通用方法，如 getBean 和 containsBean 等，它的职责包括：实例化、定位、配置应用程序中的对象及建立这些对象间的依赖。BeanFactory只是个接口，并不是IOC容器的具体实现，所以Spring容器给出了很多种实现，如 DefaultListableBeanFactory、XmlBeanFactory、ApplicationContext等，其中XmlBeanFactory就是常用的一个，该实现将以XML方式描述组成应用的对象及对象间的依赖关系。</p>
+<p><strong>FactoryBean</strong>：是一个bean。但是他不是一个普通的bean，是可以创建对象的bean。通常是用来创建比较复杂的bean，一般的bean 直接用xml配置即可，但如果一个bean的创建过程中涉及到很多其他的bean 和复杂的逻辑，直接用xml配置比较麻烦，这时可以考虑用FactoryBean，可以隐藏实例化复杂Bean的具体的细节。</p>
+<p>通过实现getObject方法来定义创建对象的逻辑</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserServiceFactoryBean</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">FactoryBean</span>&lt;UserService&gt; &#123;<br>    <span class="hljs-keyword">private</span> String config;<br>    <span class="hljs-comment">// getter and setter methods...</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> UserService <span class="hljs-title function_">getObject</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>      	<span class="hljs-comment">// 这里可以放一些复杂的逻辑，比如和其他系统交互，或者执行一些耗时操作</span><br>        <span class="hljs-type">UserService</span> <span class="hljs-variable">userService</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UserService</span>();<br>        userService.setConfig(<span class="hljs-built_in">this</span>.config);<br>        <span class="hljs-keyword">return</span> userService;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Class&lt;?&gt; getObjectType() &#123;<br>        <span class="hljs-keyword">return</span> UserService.class;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isSingleton</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
 <h3 id="BeanFactory和ApplicationContext有什么区别？"><a href="#BeanFactory和ApplicationContext有什么区别？" class="headerlink" title="BeanFactory和ApplicationContext有什么区别？"></a><strong>BeanFactory和ApplicationContext有什么区别？</strong></h3><p>BeanFactory和ApplicationContext是Spring的两大核心接口，都可以当做Spring的容器。其中ApplicationContext是BeanFactory的子接口。</p>
 <p>两者区别如下：</p>
 <p>1、<strong>功能上的区别。</strong></p>
@@ -529,7 +540,24 @@
 <p>相对于基本的BeanFactory，ApplicationContext 唯一的不足是占用内存空间。当应用程序配置Bean较多时，程序启动较慢。</p>
 <p>ApplicationContext除了继承了BeanFactory外，还继承了ApplicationEventPublisher（事件发布器）、<br>ResouresPatternResolver（资源解析器）、MessageSource（消息资源）等。但是ApplicationContext的核心功能还是BeanFactory。</p>
 <p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511160427427.png" srcset="/img/loading.gif" lazyload alt="image-20240511160427427"></p>
-<h3 id="怎么让2个bean按顺序加载？"><a href="#怎么让2个bean按顺序加载？" class="headerlink" title="怎么让2个bean按顺序加载？"></a><strong>怎么让2个bean按顺序加载？</strong></h3><p>当一个 bean 需要在另一个 bean 初始化之后再初始化时，可以使用@DependOn注解</p>
+<h3 id="如何让两个bean按自定义的顺序加载？"><a href="#如何让两个bean按自定义的顺序加载？" class="headerlink" title="如何让两个bean按自定义的顺序加载？"></a><strong>如何让两个bean按自定义的顺序加载？</strong></h3><p><strong>使用@DependsOn注解</strong></p>
+<p>@DependsOn注解可以明确指定Bean的初始化顺序。通过在Bean定义中使用@DependsOn，可以指定在当前Bean初始化之前必须先初始化的Bean的名称。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FirstBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">FirstBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;FirstBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@DependsOn(&quot;firstBean&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SecondBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SecondBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;SecondBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>使用@Order或@Priority注解</strong></p>
+<p>@Order 和 @Priority 注解可以指定Bean的加载顺序。数值越小，Bean的加载顺序越靠前。这两个注解在功能上是相似的，但@Priority是Java标准注解，而@Order是Spring特有的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Order(1)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FirstBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">FirstBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;FirstBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Order(2)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SecondBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SecondBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;SecondBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>使用@Lazy注解</strong></p>
+<p>@Lazy 注解可以控制Bean的加载时机。默认情况下，Bean是按需加载的，但使用@Lazy可以延迟Bean的加载，直到首次使用时才进行初始化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FirstBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">FirstBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;FirstBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Lazy</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SecondBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SecondBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;SecondBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 <h3 id="Spring的Bean是否会被JVM的GC回收"><a href="#Spring的Bean是否会被JVM的GC回收" class="headerlink" title="Spring的Bean是否会被JVM的GC回收"></a><strong>Spring的Bean是否会被JVM的GC回收</strong></h3><p>Spring的单例（singleton）bean在Spring容器运行期间通常<strong>不会被JVM的垃圾回收器（GC）回收</strong>，而原型（prototype）bean则可能在不再被引用时被回收。具体如下：</p>
 <ol>
 <li><strong>单例（Singleton）Beans</strong>：默认情况下，Spring容器中创建的bean是单例的，即在整个应用程序生命周期内只存在一个实例。这些单例bean通常与Spring容器具有相同的生命周期，除非Spring容器被关闭或bean被显式销毁，否则它们会一直存在于内存中，因此不会被JVM的GC回收。</li>

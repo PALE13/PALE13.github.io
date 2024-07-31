@@ -16,21 +16,32 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="PALE13的个人博客">
+    <meta name="description" content="Prompt工程学习Open AI官方API进行提示工程的最佳实践，掌握核心原则，提高与AI的沟通质量和效率。 使用最新的模型  比如在2022年11月前open AI还没有推出擅长聊天的gpt3.5，turbo gpt 4等模型。只有做文本补全的text-davinci， text-curie，text-babbage等等，通常来说，开头的字母越靠后，或者是版本数字越大，说明模型越新。 把指令放">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PALE13">
-<meta property="og:url" content="http://example.com/2024/06/13/%E5%A4%A7%E6%A8%A1%E5%9E%8B/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:title" content="Prompt工程">
+<meta property="og:url" content="http://example.com/2024/06/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B/Prompt%E5%B7%A5%E7%A8%8B/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="PALE13的个人博客">
+<meta property="og:description" content="Prompt工程学习Open AI官方API进行提示工程的最佳实践，掌握核心原则，提高与AI的沟通质量和效率。 使用最新的模型  比如在2022年11月前open AI还没有推出擅长聊天的gpt3.5，turbo gpt 4等模型。只有做文本补全的text-davinci， text-curie，text-babbage等等，通常来说，开头的字母越靠后，或者是版本数字越大，说明模型越新。 把指令放">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-06-12T16:28:23.352Z">
-<meta property="article:modified_time" content="2024-06-12T16:28:35.008Z">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172400646.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172746044.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172908853.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172923428.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630173620537.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630173716921.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630173849121.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630181506949.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630181527934.png">
+<meta property="article:published_time" content="2024-06-30T04:46:25.000Z">
+<meta property="article:modified_time" content="2024-06-30T10:17:27.989Z">
 <meta property="article:author" content="PALE13">
+<meta property="article:tag" content="大模型">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172400646.png">
   
   
   
-  <title>PALE13</title>
+  <title>Prompt工程 - PALE13</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -225,7 +236,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="Prompt工程"></span>
           
         </div>
 
@@ -236,8 +247,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-13 00:28" pubdate>
-          2024年6月13日 凌晨
+        <time datetime="2024-06-30 12:46" pubdate>
+          2024年6月30日 下午
         </time>
       </span>
     
@@ -248,7 +259,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          1.2k 字
         
       </span>
     
@@ -259,7 +270,7 @@
         
         
         
-          1 分钟
+          10 分钟
         
       </span>
     
@@ -296,12 +307,42 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header"></h1>
+            <h1 id="seo-header">Prompt工程</h1>
             
             
               <div class="markdown-body">
                 
-                
+                <h2 id="Prompt工程"><a href="#Prompt工程" class="headerlink" title="Prompt工程"></a><strong>Prompt工程</strong></h2><p>学习Open AI官方API进行提示工程的最佳实践，掌握核心原则，提高与AI的沟通质量和效率。</p>
+<h3 id="使用最新的模型"><a href="#使用最新的模型" class="headerlink" title="使用最新的模型"></a><strong>使用最新的模型</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172400646.png" srcset="/img/loading.gif" lazyload alt="image-20240630172400646" style="zoom: 67%;" />
+
+<p>比如在2022年11月前open AI还没有推出擅长聊天的gpt3.5，turbo gpt 4等模型。只有做文本补全的text-davinci， text-curie，text-babbage等等，通常来说，开头的字母越靠后，或者是版本数字越大，说明模型越新。</p>
+<h3 id="把指令放在提示的开头，并且用-或”””来分割指令和上下文"><a href="#把指令放在提示的开头，并且用-或”””来分割指令和上下文" class="headerlink" title="把指令放在提示的开头，并且用###或”””来分割指令和上下文"></a><strong>把指令放在提示的开头，并且用###或”””来分割指令和上下文</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172746044.png" srcset="/img/loading.gif" lazyload alt="image-20240630172746044" style="zoom:67%;" />
+
+<p>要总结的文本用三个引号进行包围，这样能让模型更清楚的区分指令和上下文。</p>
+<h3 id="尽可能对上下文和输出的长度，格式，风格等给出具体描述性详细的要求"><a href="#尽可能对上下文和输出的长度，格式，风格等给出具体描述性详细的要求" class="headerlink" title="尽可能对上下文和输出的长度，格式，风格等给出具体描述性详细的要求"></a><strong>尽可能对上下文和输出的长度，格式，风格等给出具体描述性详细的要求</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172908853.png" srcset="/img/loading.gif" lazyload alt="image-20240630172908853" style="zoom:67%;" />
+
+<p>比如跟模型说，写一首关于open AI的诗，这个要求就很不详细，更好的提示是像左边这样详细要求了，生成内容的长度，题材，风格，主题。以及针对主题的进一步解释，这样模型的回应才更有可能达成你想要的效果。</p>
+<h3 id="通过一些例子来阐明想要的输出格式"><a href="#通过一些例子来阐明想要的输出格式" class="headerlink" title="通过一些例子来阐明想要的输出格式"></a><strong>通过一些例子来阐明想要的输出格式</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630172923428.png" srcset="/img/loading.gif" lazyload alt="image-20240630172923428" style="zoom:67%;" />
+
+<p>比如说跟模型说，写一首关于open AI的诗，这个要求就很不详细，更好的提示是像左边这样详细要求了，生成内容的长度，题材，风格，主题。以及针对主题的进一步解释，这样模型的回应才更有可能达成你想要的效果。</p>
+<h3 id="先从零样本提示开始，效果不好，则用小样本提示"><a href="#先从零样本提示开始，效果不好，则用小样本提示" class="headerlink" title="先从零样本提示开始，效果不好，则用小样本提示"></a><strong>先从零样本提示开始，效果不好，则用小样本提示</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630173620537.png" srcset="/img/loading.gif" lazyload alt="image-20240630173620537" style="zoom:67%;" />
+
+<p>先从零样本提示开始，如果效果不好，则用小样本提示零样本的意思是不给AI任何回应示范。我们大部分时候都是直接丢问题或指令给AI，但如果效果不是太好，回应和我们期望不符的话，可以考虑给AI几个回答作为参考的例子。</p>
+<h3 id="减少空洞和不严谨的描述"><a href="#减少空洞和不严谨的描述" class="headerlink" title="减少空洞和不严谨的描述"></a><strong>减少空洞和不严谨的描述</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630173716921.png" srcset="/img/loading.gif" lazyload alt="image-20240630173716921" style="zoom:67%;" />
+
+<p>比如给这个产品的描述应该要很短，就是呢，只有几句话，不要太多了，这个描述就很啰嗦，也没有说到具体的点儿上。但如果说用三到五句话组成的一个段落来描述此产品，这个提示就比较言简意骇，而且要求清晰。</p>
+<h3 id="与其告知不应该做什么，不如告知应该做什么"><a href="#与其告知不应该做什么，不如告知应该做什么" class="headerlink" title="与其告知不应该做什么，不如告知应该做什么"></a><strong>与其告知不应该做什么，不如告知应该做什么</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630173849121.png" srcset="/img/loading.gif" lazyload alt="image-20240630173849121" style="zoom:67%;" />
+
+
+
+<h3 id="思维链与分步骤思考"><a href="#思维链与分步骤思考" class="headerlink" title="思维链与分步骤思考"></a><strong>思维链与分步骤思考</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630181506949.png" srcset="/img/loading.gif" lazyload alt="image-20240630181506949" style="zoom:67%;" />
+
+<p>比如AI非常不擅长做数学相关问题，即使我们用样本示范一些正确的结果，到他做时也依然掉链子。比如这个例子里，所有奇数相加后的结果是41，不是53，但问题在于AI生成每个token所用的时长是差不多的。不会因为某个词需要涉及更多的思考而花费更多时间生成那个token，所以计算答案被他乱哈拉过去了，前面有正确的示范答案，也没有什么帮助。</p>
+<p>这种时候可以借助思维链，思维链最早是谷歌在2022年一篇论文里提出的。作者发现，思维链可以显著提升大语言模型进行复杂推理的能力。特别是在算术常识和符号推理等任务上。运用思维链的方法是我们给AI的小样本提示里，不仅包含正确的结果，也展示中间的推理步骤。那AI在生成回答时。也会模仿着去生成一些中间步骤，把过程进行分解。就像被老师点名回答问题时，站起来瞬间给出正确答案的难度系数很高，但如果说多说些废话，把思考步骤也讲出来，一方面可以拖时间，有更多思考机会。另一方面，也有助于我们分步骤下，更有机会得到正确答案。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240630181527934.png" srcset="/img/loading.gif" lazyload alt="image-20240630181527934" style="zoom:67%;" />
+
+<p>思维链也可以用在数学计算之外的很多方面。借助思维链AI，可以在每一步里把注意力集中在当前思考步骤上。减少上下文的过多干扰，因此针对复杂的任务有更大概率得到准确的结果。在思维链的相关论文里，作者还提到，即使我们不用小样本提示，只是在问题后面加一句let’s think step by step，让我们来分步骤思考。也能提升AI得到正确答案的概率。这是一种成本非常低的方法，用思维链还需要我们想样本示范，而这种方法只需要加上简单的一句话AI，就会自行生成中间步骤进行推理。</p>
+
                 
               </div>
             
@@ -309,6 +350,34 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="category-chain-item">大模型</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="print-no-link">#大模型</a>
+      
+    </div>
   
 </div>
 
@@ -318,8 +387,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>http://example.com/2024/06/13/大模型/大模型基础/</div>
+      <div>Prompt工程</div>
+      <div>http://example.com/2024/06/30/大模型/Prompt工程/</div>
     </div>
     <div class="license-meta">
       
@@ -331,7 +400,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月13日</div>
+          <div>2024年6月30日</div>
         </div>
       
       
@@ -363,18 +432,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/13/%E5%A4%A7%E6%A8%A1%E5%9E%8B/RAG/" title="RAG检索增强生成">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">RAG检索增强生成</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/03/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%94%AF%E4%B8%80%E6%80%A7ID%E8%AE%BE%E8%AE%A1/" title="唯一性ID设计思想">
-                        <span class="hidden-mobile">唯一性ID设计思想</span>
+                      <a href="/2024/06/23/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81/" title="服务限流">
+                        <span class="hidden-mobile">服务限流</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

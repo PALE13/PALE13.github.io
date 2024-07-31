@@ -1,0 +1,812 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="服务限流固定窗口限流首先维护一个计数器，将单位时间段当做一个窗口，计数器记录这个窗口接收请求的次数。  当次数少于限流阀值，就允许访问，并且计数器+1 当次数大于限流阀值，就拒绝访问。 当前的时间窗口过去之后，计数器清零。  假设单位时间是1秒，限流阀值为3。在单位时间1秒内，每来一个请求,计数器就加1，如果计数器累加的次数超过限流阀值3，后续的请求全部拒绝。等到1s结束后，计数器清0，重新开始计">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务限流">
+<meta property="og:url" content="http://example.com/2024/06/23/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="服务限流固定窗口限流首先维护一个计数器，将单位时间段当做一个窗口，计数器记录这个窗口接收请求的次数。  当次数少于限流阀值，就允许访问，并且计数器+1 当次数大于限流阀值，就拒绝访问。 当前的时间窗口过去之后，计数器清零。  假设单位时间是1秒，限流阀值为3。在单位时间1秒内，每来一个请求,计数器就加1，如果计数器累加的次数超过限流阀值3，后续的请求全部拒绝。等到1s结束后，计数器清0，重新开始计">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623162103150.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304224021135.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623163640364.png">
+<meta property="article:published_time" content="2024-06-23T10:46:25.000Z">
+<meta property="article:modified_time" content="2024-06-23T08:51:21.343Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623162103150.png">
+  
+  
+  
+  <title>服务限流 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="服务限流"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-06-23 18:46" pubdate>
+          2024年6月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">服务限流</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="服务限流"><a href="#服务限流" class="headerlink" title="服务限流"></a>服务限流</h2><h3 id="固定窗口限流"><a href="#固定窗口限流" class="headerlink" title="固定窗口限流"></a><strong>固定窗口限流</strong></h3><p>首先维护一个计数器，将单位时间段当做一个窗口，计数器记录这个窗口接收请求的次数。</p>
+<ul>
+<li>当次数少于限流阀值，就允许访问，并且计数器+1</li>
+<li>当次数大于限流阀值，就拒绝访问。</li>
+<li>当前的时间窗口过去之后，计数器清零。</li>
+</ul>
+<p>假设单位时间是1秒，限流阀值为3。在单位时间1秒内，每来一个请求,计数器就加1，如果计数器累加的次数超过限流阀值3，后续的请求全部拒绝。等到1s结束后，计数器清0，重新开始计数。如下图：</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623162103150.png" srcset="/img/loading.gif" lazyload alt="image-20240623162103150" style="zoom: 67%;" />
+
+<p>限定：1小时只允许10个用户操作</p>
+<p>优点：最简单</p>
+<p>缺点：可出现流量突刺</p>
+<p>比如：前59分钟没有1个操作，第59分钟来了10个操作；第1小时01分钟又来了10个操作。相当于2分钟内执行了20个操作，<strong>服务器仍然有高峰危险</strong></p>
+<pre><code class="hljs">/**
+ * 固定窗口时间算法
+ * @return
+ */
+boolean fixedWindowsTryAcquire() &#123;
+    long currentTime = System.currentTimeMillis();  //获取系统当前时间
+    if (currentTime - lastRequestTime &gt; windowUnit) &#123;  //检查是否在时间窗口内
+        counter = 0;  // 计数器清0
+        lastRequestTime = currentTime;  //开启新的时间窗口
+    &#125;
+    if (counter &lt; threshold) &#123;  // 小于阀值
+        counter++;  //计数器加1
+        return true;
+    &#125;
+
+    return false;
+&#125;
+</code></pre>
+<h3 id="滑动窗口限流"><a href="#滑动窗口限流" class="headerlink" title="滑动窗口限流"></a><strong>滑动窗口限流</strong></h3><p>假设单位时间还是1s，滑动窗口算法把它划分为5个小周期，也就是滑动窗口（单位时间）被划分为5个小格子。每格表示0.2s。每过0.2s，时间窗口就会往右滑动一格。然后呢，每个小周期，都有自己独立的计数器，如果请求是0.83s到达的，0.8~1.0s对应的计数器就会加1。 </p>
+<p>只要窗口中所有单元格的计数总和不超过阈值都可以放行</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304224021135.png" srcset="/img/loading.gif" lazyload alt="image-20240304224021135" style="zoom:50%;" />
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 单位时间划分的小周期（单位时间是1分钟，10s一个小格子窗口，一共6个格子）</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">SUB_CYCLE</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 每分钟限流请求数</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">thresholdPerMin</span> <span class="hljs-operator">=</span> <span class="hljs-number">100</span>;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 计数器, k-为当前窗口的开始时间值秒，value为当前窗口的计数</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> TreeMap&lt;Long, Integer&gt; counters = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TreeMap</span>&lt;&gt;();<br><br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 滑动窗口时间算法实现</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-type">boolean</span> <span class="hljs-title function_">slidingWindowsTryAcquire</span><span class="hljs-params">()</span> &#123;<br>       <span class="hljs-type">long</span> <span class="hljs-variable">currentWindowTime</span> <span class="hljs-operator">=</span> LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) / SUB_CYCLE * SUB_CYCLE; <span class="hljs-comment">//获取当前时间在哪个小周期窗口</span><br>       <span class="hljs-type">int</span> <span class="hljs-variable">currentWindowNum</span> <span class="hljs-operator">=</span> countCurrentWindow(currentWindowTime); <span class="hljs-comment">//当前窗口总请求数</span><br><br>       <span class="hljs-comment">//超过阀值限流</span><br>       <span class="hljs-keyword">if</span> (currentWindowNum &gt;= thresholdPerMin) &#123;<br>           <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>       &#125;<br><br>       <span class="hljs-comment">//计数器+1</span><br>       counters.get(currentWindowTime)++;<br>       <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>   &#125;<br><br>  <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 统计当前窗口的请求数</span><br><span class="hljs-comment">   */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-title function_">countCurrentWindow</span><span class="hljs-params">(<span class="hljs-type">long</span> currentWindowTime)</span> &#123;<br>       <span class="hljs-comment">//计算窗口开始位置</span><br>       <span class="hljs-type">long</span> <span class="hljs-variable">startTime</span> <span class="hljs-operator">=</span> currentWindowTime - SUB_CYCLE* (60s/SUB_CYCLE-<span class="hljs-number">1</span>);<br>       <span class="hljs-type">int</span> <span class="hljs-variable">count</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br>       <span class="hljs-comment">//遍历存储的计数器</span><br>       Iterator&lt;Map.Entry&lt;Long, Integer&gt;&gt; iterator = counters.entrySet().iterator();<br>       <span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;<br>           Map.Entry&lt;Long, Integer&gt; entry = iterator.next();<br>           <span class="hljs-comment">// 删除无效过期的子窗口计数器</span><br>           <span class="hljs-keyword">if</span> (entry.getKey() &lt; startTime) &#123;<br>               iterator.remove();<br>           &#125; <span class="hljs-keyword">else</span> &#123;<br>               <span class="hljs-comment">//累加当前窗口的所有计数器之和</span><br>               count =count + entry.getValue();<br>           &#125;<br>       &#125;<br>       <span class="hljs-keyword">return</span> count;<br>   &#125;<br><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>解决了固定窗口限流存在的问题</strong></p>
+<p>优点：能够解决上述流量突刺的问题，因为第59分钟时，限流窗口是59分~1小时59分，这个时间段内只能接受10次请求，只要还在这个窗口内，更多的操作就会被拒绝。</p>
+<p>缺点：实现相对固定窗口来说比较复杂，限流效果和你的滑动单位有关，滑动单位越小，限流效果越好，但往往很难选取到一个特别合适的滑动单位。滑动窗口算法虽然解决了<strong>固定窗口的临界问题</strong>，但是一旦到达限流后，请求都会直接暴力被拒绝。我们会损失一部分请求，这其实对于产品来说，并不太友好。</p>
+<p>当滑动窗口的格子周期划分的越多，那么滑动窗口的滚动就越平滑，限流的统计就会越精确。</p>
+<h3 id="漏桶限流"><a href="#漏桶限流" class="headerlink" title="漏桶限流"></a><strong>漏桶限流</strong></h3><p>特点：以固定的速率处理请求（漏水），当请求桶满了后，拒绝请求。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png" srcset="/img/loading.gif" lazyload alt="image-20240304225935821" style="zoom:50%;" />
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 每秒处理数（出水率）</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> rate;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    *  当前剩余水量</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> currentWater;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 最后刷新时间</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> refreshTime;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 桶容量</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> capacity;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 漏桶算法</span><br><span class="hljs-comment">    * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-type">boolean</span> <span class="hljs-title function_">leakybucketLimitTryAcquire</span><span class="hljs-params">()</span> &#123;<br>       <span class="hljs-type">long</span> <span class="hljs-variable">currentTime</span> <span class="hljs-operator">=</span> System.currentTimeMillis();  <span class="hljs-comment">//获取系统当前时间</span><br>       <span class="hljs-type">long</span> <span class="hljs-variable">outWater</span> <span class="hljs-operator">=</span> (currentTime - refreshTime) / <span class="hljs-number">1000</span> * rate; <span class="hljs-comment">//流出的水量 =(当前时间-上次刷新时间)* 出水率</span><br>       <span class="hljs-type">long</span> <span class="hljs-variable">currentWater</span> <span class="hljs-operator">=</span> Math.max(<span class="hljs-number">0</span>, currentWater - outWater); <span class="hljs-comment">// 当前水量 = 之前的桶内水量-流出的水量</span><br>       refreshTime = currentTime; <span class="hljs-comment">// 刷新时间</span><br><br>       <span class="hljs-comment">// 当前剩余水量还是小于桶的容量，则请求放行</span><br>       <span class="hljs-keyword">if</span> (currentWater &lt; capacity) &#123;<br>           currentWater++;<br>           <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>       &#125;<br>       <br>       <span class="hljs-comment">// 当前剩余水量大于等于桶的容量，限流</span><br>       <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>   &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>举例：每秒处理10个请求，桶的容量是10，每0.1秒固定处理一次请求，如果1秒内来了10个请求，这10此请求都可以处理完，但如果1秒内来了11个请求，最后那个请求就会溢出桶，被拒绝请求。</p>
+<p>优点：能够一定程度上应对流量突刺，<strong>能够固定速率处理请求</strong>，保证服务器的安全。</p>
+<p>缺点：漏桶算法存在目的主要是用来<strong>平滑突发的流量</strong>，提供一种机制来确保网络中的突发流量被整合成平滑稳定的额流量。不过由于漏桶对流量的控制过于严格，在有些场景下<strong>不能充分使用系统资源</strong>，因为漏桶的漏出速率是固定的，即使在某一时刻下游能够处理更大的流量，漏桶也不允许突发流量通过。</p>
+<h3 id="令牌桶限流"><a href="#令牌桶限流" class="headerlink" title="令牌桶限流"></a><strong>令牌桶限流</strong></h3><blockquote>
+<p>可以解决漏桶存在的问题</p>
+</blockquote>
+<ul>
+<li>有一个令牌管理员，根据限流大小，定速往令牌桶里放令牌。</li>
+<li>如果令牌数量满了，超过令牌桶容量的限制，那就丢弃。</li>
+<li>系统在接受到一个用户请求时，都会先去令牌桶要一个令牌。如果拿到令牌，那么就处理这个请求的业务逻辑；</li>
+<li>如果拿不到令牌，就直接拒绝这个请求。</li>
+</ul>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623163640364.png" srcset="/img/loading.gif" lazyload alt="image-20240623163640364" style="zoom: 67%;" />
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 每秒处理数（放入令牌数量）</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">long</span> putTokenRate;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 最后刷新时间</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">long</span> refreshTime;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 令牌桶容量</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">long</span> capacity;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 当前桶内令牌数</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">long</span> <span class="hljs-variable">currentToken</span> <span class="hljs-operator">=</span> <span class="hljs-number">0L</span>;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 漏桶算法</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">boolean</span> <span class="hljs-title function_">tokenBucketTryAcquire</span><span class="hljs-params">()</span> &#123;<br><br>    <span class="hljs-type">long</span> <span class="hljs-variable">currentTime</span> <span class="hljs-operator">=</span> System.currentTimeMillis();  <span class="hljs-comment">//获取系统当前时间</span><br>    <span class="hljs-type">long</span> <span class="hljs-variable">generateToken</span> <span class="hljs-operator">=</span> (currentTime - refreshTime) / <span class="hljs-number">1000</span> * putTokenRate; <span class="hljs-comment">//生成的令牌 =(当前时间-上次刷新时间)* 放入令牌的速率</span><br>    currentToken = Math.min(capacity, generateToken + currentToken); <span class="hljs-comment">// 当前令牌数量 = 之前的桶内令牌数量+放入的令牌数量</span><br>    refreshTime = currentTime; <span class="hljs-comment">// 刷新时间</span><br>    <br>    <span class="hljs-comment">//桶里面还有令牌，请求正常处理</span><br>    <span class="hljs-keyword">if</span> (currentToken &gt; <span class="hljs-number">0</span>) &#123;<br>        currentToken--; <span class="hljs-comment">//令牌数量-1</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>管理员先生成一批令牌，每秒生成10个令牌；当用户要操作前，先去拿到一个令牌，有令牌的人就有资格执行操作、同时执行操作；拿不到令牌的就等着</p>
+<p>优点：<strong>能够并发处理同时的请求</strong>，并发性能会更高</p>
+<p>比如，当令牌桶满的时候有10个可用令牌，此时允许10个请求同时通过限流器（<strong>允许流量一定程度的突发</strong>），这10个请求瞬间消耗完令牌后，后续的流量只能按照速率r通过限流器。</p>
+<p>需要考虑的问题：还是存在时间单位选取的问题</p>
+<p>如果令牌发放的策略正确，这个系统即不会被拖垮，也能提高机器的利用率。Guava的RateLimiter限流组件，就是基于<strong>令牌桶算法</strong>实现的</p>
+<p>缺点：令牌桶算法可以缓解漏桶算法的缺点，但在一些场景下可能存在一定问题。比如在应对<strong>短时间内的高并发请求时，由于令牌数有限</strong>，引入过大的并发请求会导致严重的性能问题，也可能会造成请求失败或者拒绝。</p>
+<p>限流粒度</p>
+<ol>
+<li>针对某个方法限流，即单位时间内最多允许同时X个操作使用这个方法</li>
+<li>针对某个用户限流，比如单个用户单位时间内最多执行X次操作</li>
+<li>针对某个用户X方法限流，比如单个用户单位时间内最多执行X次这个方法</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="category-chain-item">微服务</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="print-no-link">#微服务</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>服务限流</div>
+      <div>http://example.com/2024/06/23/项目/微服务/服务限流/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年6月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/06/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B/Prompt%E5%B7%A5%E7%A8%8B/" title="Prompt工程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Prompt工程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/06/13/%E5%A4%A7%E6%A8%A1%E5%9E%8B/RAG/" title="RAG检索增强生成">
+                        <span class="hidden-mobile">RAG检索增强生成</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
