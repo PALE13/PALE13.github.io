@@ -24,8 +24,9 @@
 <meta property="og:description" content="ThreadLocalThreadLocal 是 Java 中的一个类，用于创建线程局部变量。每个线程都有自己的变量副本，互不干扰。ThreadLocal 可以用于在多线程环境下保持线程间独立的数据，常见的使用场景包括：  线程安全的数据共享： ThreadLocal 可以用于在多线程环境下安全地共享数据，每个线程拥有自己的数据副本，互不影响。 上下文传递： 可以使用 ThreadLocal 传递">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240305220202288.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240903223631641.png">
 <meta property="article:published_time" content="2023-05-13T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-17T12:41:15.163Z">
+<meta property="article:modified_time" content="2024-09-03T14:47:15.235Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -251,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.7k 字
         
       </span>
     
@@ -262,7 +263,7 @@
         
         
         
-          10 分钟
+          15 分钟
         
       </span>
     
@@ -311,11 +312,17 @@
 <li><strong>避免传递参数的复杂性：</strong> 在某些情况下，将参数传递给每个方法都会显得繁琐，使用 <code>ThreadLocal</code> 可以避免这种复杂性，因为数据被存储在线程本地。</li>
 <li><strong>线程池场景：</strong> 在使用线程池时，可以使用 <code>ThreadLocal</code> 存储一些线程私有的状态，而不需要担心线程复用时数据混乱。</li>
 </ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ThreadLocalExample</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadLocal&lt;Integer&gt; threadLocalValue = ThreadLocal.withInitial(() -&gt; <span class="hljs-number">1</span>);<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Thread</span> <span class="hljs-variable">t1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>            threadLocalValue.set(<span class="hljs-number">100</span>);<br>            System.out.println(<span class="hljs-string">&quot;Thread 1: &quot;</span> + threadLocalValue.get());<br>            threadLocalValue.remove();<br>        &#125;);<br><br>        <span class="hljs-type">Thread</span> <span class="hljs-variable">t2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>            threadLocalValue.set(<span class="hljs-number">200</span>);<br>            System.out.println(<span class="hljs-string">&quot;Thread 2: &quot;</span> + threadLocalValue.get());<br>            threadLocalValue.remove();<br>        &#125;);<br><br>        t1.start();<br>        t2.start();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
 <p>从 <code>Thread</code>类源代码入手</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Thread</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br>    <span class="hljs-comment">//......</span><br>    <span class="hljs-comment">//与此线程有关的ThreadLocal值。由ThreadLocal类维护</span><br>    ThreadLocal.<span class="hljs-type">ThreadLocalMap</span> <span class="hljs-variable">threadLocals</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br><br>    <span class="hljs-comment">//与此线程有关的InheritableThreadLocal值。由InheritableThreadLocal类维护</span><br>    ThreadLocal.<span class="hljs-type">ThreadLocalMap</span> <span class="hljs-variable">inheritableThreadLocals</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>    <span class="hljs-comment">//......</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>从上面<code>Thread</code>类 源代码可以看出<code>Thread</code> 类中有一个 <code>threadLocals</code> 和 一个 <code>inheritableThreadLocals</code> 变量，它们都是 <code>ThreadLocalMap</code> 类型的变量,我们可以把 <code>ThreadLocalMap</code> 理解为<code>ThreadLocal</code> 类实现的定制化的 <code>HashMap</code>。默认情况下这两个变量都是 null，只有当前线程调用 <code>ThreadLocal</code> 类的 <code>set</code>或<code>get</code>方法时才创建它们，实际上调用这两个方法的时候，我们调用的是<code>ThreadLocalMap</code>类对应的 <code>get()</code>、<code>set()</code>方法</p>
-<h4 id="ThreadLocal的数据结构"><a href="#ThreadLocal的数据结构" class="headerlink" title="ThreadLocal的数据结构"></a><strong>ThreadLocal的数据结构</strong></h4><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240305220202288.png" srcset="/img/loading.gif" lazyload alt="image-20240305220202288" style="zoom: 50%;" />
+<h3 id="ThreadLocal的数据结构"><a href="#ThreadLocal的数据结构" class="headerlink" title="ThreadLocal的数据结构"></a><strong>ThreadLocal的数据结构</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240305220202288.png" srcset="/img/loading.gif" lazyload alt="image-20240305220202288" style="zoom: 50%;" />
 
 <p><strong>每个<code>Thread</code>中都具备一个<code>ThreadLocalMap</code>，而<code>ThreadLocalMap</code>可以存储以<code>ThreadLocal</code>为 key ，Object 对象为 value 的键值对。</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ThreadLocalMap(ThreadLocal&lt;?&gt; firstKey, Object firstValue) &#123;<br>    <span class="hljs-comment">//......</span><br>&#125;<br></code></pre></td></tr></table></figure>
@@ -324,7 +331,7 @@
 <p><code>ThreadLocalMap</code>有自己的独立实现，可以简单地将它的<code>key</code>视作<code>ThreadLoca&lt;?&gt;</code>，<code>value</code>为代码中放入的值（实际上<code>key</code>并不是<code>ThreadLocal</code>本身，而是它的一个<strong>弱引用</strong>）。</p>
 <p>每个线程在往<code>ThreadLocal</code>里放值的时候，都会往自己的<code>ThreadLocalMap</code>里存，读也是以<code>ThreadLocal</code>作为引用，在自己的<code>map</code>里找对应的<code>key</code>，从而实现了<strong>线程隔离</strong>。</p>
 <p><code>ThreadLocalMap</code>有点类似<code>HashMap</code>的结构，只是<code>HashMap</code>是由<strong>数组+链表</strong>实现的，而<code>ThreadLocalMap</code>中并没有<strong>链表</strong>结构。我们还要注意<code>Entry</code>， 它的<code>key</code>是<code>ThreadLocal&lt;?&gt; k</code> ，继承自<code>WeakReference</code>， 也就是我们常说的<strong>弱引用类型。</strong></p>
-<h4 id="ThreadLocal-内存泄露问题是怎么导致的？"><a href="#ThreadLocal-内存泄露问题是怎么导致的？" class="headerlink" title="ThreadLocal 内存泄露问题是怎么导致的？"></a><strong>ThreadLocal 内存泄露问题是怎么导致的？</strong></h4><p><code>ThreadLocalMap</code> 中使用的 key 为 <code>ThreadLocal</code> 的弱引用，而 value 是强引用。所以，如果 <code>ThreadLocal</code> 没有被外部强引用的情况下，在垃圾回收的时候，<strong>key 会被清理掉，而 value 不会被清理掉。</strong></p>
+<h3 id="ThreadLocal-内存泄露问题是怎么导致的？"><a href="#ThreadLocal-内存泄露问题是怎么导致的？" class="headerlink" title="ThreadLocal 内存泄露问题是怎么导致的？"></a><strong>ThreadLocal 内存泄露问题是怎么导致的？</strong></h3><p><code>ThreadLocalMap</code> 中使用的 key 为 <code>ThreadLocal</code> 的弱引用，而 value 是强引用。所以，如果 <code>ThreadLocal</code> 没有被外部强引用的情况下，在垃圾回收的时候，<strong>key 会被清理掉，而 value 不会被清理掉。</strong></p>
 <p>这样一来，<code>ThreadLocalMap</code> 中就会出现 key 为 null 的 Entry。假如我们不做任何措施的话，value 永远无法被 GC 回收，这个时候就可能会产生内存泄露。<code>ThreadLocalMap</code> 实现中已经考虑了这种情况，在调用 <code>set()</code>、<code>get()</code>、<code>remove()</code> 方法的时候，会清理掉 key 为 null 的记录。<strong>使用完 <code>ThreadLocal</code>方法后最好手动调用<code>remove()</code>方法</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Entry</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">WeakReference</span>&lt;ThreadLocal&lt;?&gt;&gt; &#123;<br>    <span class="hljs-comment">/** The value associated with this ThreadLocal. */</span><br>    Object value;<br><br>    Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;<br>        <span class="hljs-built_in">super</span>(k);<br>        value = v;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -335,8 +342,16 @@
 </blockquote>
 <p>为了避免 <code>ThreadLocal</code> 内存泄露问题，可以采取以下一些建议：</p>
 <ul>
-<li><strong>及时清理：</strong> 在使用完 <code>ThreadLocal</code> 后，及时调用 <code>remove</code> 方法清理。可以使用 <code>try-with-resources</code> 或者 <code>finally</code> 块确保在线程结束时调用 <code>remove</code>。</li>
+<li><strong>及时清理：</strong> 在使用完 <code>ThreadLocal</code> 后，及时调用 <code>remove</code> 方法清理。可以使用 <code>try-with-resources</code> 或者 <code>finally</code> 块确保在线程结束时调用 <code>remove</code></li>
 </ul>
+<h3 id="为什么ThreadLocal的key是弱引用？"><a href="#为什么ThreadLocal的key是弱引用？" class="headerlink" title="为什么ThreadLocal的key是弱引用？"></a><strong>为什么ThreadLocal的key是弱引用？</strong></h3><p>线程在我们应用中，常常是以线程池的方式来使用的，比如 Tomcat 的线程池处理了一堆请求，<strong>而线程池中的线程一般是不会被清理掉的，所以这个引用链就会一直在，那么 ThreadLocal 对象即使没有用了，也会随着线程的存在</strong>，而一直存在着。所以这条引用链需要弱化一下，而能操作的只有 Entry 和 key 之间的引用，所以它们之间用弱引用来实现。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240903223631641.png" srcset="/img/loading.gif" lazyload alt="image-20240903223631641" style="zoom: 67%;" />
+
+<p>另一条引用链就是栈上的 ThreadLocal 引用指向堆中的 ThreadLocal 对象，这个引用是强引用。如果有这条强引用存在，那说明此时的 ThreadLocal 是有用的，此时如果发生 GC 则 ThreadLocal 对象不会被清除，因为有个强引用存在。</p>
+<p>当随着方法的执行完毕，相应的栈帧也出栈了，此时这条强引用链就没了，如果没有别的栈有对 ThreadLocal 对象的引用，那么说明 <strong>ThreadLocal 对象无法再被访问到(定义成静态变量的另说)</strong></p>
+<p>那此时 ThreadLocal 只存在与 Entry 之间的弱引用，那此时发生 GC 它就可以被清除了，因为它无法被外部使用了，那就等于没用了，是个垃圾，应该被处理来节省空间。</p>
+<p>至此，想必你已经明白为什么 Entny 和 key之间要设计为弱引用，就是因为平日线程的使用方式基本上都是线程池，所以线程的生命周期就很长，可能从你部署上线后一直存在，而 ThreadLocal 对象的生命周期可能没这么长。</p>
+<p>所以为了能让已经没用 ThreadLocal对象得以回收，所以 Entry 和 key 要设计成弱引用，不然 Entry 和 key是强引用的话ThreadLocal 对象就会一直在内存中存在。但是这样设计就可能产生内存泄漏。</p>
 
                 
               </div>

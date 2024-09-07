@@ -24,7 +24,7 @@
 <meta property="og:description" content="3. 无重复字符的最长子串给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。 示例 1: 123输入: s &#x3D; &quot;abcabcbb&quot;输出: 3 解释: 因为无重复字符的最长子串是 &quot;abc&quot;，所以其长度为 3。  示例 2: 123输入: s &#x3D; &quot;bbbbb&quot;输出: 1解释: 因为无重复字符的最长子串是 &quot;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-21T12:17:36.000Z">
-<meta property="article:modified_time" content="2024-05-17T17:26:37.460Z">
+<meta property="article:modified_time" content="2024-09-07T06:35:43.279Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
@@ -327,7 +327,7 @@
 <p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/smallest-range-covering-elements-from-k-lists/">632. 最小区间</a></p>
 <p>最小窗口子序列</p>
 <p>至多包含两个不同字符的最长子串</p>
-<h4 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h4><p>使用map记录每个字母出现的最新的下标</p>
+<h4 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a><strong>解题思路</strong></h4><p>使用map记录每个字母出现的最新的下标</p>
 <p> 1、首先，判断当前字符是否包含在map中，如果不包含，将该字符添加到map（字符，字符在数组下标）,<br>此时没有出现重复的字符，左指针不需要变化。此时不重复子串的长度为：i-left+1，与原来的maxLen比较，取最大值；</p>
 <p>2、如果当前字符 ch 包含在 map中，此时有2类情况：<br>         <strong>1）当前字符包含在当前最长有效的子段中</strong>，如：abca，当我们遍历到第二个a，当前有效最长子段是 abc，我们又遍历到a，那么此时更新 left 为 <strong>map.get(a)+1&#x3D;1</strong>，当前有效子段更新为 bca，同时把新加入的a下标放进map，因为left已经更新了，所以此时i - left + 1的字符串都是未重复的。<br>         <strong>2）当前字符不包含在当前最长有效子段中</strong>，如：abba，我们先添加a,b进map，此时left&#x3D;0，我们再添加b，发现map中包含b，而且b包含在最长有效子段中，就是1）的情况，我们更新 left&#x3D;map.get(b)+1&#x3D;2，此时子段更新为 b；</p>
 <p>​			随后，我们遍历到a，发现a包含在map中，且map.get(a)&#x3D;0，如果我们像1）一样处理，就会发现 left&#x3D;map.get(a)+1&#x3D;1，那么子段变成bba，这是错误的。实际上，left此时应该不变，left始终为2，子段变成 ba才对。</p>

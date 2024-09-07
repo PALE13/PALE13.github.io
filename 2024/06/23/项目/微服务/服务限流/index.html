@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623163640364.png">
 <meta property="article:published_time" content="2024-06-23T10:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-23T08:51:21.343Z">
+<meta property="article:modified_time" content="2024-09-02T11:20:37.641Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary_large_image">
@@ -357,7 +357,7 @@ boolean fixedWindowsTryAcquire() &#123;
 
 <p>举例：每秒处理10个请求，桶的容量是10，每0.1秒固定处理一次请求，如果1秒内来了10个请求，这10此请求都可以处理完，但如果1秒内来了11个请求，最后那个请求就会溢出桶，被拒绝请求。</p>
 <p>优点：能够一定程度上应对流量突刺，<strong>能够固定速率处理请求</strong>，保证服务器的安全。</p>
-<p>缺点：漏桶算法存在目的主要是用来<strong>平滑突发的流量</strong>，提供一种机制来确保网络中的突发流量被整合成平滑稳定的额流量。不过由于漏桶对流量的控制过于严格，在有些场景下<strong>不能充分使用系统资源</strong>，因为漏桶的漏出速率是固定的，即使在某一时刻下游能够处理更大的流量，漏桶也不允许突发流量通过。</p>
+<p>缺点：漏桶算法存在目的主要是用来<strong>平滑突发的流量</strong>，提供一种机制来确保网络中的突发流量被整合成平滑稳定的额流量。不过由于漏桶对流量的控制过于严格，在有些场景下<strong>不能充分使用系统资源</strong>，因为漏桶的漏出速率是固定的，<strong>即使在某一时刻下游能够处理更大的流量，漏桶也不允许突发流量通过。</strong></p>
 <h3 id="令牌桶限流"><a href="#令牌桶限流" class="headerlink" title="令牌桶限流"></a><strong>令牌桶限流</strong></h3><blockquote>
 <p>可以解决漏桶存在的问题</p>
 </blockquote>
@@ -482,8 +482,8 @@ boolean fixedWindowsTryAcquire() &#123;
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/13/%E5%A4%A7%E6%A8%A1%E5%9E%8B/RAG/" title="RAG检索增强生成">
-                        <span class="hidden-mobile">RAG检索增强生成</span>
+                      <a href="/2024/06/13/%E5%A4%A7%E6%95%B0%E6%8D%AE/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%A6%82%E5%BF%B5/" title="大数据基本概念">
+                        <span class="hidden-mobile">大数据基本概念</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

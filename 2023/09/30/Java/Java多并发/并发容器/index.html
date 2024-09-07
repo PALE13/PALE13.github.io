@@ -16,16 +16,16 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="CopyOnWriteArrayList在 JDK1.5 之前，如果想要使用并发安全的 List 只能选择 Vector。而 Vector 是一种老旧的集合，已经被淘汰。**Vector 对于增删改查等方法基本都加了 synchronized**，这种方式虽然能够保证同步，但这相当于对整个 Vector 加上了一把大锁，使得每个方法执行的时候都要去获得锁，导致性能非常低下。 JDK1.5 引入了">
+    <meta name="description" content="并发容器CopyOnWriteArrayList在 JDK1.5 之前，如果想要使用并发安全的 List 只能选择 Vector。而 Vector 是一种老旧的集合，已经被淘汰。**Vector 对于增删改查等方法基本都加了 synchronized**，这种方式虽然能够保证同步，但这相当于对整个 Vector 加上了一把大锁，使得每个方法执行的时候都要去获得锁，导致性能非常低下。 JDK1.5">
 <meta property="og:type" content="article">
 <meta property="og:title" content="并发容器">
 <meta property="og:url" content="http://example.com/2023/09/30/Java/Java%E5%A4%9A%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="CopyOnWriteArrayList在 JDK1.5 之前，如果想要使用并发安全的 List 只能选择 Vector。而 Vector 是一种老旧的集合，已经被淘汰。**Vector 对于增删改查等方法基本都加了 synchronized**，这种方式虽然能够保证同步，但这相当于对整个 Vector 加上了一把大锁，使得每个方法执行的时候都要去获得锁，导致性能非常低下。 JDK1.5 引入了">
+<meta property="og:description" content="并发容器CopyOnWriteArrayList在 JDK1.5 之前，如果想要使用并发安全的 List 只能选择 Vector。而 Vector 是一种老旧的集合，已经被淘汰。**Vector 对于增删改查等方法基本都加了 synchronized**，这种方式虽然能够保证同步，但这相当于对整个 Vector 加上了一把大锁，使得每个方法执行的时候都要去获得锁，导致性能非常低下。 JDK1.5">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240406214644397.png">
 <meta property="article:published_time" content="2023-09-30T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-28T10:30:47.417Z">
+<meta property="article:modified_time" content="2024-09-03T15:23:24.249Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -251,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.3k 字
+          3.4k 字
         
       </span>
     
@@ -262,7 +262,7 @@
         
         
         
-          28 分钟
+          29 分钟
         
       </span>
     
@@ -304,7 +304,7 @@
             
               <div class="markdown-body">
                 
-                <h3 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a><strong>CopyOnWriteArrayList</strong></h3><p>在 JDK1.5 之前，如果想要使用并发安全的 <code>List</code> 只能选择 <code>Vector</code>。而 <code>Vector</code> 是一种老旧的集合，已经被淘汰。**<code>Vector</code> 对于增删改查等方法基本都加了 <code>synchronized</code>**，这种方式虽然能够保证同步，但这相当于对整个 <code>Vector</code> 加上了一把大锁，使得每个方法执行的时候都要去获得锁，导致性能非常低下。</p>
+                <h2 id="并发容器"><a href="#并发容器" class="headerlink" title="并发容器"></a><strong>并发容器</strong></h2><h3 id="CopyOnWriteArrayList"><a href="#CopyOnWriteArrayList" class="headerlink" title="CopyOnWriteArrayList"></a><strong>CopyOnWriteArrayList</strong></h3><p>在 JDK1.5 之前，如果想要使用并发安全的 <code>List</code> 只能选择 <code>Vector</code>。而 <code>Vector</code> 是一种老旧的集合，已经被淘汰。**<code>Vector</code> 对于增删改查等方法基本都加了 <code>synchronized</code>**，这种方式虽然能够保证同步，但这相当于对整个 <code>Vector</code> 加上了一把大锁，使得每个方法执行的时候都要去获得锁，导致性能非常低下。</p>
 <p>JDK1.5 引入了 <code>Java.util.concurrent</code>（JUC）包，其中提供了很多线程安全且并发性能良好的容器，其中唯一的线程安全 <code>List</code> 实现就是 <code>CopyOnWriteArrayList</code> 。</p>
 <h4 id="核心思想Copy-On-Write"><a href="#核心思想Copy-On-Write" class="headerlink" title="**核心思想Copy-On-Write **"></a>**核心思想Copy-On-Write **</h4><p><code>CopyOnWriteArrayList</code>名字中的“Copy-On-Write”即写时复制，简称 COW。</p>
 <p>下面是维基百科对 Copy-On-Write 的介绍，介绍的挺不错：</p>
@@ -323,10 +323,10 @@
 <p>从名字可以看出，<code>ConcurrentLinkedQueue</code>这个队列使用链表作为其数据结构．<code>ConcurrentLinkedQueue</code> 应该算是在高并发环境中性能最好的队列了。它之所有能有很好的性能，是因为其内部复杂的实现。</p>
 <p><strong><code>ConcurrentLinkedQueue</code> 主要使用 CAS 非阻塞算法来实现线程安全就好了。</strong></p>
 <p><strong><code>ConcurrentLinkedQueue</code> 适合在对性能要求相对较高</strong>，同时对队列的读写存在多个线程同时进行的场景，即如果对队列加锁的成本较高则适合使用无锁的 <code>ConcurrentLinkedQueue</code> 来替代。</p>
-<h3 id="BlockingQueue"><a href="#BlockingQueue" class="headerlink" title="BlockingQueue"></a><strong>BlockingQueue</strong></h3><p>上面我们己经提到了 <code>ConcurrentLinkedQueue</code> 作为高性能的非阻塞队列。下面我们要讲到的是阻塞队列——<code>BlockingQueue</code>。阻塞队列（<code>BlockingQueue</code>）被广泛使用在“生产者-消费者”问题中，其原因是 <code>BlockingQueue</code> 提供了可阻塞的插入和移除的方法。当队列容器已满，生产者线程会被阻塞，直到队列未满；当队列容器为空时，消费者线程会被阻塞，直至队列非空时为止。</p>
+<h3 id="阻塞队列BlockingQueue"><a href="#阻塞队列BlockingQueue" class="headerlink" title="阻塞队列BlockingQueue"></a><strong>阻塞队列BlockingQueue</strong></h3><p>上面我们己经提到了 <code>ConcurrentLinkedQueue</code> 作<strong>为高性能的非阻塞队列</strong>。下面我们要讲到的是阻塞队列——<code>BlockingQueue</code>。阻塞队列（<code>BlockingQueue</code>）被广泛使用在“生产者-消费者”问题中，其原因是 <code>BlockingQueue</code> 提供了可阻塞的插入和移除的方法。当队列容器已满，生产者线程会被阻塞，直到队列未满；当队列容器为空时，消费者线程会被阻塞，直至队列非空时为止。</p>
 <p><code>BlockingQueue</code> 是一个接口，继承自 <code>Queue</code>，所以其实现类也可以作为 <code>Queue</code> 的实现来使用，而 <code>Queue</code> 又继承自 <code>Collection</code> 接口。下面是 <code>BlockingQueue</code> 的相关实现类：</p>
 <h4 id="ArrayBlockingQueue"><a href="#ArrayBlockingQueue" class="headerlink" title="ArrayBlockingQueue"></a><strong>ArrayBlockingQueue</strong></h4><ul>
-<li><code>ArrayBlockingQueue</code> 是 <code>BlockingQueue</code> 接口的有界队列实现类，底层采用数组来实现。</li>
+<li><code>ArrayBlockingQueue</code> <strong>是 <code>BlockingQueue</code> 接口的有界队列实现类</strong>，底层采用数组来实现。</li>
 <li>队列满时插入操作被阻塞，队列空时，移除操作被阻塞。</li>
 <li>按照先进先出（FIFO）原则对元素进行排序。</li>
 <li><strong>默认不保证线程公平的访问队列</strong>，因为采用的是ReentrantLock来实现并发控制。</li>
@@ -345,8 +345,9 @@
 
 
 
-<h4 id="LinkedBlockingQueue"><a href="#LinkedBlockingQueue" class="headerlink" title="LinkedBlockingQueue"></a><strong>LinkedBlockingQueue</strong></h4><p><code>LinkedBlockingQueue</code> 底层基于<strong>单向链表</strong>实现的阻塞队列，可以当做无界队列也可以当做有界队列来使用，同样满足 FIFO 的特性，与 <code>ArrayBlockingQueue</code> 相比起来具有更高的吞吐量，为了防止 <code>LinkedBlockingQueue</code> 容量迅速增，损耗大量内存。<strong>通常在创建 <code>LinkedBlockingQueue</code> 对象时，会指定其大小，如果未指定，容量等于 <code>Integer.MAX_VALUE</code> 。</strong>静态工厂方法 Executors.newFixedThreadPool() 使用了这个队列。（newFixedThreadPool 用于创建固定线程数）</p>
-<p><strong>相关构造方法:</strong></p>
+<h4 id="LinkedBlockingQueue"><a href="#LinkedBlockingQueue" class="headerlink" title="LinkedBlockingQueue"></a><strong>LinkedBlockingQueue</strong></h4><p><code>LinkedBlockingQueue</code> 底层基于<strong>单向链表</strong>实现的阻塞队列，可以当做无界队列也可以当做有界队列来使用，同样满足 FIFO 的特性，与 <code>ArrayBlockingQueue</code> 相比起来具有更高的吞吐量，为了防止 <code>LinkedBlockingQueue</code> 容量迅速增，损耗大量内存。</p>
+<p><strong>通常在创建 <code>LinkedBlockingQueue</code> 对象时，会指定其大小，如果未指定，容量等于 <code>Integer.MAX_VALUE</code> 。</strong>静态工厂方法 Executors.newFixedThreadPool() 使用了这个队列。（newFixedThreadPool 用于创建固定线程数）</p>
+<p><strong>相关构造方法</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *某种意义上的无界队列</span><br><span class="hljs-comment"> * Creates a &#123;<span class="hljs-doctag">@code</span> LinkedBlockingQueue&#125; with a capacity of</span><br><span class="hljs-comment"> * &#123;<span class="hljs-doctag">@link</span> Integer#MAX_VALUE&#125;.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkedBlockingQueue</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">this</span>(Integer.MAX_VALUE);<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> *有界队列</span><br><span class="hljs-comment"> * Creates a &#123;<span class="hljs-doctag">@code</span> LinkedBlockingQueue&#125; with the given (fixed) capacity.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> capacity the capacity of this queue</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> IllegalArgumentException if &#123;<span class="hljs-doctag">@code</span> capacity&#125; is not greater</span><br><span class="hljs-comment"> *         than zero</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkedBlockingQueue</span><span class="hljs-params">(<span class="hljs-type">int</span> capacity)</span> &#123;<br>    <span class="hljs-keyword">if</span> (capacity &lt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>();<br>    <span class="hljs-built_in">this</span>.capacity = capacity;<br>    last = head = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>&lt;E&gt;(<span class="hljs-literal">null</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
@@ -363,16 +364,22 @@
 <h4 id="SynchronousQueue"><a href="#SynchronousQueue" class="headerlink" title="SynchronousQueue"></a><strong>SynchronousQueue</strong></h4><ul>
 <li>SynchronousQueue负责把生产者产生的数据传递给消费者线程。</li>
 <li>SynchronousQueue本身不存储数据，调用了put方法后，队列里面也是空的。</li>
-<li>每一个put操作必须等待一个take操作完成，否则不能添加元素。</li>
+<li><strong>每一个put操作必须等待一个take操作完成，否则会阻塞</strong></li>
 <li>适合传递性场景。</li>
 <li>性能高于ArrayBlockingQueue 和 LinkedBlockingQueue。</li>
 </ul>
 <p>它是一个特殊的队列，它的名字其实就蕴含了它的特征，同步的队列。为什么说是同步的呢？这里说的并不是多线程的并发问题，而是因为<strong>当一个线程往队列中写入一个元素时，写入操作不会立即返回，需要等待另一个线程来将这个元素拿走；同理，当一个读线程做读操作的时候，同样需要一个相匹配的写线程的写操作</strong>。这里的 Synchronous 指的就是读线程和写线程需要同步，一个读线程匹配一个写线程。</p>
 <p>我们比较少使用到 SynchronousQueue 这个类，不过它在线程池的实现类 ThreadPoolExecutor 中得到了应用</p>
 <p>虽然上面我说了队列，但是 SynchronousQueue 的队列其实是虚的，<strong>其不提供任何空间（一个都没有）来存储元素</strong>。数据必须从某个写线程交给某个读线程，而不是写到某个队列中等待被消费。</p>
-<p>你不能在 SynchronousQueue 中使用 peek 方法（在这里这个方法直接返回 null），peek 方法的语义是只读取不移除，显然，这个方法的语义是不符合 SynchronousQueue 的特征的。SynchronousQueue 也不能被迭代，因为根本就没有元素可以拿来迭代的。虽然 SynchronousQueue 间接地实现了 Collection 接口，但是如果你将其当做 Collection 来用的话，那么集合是空的。当然，这个类也是不允许传递 null 值的（并发包中的容器类好像都不支持插入 null 值，因为 null 值往往用作其他用途，比如用于方法的返回值代表操作失败）。</p>
+<p><strong>你不能在 SynchronousQueue 中使用 peek 方法（在这里这个方法直接返回 null）</strong>，peek 方法的语义是只读取不移除，显然，这个方法的语义是不符合 SynchronousQueue 的特征的。SynchronousQueue 也不能被迭代，因为根本就没有元素可以拿来迭代的。虽然 SynchronousQueue 间接地实现了 Collection 接口，但是如果你将其当做 Collection 来用的话，那么集合是空的。当然，这个类也是不允许传递 null 值的（并发包中的容器类好像都不支持插入 null 值，因为 null 值往往用作其他用途，比如用于方法的返回值代表操作失败）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.concurrent.SynchronousQueue;<br><span class="hljs-keyword">import</span> java.util.concurrent.ExecutorService;<br><span class="hljs-keyword">import</span> java.util.concurrent.Executors;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SynchronousQueueExample</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        SynchronousQueue&lt;Integer&gt; queue = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SynchronousQueue</span>&lt;&gt;();<br><br>        <span class="hljs-type">ExecutorService</span> <span class="hljs-variable">executorService</span> <span class="hljs-operator">=</span> Executors.newFixedThreadPool(<span class="hljs-number">2</span>);<br><br>        executorService.submit(() -&gt; &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-comment">// 生产者线程，等待消费者线程</span><br>                queue.put(<span class="hljs-number">1</span>);<br>                System.out.println(<span class="hljs-string">&quot;Producer: Put 1&quot;</span>);<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;);<br><br>        executorService.submit(() -&gt; &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-comment">// 消费者线程，等待生产者线程</span><br>                <span class="hljs-type">Integer</span> <span class="hljs-variable">take</span> <span class="hljs-operator">=</span> queue.take();<br>                System.out.println(<span class="hljs-string">&quot;Consumer: Take &quot;</span> + take);<br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;);<br><br>        executorService.shutdown();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
 <h3 id="ConcurrentSkipListMap"><a href="#ConcurrentSkipListMap" class="headerlink" title="ConcurrentSkipListMap"></a><strong>ConcurrentSkipListMap</strong></h3><blockquote>
-<p>下面这部分内容参考了极客时间专栏<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/intro/126?code=zl3GYeAsRI4rEJIBNu5B/km7LSZsPDlGWQEpAYw5Vu0=&utm_term=SPoster">《数据结构与算法之美》open in new window</a>以及《实战 Java 高并发程序设计》。</p>
+<p>下面这部分内容参考了极客时间专栏<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/intro/126?code=zl3GYeAsRI4rEJIBNu5B/km7LSZsPDlGWQEpAYw5Vu0=&utm_term=SPoster">《数据结构与算法之美》</a>以及《实战 Java 高并发程序设计》。</p>
 </blockquote>
 <p>为了引出 <code>ConcurrentSkipListMap</code>，先带着大家简单理解一下跳表。</p>
 <p>对于一个单链表，即使链表是有序的，如果我们想要在其中查找某个数据，也只能从头到尾遍历链表，这样效率自然就会很低，跳表就不一样了。跳表是一种可以用来快速查找的数据结构，有点类似于平衡树。它们都可以对元素进行快速的查找。但一个重要的区别是：对平衡树的插入和删除往往很可能导致平衡树进行一次全局的调整。<strong>而对跳表的插入和删除只需要对整个数据结构的局部进行操作即可。</strong>这样带来的好处是：在高并发的情况下，你会需要一个全局锁来保证整个平衡树的线程安全。而对于跳表，你只需要部分锁即可。这样，在高并发环境下，你就可以拥有更好的性能。而就查询的性能而言，跳表的时间复杂度也是 <strong>O(logn)</strong> 所以在并发数据结构中，JDK 使用跳表来实现一个 Map。</p>
@@ -492,7 +499,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/29/%E7%AE%97%E6%B3%95/%E5%9B%BE%EF%BC%8C%E5%B9%B6%E6%9F%A5%E9%9B%86/16.%20%E8%AF%BE%E7%A8%8B%E8%A1%A8/" title="课程表">
+                      <a href="/2023/09/29/%E7%AE%97%E6%B3%95/%E5%9B%BE/12.%20%E8%AF%BE%E7%A8%8B%E8%A1%A8/" title="课程表">
                         <span class="hidden-mobile">课程表</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>

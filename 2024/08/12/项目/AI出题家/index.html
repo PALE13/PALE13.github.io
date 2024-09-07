@@ -1,0 +1,775 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="AI出题家使用自定义注解的策略模式对比普通的策略模式的好处？ 配置方式：普通策略模式通常需要在代码中显式配置策略对象，客户端需要知道全部策略类，而使用注解的策略模式可以通过框架进行自动配置。 灵活性：注解方式提供了更高的灵活性，可以在运行时通过配置文件或注解来改变策略，而不需要修改代码。 可维护性：使用注解可以减少代码中的硬编码，使得策略的更换和维护更加容易。 依赖注入：注解方式通常与依赖注入框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI出题家">
+<meta property="og:url" content="http://example.com/2024/08/12/%E9%A1%B9%E7%9B%AE/AI%E5%87%BA%E9%A2%98%E5%AE%B6/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="AI出题家使用自定义注解的策略模式对比普通的策略模式的好处？ 配置方式：普通策略模式通常需要在代码中显式配置策略对象，客户端需要知道全部策略类，而使用注解的策略模式可以通过框架进行自动配置。 灵活性：注解方式提供了更高的灵活性，可以在运行时通过配置文件或注解来改变策略，而不需要修改代码。 可维护性：使用注解可以减少代码中的硬编码，使得策略的更换和维护更加容易。 依赖注入：注解方式通常与依赖注入框架">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240904144855871.png">
+<meta property="article:published_time" content="2024-08-12T04:46:25.000Z">
+<meta property="article:modified_time" content="2024-09-07T07:47:20.636Z">
+<meta property="article:author" content="PALE13">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240904144855871.png">
+  
+  
+  
+  <title>AI出题家 - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="AI出题家"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-12 12:46" pubdate>
+          2024年8月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">AI出题家</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="AI出题家"><a href="#AI出题家" class="headerlink" title="AI出题家"></a><strong>AI出题家</strong></h2><h3 id="使用自定义注解的策略模式对比普通的策略模式的好处？"><a href="#使用自定义注解的策略模式对比普通的策略模式的好处？" class="headerlink" title="使用自定义注解的策略模式对比普通的策略模式的好处？"></a><strong>使用自定义注解的策略模式对比普通的策略模式的好处？</strong></h3><ol>
+<li><strong>配置方式</strong>：普通策略模式通常需要在代码中显式配置策略对象，客户端需要知道全部策略类，而使用注解的策略模式可以通过框架进行自动配置。</li>
+<li><strong>灵活性</strong>：注解方式提供了更高的灵活性，可以在运行时通过配置文件或注解来改变策略，而不需要修改代码。</li>
+<li><strong>可维护性</strong>：使用注解可以减少代码中的硬编码，使得策略的更换和维护更加容易。</li>
+<li><strong>依赖注入</strong>：注解方式通常与依赖注入框架结合使用，这些框架提供了强大的支持来管理策略对象的生命周期和依赖关系。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> ScoringStrategyConfig &#123;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 应用类型</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> <span class="hljs-title function_">appType</span><span class="hljs-params">()</span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 评分策略</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-type">int</span> <span class="hljs-title function_">scoringStrategy</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Spring初始化时会向List自动注入所有策略类，当客户端执行策略时，会根据传入参数与策略类上注解进行对比，执行对应的方法，新增策略时只需要在策略类上添加新的策略注解而不需要显示的维护代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ScoringStrategyExecutor</span> &#123;<br><br>    <span class="hljs-comment">// 策略列表</span><br>    <span class="hljs-meta">@Resource</span><br>    <span class="hljs-keyword">private</span> List&lt;ScoringStrategy&gt; scoringStrategyList;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 评分</span><br><span class="hljs-comment">     *</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> choiceList</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> app</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> Exception</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> UserAnswer <span class="hljs-title function_">doScore</span><span class="hljs-params">(List&lt;String&gt; choiceList, App app)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-type">Integer</span> <span class="hljs-variable">appType</span> <span class="hljs-operator">=</span> app.getAppType();<br>        <span class="hljs-type">Integer</span> <span class="hljs-variable">appScoringStrategy</span> <span class="hljs-operator">=</span> app.getScoringStrategy();<br>        <span class="hljs-keyword">if</span> (appType == <span class="hljs-literal">null</span> || appScoringStrategy == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessException</span>(ErrorCode.SYSTEM_ERROR, <span class="hljs-string">&quot;应用配置有误，未找到匹配的策略&quot;</span>);<br>        &#125;<br>        <span class="hljs-comment">// 根据注解获取策略</span><br>        <span class="hljs-keyword">for</span> (ScoringStrategy strategy : scoringStrategyList) &#123;<br>            <span class="hljs-keyword">if</span> (strategy.getClass().isAnnotationPresent(ScoringStrategyConfig.class)) &#123;<br>                <span class="hljs-type">ScoringStrategyConfig</span> <span class="hljs-variable">scoringStrategyConfig</span> <span class="hljs-operator">=</span> strategy.getClass().getAnnotation(ScoringStrategyConfig.class);<br>                <span class="hljs-keyword">if</span> (scoringStrategyConfig.appType() == appType &amp;&amp; scoringStrategyConfig.scoringStrategy() == appScoringStrategy) &#123;<br>                    <span class="hljs-keyword">return</span> strategy.doScore(choiceList, app);<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessException</span>(ErrorCode.SYSTEM_ERROR, <span class="hljs-string">&quot;应用配置有误，未找到匹配的策略&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="有哪些实现幂等设计的方法-你在项目中具体又是怎么实现的"><a href="#有哪些实现幂等设计的方法-你在项目中具体又是怎么实现的" class="headerlink" title="有哪些实现幂等设计的方法?你在项目中具体又是怎么实现的?"></a><strong>有哪些实现幂等设计的方法?你在项目中具体又是怎么实现的?</strong></h3><p>有 4 种常用的幂等设计方法:</p>
+<ul>
+<li>1.利用数据库唯一索引的一致性保证幂等性</li>
+<li>2.利用乐观锁在某些场景下也能实现幂等性</li>
+<li>3.一些天然的幂等操作，比如 delete 操作(因为删除一次和多次都是一样的)</li>
+<li>4.利用分布式锁防止并发，通过逻辑判断可以实现幂等性</li>
+</ul>
+<p>在项目中为防止用户多次提交重复答案，<strong>后端基于雪花算法为每次答题分配唯一 id，并且在用户进入答题页时返回给前端。用户提交答案时会携带该 id，利用数据库主键可以防止重复id 数据的插入</strong>，如果 id 重复，会抛出 DuplicateKeyException 异常，直接忽略即可。这样就避免了重复的脏数据。</p>
+<p>后端保证幂等性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 写入数据库</span><br><span class="hljs-keyword">try</span> &#123; <span class="hljs-comment">//确保插入的幂等性</span><br>    <span class="hljs-type">boolean</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> userAnswerService.save(userAnswer);<br>    ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);<br>&#125;<span class="hljs-keyword">catch</span> (DuplicateKeyException e)&#123;<br>    <span class="hljs-comment">//ignore error</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>前端提交答案时携带此id</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240904144855871.png" srcset="/img/loading.gif" lazyload alt="image-20240904144855871" style="zoom: 50%;" />
+
+
+
+<h3 id="题目响应优化是如何实现的？"><a href="#题目响应优化是如何实现的？" class="headerlink" title="题目响应优化是如何实现的？"></a><strong>题目响应优化是如何实现的？</strong></h3><p>原先Al生成题目的场景响应较慢，如果题目数过多，容易产生请求超时；并且界面上没有响应，用户体验不佳。</p>
+<p>需要流式化改造Al生成题目接口，<strong>一道一道地实时返回已生成题目给前端</strong>，而不是让前端请求一直阻塞等待，最后一起返回，提升用户体验且避免请求超时</p>
+<p>首先智谱Al为我们提供了流式响应的支持，数据已经可以一点一点地返回给后端了，那么我们要思考的问题是如何让后端接收到的一点—点的内容实时返回给前端?</p>
+<p><strong>方案选择</strong></p>
+<p>几种主流的实现方案:</p>
+<p>1)轮询(前端主动去要)<br>前端间隔一定时间就调用后端提供的结果接口，比如 200ms 一次，后端处理一些结果就累加放置在缓存中。</p>
+<p>2)SSE(后端推送给前端)前端发送请求并和后端建立连接后，后端可以实时推送数据给前端，无需前端自主轮询。</p>
+<p>3)WebSocket<br>全双工协议，前端能实时推送数据给后端(或者从后端缓存拿数据)，后端也可以实时推送数据给前端大家可能对 SSE 技术比较陌生，下面重点讲解。</p>
+<p><strong>方案对比</strong></p>
+<p>熟悉了 SSE 技术后，对比上述前后端实时通讯方案。</p>
+<p>1)主动轮询其实是一种伪实时，比如每3秒轮询请求一次，结果后端在 0.1秒就返回了数据，还要再等 2.9 秒，存在延时</p>
+<p>2)Websocket 和 SSE 虽然都能实现服务端推送，但 Websocket 会更复杂些，且是二进制协议，调试不方便。A1对话只需要服务器单向推送即可，不需要使用双向通信，所以选择文本格式的 SSE。</p>
+<p><strong>最终方案</strong></p>
+<ul>
+<li>1)前端向后端发送普通 HTTP 请求</li>
+<li>2)后端创建 SSE 连接对象，为后续的推送做准备</li>
+<li>3)后端流式调用智谱 AI，获取到数据流，使用 RxJava 订阅数据流</li>
+<li>4)以 SSE 的方式响应前端，至此接口主流程已执行完成</li>
+<li>5)异步:基于 Rxava 实时获取到智谱AI的数据，并持续将数据拼接为字符串，当拼接出一道完整题目时，通过 SSE 推给前端。</li>
+<li>6)前端每获取一道题目，立刻插入到表单项中</li>
+</ul>
+<p><strong>后端实现</strong></p>
+<p>基于 <strong>Rxava</strong> 的操作符链式调用处理 AI异步数据流，通过<strong>括号平衡算法</strong>准确拼接出单道题目</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/ai_generate/sse&quot;)</span><br><span class="hljs-keyword">public</span> SseEmitter <span class="hljs-title function_">aiGenerateQuestionSSE</span><span class="hljs-params">(AiGenerateQuestionRequest aiGenerateQuestionRequest)</span> &#123;<br>    ThrowUtils.throwIf(aiGenerateQuestionRequest == <span class="hljs-literal">null</span>, ErrorCode.PARAMS_ERROR);<br>    <span class="hljs-comment">// 获取参数</span><br>    <span class="hljs-type">Long</span> <span class="hljs-variable">appId</span> <span class="hljs-operator">=</span> aiGenerateQuestionRequest.getAppId();<br>    <span class="hljs-type">int</span> <span class="hljs-variable">questionNumber</span> <span class="hljs-operator">=</span> aiGenerateQuestionRequest.getQuestionNumber();<br>    <span class="hljs-type">int</span> <span class="hljs-variable">optionNumber</span> <span class="hljs-operator">=</span> aiGenerateQuestionRequest.getOptionNumber();<br>    <span class="hljs-comment">// 获取应用信息</span><br>    <span class="hljs-type">App</span> <span class="hljs-variable">app</span> <span class="hljs-operator">=</span> appService.getById(appId);<br>    ThrowUtils.throwIf(app == <span class="hljs-literal">null</span>, ErrorCode.NOT_FOUND_ERROR);<br>    <span class="hljs-comment">// 封装 Prompt</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">userMessage</span> <span class="hljs-operator">=</span> getGenerateQuestionUserMessage(app, questionNumber, optionNumber);<br>    <span class="hljs-comment">// 创建 SSE 对象，0表示不超时</span><br>    <span class="hljs-type">SseEmitter</span> <span class="hljs-variable">sseEmitter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SseEmitter</span>(<span class="hljs-number">0L</span>);<br>    <span class="hljs-comment">// AI 生成，SSE流式返回</span><br>    Flowable&lt;ModelData&gt; modelDataFlowable = aiManager.doStreamRequest(GENERATE_QUESTION_SYSTEM_MESSAGE, userMessage, <span class="hljs-literal">null</span>);<br>    <span class="hljs-comment">//左括号计数器，当回归为0时，表示左括号等于右括号，可以截取</span><br>    <span class="hljs-type">AtomicInteger</span> <span class="hljs-variable">counter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AtomicInteger</span>(<span class="hljs-number">0</span>);<br>    <span class="hljs-comment">//拼接完整题目</span><br>    <span class="hljs-type">StringBuilder</span> <span class="hljs-variable">stringBuilder</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuilder</span>();<br>    <span class="hljs-comment">// 订阅该流对象</span><br>    modelDataFlowable<br>            .observeOn(Schedulers.io())<br>            .map(modelData -&gt; modelData.getChoices().get(<span class="hljs-number">0</span>).getDelta().getContent())<br>            .map(message -&gt; message.replaceAll(<span class="hljs-string">&quot;\\s&quot;</span>, <span class="hljs-string">&quot;&quot;</span>))<br>            .filter(StrUtil::isNotBlank)<br>            .flatMap(message -&gt; &#123;<br>                List&lt;Character&gt; characterList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>                <span class="hljs-keyword">for</span> (Character c : message.toCharArray()) &#123;<br>                    characterList.add(c);<br>                &#125;<br>                <span class="hljs-keyword">return</span> Flowable.fromIterable(characterList);<br>            &#125;)<br>            .doOnNext(c -&gt; &#123;<br>                <span class="hljs-keyword">if</span> (c.equals(<span class="hljs-string">&#x27;&#123;&#x27;</span>)) &#123;<br>                    counter.addAndGet(<span class="hljs-number">1</span>);<br>                &#125;<br>                <span class="hljs-keyword">if</span> (counter.get() &gt; <span class="hljs-number">0</span>) &#123;<br>                    stringBuilder.append(c);<br>                &#125;<br>                <span class="hljs-keyword">if</span> (c == <span class="hljs-string">&#x27;&#125;&#x27;</span>) &#123;<br>                    counter.addAndGet(-<span class="hljs-number">1</span>);<br>                    <span class="hljs-keyword">if</span> (counter.get() == <span class="hljs-number">0</span>) &#123;<br>                        <span class="hljs-comment">//可以拼接题目</span><br>                        sseEmitter.send(JSONUtil.toJsonStr(stringBuilder.toString()));<br>                        <span class="hljs-comment">//重置，拼接下一道题目</span><br>                        stringBuilder.setLength(<span class="hljs-number">0</span>);<br>                    &#125;<br>                &#125;<br>            &#125;).doOnComplete(sseEmitter::complete).subscribe();<br>    <span class="hljs-keyword">return</span> sseEmitter;<br>&#125;<br><span class="hljs-comment">// endregion</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用缓存AI的评分结果你是如何实现的？"><a href="#使用缓存AI的评分结果你是如何实现的？" class="headerlink" title="使用缓存AI的评分结果你是如何实现的？"></a><strong>使用缓存AI的评分结果你是如何实现的？</strong></h3><p>缓存的技术选型上，一般是本地缓存和Redis分布式缓存。</p>
+<p>如果项目不考虑分布式或扩容、且不要求持久化，一般用本地缓存能解决的问题，就不要用分布式缓存，会增加系统的复杂度。对于我们的缓存需求，哪怕是多机部署，每台服务器上分别缓存也是ok的，不用保证多台机器缓存间的一致性，所以采用Caffeine本地缓存。</p>
+<p><strong>缓存设计</strong></p>
+<p><strong>1)缓存 key 设计</strong><br>回归到需求”用户对同样的题目做出同样的选择，理论会得到一样的解答<br>所以可以将应用 id 和用户的答案列表作为 key。<br>但答案列表可能很长，可以利用哈希算法(md5)来压缩 key，节省空间。注意，如果是分布式缓存，还需要在 key 开头拼接业务前缀。此处我们可以单独为每个业务创建本地缓存，相互隔离，所以 key可以简单一些。</p>
+<p><strong>2)缓存 value 设计</strong><br>缓存 AI 回答的结果，为了可读性可以存 JSON 结构，为了压缩空间可以存二进制等其他结构。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> String <span class="hljs-title function_">buildCacheKey</span><span class="hljs-params">(Long appId, String choices)</span> &#123;<br>    <span class="hljs-keyword">return</span> DigestUtil.md5Hex(appId + <span class="hljs-string">&quot;:&quot;</span> + choices);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>3)缓存过期时间设置</strong><br>必须设置缓存过期时间! 假设有 20 道题目，那么不同选择累计总次数一共是2 的 20 次方，100 多万。<br>过期时间根据实际业务场景和缓存空间的大小、数据的一致性的要求设置，合适即可，此处可以设置为1天。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Cache&lt;String, String&gt; answerCacheMap =<br>        Caffeine.newBuilder().initialCapacity(<span class="hljs-number">1024</span>)<br>                <span class="hljs-comment">// 缓存 5 分钟移除</span><br>                .expireAfterAccess(<span class="hljs-number">5L</span>, TimeUnit.MINUTES)<br>                .build();<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意事项</strong><br>1)应用题目发生变更时，需要清理缓存(自行实现即可，重点是怎么识别该应用的缓存，比如 appld 不做 MD5，就可以根据 appld 去清理特定前缀的缓存)</p>
+<p>2)主要针对 AI 去缓存</p>
+<h3 id="缓存击穿问题解决"><a href="#缓存击穿问题解决" class="headerlink" title="缓存击穿问题解决"></a><strong>缓存击穿问题解决</strong></h3><p>思考：如果同一时刻有大量的用户答题，比如 1w 个用户，且答题选择都是一致的，但没有命中缓存(刚好过期)，这时候会有 1w 个请求并发访问 AI。</p>
+<p>这其实就是缓存击穿问题，即大量请求并发访问热点数据，刚好热点数据过期，会直接绕过缓存，命中数据库或 A1 接口。在 AI 场景因接口限流，A应该不会崩溃，但是 token(钱)浪费了，而且搞不好平台会以为你的服务器是攻击者，把你的IP 封禁在数据库场景，所有请求打到数据库上，数据库可能直接宕机。</p>
+<p>因此，我们需要避免缓存击穿，一种常见的解决方式就是加锁。如果服务部署在多个机器上，就必须要使用分布式锁,。分布式锁不建议自己实现，理解原理即可。可以直接使用 Redisson 客户端，它为 Redis 提供了多种数据结构的支持，并提供了线程安全的操作，简化了在 Java 中使用 Redis 的复杂度。Redisson 对 Redis 的一些功能进行了增强，如分布式锁、计数器、队列等，使得 Redis 的使用更加方便。</p>
+<p><strong>方案：</strong></p>
+<ul>
+<li>如果缓存能直接访问，直接返回数据</li>
+<li>如果缓存没有数据，获取分布式锁，key为锁标识+缓存key<ul>
+<li>执行业务逻辑把数据写入数据库</li>
+<li>把数据写入缓存</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 定义锁</span><br>     <span class="hljs-type">RLock</span> <span class="hljs-variable">lock</span> <span class="hljs-operator">=</span> redissonClient.getLock(AI_ANSWER_LOCK + cacheKey);<br>     <span class="hljs-keyword">try</span> &#123;<br>         <span class="hljs-comment">// 竞争锁</span><br>         <span class="hljs-type">boolean</span> <span class="hljs-variable">res</span> <span class="hljs-operator">=</span> lock.tryLock(<span class="hljs-number">3</span>, <span class="hljs-number">15</span>, TimeUnit.SECONDS);<br>         <span class="hljs-comment">// 没抢到锁，强行返回</span><br>         <span class="hljs-keyword">if</span> (!res) &#123;<br>             <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>         &#125;<br>         <span class="hljs-comment">// 抢到锁了，执行后续业务逻辑</span><br>         <span class="hljs-comment">// 1. 根据 id 查询到题目</span><br>         <span class="hljs-type">Question</span> <span class="hljs-variable">question</span> <span class="hljs-operator">=</span> questionService.getOne(<br>                 Wrappers.lambdaQuery(Question.class).eq(Question::getAppId, appId)<br>         );<br>         <span class="hljs-type">QuestionVO</span> <span class="hljs-variable">questionVO</span> <span class="hljs-operator">=</span> QuestionVO.objToVo(question);<br>         List&lt;QuestionContentDTO&gt; questionContent = questionVO.getQuestionContent();<br><br>         <span class="hljs-comment">// 2. 调用 AI 获取结果</span><br>         <span class="hljs-comment">// 封装 Prompt</span><br>         <span class="hljs-type">String</span> <span class="hljs-variable">userMessage</span> <span class="hljs-operator">=</span> getAiTestScoringUserMessage(app, questionContent, choices);<br>         <span class="hljs-comment">// AI 生成</span><br>         <span class="hljs-type">String</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> aiManager.doSyncStableRequest(AI_TEST_SCORING_SYSTEM_MESSAGE, userMessage);<br>         <span class="hljs-comment">// 截取需要的 JSON 信息</span><br>         <span class="hljs-type">int</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> result.indexOf(<span class="hljs-string">&quot;&#123;&quot;</span>);<br>         <span class="hljs-type">int</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> result.lastIndexOf(<span class="hljs-string">&quot;&#125;&quot;</span>);<br>         <span class="hljs-type">String</span> <span class="hljs-variable">json</span> <span class="hljs-operator">=</span> result.substring(start, end + <span class="hljs-number">1</span>);<br>         <span class="hljs-comment">// 缓存结果</span><br>         answerCacheMap.put(cacheKey, json);<br><br>         <span class="hljs-comment">// 3. 构造返回值，填充答案对象的属性</span><br>         <span class="hljs-type">UserAnswer</span> <span class="hljs-variable">userAnswer</span> <span class="hljs-operator">=</span> JSONUtil.toBean(json, UserAnswer.class);<br>         userAnswer.setAppId(appId);<br>         userAnswer.setAppType(app.getAppType());<br>         userAnswer.setScoringStrategy(app.getScoringStrategy());<br>         userAnswer.setChoices(jsonStr);<br>         <span class="hljs-keyword">return</span> userAnswer;<br>     &#125; <span class="hljs-keyword">finally</span> &#123;<br>         <span class="hljs-keyword">if</span> (lock != <span class="hljs-literal">null</span> &amp;&amp; lock.isLocked()) &#123;<br>             <span class="hljs-comment">// 释放锁，只有加锁的线程能释放</span><br>             <span class="hljs-keyword">if</span> (lock.isHeldByCurrentThread()) &#123;<br>                 lock.unlock();<br>             &#125;<br>         &#125;<br>     &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="分库分表优化"><a href="#分库分表优化" class="headerlink" title="分库分表优化"></a><strong>分库分表优化</strong></h3><p>主要的瓶颈在于user_answer 用户答题记录表</p>
+<p>一个用户可以对同个应用多次答题，也可以在多个应用多次答题，理论上如果用户量足够大，那么这个表肯定是最先遇到瓶颈的。除了清理数据外，常见的一种优化方案是分库分表。</p>
+<p>随着用户量的激增和时间的堆砌，存在数据库里面的数据越来越多，此时的数据库就会产生瓶颈，出现资源报警、查询慢等场景。首先单机数据库所能承载的连接数、I&#x2F;O 及网络的吞吐等都是有限的，所以当并发量上来了之后，数据库就渐渐顶不住了,而且如果单表的数据量过大，査询的性能也会下降。<strong>因为数据越多底层存储的 B+ 树就越高，树越高则査询 I&#x2F;O 的次数就越多，那么性能也就越差。</strong></p>
+<p>Sharding-JDBC 核心原理其实很简单，可以用几个字总结：改写 SQL比如我们想根据 appld 来将对应的用户答题记录表进行分表。将 appld%2等于0的应用的所有用户的答题记录都划分到 user_answer_0，等于1的应用的所有用户的答题记录都划分到user answer 1</p>
+<p>分片配置如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"># 分库分表配置<br>shardingsphere:<br>  #数据源配置<br>  datasource:<br>    # 多数据源以逗号隔开即可<br>    names: paleanswer<br>    paleanswer:<br>      type: com.zaxxer.hikari.HikariDataSource<br>      driver-class-name: com.mysql.cj.jdbc.Driver<br>      jdbc-url: jdbc:mysql:<span class="hljs-comment">//localhost:3306/paleanswer</span><br>      username: root<br>      password: <span class="hljs-number">123456</span><br>  # 规则配置<br>  rules:<br>    sharding:<br>      # 分片算法配置<br>      sharding-algorithms:<br>        # 自定义分片规则名<br>        answer-table-inline:<br>          ## inline 类型是简单的配置文件里面就能写的类型，其他还有自定义类等等<br>          type: INLINE<br>          props:<br>            algorithm-expression: user_answer_$-&gt;&#123;appId % <span class="hljs-number">2</span>&#125;<br>      tables:<br>        user_answer:<br>          actual-data-nodes: paleanswer.user_answer_$-&gt;&#123;<span class="hljs-number">0.</span><span class="hljs-number">.1</span>&#125;<br>          # 分表策略<br>          table-strategy:<br>            standard:<br>              sharding-column: appId<br>              sharding-algorithm-name: answer-table-inline<br><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>AI出题家</div>
+      <div>http://example.com/2024/08/12/项目/AI出题家/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

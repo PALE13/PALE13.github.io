@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240319221351739.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240319222919988.png">
 <meta property="article:published_time" content="2024-01-16T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-06T03:07:52.650Z">
+<meta property="article:modified_time" content="2024-09-07T05:18:41.358Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -316,7 +316,7 @@
 
 <p><strong>spring.factories</strong> </p>
 <p>通常将 <code>spring.factories</code> 文件放置在项目的 <code>META-INF</code> 目录下。在大多数情况下，这个目录位于 <code>src/main/resources</code> 目录下。</p>
-<p>spring.factories 文件可以将 spring-boot 项目包以外的 bean（即在 pom 文件中添加依赖中的 bean）注册到 spring-boot 项目的 spring 容器。</p>
+<p><strong>spring.factories 文件</strong>可以将 spring-boot 项目包以外的 bean（即在 pom 文件中添加依赖中的 bean）注册到 spring-boot 项目的 spring 容器。</p>
 <p>由于@ComponentScan 注解只能扫描 spring-boot 项目包内的 bean 并注册到 spring 容器中，因此需要@EnableAutoConfiguration 注解来注册项目包外的bean。而 spring.factories 文件，则是用来记录项目包外需要注册的bean类名</p>
 <p><strong><code>@Configuration</code></strong> </p>
 <p>使用 <code>@Configuration</code> 注解进行标记，然后在类上添加 <code>@ConditionalOnProperty</code> 注解可以指定条件。例如：</p>

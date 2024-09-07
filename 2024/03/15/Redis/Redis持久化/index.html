@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/ebd620db8a1af66fbeb8f4d4ef6adc68.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/f67379b60d151262753fec3b817b8617.png">
 <meta property="article:published_time" content="2024-03-15T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-13T08:04:43.387Z">
+<meta property="article:modified_time" content="2024-08-29T01:18:48.851Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
@@ -264,7 +264,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.5k 字
+          7.6k 字
         
       </span>
     
@@ -431,7 +431,8 @@
 <p>但是子进程重写过程中，主进程依然可以正常处理命令。</p>
 <p>如果此时<strong>主进程修改了已经存在 key-value，就会发生写时复制，它在数据需要修改时，并不直接在原始数据上进行修改，而是先复制一份数据副本，然后在副本上进行修改操作</strong>，最后再将修改后的副本数据替换原始数据</p>
 <p>所以如果这个阶段修改的是一个 bigkey，也就是数据量比较大的 key-value 的时候，这时复制的物理内存数据的过程就会比较耗时，有阻塞主进程的风险。</p>
-<h4 id="AOF重写缓冲区"><a href="#AOF重写缓冲区" class="headerlink" title="AOF重写缓冲区"></a><strong>AOF重写缓冲区</strong></h4><p>重写 AOF 日志过程中，<strong>如果主进程修改了已经存在 key-value</strong>，此时这个 key-value 数据在子进程的内存数据就跟主进程的内存数据不一致了。<strong>为了解决这种数据不一致问题</strong>，Redis 设置了一个 <strong>AOF 重写缓冲区</strong>，这个缓冲区在创建 bgrewriteaof 子进程之后开始使用。</p>
+<p><strong>AOF重写缓冲区</strong></p>
+<p>重写 AOF 日志过程中，<strong>如果主进程修改了已经存在 key-value</strong>，此时这个 key-value 数据在子进程的内存数据就跟主进程的内存数据不一致了。<strong>为了解决这种数据不一致问题</strong>，Redis 设置了一个 <strong>AOF 重写缓冲区</strong>，这个缓冲区在创建 bgrewriteaof 子进程之后开始使用。</p>
 <p>在重写 AOF 期间，当 Redis 执行完一个写命令之后，它会<strong>同时将这个写命令写入到 「AOF 缓冲区」和 「AOF 重写缓冲区」</strong>。</p>
 <img src="https://cdn.xiaolincoding.com//mysql/other/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0ODI3Njc0,size_16,color_FFFFFF,t_70-20230309231944807.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述" style="zoom: 50%;" />
 
@@ -441,7 +442,8 @@
 <li>将执行后的写命令追加到 「AOF 缓冲区」；</li>
 <li>将执行后的写命令追加到 「AOF 重写缓冲区」；</li>
 </ul>
-<p>当子进程完成 AOF 重写工作（<em>扫描数据库中所有数据，逐一把内存数据的键值对转换成一条命令，再将命令记录到重写日志</em>）后，会向主进程发送一条信号，信号是进程间通讯的一种方式，且是异步的。</p>
+<p>注意：AOF缓冲区是暂存所有的AOF文件所有的写命令，而AOF重写缓冲区是暂存AOF重写产生的写命令</p>
+<p>当子进程完成 AOF 重写工作<strong>（<em>扫描数据库中所有数据，逐一把内存数据的键值对转换成一条命令，再将命令记录到重写日志</em>）</strong>后，会向主进程发送一条信号，信号是进程间通讯的一种方式，且是异步的。</p>
 <p>主进程收到该信号后，会调用一个信号处理函数，该函数主要做以下工作：</p>
 <ul>
 <li><strong>将 AOF 重写缓冲区中的所有内容追加到新的 AOF 的文件中</strong>，使得新旧两个 AOF 文件所保存的数据库状态一致；</li>
@@ -456,7 +458,7 @@
 <li>执行了 <strong>bgsave 命令</strong>，会创建一个子进程来生成 RDB 文件，这样可以<strong>避免主线程的阻塞</strong>；</li>
 </ul>
 <p>RDB 文件的加载工作是在服务器启动时自动执行的，Redis 并没有提供专门用于加载 RDB 文件的命令。</p>
-<p>Redis 还可以通过配置文件的选项来实现每隔一段时间自动执行一次 bgsave 命令，默认会提供以下配置：</p>
+<p>Redis 还可以通过配置文件的选项来实现<strong>每隔一段时间自动执行一次 bgsave 命令</strong>，默认会提供以下配置：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">save <span class="hljs-number">900</span> <span class="hljs-number">1</span><br>save <span class="hljs-number">300</span> <span class="hljs-number">10</span><br>save <span class="hljs-number">60</span> <span class="hljs-number">10000</span><br></code></pre></td></tr></table></figure>
 
 <p>别看选项名叫 save，实际上执行的是 bgsave 命令，也就是会创建子进程来生成 RDB 快照文件。</p>
@@ -502,11 +504,11 @@
 <p>如果想要开启混合持久化功能，可以在 Redis 配置文件将下面这个配置项设置成 yes：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">aof-use-rdb-preamble yes<br></code></pre></td></tr></table></figure>
 
-<p>混合持久化工作在 <strong>AOF 日志重写过程</strong>。</p>
-<p>当开启了混合持久化时，在 AOF 重写日志时，<code>fo+rk</code> 出来的重写子进程会先将与主线程共享的内存数据以 RDB 方式写入到 AOF 文件，然后主线程处理的操作命令会被记录在重写缓冲区里，重写缓冲区里的增量命令会以 AOF 方式写入到 AOF 文件，写入完成后通知主进程将新的<strong>含有 RDB 格式和 AOF 格式的 AOF 文件替换旧的的 AOF 文件。</strong></p>
+<p>混合持久化工作在 <strong>AOF 日志重写过程</strong></p>
+<p>当开启了混合持久化时，在 AOF 重写日志时，<code>fork</code> 出来的<strong>重写子进程会先将与主线程共享的内存数据以 RDB 方式写入到 AOF 文件</strong>，然后主线程处理的操作命令会被记录在重写缓冲区里，重写缓冲区里的增量命令会以 AOF 方式写入到 AOF 文件，写入完成后通知主进程将新的<strong>含有 RDB 格式和 AOF 格式的 AOF 文件替换旧的的 AOF 文件。</strong></p>
 <p>也就是说，使用了混合持久化，AOF 文件的<strong>前半部分是 RDB 格式的全量数据，后半部分是 AOF 格式的增量数据</strong>。</p>
 <p><img src="https://cdn.xiaolincoding.com//mysql/other/f67379b60d151262753fec3b817b8617.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
-<p>这样的好处在于，重启 Redis 加载数据的时候，由于前半部分是 RDB 内容，这样<strong>加载的时候速度会很快</strong>。</p>
+<p>这样的好处在于，<strong>重启 Redis 加载数据的时候</strong>，由于前半部分是 RDB 内容，这样<strong>加载的时候速度会很快</strong>。</p>
 <p>加载完 RDB 的内容后，才会加载后半部分的 AOF 内容，这里的内容是 Redis 后台子进程重写 AOF 期间，主线程处理的操作命令，可以使得<strong>数据更少的丢失</strong>。</p>
 <h4 id="AOF和RDB的区别"><a href="#AOF和RDB的区别" class="headerlink" title="AOF和RDB的区别"></a><strong>AOF和RDB的区别</strong></h4><p>虽然AOF重写和RDB都是全量数据的持久化方式，但它们在实现方式、恢复速度、可读性等方面存在一些区别。</p>
 <p><strong>区别：</strong></p>

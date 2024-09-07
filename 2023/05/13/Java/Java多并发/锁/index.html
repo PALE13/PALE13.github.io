@@ -29,14 +29,14 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240515212435542.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240515212208558.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240515212924311.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/synchronized-principle.png">
+<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%8E%9F%E7%90%862.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240301003107641.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240423222134093.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240423222401384.png">
-<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/java/concurrent/synchronized-principle.png">
-<meta property="og:image" content="https://oss.javaguide.cn/github/javaguide/synchronized%E5%85%B3%E9%94%AE%E5%AD%97%E5%8E%9F%E7%90%862.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240227133317376.png">
 <meta property="article:published_time" content="2023-05-13T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-22T17:19:47.026Z">
+<meta property="article:modified_time" content="2024-09-05T02:20:45.460Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -262,7 +262,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.2k 字
+          7.4k 字
         
       </span>
     
@@ -273,7 +273,7 @@
         
         
         
-          60 分钟
+          62 分钟
         
       </span>
     
@@ -438,38 +438,6 @@
 <p>在 Java 早期版本中，<code>synchronized</code> 属于 <strong>重量级锁</strong>，效率低下。这是因为监视器锁（monitor）是依赖于底层的操作系统的 <code>Mutex Lock</code> 来实现的，Java 的线程是映射到操作系统的原生线程之上的。如果要挂起或者唤醒一个线程，都需要操作系统帮忙完成，而操作系统实现线程之间的切换时需要从<strong>用户态转换到内核态</strong>，这个状态之间的转换需要相对比较长的时间，时间成本相对较高</p>
 <p>不过，在 Java 6 之后， <strong><code>synchronized</code> 引入了大量的优化如自旋锁、适应性自旋锁、锁消除、锁粗化、偏向锁、轻量级锁等技术来减少锁操作的开销</strong>，这些优化让 <code>synchronized</code> 锁的效率提升了很多。因此， <code>synchronized</code> 还是可以在实际项目中使用的，像 JDK 源码、很多开源框架都大量使用了 <code>synchronized</code> </p>
 <p>关于偏向锁多补充一点：由于偏向锁增加了 JVM 的复杂性，同时也并没有为所有应用都带来性能提升。因此，在 JDK15 中，偏向锁被默认关闭（仍然可以使用 <code>-XX:+UseBiasedLocking</code> 启用偏向锁），在 JDK18 中，偏向锁已经被彻底废弃（无法通过命令行打开）</p>
-<h3 id="synchronized-锁的升级机制"><a href="#synchronized-锁的升级机制" class="headerlink" title="synchronized 锁的升级机制"></a><strong>synchronized 锁的升级机制</strong></h3><p><strong>无锁，偏向锁，轻量级锁，重量级锁</strong></p>
-<p>以下是对象头中Mark Word中的字段</p>
-<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240301003107641.png" srcset="/img/loading.gif" lazyload alt="image-20240301003107641" style="zoom:50%;" />
-
-
-
-<p><strong>无锁：</strong></p>
-<ul>
-<li>在无锁状态下，多个线程可以同时访问共享资源而不进行任何同步操作。</li>
-<li>无锁适用于<strong>读多写少</strong>的情况，可以提高程序的并发性能。</li>
-<li>无锁操作通常基于原子性的CAS（Compare and Swap）指令，如<code>java.util.concurrent.atomic</code>包中的原子类。</li>
-</ul>
-<p><strong>偏向锁：</strong></p>
-<ul>
-<li>偏向锁的目标是在没有竞争的情况下，让第一个获得锁的线程能够快速再次获取锁。</li>
-<li><strong>当一个线程获得锁后，会在对象头中的标记位记录下这个线程的ID</strong>，称为偏向线程标识。之后，如果该线程再次请求锁，不需要再竞争，直接获得锁。</li>
-<li>这对于线程独占的场景非常有效，避免了无谓的锁竞争。但是如果有其他线程尝试竞争锁，偏向锁就会失效，升级为轻量级锁。</li>
-</ul>
-<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240423222134093.png" srcset="/img/loading.gif" lazyload alt="image-20240423222134093"></p>
-<p><strong>轻量级锁：</strong></p>
-<p>轻量级锁是在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间，尝试拷贝锁对象头的Markword到栈帧的Lock Record，若拷贝成功，<strong>JVM将使用CAS操作尝试将对象头的Markword更新为指向Lock Record的指针</strong>，并将Lock Record里的owner指针指向对象头的Markword。</p>
-<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240423222401384.png" srcset="/img/loading.gif" lazyload alt="image-20240423222401384"></p>
-<ul>
-<li>轻量级锁是在有多个线程竞争同一把锁的情况下引入的。</li>
-<li>当线程尝试获得锁时，JVM会先在<strong>栈帧</strong>中创建一个用于<strong>存储锁记录的空间</strong>，并将对象头中的指针指向这个锁记录。如果这个过程没有竞争，就可以获得轻量级锁。</li>
-<li>如果有竞争，第一个尝试获得轻量级锁的线程会通过<strong>CAS</strong>操作来竞争锁。如果竞争成功，就获得锁；否则，自旋等待</li>
-<li>线程在获取锁失败时，不立即进入等待状态，<strong>而是反复检查锁是否可用</strong>，这种方式区别于被操作系统挂起阻塞，因为如果对象锁很快就会被释放的话，<strong>自旋去获得锁完全在用户空间解决</strong>，不需要进行系统中断和现场恢复，所以它的效率更高。</li>
-<li>若当前只有一个等待线程，则可通过自旋继续尝试， 当自旋超过一定的次数，或者一个线程在持有锁，一个线程在自旋，又有第三个线程来访问时，轻量级锁就会膨胀为重量级锁。</li>
-</ul>
-<p><strong>重量级锁</strong></p>
-<p>如果对象锁状态被标记为重量级锁，需要通过Monitor来对线程进行控制，此时将会使用同步原语来锁定资源，对线程的控制也最为严格。</p>
-<p>重量级锁采用的是传统的<strong>互斥量实现，当线程无法获取锁时，会进入阻塞状态</strong>，直到锁被释放。这会引入线程上下文切换的开销。</p>
 <h3 id="使用-synchronized的方式"><a href="#使用-synchronized的方式" class="headerlink" title="使用 synchronized的方式"></a><strong>使用 synchronized的方式</strong></h3><p><code>synchronized</code> 关键字的使用方式主要有下面 3 种：</p>
 <ol>
 <li>修饰实例方法</li>
@@ -496,7 +464,7 @@
 
 <p><strong>总结：</strong></p>
 <ul>
-<li><code>synchronized</code> 关键字加到 <code>static</code> 静态方法和 <code>synchronized(class)</code> 代码块上都是是给 Class 类上锁；</li>
+<li><strong><code>synchronized</code> 关键字加到 <code>static</code> 静态方法和 <code>synchronized(class)</code> 代码块上都是是给 Class 类上锁；</strong></li>
 <li><code>synchronized</code> 关键字加到实例方法上是给对象实例上锁；</li>
 <li>尽量不要使用 <code>synchronized(String a)</code> 因为 JVM 中，字符串常量池具有缓存功能。</li>
 </ul>
@@ -517,7 +485,7 @@
 <p>上面的字节码中包含一个 <code>monitorenter</code> 指令以及两个 <code>monitorexit</code> 指令，这是为了保证锁在同步代码块代码正常执行以及出现异常的这两种情况下都能被正确释放。</p>
 <p>当执行 <code>monitorenter</code> 指令时，线程试图获取锁也就是获取 <strong>对象监视器 <code>monitor</code></strong> 的持有权。</p>
 <blockquote>
-<p>在 Java 虚拟机(HotSpot)中，Monitor 是基于 C++实现的，由<a target="_blank" rel="noopener" href="https://github.com/openjdk-mirror/jdk7u-hotspot/blob/50bdefc3afe944ca74c3093e7448d6b889cd20d1/src/share/vm/runtime/objectMonitor.cpp">ObjectMonitoropen in new window</a>实现的。每个对象中都内置了一个 <code>ObjectMonitor</code>对象。</p>
+<p>在 Java 虚拟机(HotSpot)中，Monitor 是基于 C++实现的，由<a target="_blank" rel="noopener" href="https://github.com/openjdk-mirror/jdk7u-hotspot/blob/50bdefc3afe944ca74c3093e7448d6b889cd20d1/src/share/vm/runtime/objectMonitor.cpp">ObjectMonitoropen in new window</a>实现的。每个对象中都内置了一个 <strong><code>ObjectMonitor</code>对象</strong>。</p>
 <p>另外，<code>wait/notify</code>等方法也依赖于<code>monitor</code>对象，这就是为什么只有在同步的块或者方法中才能调用<code>wait/notify</code>等方法，否则会抛出<code>java.lang.IllegalMonitorStateException</code>的异常的原因。</p>
 </blockquote>
 <p><strong>对象监视器（Object Monitor）：</strong></p>
@@ -549,6 +517,40 @@
 <p><code>synchronized</code> 同步语句块的实现使用的是 <code>monitorenter</code> 和 <code>monitorexit</code> 指令，其中 <code>monitorenter</code> 指令指向同步代码块的开始位置，<code>monitorexit</code> 指令则指明同步代码块的结束位置。</p>
 <p><code>synchronized</code> 修饰的方法并没有 <code>monitorenter</code> 指令和 <code>monitorexit</code> 指令，取得代之的确实是 <code>ACC_SYNCHRONIZED</code> 标识，该标识指明了该方法是一个同步方法。</p>
 <p>**不过两者的本质都是获取对象监视器 monitor **</p>
+<h3 id="synchronized-锁的升级机制"><a href="#synchronized-锁的升级机制" class="headerlink" title="synchronized 锁的升级机制"></a><strong>synchronized 锁的升级机制</strong></h3><p><strong>无锁，偏向锁，轻量级锁，重量级锁</strong></p>
+<p>以下是对象头中Mark Word中的字段</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240301003107641.png" srcset="/img/loading.gif" lazyload alt="image-20240301003107641" style="zoom:50%;" />
+
+
+
+<p><strong>无锁：</strong></p>
+<ul>
+<li><p>在无锁状态下，多个线程可以同时访问共享资源而不进行任何同步操作。</p>
+</li>
+<li><p>无锁适用于<strong>读多写少</strong>的情况，可以提高程序的并发性能。</p>
+</li>
+</ul>
+<p><strong>偏向锁：</strong></p>
+<p>当某个线程多次访问共享资源时，JVM会认为这个线程将来还会继续访问这个资源，因此会使用偏向锁。</p>
+<ul>
+<li>偏向锁的目标是在没有竞争的情况下，让第一个获得锁的线程能够快速再次获取锁。</li>
+<li><strong>当一个线程获得锁后，会在对象头中的标记位记录下这个线程的ID</strong>，称为偏向线程标识。之后，如果该线程再次请求锁，不需要再竞争，直接获得锁。</li>
+<li>这对于线程独占的场景非常有效，避免了无谓的锁竞争。但是如果有其他线程尝试竞争锁，偏向锁就会失效，升级为轻量级锁。</li>
+</ul>
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240423222134093.png" srcset="/img/loading.gif" lazyload alt="image-20240423222134093"></p>
+<p><strong>轻量级锁：</strong></p>
+<p>轻量级锁是在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间，尝试拷贝锁对象头的Markword到栈帧的Lock Record，若拷贝成功，<strong>JVM将使用CAS操作尝试将对象头的Markword更新为指向Lock Record的指针</strong>，并将Lock Record里的owner指针指向对象头的Markword。</p>
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240423222401384.png" srcset="/img/loading.gif" lazyload alt="image-20240423222401384"></p>
+<ul>
+<li>轻量级锁是在有多个线程竞争同一把锁的情况下引入的。</li>
+<li>当线程尝试获得锁时，JVM会先在<strong>栈帧</strong>中创建一个用于<strong>存储锁记录的空间</strong>，并将对象头中的指针指向这个锁记录。如果这个过程没有竞争，就可以获得轻量级锁。</li>
+<li>如果有竞争，第一个尝试获得轻量级锁的线程会通过<strong>CAS</strong>操作来竞争锁。如果竞争成功，就获得锁；否则，自旋等待</li>
+<li>线程在获取锁失败时，不立即进入等待状态，<strong>而是反复检查锁是否可用</strong>，这种方式区别于被操作系统挂起阻塞，因为如果对象锁很快就会被释放的话，<strong>自旋去获得锁完全在用户空间解决</strong>，不需要进行系统中断和现场恢复，所以它的效率更高。</li>
+<li>若当前只有一个等待线程，则可通过自旋继续尝试， 当自旋超过一定的次数，或者一个线程在持有锁，一个线程在自旋，又有第三个线程来访问时，轻量级锁就会膨胀为重量级锁。</li>
+</ul>
+<p><strong>重量级锁</strong></p>
+<p>如果对象锁状态被标记为重量级锁，需要通过Monitor来对线程进行控制，此时将会使用同步原语来锁定资源，对线程的控制也最为严格。</p>
+<p>重 1量级锁采用的是传统的<strong>互斥量实现，当线程无法获取锁时，会进入阻塞状态</strong>，直到锁被释放。这会引入线程上下文切换的开销。</p>
 <h3 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a><strong>ReentrantLock</strong></h3><p><code>ReentrantLock</code> 实现了 <code>Lock</code> 接口，是一个可重入且独占式的锁，和 <code>synchronized</code> 关键字类似。不过，<code>ReentrantLock</code> 更灵活、更强大，增加了轮询、超时、中断、公平锁和非公平锁等高级功能。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ReentrantLock</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Lock</span>, java.io.Serializable &#123;&#125;<br></code></pre></td></tr></table></figure>
 
@@ -580,16 +582,19 @@
 <p>在下面的代码中，<code>method1()</code> 和 <code>method2()</code>都被 <code>synchronized</code> 关键字修饰，<code>method1()</code>调用了<code>method2()</code>。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SynchronizedDemo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method1</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;方法1&quot;</span>);<br>        method2();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method2</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;方法2&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>由于 <code>synchronized</code>锁是可重入的，同一个线程在调用<code>method1()</code> 时可以直接获得当前对象的锁，执行 <code>method2()</code> 的时候可以再次获取这个对象的锁，不会产生死锁问题。假如<code>synchronized</code>是不可重入锁的话，由于该对象的锁已被当前线程所持有且无法释放，这就导致线程在执行 <code>method2()</code>时获取锁失败，会出现死锁问题</p>
+<p>由于 <code>synchronized</code>锁是可重入的，<strong>同一个线程在调用<code>method1()</code> 时可以直接获得当前对象的锁，执行 <code>method2()</code> 的时候可以再次获取这个对象的锁，不会产生死锁问题。</strong>假如<code>synchronized</code>是不可重入锁的话，由于该对象的锁已被当前线程所持有且无法释放，这就导致线程在执行 <code>method2()</code>时获取锁失败，会出现死锁问题</p>
 <h4 id="synchronized-依赖于-JVM-而-ReentrantLock-依赖于-API"><a href="#synchronized-依赖于-JVM-而-ReentrantLock-依赖于-API" class="headerlink" title="synchronized 依赖于 JVM 而 ReentrantLock 依赖于 API"></a><strong>synchronized 依赖于 JVM 而 ReentrantLock 依赖于 API</strong></h4><p><code>synchronized</code> 是依赖于 JVM 实现的，前面我们也讲到了 虚拟机团队在 JDK1.6 为 <code>synchronized</code> 关键字进行了很多优化，但是这些优化都是在虚拟机层面实现的，并没有直接暴露给我们。</p>
 <p><code>ReentrantLock</code> 是 JDK 层面实现的（<strong>也就是 API 层面，需要 lock() 和 unlock() 方法配合 try&#x2F;finally 语句块来完成</strong>），所以我们可以通过查看它的源代码，来看它是如何实现的。</p>
 <h4 id="ReentrantLock-比-synchronized-增加了一些高级功能"><a href="#ReentrantLock-比-synchronized-增加了一些高级功能" class="headerlink" title="ReentrantLock 比 synchronized 增加了一些高级功能"></a><strong>ReentrantLock 比 synchronized 增加了一些高级功能</strong></h4><p>相比<code>synchronized</code>，<code>ReentrantLock</code>增加了一些高级功能。主要来说主要有三点：</p>
 <ul>
 <li><strong>可实现公平锁</strong> : <code>ReentrantLock</code>可以指定是公平锁还是非公平锁。而<code>synchronized</code>只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。<code>ReentrantLock</code>默认情况是非公平的，可以通过 <code>ReentrantLock</code>类的<code>ReentrantLock(boolean fair)</code>构造方法来指定是否是公平的。</li>
 <li><strong>等待可中断</strong> : <code>ReentrantLock</code>提供了一种能够中断等待锁的线程的机制，通过 <code>lock.lockInterruptibly()</code> 来实现这个机制。也就是说正在等待锁的线程可以选择放弃等待，改为处理其他事情。</li>
-<li><strong>可实现选择性通知（锁可以绑定多个条件）</strong>: <code>synchronized</code>关键字与<code>wait()</code>和<code>notify()</code>&#x2F;<code>notifyAll()</code>方法相结合可以实现等待&#x2F;通知机制。<code>ReentrantLock</code>类当然也可以实现，但是需要借助于<code>Condition</code>接口与<code>newCondition()</code>方法。</li>
+<li><strong>可实现选择性通知（锁可以绑定多个条件）</strong>: <code>synchronized</code>关键字与<code>wait()</code>和<code>notify()</code>&#x2F;<code>notifyAll()</code>方法相结合可以实现等待&#x2F;通知机制。<code>ReentrantLock</code>类当然也可以实现，<strong>但是需要借助于<code>Condition</code>接口与<code>newCondition()</code>方法。</strong></li>
 </ul>
 <p>如果你想使用上述功能，那么选择 <code>ReentrantLock</code> 是一个不错的选择。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.concurrent.locks.Condition;<br><span class="hljs-keyword">import</span> java.util.concurrent.locks.ReentrantLock;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductManager</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">ReentrantLock</span> <span class="hljs-variable">lock</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ReentrantLock</span>();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Condition</span> <span class="hljs-variable">conditionA</span> <span class="hljs-operator">=</span> lock.newCondition();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Condition</span> <span class="hljs-variable">conditionB</span> <span class="hljs-operator">=</span> lock.newCondition();<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">productA</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-variable">productB</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">produceA</span><span class="hljs-params">()</span> &#123;<br>        lock.lock();<br>        <span class="hljs-keyword">try</span> &#123;<br>            productA++;<br>            System.out.println(<span class="hljs-string">&quot;Produced A, count: &quot;</span> + productA);<br>            conditionA.signalAll(); <span class="hljs-comment">// 通知所有等待产品A的消费者</span><br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            lock.unlock();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">produceB</span><span class="hljs-params">()</span> &#123;<br>        lock.lock();<br>        <span class="hljs-keyword">try</span> &#123;<br>            productB++;<br>            System.out.println(<span class="hljs-string">&quot;Produced B, count: &quot;</span> + productB);<br>            conditionB.signalAll(); <span class="hljs-comment">// 通知所有等待产品B的消费者</span><br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            lock.unlock();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">consumeA</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException &#123;<br>        lock.lock();<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">while</span> (productA == <span class="hljs-number">0</span>) &#123;<br>                conditionA.await(); <span class="hljs-comment">// 等待产品A</span><br>            &#125;<br>            productA--;<br>            System.out.println(<span class="hljs-string">&quot;Consumed A, count: &quot;</span> + productA);<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            lock.unlock();<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">consumeB</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> InterruptedException &#123;<br>        lock.lock();<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">while</span> (productB == <span class="hljs-number">0</span>) &#123;<br>                conditionB.await(); <span class="hljs-comment">// 等待产品B</span><br>            &#125;<br>            productB--;<br>            System.out.println(<span class="hljs-string">&quot;Consumed B, count: &quot;</span> + productB);<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            lock.unlock();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这种方式允许你在一个锁上管理多个等待队列，每个队列对应一个不同的条件，从而提供了更细粒度的控制。</p>
 <h4 id="性能的区别"><a href="#性能的区别" class="headerlink" title="性能的区别"></a><strong>性能的区别</strong></h4><p>在Synchronized优化以前，synchronized的性能是比ReenTrantLock差很多的，但是自从Synchronized引入了偏向锁，轻量级锁（自旋锁）后，两者的性能就差不多了，在两种方法都可用的情况下，官方甚至建议使用synchronized，其实synchronized的优化我感觉就借鉴了ReenTrantLock中的CAS技术。都是试图在用户态就把加锁问题解决，避免进入内核态的线程阻塞。</p>
 <h3 id="可中断锁和不可中断锁有什么区别？"><a href="#可中断锁和不可中断锁有什么区别？" class="headerlink" title="可中断锁和不可中断锁有什么区别？"></a><strong>可中断锁和不可中断锁有什么区别？</strong></h3><ul>
 <li><strong>可中断锁</strong>：获取锁的过程中可以被中断，不需要一直等到获取锁之后才能进行其他逻辑处理。<code>ReentrantLock</code> 就属于是可中断锁。</li>
