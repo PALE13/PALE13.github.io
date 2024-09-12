@@ -24,8 +24,10 @@
 <meta property="og:description" content="慢SQL优化count(*) 和 count(1) 有什么区别？哪个性能最好？    count(1) 执行过程是怎样的？ 用下面这条语句作为例子： 1select count(1) from t_order;  如果表里只有主键索引，没有二级索引时。 那么，InnoDB 循环遍历聚簇索引（主键索引），将读取到的记录返回给 server 层，但是不会读取记录中的任何字段的值，因为 count 函数">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240320162011142.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/c296c1889f0101d335699311b4ef20a8.png">
+<meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/f380ef357d065498d8d54ad07f145e09.png">
 <meta property="article:published_time" content="2024-04-05T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-12T06:32:12.693Z">
+<meta property="article:modified_time" content="2024-09-07T12:31:26.533Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -251,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.4k 字
+          6.1k 字
         
       </span>
     
@@ -262,7 +264,7 @@
         
         
         
-          45 分钟
+          51 分钟
         
       </span>
     
@@ -581,6 +583,47 @@
 <li>sys Schema：基于 Performance Schema 提供了一组易于使用的视图和存储过程，简化了性能数据的查询和分析。</li>
 </ul>
 <p>通过这些内置工具，您可以直接在 MySQL 内部获取性能数据，进行初步的性能分析和调优。</p>
+<h2 id="死锁优化"><a href="#死锁优化" class="headerlink" title="死锁优化"></a><strong>死锁优化</strong></h2><h3 id="如何排查死锁？"><a href="#如何排查死锁？" class="headerlink" title="如何排查死锁？"></a><strong>如何排查死锁？</strong></h3><p><strong>查询最近一次死锁日志</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">show</span> engine innodb status;<br></code></pre></td></tr></table></figure>
+
+<p>这条命令的输出包含大量的信息，包括最近的死锁检测。如果最近发生过死锁，会在输出的某个部分显示死锁相关的信息。</p>
+<p><strong>使用information_schema数据库</strong></p>
+<p>查看当前正在进行的事务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">SELECT * FROM INFORMATION_SCHEMA.INNODB_TRX;<br></code></pre></td></tr></table></figure>
+
+<p>查看当前锁定的事务</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable constant_">SELECT</span> * <span class="hljs-variable constant_">FROM</span> <span class="hljs-variable constant_">INFORMATION_SCHEMA</span>.<span class="hljs-property">INNODB_LOCKS</span>;<br></code></pre></td></tr></table></figure>
+
+<p>查看当前等锁的事务</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable constant_">SELECT</span> * <span class="hljs-variable constant_">FROM</span> <span class="hljs-variable constant_">INFORMATION_SCHEMA</span>.<span class="hljs-property">INNODB_LOCK_WAITS</span>;<br></code></pre></td></tr></table></figure>
+
+<p><strong>查看进程列表</strong></p>
+<p>使用以下命令可以查看当前正在运行的进程列表：</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">SHOW PROCESSLIST<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<p>在结果中，你可以查看每个进程的状态、执行的SQL语句以及锁的信息。特别是，如果某个进程的状态为Locked，那么它可能涉及死锁。</p>
+<p><strong>错误日志</strong></p>
+<p>配置 <code>innodb_print_all_deadlocks</code> 选项，将死锁信息记录到错误日志中，便于后续分析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">innodb_print_all_deadlocks=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>性能监控工具</strong></p>
+<p>使用性能监控工具（如Percona Monitoring and Management, PMM, 或者MySQL Enterprise Monitor）可以帮助你实时监控数据库的性能和锁的情况，从而更容易地发现和解决死锁问题。</p>
+<h3 id="如何避免死锁？"><a href="#如何避免死锁？" class="headerlink" title="如何避免死锁？"></a><strong>如何避免死锁？</strong></h3><p>死锁的四个必要条件：<strong>互斥、占有且等待、不可强占用、循环等待</strong>。只要系统发生死锁，这些条件必然成立，但是只要破坏任意一个条件就死锁就不会成立。</p>
+<p>在数据库层面，有两种策略通过「打破循环等待条件」来解除死锁状态：</p>
+<ul>
+<li><p><strong>设置事务等待锁的超时时间</strong>。当一个事务的等待时间超过该值后，就对这个事务进行回滚，于是锁就释放了，另一个事务就可以继续执行了。在 InnoDB 中，参数 <code>innodb_lock_wait_timeout</code> 是用来设置超时时间的，默认值时 50 秒。</p>
+<p>当发生超时后，就出现下面这个提示：</p>
+</li>
+</ul>
+<p><img src="https://cdn.xiaolincoding.com//mysql/other/c296c1889f0101d335699311b4ef20a8.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li><p><strong>开启主动死锁检测</strong>。主动死锁检测在发现死锁后，主动回滚死锁链条中的某一个事务，让其他事务得以继续执行。将参数 <code>innodb_deadlock_detect</code> 设置为 on，表示开启这个逻辑，默认就开启。</p>
+<p>当检测到死锁后，就会出现下面这个提示：</p>
+</li>
+</ul>
+<p><img src="https://cdn.xiaolincoding.com//mysql/other/f380ef357d065498d8d54ad07f145e09.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上面这个两种策略是「当有死锁发生时」的避免方式。</p>
+<p>我们可以回归业务的角度来预防死锁，对订单做幂等性校验的目的是<strong>为了保证不会出现重复的订单，那我们可以直接将 order_no 字段设置为唯一索引列，利用它的唯一性来保证订单表不会出现重复的订单</strong>，不过有一点不好的地方就是在我们插入一个已经存在的订单记录时就会抛出异常。</p>
 
                 
               </div>

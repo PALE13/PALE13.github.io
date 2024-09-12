@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://oss.javaguide.cn/java-guide-blog/mvc-model2.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240312125953988.png">
 <meta property="article:published_time" content="2024-01-16T03:46:25.000Z">
-<meta property="article:modified_time" content="2024-05-26T15:38:57.029Z">
+<meta property="article:modified_time" content="2024-09-09T09:37:24.429Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -354,7 +354,7 @@
 <ol>
 <li>客户端（浏览器）发送请求， <code>DispatcherServlet</code>拦截请求。**<code>DispatcherServlet</code> 是 Spring MVC 的核心，它负责将请求分发到相应的处理组件。**</li>
 <li><code>DispatcherServlet</code> 根据请求信息调用 <code>HandlerMapping</code> <strong>。<code>HandlerMapping</code> 根据 URL 去匹配查找能处理的 <code>Handler</code>（也就是我们平常说的 <code>Controller</code> 控制器）</strong> ，并会将请求涉及到的拦截器和 <code>Handler</code> 一起封装。</li>
-<li><code>DispatcherServlet</code> 调用 <code>HandlerAdapter</code>适配器执行 <code>Handler</code> 。</li>
+<li><code>DispatcherServlet</code> <strong>调用 <code>HandlerAdapter</code>适配器执行 <code>Handler</code></strong> 。</li>
 <li><code>Handler</code> 完成对用户请求的处理后，会返回一个 <code>ModelAndView</code> 对象给<code>DispatcherServlet</code>，<code>ModelAndView</code> 顾名思义，包含了数据模型以及相应的视图的信息。<code>Model</code> 是返回的数据对象，<code>View</code> 是个逻辑上的 <code>View</code>。</li>
 <li><code>ViewResolver</code> 会根据逻辑 <code>View</code> 查找实际的 <code>View</code>。</li>
 <li><code>DispaterServlet</code> 把返回的 <code>Model</code> 传给 <code>View</code>（视图渲染）。</li>

@@ -1,0 +1,835 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="PALE13">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MyBatis-PlusMyBatis-Plus作为一个强大的ORM（对象关系映射）框架，为Java开发人员提供了在数据库操作中更高效的工具和方法。 数据库查询在许多应用程序中起着至关重要的作用，因此优化查询效率对于提高应用程序性能至关重要。MyBatis-Plus的Wrapper提供了一种强大的工具，可以帮助我们以更直观、更灵活的方式构建复杂的SQL查询，而无需编写繁琐的SQL语句。 MyBat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis-plus">
+<meta property="og:url" content="http://example.com/2024/01/09/Spring+MyBatis/MyBatis-plus/index.html">
+<meta property="og:site_name" content="PALE13">
+<meta property="og:description" content="MyBatis-PlusMyBatis-Plus作为一个强大的ORM（对象关系映射）框架，为Java开发人员提供了在数据库操作中更高效的工具和方法。 数据库查询在许多应用程序中起着至关重要的作用，因此优化查询效率对于提高应用程序性能至关重要。MyBatis-Plus的Wrapper提供了一种强大的工具，可以帮助我们以更直观、更灵活的方式构建复杂的SQL查询，而无需编写繁琐的SQL语句。 MyBat">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-09T07:46:25.000Z">
+<meta property="article:modified_time" content="2024-09-09T11:25:51.993Z">
+<meta property="article:author" content="PALE13">
+<meta property="article:tag" content="MyBatis">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>MyBatis-plus - PALE13</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","app_key":"OVGCjDnyLgmimKVrlTnxrRC9","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Pale13&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MyBatis-plus"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-01-09 15:46" pubdate>
+          2024年1月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">MyBatis-plus</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="MyBatis-Plus"><a href="#MyBatis-Plus" class="headerlink" title="MyBatis-Plus"></a><strong>MyBatis-Plus</strong></h2><p>MyBatis-Plus作为一个强大的ORM（对象关系映射）框架，为Java开发人员提供了在数据库操作中更高效的工具和方法。</p>
+<p>数据库查询在许多应用程序中起着至关重要的作用，因此优化查询效率对于提高应用程序性能至关重要。MyBatis-Plus的Wrapper提供了一种强大的工具，可以帮助我们以更直观、更灵活的方式构建复杂的SQL查询，而无需编写繁琐的SQL语句。</p>
+<h3 id="MyBatis-Plus相比MyBatis的优势"><a href="#MyBatis-Plus相比MyBatis的优势" class="headerlink" title="MyBatis-Plus相比MyBatis的优势"></a><strong>MyBatis-Plus相比MyBatis的优势</strong></h3><p>MyBatis-Plus（简称MP）是MyBatis的增强工具，它在MyBatis的基础上进行了扩展，提供了更多的便利功能，以简化开发工作和提高开发效率。以下是MyBatis-Plus相比MyBatis的一些主要优势：</p>
+<ol>
+<li><strong>简化开发</strong>：MyBatis-Plus提供了内置的CRUD操作，开发者无需编写大量的SQL映射文件，可以快速实现单表的大部分CRUD操作。</li>
+<li><strong>性能优化</strong>：MyBatis-Plus对性能进行了优化，支持批量插入、查询缓存等特性，提高了应用的性能和效率。</li>
+<li><strong>易于扩展</strong>：MyBatis-Plus的设计使其易于扩展和定制化，开发者可以根据自己的需求添加新的功能或插件。</li>
+<li><strong>代码生成器</strong>：MyBatis-Plus内置了代码生成器，可以快速生成Mapper、Model、Service、Controller层代码，减少了开发者的开发量。</li>
+<li><strong>分页插件</strong>：MyBatis-Plus提供了分页插件，开发者无需关心具体操作，配置好插件之后，写分页等同于普通List查询。</li>
+<li><strong>Lambda表达式支持</strong>：Lambda 表达式的优势在于它提供了一种类型安全的方式来编写查询条件，使得代码更加简洁和易于维护。它也减少了因为字段名错误而导致的运行时错误。此外，Lambda 表达式支持链式调用。</li>
+<li><strong>全局方法注入</strong>：支持全局通用方法注入，可以减少重复的代码编写。</li>
+<li><strong>关键词自动转义</strong>：支持数据库关键词自动转义，还可自定义关键词。</li>
+<li><strong>全局拦截插件</strong>：提供全表delete、update操作智能分析阻断，也可自定义拦截规则，预防误操作。</li>
+</ol>
+<h3 id="LambdaQueryWrapper"><a href="#LambdaQueryWrapper" class="headerlink" title="LambdaQueryWrapper"></a><strong>LambdaQueryWrapper</strong></h3><p>在MyBatis-Plus中，Lambda表达式的重要性体现在构建查询条件时。它们提供了一种更加类型安全和直观的方式来构建数据库查询条件，而不需要硬编码SQL语句。通过使用Lambda表达式，你可以创建查询条件的对象，而不是手动编写字符串，这有助于减少SQL注入的风险，提高了代码的可维护性。</p>
+<p>下面是一个示例，演示如何使用Lambda表达式来表示查询条件：</p>
+<p>假设你有一个实体类<code>User</code>，它代表了数据库中的用户表，包含<code>id</code>、<code>name</code>和<code>age</code>字段。你想要查询年龄大于等于30岁的用户：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.core.toolkit.Wrappers;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LambdaExpressionExample</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 使用Lambda表达式创建查询条件</span><br>        QueryWrapper&lt;User&gt; queryWrapper = Wrappers.&lt;User&gt;lambdaQuery()<br>                .ge(User::getAge, <span class="hljs-number">30</span>);<br>        <br>        <span class="hljs-comment">// 执行查询</span><br>        List&lt;User&gt; userList = userDao.selectList(queryWrapper);<br>        <br>        <span class="hljs-comment">// 输出查询结果</span><br>        <span class="hljs-keyword">for</span> (User user : userList) &#123;<br>            System.out.println(user);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们使用了<code>Wrappers.lambdaQuery()</code>来创建一个Lambda查询包装器，然后使用<code>.ge(User::getAge, 30)</code>来表示年龄大于等于30岁的条件。这种方式更加直观和类型安全，不需要编写原始的SQL语句，提高了代码的可读性和可维护性。</p>
+<p>总之，Lambda表达式在MyBatis-Plus中的重要性在于它们提供了一种更加直观和类型安全的方式来构建数据库查询条件，从而简化了代码并降低了错误的风险。</p>
+<h3 id="QueryWrapper与LambdaQueryWrapper区别"><a href="#QueryWrapper与LambdaQueryWrapper区别" class="headerlink" title="QueryWrapper与LambdaQueryWrapper区别"></a><strong>QueryWrapper与LambdaQueryWrapper区别</strong></h3><p><code>QueryWrapper</code>和<code>LambdaQueryWrapper</code>都是MyBatis-Plus中用于构建查询条件的工具，但它们之间存在一些重要的区别：</p>
+<p><strong>构建方式：</strong></p>
+<ul>
+<li><ul>
+<li><code>QueryWrapper</code>：使用字符串表示列名，通过字符串拼接的方式构建查询条件，类似于传统的SQL查询。这种方式灵活但不够类型安全。</li>
+<li><code>LambdaQueryWrapper</code>：使用Lambda表达式表示列名，通过Lambda表达式的方式构建查询条件。这种方式更加类型安全，可以在编译时捕获拼写错误。</li>
+</ul>
+</li>
+</ul>
+<p><strong>类型安全：</strong></p>
+<ul>
+<li><ul>
+<li><code>QueryWrapper</code>：由于使用字符串表示列名，编译器无法检查列名的正确性，因此存在拼写错误或不合法列名的风险。</li>
+<li><code>LambdaQueryWrapper</code>：使用Lambda表达式，可以在编译时捕获属性和字段名的拼写错误，提高了类型安全性。</li>
+</ul>
+</li>
+</ul>
+<p><strong>可读性：</strong></p>
+<ul>
+<li><ul>
+<li><code>QueryWrapper</code>：由于使用字符串，查询条件的构建可能不够清晰和直观，可能需要更多的注释来解释查询条件的含义。</li>
+<li><code>LambdaQueryWrapper</code>：Lambda表达式更加直观和清晰，使代码更易于理解，通常不需要额外的注释。</li>
+</ul>
+</li>
+</ul>
+<p><strong>智能提示：</strong></p>
+<ul>
+<li><ul>
+<li><code>QueryWrapper</code>：不同于一些集成开发环境（IDE）提供的智能提示，因为列名是字符串，难以提供准确的自动完成和错误检查。</li>
+<li><code>LambdaQueryWrapper</code>：常见的IDE通常能够提供Lambda表达式的智能提示，帮助您更快地编写查询条件。</li>
+</ul>
+</li>
+</ul>
+<p><strong>链式操作：</strong></p>
+<ul>
+<li><ul>
+<li><code>QueryWrapper</code>和<code>LambdaQueryWrapper</code>都支持链式操作，使得构建复杂的查询条件变得更加清晰。</li>
+</ul>
+</li>
+</ul>
+<p>总的来说，**<code>LambdaQueryWrapper</code>相对于<code>QueryWrapper</code>更加类型安全、清晰易读，因此在实际开发中，特别是需要在编译时捕获错误和提高代码可维护性的情况下，更常用。**但如果您对查询条件的灵活性有更高的要求，<code>QueryWrapper</code>仍然是一个有效的选择，因为它允许您以字符串的形式构建复杂的查询条件。</p>
+<h3 id="LambdaQueryWrapper的高级用法"><a href="#LambdaQueryWrapper的高级用法" class="headerlink" title="LambdaQueryWrapper的高级用法"></a><strong>LambdaQueryWrapper的高级用法</strong></h3><p>LambdaQueryWrapper是MyBatis-Plus中用于构建复杂查询条件的强大工具。它允许你使用Lambda表达式来创建查询条件，包括条件构建和多表关联查询。下面将深入讨论LambdaQueryWrapper的高级用法，并演示如何使用Lambda表达式生成查询条件。</p>
+<h4 id="1-基本条件构建："><a href="#1-基本条件构建：" class="headerlink" title="1. 基本条件构建："></a><strong>1. 基本条件构建：</strong></h4><p>首先，让我们看看如何使用LambdaQueryWrapper构建基本查询条件。假设我们有一个名为<code>User</code>的实体类，并且我们想要查询年龄大于30岁且名字包含”John”的用户：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">LambdaQueryWrapper&lt;User&gt; queryWrapper = Wrappers.&lt;User&gt;lambdaQuery()<br>        .ge(User::getAge, <span class="hljs-number">30</span>)<br>        .like(User::getName, <span class="hljs-string">&quot;John&quot;</span>);<br>List&lt;User&gt; userList = userDao.selectList(queryWrapper);<br></code></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们使用<code>.ge(User::getAge, 30)</code>表示大于等于30岁的条件，使用<code>.like(User::getName, &quot;John&quot;)</code>表示名字包含”John”的条件。</p>
+<h4 id="2-多表关联查询："><a href="#2-多表关联查询：" class="headerlink" title="2. 多表关联查询："></a><strong>2. 多表关联查询：</strong></h4><p>LambdaQueryWrapper还支持多表关联查询。假设我们有一个名为<code>Order</code>的实体类，表示用户的订单，其中包含了用户的<code>userId</code>字段，我们想要查询年龄大于30岁的用户以及他们的订单信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">LambdaQueryWrapper&lt;User&gt; userWrapper = Wrappers.&lt;User&gt;lambdaQuery()<br>        .ge(User::getAge, <span class="hljs-number">30</span>);<br>LambdaQueryWrapper&lt;Order&gt; orderWrapper = Wrappers.&lt;Order&gt;lambdaQuery()<br>        .inSql(Order::getUserId, <span class="hljs-string">&quot;SELECT id FROM user&quot;</span>, userWrapper);<br>List&lt;Order&gt; orderList = orderDao.selectList(orderWrapper);<br></code></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们首先创建了一个用于用户表的LambdaQueryWrapper，然后创建了一个用于订单表的LambdaQueryWrapper。在订单表的条件中，我们使用了<code>.inSql()</code>方法，允许我们在子查询中使用另一个LambdaQueryWrapper来构建条件，从而实现多表关联查询。</p>
+<h4 id="3-动态条件构建："><a href="#3-动态条件构建：" class="headerlink" title="3. 动态条件构建："></a><strong>3. 动态条件构建：</strong></h4><p>LambdaQueryWrapper也支持动态条件构建，你可以根据实际情况添加或删除条件。例如，如果你有一个搜索页面，用户可以选择性地输入查询条件，你可以像这样动态构建查询条件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">LambdaQueryWrapper&lt;User&gt; queryWrapper = Wrappers.&lt;User&gt;lambdaQuery();<br><span class="hljs-keyword">if</span> (StringUtils.isNotBlank(username)) &#123;<br>    queryWrapper.like(User::getUsername, username);<br>&#125;<br><span class="hljs-keyword">if</span> (minAge != <span class="hljs-literal">null</span>) &#123;<br>    queryWrapper.ge(User::getAge, minAge);<br>&#125;<br><span class="hljs-keyword">if</span> (maxAge != <span class="hljs-literal">null</span>) &#123;<br>    queryWrapper.le(User::getAge, maxAge);<br>&#125;<br>List&lt;User&gt; userList = userDao.selectList(queryWrapper);<br></code></pre></td></tr></table></figure>
+
+<p>在这个示例中，根据用户输入的条件，我们动态地添加了<code>.like()</code>、<code>.ge()</code>和<code>.le()</code>等条件，从而构建了查询条件。</p>
+<p>总之，LambdaQueryWrapper是一个强大的工具，允许你使用Lambda表达式来构建复杂的查询条件，包括基本条件构建、多表关联查询和动态条件构建。这种方式使得查询条件的构建更加直观和灵活，提高了代码的可读性和可维护性。</p>
+<h4 id="4-mysql函数嵌入"><a href="#4-mysql函数嵌入" class="headerlink" title="4.mysql函数嵌入"></a><strong>4.mysql函数嵌入</strong></h4><p>假设你有一个实体类<code>User</code>，其中包含了一个日期字段<code>birthDate</code>，你想要查询生日在特定月份的用户，并将生日格式化为”yyyy-MM-dd”格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.core.toolkit.Wrappers;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;<br><span class="hljs-keyword">import</span> java.time.format.DateTimeFormatter;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LambdaQueryWrapperWithMySQLFunction</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 选择要查询的月份，这里假设选择1月</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">selectedMonth</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br>        LambdaQueryWrapper&lt;User&gt; queryWrapper = Wrappers.&lt;User&gt;lambdaQuery()<br>                .apply(<span class="hljs-string">&quot;MONTH(birth_date) = &#123;0&#125;&quot;</span>, selectedMonth)<br>                .select(User::getId, User::getName, User::getBirthDate);<br>        List&lt;User&gt; userList = userDao.selectList(queryWrapper);<br>        <br>        <span class="hljs-type">DateTimeFormatter</span> <span class="hljs-variable">formatter</span> <span class="hljs-operator">=</span> DateTimeFormatter.ofPattern(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>);<br>        <span class="hljs-keyword">for</span> (User user : userList) &#123;<br>            <span class="hljs-type">String</span> <span class="hljs-variable">formattedBirthDate</span> <span class="hljs-operator">=</span> user.getBirthDate().format(formatter);<br>            System.out.println(<span class="hljs-string">&quot;User ID: &quot;</span> + user.getId() + <span class="hljs-string">&quot;, Name: &quot;</span> + user.getName() + <span class="hljs-string">&quot;, Formatted Birth Date: &quot;</span> + formattedBirthDate);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在这个示例中，我们使用<code>.apply()</code>方法来嵌入MySQL的<code>MONTH()</code>函数，以检查生日的月份是否与<code>selectedMonth</code>匹配。同时，我们使用<code>.select()</code>方法选择要查询的字段，然后在结果中格式化日期字段为”yyyy-MM-dd”格式。</p>
+<p>这样，你就可以在<code>LambdaQueryWrapper</code>中使用MySQL的函数来构建查询条件，满足不同的查询需求。根据需要，你可以嵌入其他MySQL函数来执行各种数据库操作。</p>
+<h3 id="MyBatis-Plus会有sql注入风险吗"><a href="#MyBatis-Plus会有sql注入风险吗" class="headerlink" title="MyBatis-Plus会有sql注入风险吗"></a><strong>MyBatis-Plus会有sql注入风险吗</strong></h3><p>MyBatis-Plus 在设计时已经考虑到了 SQL 注入的风险，并且采取了一些措施来减轻这种风险。使用 <code>QueryWrapper</code> 和 <code>LambdaQueryWrapper</code> 时，MyBatis-Plus 会进行参数绑定，这有助于防止 SQL 注入攻击。</p>
+<p><strong>参数绑定</strong></p>
+<p>当使用 <code>QueryWrapper</code> 或 <code>LambdaQueryWrapper</code> 构建查询条件时，所有的参数值都会被当作参数绑定到 SQL 语句中，而不是直接拼接到 SQL 字符串中。这意味着参数值会被数据库驱动处理，从而避免了 SQL 注入的风险。</p>
+<p>例如，使用 <code>eq</code>、<code>like</code>、<code>ge</code> 等方法时，传入的参数值会被自动处理为参数绑定：</p>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">queryWrapper.eq(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;John Doe&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>&quot;John Doe&quot;</code> 会被当作参数绑定，而不是直接拼接到 SQL 语句中。</p>
+<p><strong>动态 SQL</strong></p>
+<p>在构建动态 SQL 时，如果使用 <code>apply</code> 方法，需要特别注意 SQL 注入的风险。因为 <code>apply</code> 方法允许你直接写入 SQL 片段，如果不正确地使用，可能会导致 SQL 注入：</p>
+<p>java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">queryWrapper.apply(<span class="hljs-string">&quot;name = &#x27;&#123;0&#125;&#x27;&quot;</span>, <span class="hljs-string">&quot;John Doe&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>在这个例子中，如果不正确地使用 <code>apply</code> 方法，可能会导致 SQL 注入。因此，在使用 <code>apply</code> 方法时，应该确保传入的参数值是受控的，并且不包含恶意的 SQL 代码。</p>
+<p><strong>最佳实践</strong></p>
+<p>为了确保安全，建议遵循以下最佳实践：</p>
+<ol>
+<li><strong>避免直接使用 <code>apply</code> 方法</strong>：尽量避免使用 <code>apply</code> 方法直接拼接 SQL 片段，除非完全必要，并且你完全理解可能带来的风险。</li>
+<li><strong>使用参数绑定</strong>：尽量使用 <code>QueryWrapper</code> 和 <code>LambdaQueryWrapper</code> 提供的条件构造方法，如 <code>eq</code>、<code>like</code>、<code>ge</code> 等，这些方法会自动处理参数绑定。</li>
+<li><strong>验证和清理输入</strong>：在将用户输入用于查询之前，进行验证和清理，确保输入符合预期的格式。</li>
+<li><strong>使用 ORM 的安全特性</strong>：充分利用 MyBatis-Plus 提供的安全特性，如自动参数绑定和条件构造器。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/MyBatis/" class="category-chain-item">MyBatis</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MyBatis/" class="print-no-link">#MyBatis</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MyBatis-plus</div>
+      <div>http://example.com/2024/01/09/Spring+MyBatis/MyBatis-plus/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>PALE13</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年1月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/09/Spring+MyBatis/MyBatis/" title="MyBatis">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MyBatis</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/25/%E7%AE%97%E6%B3%95/%E9%98%9F%E5%88%97%E5%92%8C%E6%A0%88/16.%20%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0/" title="数据流的中位数">
+                        <span class="hidden-mobile">数据流的中位数</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"fSj01qIZ1mNzIMoPkGGM4LIB-gzGzoHsz","appKey":"OVGCjDnyLgmimKVrlTnxrRC9","path":"window.location.pathname","placeholder":"说点什么","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -24,7 +24,7 @@
 <meta property="og:description" content="746. 使用最小花费爬楼梯给你一个整数数组 cost ，其中 cost[i] 是从楼梯第 i 个台阶向上爬需要支付的费用。一旦你支付此费用，即可选择向上爬一个或者两个台阶。 你可以选择从下标为 0 或下标为 1 的台阶开始爬楼梯。 请你计算并返回达到楼梯顶部的最低花费。 示例 1： 输入：cost &#x3D; [10,15,20]输出：15解释：你将从下标为 1 的台阶开始。  支付 15 ，">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-17T03:35:21.000Z">
-<meta property="article:modified_time" content="2024-05-17T15:56:25.250Z">
+<meta property="article:modified_time" content="2024-09-07T14:54:44.056Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
@@ -322,8 +322,7 @@
 </ul>
 <p>提示：</p>
 <p>2 &lt;&#x3D; cost.length &lt;&#x3D; 1000<br>0 &lt;&#x3D; cost[i] &lt;&#x3D; 999</p>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p>注意题目的描述为，cost[i]表示在i台阶跳跃需要花费的体力值，花费体力值后你可以选择跳1个或2个阶梯，你可以选择在下标为0或下标为1的台阶开始跳</p>
-<p>动态规划</p>
+<h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a><strong>动态规划</strong></h4><p>注意题目的描述为，cost[i]表示在i台阶跳跃需要花费的体力值，花费体力值后你可以选择跳1个或2个阶梯，你可以选择在下标为0或下标为1的台阶开始跳</p>
 <p><strong>确定dp数组及下标的含义</strong></p>
 <p><strong>dp[i]表示到达第i个台阶跳跃所需要的最少体力值</strong></p>
 <p>到达顶层可以从dp[i-2]和dp[i-1]选择较小者</p>
@@ -334,11 +333,9 @@
 <p><strong>初始化dp数组</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">dp[<span class="hljs-number">0</span>] = cost[<span class="hljs-number">0</span>];<br>dp[<span class="hljs-number">1</span>] = cost[<span class="hljs-number">1</span>];<br></code></pre></td></tr></table></figure>
 
-
-
 <p><strong>确定遍历顺序</strong></p>
 <p>由递推公式，第i个数由第i-2和第i-1个数推出，遍历顺序一定由前往后遍历</p>
-<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">minCostClimbingStairs</span><span class="hljs-params">(<span class="hljs-type">int</span>[] cost)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> cost.length;<br>        <span class="hljs-type">int</span>[] dp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[n];<br>        <span class="hljs-comment">//dp[i]表示在下标为i台阶跳跃需要最小的花费</span><br>        dp[<span class="hljs-number">0</span>] = cost[<span class="hljs-number">0</span>];<br>        dp[<span class="hljs-number">1</span>] = cost[<span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">2</span> ;  i &lt; n ; i++)&#123;<br>            dp[i] = Math.min(dp[i-<span class="hljs-number">1</span>],dp[i-<span class="hljs-number">2</span>]) + cost[i]; <br>        &#125;<br>        <span class="hljs-keyword">return</span> Math.min(dp[n-<span class="hljs-number">1</span>],dp[n-<span class="hljs-number">2</span>]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a><strong>代码</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">minCostClimbingStairs</span><span class="hljs-params">(<span class="hljs-type">int</span>[] cost)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> cost.length;<br>        <span class="hljs-type">int</span>[] dp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[n];<br>        <span class="hljs-comment">//dp[i]表示在下标为i台阶跳跃需要最小的花费</span><br>        dp[<span class="hljs-number">0</span>] = cost[<span class="hljs-number">0</span>];<br>        dp[<span class="hljs-number">1</span>] = cost[<span class="hljs-number">1</span>];<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">2</span> ;  i &lt; n ; i++)&#123;<br>            dp[i] = Math.min(dp[i-<span class="hljs-number">1</span>],dp[i-<span class="hljs-number">2</span>]) + cost[i]; <br>        &#125;<br>        <span class="hljs-keyword">return</span> Math.min(dp[n-<span class="hljs-number">1</span>],dp[n-<span class="hljs-number">2</span>]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>-<br>  时间复杂度：$O(n)$</p>
 <ul>

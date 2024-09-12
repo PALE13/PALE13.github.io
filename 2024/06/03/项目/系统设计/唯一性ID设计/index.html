@@ -23,14 +23,15 @@
 <meta property="og:site_name" content="PALE13">
 <meta property="og:description" content="唯一性ID设计思想分布式ID的业务需求在复杂的分布式系统中，往往需要对大量的数据和消息进行唯一标识。一个能够生成全局唯一ID的系统是非常必要的。 生成ID的硬性要求 全局唯一：ID必须唯一，这是唯一标识的最基本要求。 趋势递增：为了优化写入性能，尤其是在使用BTree数据结构存储索引数据的数据库引擎（如MySQL的InnoDB引擎）中，主键应尽量有序。 单调递增：保证下一个ID一定大于上一个ID。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240911155929907.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240731092508053.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240731091143924.png">
 <meta property="article:published_time" content="2024-06-03T08:36:14.000Z">
-<meta property="article:modified_time" content="2024-09-04T06:52:13.054Z">
+<meta property="article:modified_time" content="2024-09-11T08:00:30.822Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="系统设计">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240731092508053.png">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240911155929907.png">
   
   
   
@@ -252,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          1.7k 字
         
       </span>
     
@@ -263,7 +264,7 @@
         
         
         
-          12 分钟
+          14 分钟
         
       </span>
     
@@ -325,8 +326,33 @@
 <li><strong>uuid往往是使用字符串存储：</strong>查询的效率比较低。传输数据量大，且不可读。</li>
 <li><strong>索引，B+树索引的分裂：</strong>既然分布式id是主键，主键是包括索引的，然后mysql的索引是通过b+树来实现的，因为uuid数据是无序的，每一次新的uuid数据的插入，为了查询的优化，都会对索引“底层的B+树进行修改，这一点很不好。插入完全无序，不但会导致一些中间节点产生分裂，也会白白创造出很多不饱和的节点，这样大大降低了数据库插入的性能。</li>
 </ol>
-<h4 id="数据库自增主键"><a href="#数据库自增主键" class="headerlink" title="数据库自增主键"></a><strong>数据库自增主键</strong></h4><p>数据库自增主键原理是：基于数据库自增id和MySQL数据库的replace into实现的，这里的replace into 跟insert功能类似，不同点在于replace into首先尝试把数据插入列表中，如果发现表中已经有此行数据（根据主键或唯一索引判断）则先删除再插入，否则直接插入新数据。</p>
+<h4 id="MySQL自增主键"><a href="#MySQL自增主键" class="headerlink" title="MySQL自增主键"></a><strong>MySQL自增主键</strong></h4><p>数据库自增主键原理是：基于数据库自增id和MySQL数据库的replace into实现的，这里的replace into 跟insert功能类似，不同点在于replace into首先尝试把数据插入列表中，如果发现表中已经有此行数据（根据主键或唯一索引判断）则先删除再插入，否则直接插入新数据。</p>
+<p>缺点：</p>
+<p><strong>DB单点存在宕机风险</strong>，无法扛住高并发场景</p>
 <p>不适合做分布式ID：<strong>系统水平扩展比较困难如果是单机的话还可以，如果是分布式多台机子的话就很难实现了</strong>。数据库压力很大，每次获取ID都需要读取一次数据库，性能低。</p>
+<h3 id="MySQL多实例主键自增"><a href="#MySQL多实例主键自增" class="headerlink" title="MySQL多实例主键自增"></a><strong>MySQL多实例主键自增</strong></h3><p>这个方案就是解决mysql的单点问题，在auto_increment基本上面，设置step步长</p>
+<p>MySQL_1 配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs javascript">set @@auto_increment_offset = <span class="hljs-number">1</span>;     -- 起始值<br>set @@auto_increment_increment = <span class="hljs-number">2</span>;  -- 步长<br></code></pre></td></tr></table></figure>
+
+<p>MySQL_2 配置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs javascript">set @@auto_increment_offset = <span class="hljs-number">2</span>;     -- 起始值<br>set @@auto_increment_increment = <span class="hljs-number">2</span>;  -- 步长<br></code></pre></td></tr></table></figure>
+
+<p>这样两个MySQL实例的自增ID分别就是：</p>
+<blockquote>
+<p>1、3、5、7、9<br>2、4、6、8、10</p>
+</blockquote>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240911155929907.png" srcset="/img/loading.gif" lazyload alt="image-20240911155929907" style="zoom:50%;" />
+
+<p>那如果集群后的性能还是扛不住高并发咋办？就要进行MySQL扩容增加节点，这是一个比较麻烦的事。</p>
+<p>增加第三台<code>MySQL</code>实例需要人工修改一、二两台<code>MySQL实例</code>的起始值和步长，把<code>第三台机器的ID</code>起始生成位置设定在比现有<code>最大自增ID</code>的位置远一些，但必须在一、二两台<code>MySQL实例</code>ID还没有增长到<code>第三台MySQL实例</code>的<code>起始ID</code>值的时候，否则<code>自增ID</code>就要出现重复了，<strong>必要时可能还需要停机修改</strong>。</p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>解决DB单点问题</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>不利于后续扩容，而且实际上单个数据库自身压力还是大，依旧无法满足高并发场景。</li>
+</ul>
 <h4 id="Redis的id生成策略"><a href="#Redis的id生成策略" class="headerlink" title="Redis的id生成策略"></a><strong>Redis的id生成策略</strong></h4><p>Redis是单线程的天生保证原子性，可以使用原子操作INCR和NCRBY来实现。</p>
 <p>但是缺点同上面的mysql一样，不利于平行扩容。同时key一定要设置有效期，不过可以使用redis集群来获取更高的吞吐量。</p>
 <p>假如一个集群中有5台Redis,可以初始化每台Redis的值分别是1,2,3,4,5,然后步长都是5<br>各个Redis生成的ID为：<br>A: 1,6,11,16,21<br>B: 2,7,12,17,22<br>C:3.8.13.18.23<br>D: 4,9,14,19,24<br>E: 5,10,15,20,25</p>

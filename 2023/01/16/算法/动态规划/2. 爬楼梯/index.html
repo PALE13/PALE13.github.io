@@ -24,7 +24,7 @@
 <meta property="og:description" content="70. 爬楼梯假设你正在爬楼梯。需要 n 阶你才能到达楼顶。 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？ 示例 1： 输入：n &#x3D; 2输出：2解释：有两种方法可以爬到楼顶。  1 阶 + 1 阶 2 阶  实例2： 输入：n &#x3D; 3输出：3解释：有三种方法可以爬到楼顶。  1 阶 + 1 阶 + 1 阶 1 阶 + 2 阶 2 阶 + 1 阶  提示">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-01-16T03:35:21.000Z">
-<meta property="article:modified_time" content="2024-05-17T15:55:58.357Z">
+<meta property="article:modified_time" content="2024-09-07T14:53:21.477Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
@@ -319,8 +319,7 @@
 </ol>
 <p>提示：</p>
 <p>1 &lt;&#x3D; n &lt;&#x3D; 45</p>
-<p>动态规划</p>
-<p><strong>确定dp数组及下标的含义</strong></p>
+<h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a><strong>动态规划</strong></h4><p><strong>确定dp数组及下标的含义</strong></p>
 <p>dp[i]表示爬到第i层楼梯，有几种方法</p>
 <p><strong>确定递推公式</strong></p>
 <p>爬到第一层有1种方法，爬到第二层有2种方法；而第一层跨两步可到达第三层，第二层跨一步可到达第三层，那么第三层的状态可由第一层和第二层的状态推出来</p>

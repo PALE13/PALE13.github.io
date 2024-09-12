@@ -16,12 +16,12 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MySQL 的数据存放在哪个文件？大家都知道 MySQL 的数据都是保存在磁盘的，那具体是保存在哪个文件呢？ MySQL 存储的行为是由存储引擎实现的，MySQL 支持多种存储引擎，不同的存储引擎保存的文件自然也不同。 InnoDB 是我们常用的存储引擎，也是 MySQL 默认的存储引擎。所以，本文主要以 InnoDB 存储引擎展开讨论。 先来看看 MySQL 数据库的文件存放在哪个目录？ 123">
+    <meta name="description" content="MySQL存储结构MySQL 的数据存放在哪个文件？大家都知道 MySQL 的数据都是保存在磁盘的，那具体是保存在哪个文件呢？ MySQL 存储的行为是由存储引擎实现的，MySQL 支持多种存储引擎，不同的存储引擎保存的文件自然也不同。 InnoDB 是我们常用的存储引擎，也是 MySQL 默认的存储引擎。所以，本文主要以 InnoDB 存储引擎展开讨论。 先来看看 MySQL 数据库的文件存放在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL存储结构">
 <meta property="og:url" content="http://example.com/2024/02/13/MySQL/MySQL%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="MySQL 的数据存放在哪个文件？大家都知道 MySQL 的数据都是保存在磁盘的，那具体是保存在哪个文件呢？ MySQL 存储的行为是由存储引擎实现的，MySQL 支持多种存储引擎，不同的存储引擎保存的文件自然也不同。 InnoDB 是我们常用的存储引擎，也是 MySQL 默认的存储引擎。所以，本文主要以 InnoDB 存储引擎展开讨论。 先来看看 MySQL 数据库的文件存放在哪个目录？ 123">
+<meta property="og:description" content="MySQL存储结构MySQL 的数据存放在哪个文件？大家都知道 MySQL 的数据都是保存在磁盘的，那具体是保存在哪个文件呢？ MySQL 存储的行为是由存储引擎实现的，MySQL 支持多种存储引擎，不同的存储引擎保存的文件自然也不同。 InnoDB 是我们常用的存储引擎，也是 MySQL 默认的存储引擎。所以，本文主要以 InnoDB 存储引擎展开讨论。 先来看看 MySQL 数据库的文件存放在">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240507103155201.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240507103256750.png">
@@ -47,7 +47,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240507113815387.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/7c635d682bd3cdc421bb9eea33a5a413.png">
 <meta property="article:published_time" content="2024-02-13T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-07T01:10:32.595Z">
+<meta property="article:modified_time" content="2024-09-11T07:46:07.594Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -326,7 +326,7 @@
             
               <div class="markdown-body">
                 
-                <h3 id="MySQL-的数据存放在哪个文件？"><a href="#MySQL-的数据存放在哪个文件？" class="headerlink" title="MySQL 的数据存放在哪个文件？"></a><strong>MySQL 的数据存放在哪个文件？</strong></h3><p>大家都知道 MySQL 的数据都是保存在磁盘的，那具体是保存在哪个文件呢？</p>
+                <h2 id="MySQL存储结构"><a href="#MySQL存储结构" class="headerlink" title="MySQL存储结构"></a><strong>MySQL存储结构</strong></h2><h3 id="MySQL-的数据存放在哪个文件？"><a href="#MySQL-的数据存放在哪个文件？" class="headerlink" title="MySQL 的数据存放在哪个文件？"></a><strong>MySQL 的数据存放在哪个文件？</strong></h3><p>大家都知道 MySQL 的数据都是保存在磁盘的，那具体是保存在哪个文件呢？</p>
 <p>MySQL 存储的行为是由存储引擎实现的，MySQL 支持多种存储引擎，不同的存储引擎保存的文件自然也不同。</p>
 <p>InnoDB 是我们常用的存储引擎，也是 MySQL 默认的存储引擎。所以，本文主要以 InnoDB 存储引擎展开讨论。</p>
 <p>先来看看 MySQL 数据库的文件存放在哪个目录？</p>

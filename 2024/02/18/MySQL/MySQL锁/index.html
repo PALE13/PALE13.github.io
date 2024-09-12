@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/c296c1889f0101d335699311b4ef20a8.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/f380ef357d065498d8d54ad07f145e09.png">
 <meta property="article:published_time" content="2024-02-18T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-12T07:46:07.011Z">
+<meta property="article:modified_time" content="2024-09-11T07:50:46.307Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -538,8 +538,6 @@
 <p>查看当前等锁的事务</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable constant_">SELECT</span> * <span class="hljs-variable constant_">FROM</span> <span class="hljs-variable constant_">INFORMATION_SCHEMA</span>.<span class="hljs-property">INNODB_LOCK_WAITS</span>;<br></code></pre></td></tr></table></figure>
 
-
-
 <p><strong>查看进程列表</strong></p>
 <p>使用以下命令可以查看当前正在运行的进程列表：</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">SHOW PROCESSLIST<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
@@ -548,8 +546,6 @@
 <p><strong>错误日志</strong></p>
 <p>配置 <code>innodb_print_all_deadlocks</code> 选项，将死锁信息记录到错误日志中，便于后续分析</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">innodb_print_all_deadlocks=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-
-
 
 <p><strong>性能监控工具</strong></p>
 <p>使用性能监控工具（如Percona Monitoring and Management, PMM, 或者MySQL Enterprise Monitor）可以帮助你实时监控数据库的性能和锁的情况，从而更容易地发现和解决死锁问题。</p>

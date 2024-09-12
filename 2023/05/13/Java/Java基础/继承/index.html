@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image003.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240224001601846.png">
 <meta property="article:published_time" content="2023-05-13T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-03T09:01:09.698Z">
+<meta property="article:modified_time" content="2024-09-12T05:28:24.063Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -252,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.1k 字
+          4.3k 字
         
       </span>
     
@@ -263,7 +263,7 @@
         
         
         
-          35 分钟
+          36 分钟
         
       </span>
     
@@ -403,6 +403,11 @@
 <p>如果是Java 7，那么接口中可以包含的内容有：常量抽象方法</p>
 <p>如果是Java 8，还可以额外包含有：默认方法，静态方法</p>
 <p>如果是Java 9，还可以额外包含有：私有方法</p>
+<h4 id="接口除了public-和-abstract-还可以用什么？"><a href="#接口除了public-和-abstract-还可以用什么？" class="headerlink" title="接口除了public 和 abstract 还可以用什么？"></a><strong>接口除了public 和 abstract 还可以用什么？</strong></h4><p>从 Java 8 开始，接口可以包含默认方法（default）和静态方法（static）。</p>
+<p>protected ：在接口中不能使用 protected 修饰符。</p>
+<p>原因: 接口的目的是提供公共 API，而 protected 只能被同一包中的类或不同包的子类访问，这限制了不同包的实现类对该接口的访问，这与接口的设计理念相悖。因此，接口中的方法和字段只能是 public 或 default（包私有）。</p>
+<p>private：从 Java 9 开始，你可以在接口中使用 private 修饰符。</p>
+<p>用途: private 方法可以用于接口内部的辅助方法，主要是为了减少代码重复和提高代码的封装性。这些 private 方法不能被实现类访问。</p>
 <p><strong>抽象方法</strong></p>
 <p>注意事项：</p>
 <ul>
