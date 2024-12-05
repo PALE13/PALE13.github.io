@@ -27,9 +27,12 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418003009546.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418160202135.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418180232127.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240922163401059.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418180559019.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418010012529.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240415153015782.png">
 <meta property="article:published_time" content="2024-02-23T01:35:21.000Z">
-<meta property="article:modified_time" content="2024-09-12T07:39:46.947Z">
+<meta property="article:modified_time" content="2024-10-15T07:55:00.156Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -255,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.3k 字
+          5.8k 字
         
       </span>
     
@@ -266,7 +269,7 @@
         
         
         
-          36 分钟
+          49 分钟
         
       </span>
     
@@ -317,7 +320,7 @@
 
 <ul>
 <li><strong>heap size</strong> 表示要初始化内存的具体大小。</li>
-<li><strong>unit</strong> 表示要初始化内存的单位。单位为 <em><strong>“ g”*</strong> (GB)、</em>*<em>“ m”*<strong>（MB）、</strong></em>“ k”***（KB）。</li>
+<li><strong>unit</strong> 表示要初始化内存的单位。单位为 g (GB)、 m（MB）、k（KB）。</li>
 </ul>
 <p>举个例子 ，如果我们要为 JVM 分配最小 2 GB 和最大 5 GB 的堆内存大小，我们的参数应该这样来写：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">-Xms2G -Xmx5G<br></code></pre></td></tr></table></figure>
@@ -462,7 +465,8 @@
 
 
 
-<h4 id="jmap-生成堆转储快照"><a href="#jmap-生成堆转储快照" class="headerlink" title="jmap:生成堆转储快照"></a><strong>jmap:生成堆转储快照</strong></h4><p><code>jmap</code>（Memory Map for Java）命令用于生成堆转储快照。 如果不使用 <code>jmap</code> 命令，要想获取 Java 堆转储，可以使用 <code>“-XX:+HeapDumpOnOutOfMemoryError”</code> 参数<strong>，可以让虚拟机在 OOM 异常出现之后自动生成 dump 文件</strong>，Linux 命令下可以通过 <code>kill -3</code> 发送进程退出信号也能拿到 dump 文件。</p>
+<h4 id="jmap-生成堆转储快照"><a href="#jmap-生成堆转储快照" class="headerlink" title="jmap:生成堆转储快照"></a><strong>jmap:生成堆转储快照</strong></h4><p>**<code>-heap</code>**：显示 Java 堆的详细信息，包括使用的垃圾回收算法、堆的配置信息以及堆的内存使用情况。这包括年轻代、老年代以及永久代（如果使用）的内存使用情况。</p>
+<p><strong><code>-dump:[live,]format=b,file=&lt;filename&gt;</code><strong>：用于生成堆转储快照。 如果不使用 <code>jmap</code> 命令，要想获取 Java 堆转储，可以使用 <code>“-XX:+HeapDumpOnOutOfMemoryError”</code> 参数</strong>，可以让虚拟机在 OOM 异常出现之后自动生成 dump 文件</strong>，Linux 命令下可以通过 <code>kill -3</code> 发送进程退出信号也能拿到 dump 文件。</p>
 <p><code>jmap</code> 的作用并不仅仅是为了获取 dump 文件，它还可以查询 finalizer 执行队列、Java 堆和永久代的详细信息，如空间使用率、当前使用的是哪种收集器等。和<code>jinfo</code>一样，<code>jmap</code>有不少功能在 Windows 平台下也是受限制的。</p>
 <p>示例：<strong>将指定应用程序的堆快照输出到桌面</strong>。后面，可以通过 jhat、Visual VM 等工具分析该堆文件。</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">C:\Users\SnailClimb&gt;jmap <span class="hljs-literal">-dump</span>:format=b,file=C:\Users\SnailClimb\Desktop\heap.hprof <span class="hljs-number">17340</span><br>Dumping heap to C:\Users\SnailClimb\Desktop\heap.hprof ...<br>Heap dump file created<br></code></pre></td></tr></table></figure>
@@ -488,7 +492,7 @@
 
 
 
-<h4 id="Visual-VM-多合一故障处理工具"><a href="#Visual-VM-多合一故障处理工具" class="headerlink" title="Visual VM:多合一故障处理工具"></a><strong>Visual VM:多合一故障处理工具</strong></h4><p>VisualVM 提供在 Java 虚拟机 (Java Virtual Machine, JVM) 上运行的 Java 应用程序的详细信息。在 VisualVM 的图形用户界面中，您可以方便、快捷地查看多个 Java 应用程序的相关信息。Visual VM 官网：<a target="_blank" rel="noopener" href="https://visualvm.github.io/">https://visualvm.github.io/open in new window</a> 。Visual VM 中文文档:<a target="_blank" rel="noopener" href="https://visualvm.github.io/documentation.html">https://visualvm.github.io/documentation.htmlopen in new window</a>。</p>
+<h4 id="Visual-VM-多合一故障处理工具"><a href="#Visual-VM-多合一故障处理工具" class="headerlink" title="Visual VM:多合一故障处理工具"></a><strong>Visual VM:多合一故障处理工具</strong></h4><p>VisualVM 提供在 Java 虚拟机 (Java Virtual Machine, JVM) 上运行的 Java 应用程序的详细信息。在 VisualVM 的图形用户界面中，您可以方便、快捷地查看多个 Java 应用程序的相关信息。Visual VM 官网：[<a target="_blank" rel="noopener" href="https://visualvm.github.io/">https://visualvm.github.io/</a> 。Visual VM 中文文档:[<a target="_blank" rel="noopener" href="https://visualvm.github.io/documentation.html%E3%80%82">https://visualvm.github.io/documentation.html。</a></p>
 <p>下面这段话摘自《深入理解 Java 虚拟机》。</p>
 <blockquote>
 <p>VisualVM（All-in-One Java Troubleshooting Tool）是到目前为止随 JDK 发布的功能最强大的运行监视和故障处理程序，官方在 VisualVM 的软件说明中写上了“All-in-One”的描述字样，预示着他除了运行监视、故障处理外，还提供了很多其他方面的功能，如性能分析（Profiling）。VisualVM 的性能分析功能甚至比起 JProfiler、YourKit 等专业且收费的 Profiling 工具都不会逊色多少，而且 VisualVM 还有一个很大的优点：不需要被监视的程序基于特殊 Agent 运行，因此他对应用程序的实际性能的影响很小，使得他可以直接应用在生产环境中。这个优点是 JProfiler、YourKit 等工具无法与之媲美的。</p>
@@ -504,7 +508,7 @@
 </ul>
 <p>这里就不具体介绍 VisualVM 的使用，如果想了解的话可以看:</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://visualvm.github.io/documentation.html">https://visualvm.github.io/documentation.htmlopen in new window</a></li>
+<li><a target="_blank" rel="noopener" href="https://visualvm.github.io/documentation.html">https://visualvm.github.io/documentation.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/java/j-lo-visualvm/index.html">https://www.ibm.com/developerworks/cn/java/j-lo-visualvm/index.html</a></li>
 </ul>
 <h3 id="如何排查线程死锁？"><a href="#如何排查线程死锁？" class="headerlink" title="如何排查线程死锁？"></a><strong>如何排查线程死锁？</strong></h3><p>首先使用jps查找程序的线程</p>
@@ -514,14 +518,73 @@
 
 
 
-<h3 id="解决线上CPU飙高"><a href="#解决线上CPU飙高" class="headerlink" title="解决线上CPU飙高"></a><strong>解决线上CPU飙高</strong></h3><p>通过top命令找到CPU占用最厉害的CPU</p>
+<h3 id="解决线上CPU飙高？"><a href="#解决线上CPU飙高？" class="headerlink" title="解决线上CPU飙高？"></a><strong>解决线上CPU飙高？</strong></h3><p>1、通过top命令找到CPU占用最厉害的进程id（PID）</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418180232127.png" srcset="/img/loading.gif" lazyload alt="image-20240418180232127" style="zoom:50%;" />
 
-<p>转换16进制线程pid：printf ‘0x%x\n’ 进程ID</p>
-<p>jstack 进程ID ｜grep 16进制线程pid -A20</p>
+<p>2、执行top -H -p 进程号命令：查看java进程下的所有线程占CPU的情况</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240922163401059.png" srcset="/img/loading.gif" lazyload alt="image-20240922163401059" style="zoom:50%;" />
+
+<p>3、转换16进制线程pid：printf ‘0x%x\n’ 线程ID</p>
+<p>4、jstack 进程ID ｜grep 16进制线ID -A 20</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418180559019.png" srcset="/img/loading.gif" lazyload alt="image-20240418180559019" style="zoom:50%;" />
 
 <p>然后就可以找到哪句代码导致CPU飙高</p>
+<p>5、jstat -gcutil 进程号 统计间隔毫秒 统计次数（缺省代表一致统计），查看某进程GC持续变化情况，如果发现返回中FullGC很大且一直增大，也可以使用jmap -heap 进程ID查看一下进程的堆内从是不是要溢出了，特别是老年代内从使用情况一般是达到阈值(具体看垃圾回收器和启动时配置的阈值)就会进程Full GC。</p>
+<p>6、执行“jmap -dump:format&#x3D;b,file&#x3D;filename 进程ID”，导出某进程下内存heap输出到文件中。</p>
+<h3 id="如何监控堆OOM？"><a href="#如何监控堆OOM？" class="headerlink" title="如何监控堆OOM？"></a><strong>如何监控堆OOM？</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418010012529.png" srcset="/img/loading.gif" lazyload alt="image-20240418010012529" style="zoom: 33%;" />
+
+<p><strong>系统已经OOM挂了</strong></p>
+<p>提前设置参数</p>
+<p>-XX:+HeapDumpOnOutOfMemoryError </p>
+<p>-XX:HeapDumpPath&#x3D; dump文件路径</p>
+<p>然后导出dump文件，通过可视化工具分析</p>
+<p><strong>系统在运行中但还未OOM</strong></p>
+<p>导出dump文件：jmap -dump: format&#x3D;b,file&#x3D;dump文件路径 线程id</p>
+<p>dump文件是当前系统中堆的快照，然后结合JVisual VM进行调试</p>
+<p>但是也不是一上来就导出jump文件，<strong>比如系统频繁的进行Full GC或者CPU Load飙高的警告</strong>才进行操作</p>
+<p>虽然导出文件会进行GC的STW，但是可以快速的定位OOM，也是值得的，可以提前避免系统挂掉</p>
+<h3 id="造成OOM的原因"><a href="#造成OOM的原因" class="headerlink" title="造成OOM的原因"></a><strong>造成OOM的原因</strong></h3><p><strong>一次性申请的资源太多</strong></p>
+<p>应用一次性申请的对象太多了，有可能把数据库所有的数据都查询过来，然后把数据都放到List中，就有可能造成OOM</p>
+<p>解决方法：限制申请数据的数量，比如做一个分页</p>
+<p><strong>不合理的递归调用</strong> </p>
+<p>如果程序中存在不合理的递归调用，递归层次过深，可能会消耗大量的栈空间，最终导致栈溢（StackOverflowError），间接引发 OOM</p>
+<p><strong>内存资源耗尽未释放（内存泄漏）</strong> </p>
+<p>内存泄漏是指程序在运行过程中无法释放不再使用的对象占用的内存空间，导致内存不断累积，最终耗尽了可用内存而引发 OOM。常见的内存泄漏情况包括未关闭资源（如文件流、数据库连接）、静态集合未清理导致的长生命周期对象等。</p>
+<p>解决方法：引入池化的思想，最多只能申请10个线程&#x2F;10个连接等，用完的资源要马上释放</p>
+<p><strong>本身分配的资源空间不够</strong></p>
+<p>堆空间不足可能是由于程序需要的内存超过了 JVM 分配的最大堆空间限制，也可能是堆内存碎片化导致无法为大对象分配连续的内存空间。</p>
+<p>解决方法：jmap -heap 查看堆信息，调整堆内存大小</p>
+<h3 id="JVM内存泄漏的原因"><a href="#JVM内存泄漏的原因" class="headerlink" title="JVM内存泄漏的原因"></a><strong>JVM内存泄漏的原因</strong></h3><p><strong>对象引用未及时释放</strong></p>
+<p>如果某个对象持有了对其他对象的引用，并且这个引用没有被及时释放，就会导致对象无法被垃圾回收器回收。</p>
+<ul>
+<li>静态集合类（如 HashMap、ArrayList）中的对象引用未被及时清除，可能会导致内存泄漏，静态类或变量需要手动进行回收</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.List;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MemoryLeakExample</span> &#123;<br>    <span class="hljs-comment">// 静态集合，持有对象的引用</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> List&lt;Object&gt; objectList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addObject</span><span class="hljs-params">(Object obj)</span> &#123;<br>        objectList.add(obj); <span class="hljs-comment">// 将对象添加到静态集合中</span><br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">MemoryLeakExample</span> <span class="hljs-variable">example</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MemoryLeakExample</span>();<br><br>        <span class="hljs-comment">// 模拟添加大量对象</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">100000</span>; i++) &#123;<br>            example.addObject(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Object</span>());<br>        &#125;<br><br>        System.out.println(<span class="hljs-string">&quot;Added 100000 objects to the static list.&quot;</span>);<br>        <br>        <span class="hljs-comment">// 这里没有清理静态集合，导致内存泄漏</span><br>        <span class="hljs-comment">// 让程序保持运行，观察内存占用情况</span><br>        <span class="hljs-keyword">try</span> &#123;<br>            Thread.sleep(<span class="hljs-number">60000</span>); <span class="hljs-comment">// 休眠60秒</span><br>        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>由于<code>objectList</code>是静态的，它的生命周期与类的生命周期相同，直到程序结束。即使在添加对象后，我们不再需要这些对象，它们仍然被<code>objectList</code>引用，导致它们无法被垃圾回收器回收。</p>
+<p>为了避免这种内存泄漏，可以在不再需要对象时及时清理集合，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">clearObjects</span><span class="hljs-params">()</span> &#123;<br>    objectList.clear(); <span class="hljs-comment">// 清空静态集合</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>单例模式：和上面的例子原理类似，单例对象在初始化后会以静态变量的方式在了JVM 的整个生命周期中存在<br><strong>如果单例对象持有外部的引用，那么这个外部对象将不能被 GC 回收，导致内存泄漏。</strong></li>
+</ul>
+<p><strong>数据连接、I&#x2F;O、Socket等连接</strong></p>
+<p>创建的连接不再使用时，<strong>需要调用 close 方法关闭连接</strong>，只有连接被关闭后，GC 才会回收对应的对象(Connection，Statement，ResultSet，Session)。忘记关闭这些资源会导致持续占有内存，无法被GC 回收。</p>
+<p><strong>变量的作用域不合理</strong></p>
+<p>变量的定义作用域大于其使用范围，很可能存在内存泄漏；或不再使用对象没有及时将对象设置为nul，很可能导致内存泄漏的发生。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240415153015782.png" srcset="/img/loading.gif" lazyload alt="image-20240415153015782" style="zoom: 67%;" />
+
+
+
+<p><strong>hash值发生变化</strong></p>
+<p>对象Hash值改变使用HashMap、HashSet等容器中时候于对象修改之后的hash值和存储进容器时的hash值不同，因为我们重写了hashCode方法，所以修改之后无法使用remove清除原来对象 (这造成内存泄漏也是为什么String类型被设置成了不可变类型）。</p>
+<p><strong>如何解决：</strong></p>
+<p>保证作为HashMap 的Key 的对象是不可变的。也就是使用只读多对象来当作Key</p>
+<p>重写hashCode时，保证hashCode 的生成只和某些不可变的成员相关，如Person对象，hashcode只和name相关，改变age并不会改变hashCode。</p>
+<p><strong>ThreadLocal使用不当</strong></p>
+<p>ThreadLocal的弱引用导致内存泄漏也是个老生常谈的话题了，使用完ThreadLocal一定要记得使用remove方法来进行清除。</p>
 
                 
               </div>

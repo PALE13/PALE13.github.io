@@ -24,8 +24,10 @@
 <meta property="og:description" content="场景设计如何设计一个点赞系统？系统架构设计从架构方面需要考虑:服务拆分、异步、缓存。 1)分布式架构大流量场景下，可以将点赞功能独立成一个服务，解耦业务逻辑，便于扩展和维护。例如点赞服务压力倍增的时候，可以仅扩容点赞服务即可。 2)异步处理只要涉及到大流量，且实时性并没有那么强烈的场景，就需要考虑异步。可以使用消息队列(如 Kafka、RocketMO)来异步处理点赞请求，减少直接写数据库的压力。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240910134940922.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021212232125.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021213731453.png">
 <meta property="article:published_time" content="2024-07-07T09:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-10T06:19:45.237Z">
+<meta property="article:modified_time" content="2024-10-22T01:30:32.329Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="系统设计">
 <meta name="twitter:card" content="summary_large_image">
@@ -251,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          1.9k 字
         
       </span>
     
@@ -262,7 +264,7 @@
         
         
         
-          9 分钟
+          16 分钟
         
       </span>
     
@@ -316,7 +318,7 @@
 <p><strong>3)异步批量处理</strong><br>对于点赞数的写入，我们可以将一定时间窗口内的点赞请求批量更新到数据库，减少数据库的写操作。<br>如果用了缓存，那么可以使用<strong>定时任务定期将 Redis 中的数据同步到数据库，确保数据一致性</strong>。</p>
 <h4 id="容灾备份"><a href="#容灾备份" class="headerlink" title="容灾备份"></a><strong>容灾备份</strong></h4><p><strong>1)数据备份</strong><br>定期备份：对数据库进行定期备份，使用增量备份和全量备份相结合的策略异地备份：有条件的公司(几乎很少)会进行异地备份，防止极端情况发生。</p>
 <p><strong>2)高可用架构</strong><br>数据库主从复制:使用 MySQL 主从复制或 Redis 主从复制，实现数据的高可用性。</p>
-<p><strong>3)容灾演练</strong><br>定期进行容灾演练，确保在发生故障时系统能够快速恢复。有些公司还有混沌工程。<br>混沌工程是一种故意向系统注入故障以测试其恢复能力的做法。其目的是找出潜在的故障点，并在它们造成实际中断或其他破坏之前加以纠正</p>
+<p><strong>3)容灾演练</strong><br>定期进行容灾演练，确保在发生故障时系统能够快速恢复。有些公司还有混沌工程。<strong>混沌工程</strong>是一种故意向系统注入故障以测试其恢复能力的做法。其目的是找出潜在的故障点，并在它们造成实际中断或其他破坏之前加以纠正</p>
 <h3 id="如何设计一个秒杀系统？"><a href="#如何设计一个秒杀系统？" class="headerlink" title="如何设计一个秒杀系统？"></a><strong>如何设计一个秒杀系统？</strong></h3><p><strong>首先是前端:</strong></p>
 <ul>
 <li>利用 CDN 缓存静态资源(秒杀页面的 HTML、CSS、JS 等)，减轻服务器的压力.</li>
@@ -335,6 +337,27 @@
 <li>业务手段降低并发量，例如通过预约、预售。</li>
 <li>兜底方案，如果服务压力过大或者代码有漏洞，那么关闭秒杀直接返回秒杀结束，降低服务压力及时止损</li>
 </ul>
+<h4 id="瞬时流量承接"><a href="#瞬时流量承接" class="headerlink" title="瞬时流量承接"></a><strong>瞬时流量承接</strong></h4><p><strong>CDN</strong></p>
+<p>一般情况下，秒杀的流量特性就是持续性短和大。</p>
+<p>流量集中在活动即将开始的时候，会有很多用户开始持续性地刷新页面。前端资源的访问也需要损耗大量的资源因此需要利用 CDN 缓存秒杀页面的一些静态资源，将这部分压力给到CDN 厂商。并且静态资源放在 CDN 厂商那之后，地理位置也距离用户更近，用户访问也就更快，体验上也更好。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021212232125.png" srcset="/img/loading.gif" lazyload alt="image-20241021212232125" style="zoom: 50%;" />
+
+<p>秒杀页面可手动推给 CDN 预热。秒杀流量还有个特点，就是大部分请求实际都是无效的，因为秒杀的商品库存往往都是个位数，而抢购的用户是其成千上万倍。</p>
+<p><strong>服务限流</strong></p>
+<p>假设有 100 万的请求来抢购一台 iPhone，那么需要放这 100 万请求直接打到后端服务吗?显然不需要。针对这个情况，我们就需要层层过滤请求。</p>
+<p>例如前面提到的客户端限流，即在前端随机限流，降低请求量。说的更直白一些即部分用户点击抢购按钮，但是请求都发不到后端，直接前端代码返回秒杀结束。(如果预测量是在太大，可以这样操作，毕竟也是随机的)</p>
+<p>如果前端请求发出来了，那么可以利用 nginx 统一接入，针对更大的流量可以在 nginx 前面再加 Ivs。</p>
+<p>Ivs 四层转发请求打到多台 nginx 上， nginx 再负载均衡到多台后端服务，且 nginx 有限流功能，例如 ip 限流，还可以配置黑名单等等，其实已经可以拦截大量请求流量。</p>
+<h4 id="库存扣减"><a href="#库存扣减" class="headerlink" title="库存扣减"></a><strong>库存扣减</strong></h4><p><strong>缓存</strong></p>
+<p>利用缓存来承接热点数据是很多人都熟知的方案，例如使用 Redis。</p>
+<p>可以将库存提前同步到 Redis 中，然后利用 redis +lua 脚本控制库存的扣减。</p>
+<p>lua 脚本的内容实际上很简单，我用文字来描述一下:<br>1.根据商品 key 获取库存<br>2.如果有则库存-1，返回新库存<br>3.如果没库存，则返回没库存</p>
+<p>redis + lua 可以保证操作的原子性，且性能足够优秀，因此是一个非常高效的库存扣减方案。然后 redis 扣减完毕之后，可以发送一个异步消息(消息队列削峰填谷)，后端服务异步消费把数据库中的库存给扣了，实现最终一致性。</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021213731453.png" srcset="/img/loading.gif" lazyload alt="image-20241021213731453" style="zoom: 67%;" />
+
+<p>看到这肯定有同学会问：redis 操作成功后，mq发送失败怎么办?</p>
+<p>因此，我们还需要一个准实时对账机制，lua 脚本内不仅要扣减库存，还需要利用 zset 增加流水，score 设置为时间。定时拉取一段时间流水记录比对数据库的库存是否一致，如果不一致则补偿。</p>
+<p>至于本地缓存，理论上性能更高，但是方案设计上会更复杂，因为库存被分配到多个应用中。需要在秒杀预热的时候，给后端服务预分配好库存，然后应用各自承接库存扣减，也需要做好对账，防止意外的发生。</p>
 
                 
               </div>
@@ -425,9 +448,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/21/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Elasticsearch/" title="Elasticsearch">
+                      <a href="/2024/07/28/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" title="分布式任务调度">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Elasticsearch</span>
+                        <span class="hidden-mobile">分布式任务调度</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     

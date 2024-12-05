@@ -255,6 +255,74 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/03/08/Redis/Redis%E7%BC%93%E5%AD%98%E8%AE%BE%E8%AE%A1/" target="_self">
+          Redis缓存设计
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/03/08/Redis/Redis%E7%BC%93%E5%AD%98%E8%AE%BE%E8%AE%A1/" target="_self">
+        <div>
+          缓存雪崩、缓存击穿、缓存穿透缓存雪崩通常我们为了保证缓存中的数据与数据库中的数据一致性，会给 Redis 里的数据设置过期时间，当缓存数据过期后，用户访问的数据如果不在缓存里，业务系统需要重新生成缓存，因此就会访问数据库，并将数据更新到 Redis 里，这样后续请求都可以直接命中缓存。   情况一：大量缓存数据在同一时间集中过期（失效）时 情况二：缓存服务器突然挂掉了或宕机了 如果此时有大量的用户
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-03-08 21:46" pubdate>
+              2024-03-08
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/Redis/" class="category-chain-item">Redis</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Redis/">#Redis</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/03/08/Redis/Redis%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/" target="_self">
           Redis基本概念
         </a>
@@ -331,7 +399,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/02/28/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E8%AE%A4%E8%AF%81%E9%89%B4%E6%9D%83/" target="_self">
         <div>
-          认证鉴权认证 (Authentication) 和授权 (Authorization)的区别是什么？这是一个绝大多数人都会混淆的问题。首先先从读音上来认识这两个名词，很多人都会把它俩的读音搞混，所以我建议你先先去查一查这两个单词到底该怎么读，他们的具体含义是什么。 说简单点就是：  认证 (Authentication)： 你是谁。  授权 (Authorization)： 你有权限干什么。  A
+          认证鉴权认证 (Authentication) 和授权 (Authorization)的区别是什么？这是一个绝大多数人都会混淆的问题。首先先从读音上来认识这两个名词，很多人都会把它俩的读音搞混，所以我建议你先先去查一查这两个单词到底该怎么读，他们的具体含义是什么。 说简单点就是：  认证 (Authentication)： 你是谁。 授权 (Authorization)： 你有权限干什么。  Au
         </div>
       </a>
 
@@ -393,67 +461,6 @@
       <a class="index-excerpt index-excerpt__noimg" href="/2024/02/25/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/JWT/" target="_self">
         <div>
           什么是 JWT?JWT （JSON Web Token） 是目前最流行的跨域认证解决方案，是一种基于 Token 的认证授权机制。 从 JWT 的全称可以看出，JWT 本身也是 Token，一种规范化之后的 JSON 结构的 Token。 JWT 自身包含了身份验证所需要的所有信息，因此，我们的服务器不需要存储 Session 信息。这显然增加了系统的可用性和伸缩性，大大减轻了服务端的压力。 可以
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-02-25 18:46" pubdate>
-              2024-02-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="category-chain-item">系统设计</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">#系统设计</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/02/25/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%AF%86%E7%A0%81%E5%AD%A6/" target="_self">
-          密码学相关
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/02/25/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%AF%86%E7%A0%81%E5%AD%A6/" target="_self">
-        <div>
-          
         </div>
       </a>
 

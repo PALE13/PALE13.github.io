@@ -19,7 +19,7 @@
     <meta name="description" content="MySQL日志undo log我们在执行执行一条“增删改”语句的时候，虽然没有输入 begin 开启事务和 commit 提交事务，但是 MySQL 会隐式开启事务来执行“增删改”语句的，执行完就自动提交事务的，这样就保证了执行完“增删改”语句后，我们可以及时在数据库表看到“增删改”的结果了。 执行一条语句是否自动提交事务，是由 autocommit 参数决定的，默认是开启。所以，执行一条 upd">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL日志">
-<meta property="og:url" content="http://example.com/2024/03/13/MySQL/MySQL%E6%97%A5%E5%BF%97/index.html">
+<meta property="og:url" content="http://example.com/2024/03/13/MySQL/MySQL%E6%8C%81%E4%B9%85%E5%8C%96/index.html">
 <meta property="og:site_name" content="PALE13">
 <meta property="og:description" content="MySQL日志undo log我们在执行执行一条“增删改”语句的时候，虽然没有输入 begin 开启事务和 commit 提交事务，但是 MySQL 会隐式开启事务来执行“增删改”语句的，执行完就自动提交事务的，这样就保证了执行完“增删改”语句后，我们可以及时在数据库表看到“增删改”的结果了。 执行一条语句是否自动提交事务，是由 autocommit 参数决定的，默认是开启。所以，执行一条 upd">
 <meta property="og:locale" content="zh_CN">
@@ -38,7 +38,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240402184225213.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240402184358980.png">
 <meta property="article:published_time" content="2024-03-13T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-11T07:45:46.048Z">
+<meta property="article:modified_time" content="2024-11-07T11:14:09.452Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -264,7 +264,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.7k 字
+          10k 字
         
       </span>
     
@@ -275,7 +275,7 @@
         
         
         
-          81 分钟
+          84 分钟
         
       </span>
     
@@ -321,7 +321,7 @@
 <p>执行一条语句是否自动提交事务，是由 <code>autocommit</code> 参数决定的，默认是开启。所以，执行一条 update 语句也是会使用事务的。</p>
 <p>那么，考虑一个问题。一个事务在执行过程中，在还没有提交事务之前，如果 MySQL 发生了崩溃，要怎么回滚到事务之前的数据呢？</p>
 <p>如果我们每次在事务执行过程中，都记录下回滚时需要的信息到一个日志里，那么在事务执行中途发生了 MySQL 崩溃后，就不用担心无法回滚到事务之前的数据，我们可以通过这个日志回滚到事务之前的数据。</p>
-<p>实现这一机制就是 <strong>undo log（回滚日志），它保证了事务的 <a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/transaction/mvcc.html#%E4%BA%8B%E5%8A%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E7%89%B9%E6%80%A7">ACID 特性 (opens new window)</a>中的原子性（Atomicity）</strong></p>
+<p>实现这一机制就是 <strong>undo log（回滚日志），它保证了事务的 <a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/transaction/mvcc.html#%E4%BA%8B%E5%8A%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E7%89%B9%E6%80%A7">ACID 特性</a>中的原子性（Atomicity）</strong></p>
 <h4 id="undo-log的两个作用"><a href="#undo-log的两个作用" class="headerlink" title="undo log的两个作用"></a><strong>undo log的两个作用</strong></h4><p><strong>实现回滚</strong></p>
 <p>undo log 是一种用于撤销回退的日志。在事务没提交之前，MySQL 会先记录更新前的数据到 undo log 日志文件里面，当事务回滚时，可以利用 undo log 来进行回滚。如下图：</p>
 <p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/how_update/%E5%9B%9E%E6%BB%9A%E4%BA%8B%E5%8A%A1.png?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0" srcset="/img/loading.gif" lazyload alt="回滚事务"></p>
@@ -348,11 +348,11 @@
 <li>「读提交」隔离级别是在每个 select 都会生成一个新的 Read View，也意味着，事务期间的多次读取同一条数据，前后两次读的数据可能会出现不一致，因为可能这期间另外一个事务修改了该记录，并提交了事务。</li>
 <li>「可重复读」隔离级别是启动事务时生成一个 Read View，然后整个事务期间都在用这个 Read View，这样就保证了在事务期间读到的数据都是事务启动前的记录。</li>
 </ul>
-<p>这两个隔离级别实现是通过「事务的 Read View 里的字段」和「记录中的两个隐藏列（trx_id 和 roll_pointer）」的比对，如果不满足可见行，就会顺着 undo log 版本链里找到满足其可见性的记录，从而控制并发事务访问同一个记录时的行为，这就叫 MVCC（多版本并发控制）。具体的实现可以看我这篇文章：<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/transaction/mvcc.html#%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B">事务隔离级别是怎么实现的？(opens new window)</a></p>
+<p>这两个隔离级别实现是通过「事务的 Read View 里的字段」和「记录中的两个隐藏列（trx_id 和 roll_pointer）」的比对，如果不满足可见行，就会顺着 undo log 版本链里找到满足其可见性的记录，从而控制并发事务访问同一个记录时的行为，这就叫 MVCC（多版本并发控制）。具体的实现可以看我这篇文章：<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/transaction/mvcc.html#%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E6%9C%89%E5%93%AA%E4%BA%9B">事务隔离级别是怎么实现的？</a></p>
 <p>因此，undo log 两大作用：</p>
 <ul>
 <li><strong>实现事务回滚，保障事务的原子性</strong>。事务处理过程中，如果出现了错误或者用户执 行了 ROLLBACK 语句，MySQL 可以利用 undo log 中的历史数据将数据恢复到事务开始之前的状态。</li>
-<li><strong>实现 MVCC（多版本并发控制）关键因素之一</strong>。MVCC 是通过 ReadView + undo log 实现的。undo log 为每条记录保存多份历史数据，MySQL 在执行快照读（普通 select 语句）的时候，会根据事务的 Read View 里的信息，顺着 undo log 的版本链找到满足其可见性的记录。</li>
+<li><strong>实现 MVCC（多版本并发控制）关键因素之一</strong>。MVCC 是通过 ReadView + undo log 实现的。undo log 为每条记录保存多份历史数据，MySQL 在执行快照读（普通 select 语句）的时候，会根据事务的 Read View 里的信息，<strong>顺着 undo log 的版本链找到满足其可见性的记录。</strong></li>
 </ul>
 <p><strong>undo log 是如何刷盘（持久化到磁盘）的？</strong></p>
 <p>undo log 和数据页的刷盘策略是一样的，都需要通过 redo log 保证持久化。</p>
@@ -469,15 +469,15 @@
 <p>而 InnoDB 是另一个公司以插件形式引入 MySQL 的，既然只依靠 binlog 是没有 crash-safe 能力的，所以 InnoDB 使用 redo log 来实现 crash-safe 能力</p>
 <h4 id="redo-log-和-binlog-有什么区别？"><a href="#redo-log-和-binlog-有什么区别？" class="headerlink" title="redo log 和 binlog 有什么区别？"></a><strong>redo log 和 binlog 有什么区别？</strong></h4><p><em>1、适用对象不同：</em></p>
 <ul>
-<li><strong>binlog 是 MySQL 的 Server 层实现的日志，所有存储引擎都可以使用；</strong></li>
+<li>binlog 是 MySQL 的 Server 层实现的日志，所有存储引擎都可以使用；</li>
 <li>redo log 是 Innodb 存储引擎实现的日志；</li>
 </ul>
 <p>2、文件格式不同：</p>
 <ul>
 <li>binlog 有 3 种格式类型，分别是 STATEMENT（默认格式）、ROW、 MIXED，区别如下：<ul>
-<li>STATEMENT：每一条修改数据的 SQL 都会被记录到 binlog 中（相当于<strong>记录了逻辑操作</strong>，所以针对这种格式， binlog 可以称为逻辑日志），主从复制中 slave 端再根据 SQL 语句重现。但 STATEMENT 有动态函数的问题，比如你用了 uuid 或者 now 这些函数，你在主库上执行的结果并不是你在从库执行的结果，这种随时在变的函数会导致复制的数据不一致；</li>
-<li>ROW：记录行数据最终被修改成什么样了（这种格式的日志，就不能称为逻辑日志了），不会出现 STATEMENT 下动态函数的问题。但 ROW 的缺点是每行数据的变化结果都会被记录，比如执行批量 update 语句，更新多少行数据就会产生多少条记录，使 binlog 文件过大，而在 STATEMENT 格式下只会记录一个 update 语句而已；</li>
-<li>MIXED：包含了 STATEMENT 和 ROW 模式，它会根据不同的情况自动使用 ROW 模式和 STATEMENT 模式；</li>
+<li><strong>STATEMENT：</strong>每一条修改数据的 SQL 都会被记录到 binlog 中（相当于<strong>记录了逻辑操作</strong>，所以针对这种格式， binlog 可以称为逻辑日志），主从复制中 slave 端再根据 SQL 语句重现。但 STATEMENT 有动态函数的问题，比如你用了 uuid 或者 now 这些函数，你在主库上执行的结果并不是你在从库执行的结果，这种随时在变的函数会导致复制的数据不一致；</li>
+<li><strong>ROW：</strong>记录行数据最终被修改成什么样了（这种格式的日志，就不能称为逻辑日志了），不会出现 STATEMENT 下动态函数的问题。但 ROW 的缺点是每行数据的变化结果都会被记录，比如执行批量 update 语句，更新多少行数据就会产生多少条记录，使 binlog 文件过大，而在 STATEMENT 格式下只会记录一个 update 语句而已；</li>
+<li><strong>MIXED：</strong>包含了 STATEMENT 和 ROW 模式，它会根据不同的情况自动使用 ROW 模式和 STATEMENT 模式；</li>
 </ul>
 </li>
 <li>redo log 是物理日志，记录的是在某个数据页做了什么修改，比如对 XXX 表空间中的 YYY 数据页 ZZZ 偏移量的地方做了AAA 更新；</li>
@@ -506,11 +506,11 @@
 <li><strong>同步 Binlog</strong>：把 binlog 复制到所有从库上，每个从库把 binlog 写到暂存日志中。</li>
 <li><strong>回放 Binlog</strong>：回放 binlog，并更新存储引擎中的数据。</li>
 </ul>
-<p>具体详细过程如下：</p>
+<p><strong>具体详细过程如下：</strong></p>
 <ul>
-<li>MySQL 主库在收到客户端提交事务的请求之后，会先写入 binlog，再提交事务，更新存储引擎中的数据，事务提交完成后，返回给客户端“操作成功”的响应。</li>
-<li>从库会创建一个专门的 I&#x2F;O 线程，连接主库的 log dump 线程，来接收主库的 binlog 日志，再把 binlog 信息<strong>写入 relay log 的中继日志</strong>里，再返回给主库“复制成功”的响应。</li>
-<li>从库会创建一个用于<strong>回放 binlog 的线程</strong>，去读 relay log 中继日志，然后<strong>回放 binlog 把数据更新到存储引擎中</strong>，最终实现主从的数据一致性。</li>
+<li>MySQL 主库在收到客户端提交事务的请求之后，会先写入 binlog，再提交事务，更新存储引擎中的数据，事务提交完成后，返回给客户端“操作成功”的响应</li>
+<li>从库会创建一个专门的 I&#x2F;O 线程，连接主库的 log dump 线程，来接收主库的 binlog 日志，再把 binlog 信息<strong>写入 relay log 的中继日志</strong>里，再返回给主库“复制成功”的响应</li>
+<li>从库会创建一个用于<strong>回放 binlog 的线程</strong>，去读 relay log 中继日志，然后<strong>回放 binlog 把数据更新到存储引擎中</strong>，最终实现主从的数据一致性</li>
 </ul>
 <p>在完成主从复制之后，你就可以在写数据时只写主库，在读数据时只读从库，这样即使写请求会锁表或者锁记录，也不会影响读请求的执行。</p>
 <img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/mysql/how_update/%E4%B8%BB%E4%BB%8E%E6%9E%B6%E6%9E%84.drawio.png?image_process=watermark,text_5YWs5LyX5Y-377ya5bCP5p6XY29kaW5n,type_ZnpsdHpoaw,x_10,y_10,g_se,size_20,color_0000CD,t_70,fill_0" srcset="/img/loading.gif" lazyload alt="MySQL 主从架构" style="zoom: 67%;" />
@@ -546,6 +546,12 @@
 <p>在MySQL中系统默认的设置是 sync_binlog &#x3D; 0，也就是不做任何强制性的磁盘刷新指令，这时候的性能是最好的，但是风险也是最大的。因为一旦主机发生异常重启，还没持久化到磁盘的数据就会丢失。</p>
 <p>而当 sync_binlog 设置为 1 的时候，是最安全但是性能损耗最大的设置。因为当设置为 1 的时候，即使主机发生异常重启，最多丢失一个事务的 binlog，而已经持久化到磁盘的数据就不会有影响，不过就是对写入性能影响太大。</p>
 <p>如果能容少量事务的 binlog 日志丢失的风险，为了提高写入的性能，一般会 sync_binlog 设置为 100~1000 中的某个数值。</p>
+<h4 id="主从同步延迟怎么解决？"><a href="#主从同步延迟怎么解决？" class="headerlink" title="主从同步延迟怎么解决？"></a><strong>主从同步延迟怎么解决？</strong></h4><p>主从服务器之间的网络带宽不足或网络延迟，会导致二进制日志的传输速度减慢，增加同步延迟。</p>
+<p><strong>如何解决：</strong></p>
+<p><strong>强制走主库：</strong>如果对数据一次性要求较高，那么在从库存在延迟的情况下，可以强制走主库查询数据</p>
+<p><strong>延迟查询：</strong>可以在从库上执行show slave status命获取seconds_.behind_master字段的证迟时间，然后通过sleep阳塞等待固定时间后再次查询</p>
+<p><strong>同步复制：</strong>在这种模式下，主库在事务提交后会等待数据更新已经复制到从库中，并且在从库执行成功后才能返回继续处理其他请求。这种方式提供了最佳的安全性，保证数据不会丢失，但会对性能有一定的影响</p>
+<p><strong>提升从服务器性能</strong>：升级从服务器的硬件配置，比如增加 CPU 核心数、内存容量以及提升磁盘 I&#x2F;O 性能。确保 MySQL 配置（如 <code>innodb_buffer_pool_size</code>、 <code>innodb_log_file_size</code> 等）适合从服务器的硬件资源。</p>
 <h3 id="一个update-语句的执行过程"><a href="#一个update-语句的执行过程" class="headerlink" title="一个update 语句的执行过程"></a><strong>一个update 语句的执行过程</strong></h3><p>三个日志讲完了，至此我们可以先小结下，update 语句的执行过程。</p>
 <p>当优化器分析出成本最小的执行计划后，执行器就按照执行计划开始进行更新操作。</p>
 <p>具体更新一条记录 <code>UPDATE t_user SET name = &#39;xiaolin&#39; WHERE id = 1;</code> 的流程如下:</p>
@@ -584,14 +590,12 @@
 <p>当客户端执行 commit 语句或者在自动提交的情况下，MySQL 内部开启一个 XA 事务，<strong>分两阶段来完成 XA 事务的提交</strong>，如下图：</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240402184225213.png" srcset="/img/loading.gif" lazyload alt="image-20240402184225213" style="zoom:50%;" />
 
-
-
 <p>从图中可看出，事务的提交过程有两个阶段，就是<strong>将 redo log 的写入拆成了两个步骤：prepare 和 commit，中间再穿插写入binlog</strong>，具体如下：</p>
 <ul>
-<li><strong>prepare 阶段</strong>：<strong>将 XID（内部 XA 事务的 ID） 写入到 redo log</strong>，同时将 redo log 对应的事务状态设置为 prepare，然后将 redo log <strong>持久化到磁盘</strong>（innodb_flush_log_at_trx_commit &#x3D; 1 的作用）；</li>
+<li><strong>prepare 阶段</strong>：<strong>将 XID（内部 XA 事务的 ID） 写入到 redo log</strong>，同时将 <strong>redo log 对应的事务状态设置为 prepare</strong>，然后将 redo log <strong>持久化到磁盘</strong>（innodb_flush_log_at_trx_commit &#x3D; 1 的作用）；</li>
 <li><strong>commit 阶段</strong>：<strong>把 XID 写入到 binlog</strong>，然后将 binlog <strong>持久化到磁盘</strong>（sync_binlog &#x3D; 1 的作用），接着调用引擎的提交事务接口，<strong>将 redo log 状态设置为 commit</strong>，此时该状态并不需要持久化到磁盘，只需要 write 到文件系统的 page cache 中就够了，因为只要 binlog 写磁盘成功，就算 redo log 的状态还是 prepare 也没有关系，一样会被认为事务已经执行成功；</li>
 </ul>
-<h4 id="异常重启会出现什么现象？"><a href="#异常重启会出现什么现象？" class="headerlink" title="异常重启会出现什么现象？"></a><strong>异常重启会出现什么现象？</strong></h4><p>我们来看看在两阶段提交的不同时刻，MySQL 异常重启会出现什么现象？下图中有时刻 A 和时刻 B 都有可能发生崩溃：</p>
+<h4 id="如果判断两份日志出现不一致状态？"><a href="#如果判断两份日志出现不一致状态？" class="headerlink" title="如果判断两份日志出现不一致状态？"></a><strong>如果判断两份日志出现不一致状态？</strong></h4><p>我们来看看在两阶段提交的不同时刻，MySQL 异常重启会出现什么现象？下图中有时刻 A 和时刻 B 都有可能发生崩溃：</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240402184358980.png" srcset="/img/loading.gif" lazyload alt="image-20240402184358980" style="zoom:50%;" />
 
 <p>不管是时刻 A（redo log 已经写入磁盘， binlog 还没写入磁盘），还是时刻 B （redo log 和 binlog 都已经写入磁盘，还没写入 commit 标识）崩溃，<strong>此时的 redo log 都处于 prepare 状态</strong>。</p>
@@ -601,12 +605,11 @@
 <li><strong>如果 binlog 中有当前内部 XA 事务的 XID，说明 redolog 和 binlog 都已经完成了刷盘，则提交事务</strong>。对应时刻 B 崩溃恢复的情况。</li>
 </ul>
 <p>可以看到，<strong>对于处于 prepare 阶段的 redo log，即可以提交事务，也可以回滚事务，这取决于是否能在 binlog 中查找到与 redo log 相同的 XID</strong>，如果有就提交事务，如果没有就回滚事务。这样就可以保证 redo log 和 binlog 这两份日志的一致性了。</p>
-<p>所以说，<strong>两阶段提交是以 binlog 写成功为事务提交成功的标识</strong>，因为 binlog 写成功了，就意味着能在 binlog 中查找到与 redo log 相同的 XID。</p>
+<p><strong>两阶段提交是以 binlog 写成功为事务提交成功的标识</strong>，因为 binlog 写成功了，就意味着能在 binlog 中查找到与 redo log 相同的 XID。</p>
 <p><strong>处于 prepare 阶段的 redo log 加上完整 binlog，重启就提交事务，MySQL 为什么要这么设计?</strong></p>
 <p>binlog 已经写入了，之后就会被从库（或者用这个 binlog 恢复出来的库）使用。</p>
 <p>所以，在主库上也要提交这个事务。采用这个策略，主库和备库的数据就保证了一致性。</p>
-<p><strong>事务没提交的时候，redo log 会被持久化到磁盘吗？</strong></p>
-<p>会的。事务执行中间过程的 redo log 也是直接写在 redo log buffer 中的，这些缓存在 redo log buffer 里的 redo log 也会被「后台线程」每隔一秒一起持久化到磁盘。</p>
+<h4 id="事务没提交的时候，redo-log-会被持久化到磁盘吗？"><a href="#事务没提交的时候，redo-log-会被持久化到磁盘吗？" class="headerlink" title="事务没提交的时候，redo log 会被持久化到磁盘吗？"></a><strong>事务没提交的时候，redo log 会被持久化到磁盘吗？</strong></h4><p>会的。事务执行中间过程的 redo log 也是直接写在 redo log buffer 中的，这些缓存在 redo log buffer 里的 redo log 也会被「后台线程」每隔一秒一起持久化到磁盘。</p>
 <p>也就是说，<strong>事务没提交的时候，redo log 也是可能被持久化到磁盘的</strong>。</p>
 <p>有的同学可能会问，如果 mysql 崩溃了，还没提交事务的 redo log 已经被持久化磁盘了，mysql 重启后，数据不就不一致了？</p>
 <p>放心，这种情况 mysql 重启会进行回滚操作，因为事务没提交的时候，binlog 是还没持久化到磁盘的。</p>
@@ -614,7 +617,7 @@
 <h4 id="两阶段提交有什么问题？"><a href="#两阶段提交有什么问题？" class="headerlink" title="两阶段提交有什么问题？"></a><strong>两阶段提交有什么问题？</strong></h4><p>两阶段提交虽然保证了两个日志文件的数据一致性，但是性能很差，主要有两个方面的影响：</p>
 <ul>
 <li><strong>磁盘 I&#x2F;O 次数高</strong>：对于“双1”配置，每个事务提交都会进行两次 fsync（刷盘），一次是 redo log 刷盘，另一次是 binlog 刷盘。</li>
-<li><strong>锁竞争激烈</strong>：两阶段提交虽然能够保证「单事务」两个日志的内容一致，但在「多事务」的情况下，却不能保证两者的提交顺序一致，因此，在两阶段提交的流程基础上，还需要加一个锁来保证提交的原子性，从而保证多事务的情况下，两个日志的提交顺序一致。</li>
+<li><strong>锁竞争激烈</strong>：两阶段提交虽然能够保证「单事务」两个日志的内容一致，但在「多事务」的情况下，却不能保证两者的提交顺序一致，因此，在两阶段提交的流程基础上，<strong>还需要加一个锁来保证提交的原子性</strong>，从而保证多事务的情况下，两个日志的提交顺序一致。</li>
 </ul>
 <p><strong>为什么两阶段提交的磁盘 I&#x2F;O 次数会很高？</strong></p>
 <p>binlog 和 redo log 在内存中都对应的缓存空间，binlog 会缓存在 binlog cache，redo log 会缓存在 redo log buffer，它们持久化到磁盘的时机分别由下面这两个参数控制。一般我们为了避免日志丢失的风险，会将这两个参数设置为 1：</p>
@@ -624,7 +627,7 @@
 </ul>
 <p>可以看到，如果 sync_binlog 和 当 innodb_flush_log_at_trx_commit 都设置为 1，那么在每个事务提交过程中， 都会<strong>至少调用 2 次刷盘操作</strong>，一次是 redo log 刷盘，一次是 binlog 落盘，所以这会成为性能瓶颈。</p>
 <p><strong>为什么锁竞争激烈？</strong></p>
-<p>在早期的 MySQL 版本中，通过使用 prepare_commit_mutex 锁来保证事务提交的顺序，在一个事务获取到锁时才能进入 prepare 阶段，一直到 commit 阶段结束才能释放锁，下个事务才可以继续进行 prepare 操作。</p>
+<p>在早期的 MySQL 版本中，<strong>通过使用 prepare_commit_mutex 锁来保证事务提交的顺序</strong>，在一个事务获取到锁时才能进入 prepare 阶段，一直到 commit 阶段结束才能释放锁，下个事务才可以继续进行 prepare 操作。</p>
 <p>通过加锁虽然完美地解决了顺序一致性的问题，但在并发量较大的时候，就会导致对锁的争用，性能不佳。</p>
 
                 
@@ -679,7 +682,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>MySQL日志</div>
-      <div>http://example.com/2024/03/13/MySQL/MySQL日志/</div>
+      <div>http://example.com/2024/03/13/MySQL/MySQL持久化/</div>
     </div>
     <div class="license-meta">
       

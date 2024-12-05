@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240527000818547.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240527001820985.png">
 <meta property="article:published_time" content="2024-05-21T11:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-11T06:21:19.252Z">
+<meta property="article:modified_time" content="2024-10-18T05:35:08.499Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary_large_image">
@@ -315,7 +315,8 @@
               <div class="markdown-body">
                 
                 <h2 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a><strong>分布式事务</strong></h2><p>微服务架构下，一个系统被拆分为多个小的微服务。每个微服务都可能存在不同的机器上，并且每个微服务可能都有一个单独的数据库供自己使用。这种情况下，一组操作可能会涉及到多个微服务以及多个数据库。举个例子:电商系统中，你创建一个订单往往会涉及到订单服务(订单数加一)、库存服务(库存减一)等等服务，这些服务会有供自己单独使用的数据库。</p>
-<p>这个时候单单依靠数据库事务就不行了，我们就需要引入分布式事务这个概念了。<br>实际上，只要跨数据库的场景都需要用到引入分布式事务。比如说单个数据库的性能达到瓶颈或者数据量太大的时候，我们需要进行分库，同一个数据库中的表分布在了不同的数据库中，如果单个操作涉及到多个数据库，那么数据库自带的事务就无法满足我们的要求了</p>
+<p>这个时候单单依靠数据库事务就不行了，我们就需要引入分布式事务这个概念了。</p>
+<p>实际上，只要跨数据库的场景都需要用到引入分布式事务。比如说单个数据库的性能达到瓶颈或者数据量太大的时候，我们需要进行分库，同一个数据库中的表分布在了不同的数据库中，如果单个操作涉及到多个数据库，那么数据库自带的事务就无法满足我们的要求了</p>
 <p>分布式事务的终极目标就是保证系统中多个相关联的数据库中的数据的一致性!</p>
 <p>那既然分布式事务也属于事务，理论上就应该准守事物的 ACID 四大特性。但是，考虑到性能、可用性等各方面因素，我们往往是无法完全满足 ACID 的，能选择一个比较折中的方案。针对分布式事务，又诞生了一些新的理论。</p>
 <h3 id="分布式事务基础理论"><a href="#分布式事务基础理论" class="headerlink" title="分布式事务基础理论"></a><strong>分布式事务基础理论</strong></h3><h4 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a><strong>CAP理论</strong></h4><p><strong>CAP</strong> 也就是 <strong>Consistency（一致性）</strong>、<strong>Availability（可用性）</strong>、<strong>Partition Tolerance（分区容错性）</strong> 这三个单词首字母组合。</p>
@@ -380,7 +381,7 @@
 </ul>
 </blockquote>
 <p>比较推荐 <strong>写时修复</strong>，这种方式对性能消耗比较低。</p>
-<h4 id="柔性事务"><a href="#柔性事务" class="headerlink" title="柔性事务"></a><strong>柔性事务</strong></h4><p>互联网应用最关键的就是要保证高可用，计算式系统几秒钟之内没办法使用都有可能造成数百万的损失。在此场景下，一些大佬们在 CAP 理论和 BASE 理论的基础上，提出了 柔性事务 的概念。柔性事务追求的是最终一致性。</p>
+<h4 id="柔性事务"><a href="#柔性事务" class="headerlink" title="柔性事务"></a><strong>柔性事务</strong></h4><p>互联网应用最关键的就是要保证高可用，计算式系统几秒钟之内没办法使用都有可能造成数百万的损失。在此场景下，一些大佬们在 CAP 理论和 BASE 理论的基础上，提出了 柔性事务 的概念。<strong>柔性事务追求的是最终一致性。</strong></p>
 <p>实际上，柔性事务就是 BASE 理论 +业务实践。 柔性事务追求的目标是:我们根据自身业务特性，通过适当的方式来保证系统数据的最终一致性。像 <strong>TCC、 Saga、MQ 事务、本地消息表</strong>就属于柔性事务。</p>
 <h4 id="刚性事务"><a href="#刚性事务" class="headerlink" title="刚性事务"></a><strong>刚性事务</strong></h4><p>与柔性事务相对的就是刚性事务 了。前面我们说了，柔性事务追求的是最终一致性 。那么，与之对应刚性事务追求的就是 强一致性。像<strong>2PC、3PC</strong> 就属于刚性事务。</p>
 <h3 id="分布式事务解决方案"><a href="#分布式事务解决方案" class="headerlink" title="分布式事务解决方案"></a><strong>分布式事务解决方案</strong></h3><p>分布式事务的解决方案有很多，比如：2PC、3PC、TCC、本地消息表、MQ 事务(Kafka和 RocketMQ 都提供了事务相关功能)、Saga 等等:</p>
@@ -388,8 +389,10 @@
 <p>这些方案的适用场景有所区别，我们需要根据具体的场景选择适合自己项目的解决方案。</p>
 <h4 id="2PC-两阶段提交协议"><a href="#2PC-两阶段提交协议" class="headerlink" title="2PC(两阶段提交协议)"></a><strong>2PC(两阶段提交协议)</strong></h4><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240526231347823.png" srcset="/img/loading.gif" lazyload alt="image-20240526231347823" style="zoom: 67%;" />
 
-<p><strong>RM(Resource Manager)：</strong>资源管理器，也就是事务的参与者，绝大部分情况下就是指数据库，一个分布式事务往往涉及到多个 RM。(后文会以关系型数据库为例)</p>
+
+
 <p><strong>TM(Transaction Manager)：</strong>事务管理器，负责管理全局事务，分配事务唯一标识，监控事务，执行进度，并负责事务的提交回滚、失败恢复等。</p>
+<p><strong>RM(Resource Manager)：</strong>资源管理器，也就是事务的参与者，绝大部分情况下就是指数据库，一个分布式事务往往涉及到多个 RM。(后文会以关系型数据库为例)</p>
 <p>2PC 将事务的提交过程分为2个阶段：准备阶段 和 提交阶段</p>
 <p><strong>准备阶段(Prepare)</strong><br>准备阶段的核心是“询问”事务参与者执行本地数据库事务操作是否成功。</p>
 <p>准备阶段的工作流程：</p>
@@ -424,7 +427,7 @@
 <li><strong>同步阻塞：</strong>事务参与者会在正式提交事务之前会一直占用相关的资源。比如用户小明转账给小红，那其他事务也要操作用户小明或小红的话，就会阻塞，<strong>直到收到事务管理器的commit然后把事务提交</strong></li>
 <li><strong>数据不一致：</strong>由于网络问题或者TM宕机都有可能会造成数据不一致的情况。比如在第2阶段(提交阶段)，部分网络出现问题导致部分参与者收不到Commit&#x2F;Rollback 消息的话，就会导致数据不一致。单点问题: TM在其中也是一个很重要的角色，如果TM在准备(Prepare)阶段完成之后挂掉的话，事务参与者就会一直卡在提交(Commit)阶段。</li>
 </ul>
-<h4 id="3PC-三阶段提交协议"><a href="#3PC-三阶段提交协议" class="headerlink" title="3PC(三阶段提交协议)"></a><strong>3PC(三阶段提交协议)</strong></h4><p>3PC是人们在 2PC的基础上做了一些优化得到的。3PC把 2PC中的准备阶段(Prepare) 做了进一步细化，分为2个阶段:</p>
+<h4 id="3PC-三阶段提交协议"><a href="#3PC-三阶段提交协议" class="headerlink" title="3PC(三阶段提交协议)"></a><strong>3PC(三阶段提交协议)</strong></h4><p>3PC是人们在 2PC的基础上做了一些优化得到的。3PC把 2PC中的准备阶段(Prepare) 做了进一步细化，分为2个阶段：</p>
 <ul>
 <li>准备阶段(CanCommit)</li>
 <li>预提交阶段(PreCommit)</li>
@@ -434,16 +437,17 @@
 <p><strong>准备阶段(CanCommit)</strong></p>
 <p>准备阶段 RM 不会执行事务操作，TM 只是向 RM 发送 准备请求 ，顺便询问一些信息比如事务参与者能否执行本地数据库事务操作。RM 回复“Yes”“No”或者直接超时未回复。</p>
 <p><strong>预提交阶段(PreCommit)</strong></p>
-<p>如果准备阶段所有的 RM 回复“Yes”的话，TM 就会向所有的 RM 发送 PreCommit 消息(预提交请求)，RM 收到消息之后会执行本地数据库事务预操作比如写redo log&#x2F;undo log 日志。</p>
+<p>如果准备阶段所有的 RM 回复“Yes”的话，TM 就会向所有的 RM 发送 PreCommit 消息(预提交请求)，RM 收到消息之后会执行本地数据库事务<strong>预操作比如写redo log&#x2F;undo log 日志。</strong></p>
 <p>如果准备阶段有<strong>任一RM 回复“NO”或者直接超时</strong>未回复的话，TM 就会给所有 **RM 发送 Abort 消息(中断请求)**，RM 收到消息后直接中断事务。这样其实对 RM 来说损失并不大，因为本质上 RM 到现在还并没有实际做什么事情。</p>
 <p>如果 RM 成功的执行了事务预操作，就返回“YES”。否则，返回“No”(最后的反悔机会)</p>
 <p><strong>预提交阶段 TM 与 RM 都引入了超时机制</strong>，如果 参与者 没有收到 TM 的 PreCommit 消息，或者 TM 没有收到参与者返回的预执行结果状态，那么在超过等待时间后，事务就会中断，这就避免了事务的阻塞。</p>
-<p><strong>执行事务提交阶段(DoCommit)</strong><br>执行事务提交(DoCommit)阶段就开始进行真正的事务提交。</p>
+<p><strong>执行事务提交阶段(DoCommit)</strong></p>
+<p>执行事务提交(DoCommit)阶段就开始进行真正的事务提交。</p>
 <p>如果预提交阶段所有的 RM 回复“YES”的话，TM 就会向所有的 RM 发送 DoCommit 消息(执行事务提交请求)，RM 收到消息之后会执行本地数据库事务提交，并在完成后释放占用的资源。当事务提交成功后，RM 会返回“YES”</p>
 <p>如果预提交阶段有<strong>任一 RM 回复“NO”或者直接超时</strong>未回复的话，TM 就会给所有 **RM 发送 Abort 消息(中断请求)**，RM 收到消息后会进行事务回滚，释放资源，中断本次事务。</p>
 <p><strong>如果 RM 在设定时间内并没有 TM 的 DoCommit 消息，RM 会认为 TM 可能发生了故障，会直接进行事务提交。</strong><br><strong>只要预提交阶段阶段所有参与者都返回了 Yes，那么只要进入第三阶段，事务基本上都能执行成功的。</strong></p>
 <p><strong>3PC除了将2PC中的准备阶段(Prepare)做了进一步细化之外，还做了哪些改进?</strong></p>
-<p>3PC还同时在事务管理者和事务参与者中<strong>引入了超时机制</strong> ，如果在一定时间内没有收到事务参与者的消息就默认失败，进而避免事务参与者一直阻塞占用资源。2PC中只有事务管理者才拥有超时机制，当事务参与者长时间无法与事务协调者通讯的情况下(比如协调者挂掉了)，就会导致无法释放资源阻塞的问题。</p>
+<p><strong>超时机制：</strong>3PC还同时在事务管理者和事务参与者中<strong>引入了超时机制</strong> ，如果在一定时间内没有收到事务参与者的消息就默认失败，进而避免事务参与者一直阻塞占用资源。2PC中只有事务管理者才拥有超时机制，当事务参与者长时间无法与事务协调者通讯的情况下(比如协调者挂掉了)，就会导致无法释放资源阻塞的问题。</p>
 <p>不过，3PC并没有完美解决 2PC的阻塞问题，引入了一些新问题比如性能糟糕，而且，依然存在数据不一致性问题。因此，3PC的实际应用并不是很广泛，多数应用会选择通过复制状态机解决 2PC的阻塞问题。</p>
 <h4 id="TCC-补偿事务"><a href="#TCC-补偿事务" class="headerlink" title="TCC(补偿事务)"></a><strong>TCC(补偿事务)</strong></h4><p>TCC 属于目前比较火的一种<strong>柔性事务解决方案</strong>。简单来说，TCC是 Try、Confirm、Cancel 三个词的缩写，它分为三个阶段。TCC 模式不需要依赖于底层数据资源的事务支持，但是需要我们手动实现更多的代码，属于 <strong>侵入业务代码</strong> 的一种分布式解决方案。</p>
 <p>1.Try(尝试)阶段：尝试执行。完成业务检查，并预留好必需的业务资源。</p>
@@ -466,8 +470,11 @@
 <p>以RocketMQ为例</p>
 <p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240527000818547.png" srcset="/img/loading.gif" lazyload alt="image-20240527000818547"></p>
 <ol>
-<li>MQ 发送方(比如物流服务)在消息队列上开启一个事务，然后发送一个“半消息”给 MQServer&#x2F;Broker。事<strong>务提交之前，半消息对于 MQ 订阅方&#x2F;消费者(比如第三方通知服务)不可见</strong></li>
+<li>MQ 发送方(比如物流服务)在消息队列上开启一个事务，然后发送一个“半消息”给 MQServer&#x2F;Broker。<strong>事务提交之前，半消息对于 MQ 订阅方&#x2F;消费者(比如第三方通知服务)不可见</strong><ol start="2">
 <li>“半消息”发送成功的话，MQ 发送方就开始执行本地事务，再根据<strong>本地事务的结果向 Broker 发送 Commit 或者 RollBack 命令</strong>。</li>
+</ol>
+<p>										</p>
+</li>
 <li>MQ 发送方的本地事务执行成功的话，“半消息”变成正常消息，可以正常被消费。MQ发送方的本地事务执行失败的话，会直接回滚。</li>
 </ol>
 <p><strong>如果 MQ 发送方提交或者回滚事务消息时失败怎么办?</strong></p>

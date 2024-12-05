@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511171529766.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511172505838.png">
 <meta property="article:published_time" content="2024-01-15T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-09T09:37:38.235Z">
+<meta property="article:modified_time" content="2024-10-30T15:04:24.264Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -359,7 +359,7 @@
 <li><code>@Controller</code> : 对应 Spring MVC 控制层，主要用于接受用户请求并调用 <code>Service</code> 层返回数据给前端页面。</li>
 </ul>
 <h3 id="Component-和-Bean-的区别是什么？"><a href="#Component-和-Bean-的区别是什么？" class="headerlink" title="@Component 和 @Bean 的区别是什么？"></a><strong>@Component 和 @Bean 的区别是什么？</strong></h3><ul>
-<li><code>@Component</code> 注解作用于类，而<code>@Bean</code>注解作用于方法。</li>
+<li><code>@Component</code> 注解作用于类，而<code>@Bean</code>注解作用于配置类的方法中。</li>
 </ul>
 <p><strong>@Bean注解：</strong></p>
 <ul>
@@ -415,11 +415,11 @@
 <ul>
 <li><code>@Autowired</code> 是 Spring 提供的注解，<code>@Resource</code> 是 JDK 提供的注解。</li>
 <li><code>Autowired</code> 默认的注入方式为<code>byType</code>（根据类型进行匹配），<code>@Resource</code>默认注入方式为 <code>byName</code>（根据名称进行匹配）。</li>
-<li>当一个接口存在多个实现类的情况下，<code>@Autowired</code> 和<code>@Resource</code>都需要通过名称才能正确匹配到对应的 Bean。<code>Autowired</code> 可以通过 <code>@Qualifier</code> 注解来显式指定名称，<code>@Resource</code>可以通过 <code>name</code> 属性来显式指定名称。</li>
+<li>当一个接口存在多个实现类的情况下，<code>@Autowired</code> 和<code>@Resource</code>都需要通过名称才能正确匹配到对应的 Bean。**<code>Autowired</code> 可以通过 <code>@Qualifier</code> 注解来显式指定名称，<code>@Resource</code>可以通过 <code>name</code> 属性来显式指定名称。**</li>
 <li><code>@Autowired</code> 支持在构造函数、方法、字段和参数上使用。<code>@Resource</code> 主要用于字段和方法上的注入，不支持在构造函数或参数上使用。</li>
 <li>在默认情况下，<code>@Autowired</code> 注解的属性是必须的，如果找不到匹配的bean，将会抛出异常。但是可以通过将 <strong><code>required</code> 属性设置为 <code>false</code> 来将其标记为可选的</strong>。<code>@Resource</code> 注解的属性是可选的，如果找不到匹配的bean，则会尝试按名称查找。如果找不到匹配的bean，也会抛出异常，除非将其 <code>required</code> 属性设置为 <code>false</code>。</li>
 </ul>
-<h3 id="Bean-的作用域有哪些"><a href="#Bean-的作用域有哪些" class="headerlink" title="Bean 的作用域有哪些?"></a><strong>Bean 的作用域有哪些?</strong></h3><p>Spring 中 Bean 的作用域通常有下面几种：</p>
+<h3 id="Bean-的作用域有哪些（scope）"><a href="#Bean-的作用域有哪些（scope）" class="headerlink" title="Bean 的作用域有哪些（scope）?"></a><strong>Bean 的作用域有哪些（scope）?</strong></h3><p>Spring 中 Bean 的作用域通常有下面几种：</p>
 <ul>
 <li><strong>singleton</strong> : IoC 容器中只有唯一的 bean 实例。Spring 中的 bean 默认都是单例的，是对单例设计模式的应用。</li>
 <li><strong>prototype</strong> : 每次获取都会创建一个新的 bean 实例。也就是说，连续 <code>getBean()</code> 两次，得到的是不同的 Bean 实例。原型Bean的生命周期由客户端管理，Spring容器不负责管理其生命周期。每次请求原型Bean时都会创建一个新的实例，Spring容器不会对其进行缓存或单例化处理。</li>
@@ -442,7 +442,7 @@
 <p><strong>prototype 作用域下，每次获取都会创建一个新的 bean 实例，不存在资源竞争问题</strong>，所以不存在线程安全问题。singleton 作用域下，IoC 容器中只有唯一的 bean 实例，可能会存在资源竞争问题（取决于 Bean 是否有状态）。如果这个 bean 是有状态的话，那就存在线程安全问题（有状态 Bean 是指包含可变的成员变量的对象）。</p>
 <p><strong>在singleton作用域下，如果定义了成员变量，会产生线程不安全问题</strong></p>
 <p>不过，大部分 Bean 实际都是无状态（没有定义可变的成员变量）的（比如 Dao、Service），这种情况下， Bean 是线程安全的。</p>
-<p>对于有状态单例 Bean 的线程安全问题</p>
+<p><strong>对于有状态单例 Bean 的线程安全问题</strong></p>
 <p>比如以下这个Bean，会对成员变量进行修改，就会产生不一致问题</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240417152009972.png" srcset="/img/loading.gif" lazyload alt="image-20240417152009972" style="zoom: 67%;" />
 
@@ -468,7 +468,7 @@
 <li>如果有和加载这个 Bean 的 Spring 容器相关的 <code>BeanPostProcessor</code> 对象，执行<code>postProcessBeforeInitialization()</code> 方法</li>
 <li>执行被@PostConstruct 注解的方法</li>
 <li>如果 Bean 实现了<code>InitializingBean</code>接口，执行<code>afterPropertiesSet()</code>方法。afterPropertiesSet 方法通常用于执行那些不能在配置文件中完成的初始化操作，<strong>需要借助外界才能完成初始化，如数据库连接池的相关初始化等。</strong></li>
-<li>如果 Bean 在0配置文件中的定义包含 <code>init-method</code> 属性，执行指定的方法。</li>
+<li>如果 Bean 在配置文件中的定义包含 <code>init-method</code> 属性，执行指定的方法。</li>
 <li>如果有和加载这个 Bean 的 Spring 容器相关的 <code>BeanPostProcessor</code> 对象，执行<code>postProcessAfterInitialization()</code> 方法。</li>
 </ul>
 <p><strong>使用Bean：</strong></p>
@@ -491,7 +491,7 @@
 <p><strong>如何记忆呢？</strong></p>
 <ol>
 <li>整体上可以简单分为四步：实例化 —&gt; 属性赋值 —&gt; 初始化 —&gt; 销毁。</li>
-<li>初始化这一步涉及到的步骤比较多，包含 <code>Aware</code> 接口的依赖注入、<code>BeanPostProcessor</code> 在初始化前后的处理以及 <code>InitializingBean</code> 和 <code>init-method</code> 的初始化操作。</li>
+<li>初始化这一步涉及到的步骤比较多，<strong>包含 <code>Aware</code> 接口的依赖注入、<code>BeanPostProcessor</code> 在初始化前后的处理以及 <code>InitializingBean</code> 和 <code>init-method</code> 的初始化操作。</strong></li>
 <li>销毁这一步会注册相关销毁回调接口，最后通过<code>DisposableBean</code> 和 <code>destory-method</code> 进行销毁。</li>
 </ol>
 <h4 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a><strong>源码分析</strong></h4><p><code>AbstractAutowireCapableBeanFactory</code> 的 <code>doCreateBean()</code> 方法中能看到依次执行了这 4 个阶段：</p>
@@ -549,7 +549,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Order(1)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FirstBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">FirstBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;FirstBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Order(2)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SecondBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SecondBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;SecondBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p><strong>使用@Lazy注解</strong></p>
-<p>@Lazy 注解可以控制Bean的加载时机。默认情况下，Bean是按需加载的，但使用@Lazy可以延迟Bean的加载，直到首次使用时才进行初始化。</p>
+<p>@Lazy 注解可以控制Bean的加载时机。默认情况下，Bean是按需加载的，但使用**@Lazy可以延迟Bean的加载，直到首次使用时才进行初始化。**</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FirstBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">FirstBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;FirstBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-meta">@Lazy</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SecondBean</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SecondBean</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;SecondBean is initialized&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
@@ -575,7 +575,7 @@
 <p><strong>移除相关注解</strong>：如果某个bean是通过@Component、@Service、@Repository等注解自动注册到Spring容器中的，您可以通过移除这些注解来阻止它的加载。</p>
 <p><strong>调整bean加载顺序</strong>：在某些情况下，您可能需要控制bean的加载顺序。虽然@Order、@AutoConfigureOrder、@AutoConfigureAfter和@AutoConfigureBefore等注解主要用于控制Spring组件的顺序，但它们也可以在一定程度上影响bean的加载顺序。</p>
 <h3 id="Spring循环依赖"><a href="#Spring循环依赖" class="headerlink" title="Spring循环依赖"></a><strong>Spring循环依赖</strong></h3><p>Spring循环依赖指的是两个或多个Bean之间相互依赖，形成一个环状依赖的情况。通俗的说，就是A依赖B，B依赖C，C依赖A，这样就形成了一个循环依赖的环。</p>
-<p> Spring循环依赖通常会导致Bean无法正确地被实例化，从而导致应用程序无法正常启动或者出现异常。因此，Spring循环依赖是一种需要尽量避免的情况</p>
+<p><strong>Spring循环依赖通常会导致Bean无法正确地被实例化，从而导致应用程序无法正常启动或者出现异常。</strong>因此，Spring循环依赖是一种需要尽量避免的情况</p>
 <h4 id="循环依赖造成的原因"><a href="#循环依赖造成的原因" class="headerlink" title="循环依赖造成的原因"></a><strong>循环依赖造成的原因</strong></h4><p><strong>构造函数循环依赖</strong><br>在使用构造函数注入Bean时，如果两个Bean之间相互依赖，就可能会形成构造函数循环依赖，例如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span> &#123;    <br>    <span class="hljs-keyword">private</span> B b;    <br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">A</span><span class="hljs-params">(B b)</span> &#123;     <br>        <span class="hljs-built_in">this</span>.b = b;   <br>    &#125;&#125;<br><br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span> &#123;   <br>    <span class="hljs-keyword">private</span> A a;   <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">B</span><span class="hljs-params">(A a)</span> &#123;     <br>        <span class="hljs-built_in">this</span>.a = a;  <br>    &#125;&#125;<br><br></code></pre></td></tr></table></figure>
 
@@ -613,7 +613,7 @@
 </blockquote>
 <h4 id="为什么需要三级缓存而不是二级缓存？"><a href="#为什么需要三级缓存而不是二级缓存？" class="headerlink" title="为什么需要三级缓存而不是二级缓存？"></a><strong>为什么需要三级缓存而不是二级缓存？</strong></h4><p>两级缓存分为两种情况来说，分别是 一级缓存 + 二级缓存 和 一级缓存 + 三级缓存 两种组合。</p>
 <p>组合一：一级缓存 + 二级缓存</p>
-<p>singletonObjects + earlySingletonObjects 理论可以解决依赖注入，也可以解决代理，但需要每次加入二级缓存都要是代理对象，如果没有代理就完全没有必要，同时也不符合 Spring 对 Bean 生命周期的定义。(对象都应该在创建建之后再进行动态代理而不是单纯的实例化以后就急着进行代理，如果循环依赖就是没办法的事)</p>
+<p>singletonObjects + earlySingletonObjects 理论可以解决依赖注入，也可以解决代理，但需要每次加入二级缓存都要是代理对象，如果没有代理就完全没有必要，同时也不符合 Spring 对 Bean 生命周期的定义。(对象都应该在创建之后再进行动态代理而不是单纯的实例化以后就急着进行代理，如果循环依赖就是没办法的事)</p>
 <p>组合二：一级缓存 + 三级缓存</p>
 <p>singletonObjects + singletonFactories 可以解决依赖注入的问题，但是没法解决代理的问题，若要进行代理从 ObjectFactory 中获取对象实例进行代理，但是这样每次获取对象都不是同一个。<strong>需要借助二级缓存保存半成品的代理对象，等到被代理对象创建完成，代理对象再完成创建</strong></p>
 <h3 id="Spring启动过程"><a href="#Spring启动过程" class="headerlink" title="Spring启动过程"></a><strong>Spring启动过程</strong></h3><ol>

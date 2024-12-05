@@ -16,18 +16,19 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="慢SQL优化count(*) 和 count(1) 有什么区别？哪个性能最好？    count(1) 执行过程是怎样的？ 用下面这条语句作为例子： 1select count(1) from t_order;  如果表里只有主键索引，没有二级索引时。 那么，InnoDB 循环遍历聚簇索引（主键索引），将读取到的记录返回给 server 层，但是不会读取记录中的任何字段的值，因为 count 函数">
+    <meta name="description" content="MySQL性能优化count(*) 和 count(1) 有什么区别？哪个性能最好？    count(1) 执行过程是怎样的？ 用下面这条语句作为例子： 1select count(1) from t_order;  如果表里只有主键索引，没有二级索引时 那么，InnoDB 循环遍历聚簇索引（主键索引），将读取到的记录返回给 server 层，但是不会读取记录中的任何字段的值，因为 count">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL性能优化">
+<meta property="og:title" content="PALE13">
 <meta property="og:url" content="http://example.com/2024/04/05/MySQL/MySQL%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="慢SQL优化count(*) 和 count(1) 有什么区别？哪个性能最好？    count(1) 执行过程是怎样的？ 用下面这条语句作为例子： 1select count(1) from t_order;  如果表里只有主键索引，没有二级索引时。 那么，InnoDB 循环遍历聚簇索引（主键索引），将读取到的记录返回给 server 层，但是不会读取记录中的任何字段的值，因为 count 函数">
+<meta property="og:description" content="MySQL性能优化count(*) 和 count(1) 有什么区别？哪个性能最好？    count(1) 执行过程是怎样的？ 用下面这条语句作为例子： 1select count(1) from t_order;  如果表里只有主键索引，没有二级索引时 那么，InnoDB 循环遍历聚簇索引（主键索引），将读取到的记录返回给 server 层，但是不会读取记录中的任何字段的值，因为 count">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240320162011142.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240920170837986.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/c296c1889f0101d335699311b4ef20a8.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/f380ef357d065498d8d54ad07f145e09.png">
 <meta property="article:published_time" content="2024-04-05T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-07T12:31:26.533Z">
+<meta property="article:modified_time" content="2024-10-14T13:14:44.435Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -35,7 +36,7 @@
   
   
   
-  <title>MySQL性能优化 - PALE13</title>
+  <title>PALE13</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="MySQL性能优化"></span>
+            <span id="subtitle" data-typed-text=""></span>
           
         </div>
 
@@ -253,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.1k 字
+          6.3k 字
         
       </span>
     
@@ -264,7 +265,7 @@
         
         
         
-          51 分钟
+          53 分钟
         
       </span>
     
@@ -301,12 +302,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">MySQL性能优化</h1>
+            <h1 id="seo-header"></h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="慢SQL优化"><a href="#慢SQL优化" class="headerlink" title="慢SQL优化"></a><strong>慢SQL优化</strong></h2><h3 id="count-和-count-1-有什么区别？哪个性能最好？"><a href="#count-和-count-1-有什么区别？哪个性能最好？" class="headerlink" title="count(*) 和 count(1) 有什么区别？哪个性能最好？"></a><strong>count(*) 和 count(1) 有什么区别？哪个性能最好？</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240320162011142.png" srcset="/img/loading.gif" lazyload alt="image-20240320162011142" style="zoom:50%;" />
+                <h2 id="MySQL性能优化"><a href="#MySQL性能优化" class="headerlink" title="MySQL性能优化"></a><strong>MySQL性能优化</strong></h2><h3 id="count-和-count-1-有什么区别？哪个性能最好？"><a href="#count-和-count-1-有什么区别？哪个性能最好？" class="headerlink" title="count(*) 和 count(1) 有什么区别？哪个性能最好？"></a><strong>count(*) 和 count(1) 有什么区别？哪个性能最好？</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240320162011142.png" srcset="/img/loading.gif" lazyload alt="image-20240320162011142" style="zoom:50%;" />
 
 
 
@@ -314,7 +315,7 @@
 <p>用下面这条语句作为例子：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">count</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">from</span> t_order;<br></code></pre></td></tr></table></figure>
 
-<p>如果表里只有主键索引，没有二级索引时。</p>
+<p><strong>如果表里只有主键索引，没有二级索引时</strong></p>
 <p>那么，InnoDB 循环遍历聚簇索引（主键索引），将读取到的记录返回给 server 层，<strong>但是不会读取记录中的任何字段的值</strong>，因为 count 函数的参数是 1，不是字段，所以不需要读取记录中的字段值。<strong>因此 server 层每从 InnoDB 读取到一条记录，就将 count 变量加 1，包括NULL</strong></p>
 <p>可以看到，count(1) 相比 count(主键字段) 少一个步骤，就是<strong>不需要读取记录中的字段值</strong>，所以通常会说 count(1) 执行效率会比 count(主键字段) 高一点。</p>
 <p>同理，如果表里有二级索引时，InnoDB 循环遍历的对象就二级索引了。</p>
@@ -327,7 +328,7 @@
 <p><em>InnoDB handles SELECT COUNT(<code>\*</code>) and SELECT COUNT(<code>1</code>) operations in the same way. There is no performance difference.</em></p>
 <p><em>翻译：InnoDB以相同的方式处理SELECT COUNT（<code>\*</code>）和SELECT COUNT（<code>1</code>）操作，没有性能差异。</em></p>
 <p>而且 MySQL 会对 count(*) 和 count(1) 有个优化，<strong>如果有多个二级索引的时候，优化器会使用key_len 最小的二级索引</strong>进行扫描。</p>
-<p>只有当没有二级索引的时候，才会采用主键索引来进行统计。</p>
+<p>只有当没有二级索引的时候，才会采用主键索引来进行统计</p>
 <p><strong>count(主键字段) 执行过程是怎样的？</strong></p>
 <p>在通过 count 函数统计有多少个记录时，MySQL 的 server 层会维护一个名叫 count 的变量。</p>
 <p>server 层会循环向 InnoDB 读取一条记录，<strong>如果 count 函数指定的参数不为 NULL，那么就会将变量 count 加 1</strong>，直到符合查询的全部记录被读完，就退出循环。最后将 count 变量的值发送给客户端。</p>
@@ -359,32 +360,25 @@
 <li>limit深度分页问题</li>
 </ol>
 <h4 id="大表查询慢常见优化措施？"><a href="#大表查询慢常见优化措施？" class="headerlink" title="大表查询慢常见优化措施？"></a><strong>大表查询慢常见优化措施？</strong></h4><p>当MySQL单表记录数过大时，数据库的性能会明显下降，一些常见的优化措施如下：</p>
+<p><strong>合理建立索引。</strong>在合适的字段上建立索引，例如在WHERE和ORDER BY命令上涉及的列建立索引，可根据EXPLAIN来查看是否用了索引还是全表扫描</p>
+<p><strong>对SQL优化</strong></p>
 <ul>
-<li><p><strong>合理建立索引。</strong>在合适的字段上建立索引，例如在WHERE和ORDER BY命令上涉及的列建立索引，可根据EXPLAIN来查看是否用了索引还是全表扫描</p>
-</li>
-<li><p><strong>对SQL优化。</strong></p>
-<ul>
-<li>查询时只返回必要的列，用具体的字段列表代替 select * 语句，因为要尽量用聚集索引防止回表查询</li>
-<li>SQL语句要避免造成索引失效的写法</li>
-<li>尽量用union all代替union，union会多一次一次去重操作，效率低</li>
+<li>查询时只<strong>返回必要的列</strong>，用具体的字段列表代替 select * 语句，因为要尽量用聚集索引防止回表查询</li>
+<li>SQL语句要避免造成<strong>索引失效</strong>的写法</li>
+<li>尽量用<strong>union all</strong>代替union，union会多一次一次去重操作，效率低</li>
 <li>避免在where子句中对字段进行表达式操作</li>
-<li>Join优化，能用inner join 就不用left join，right join，如必须使用<strong>一定要以小表为驱动</strong>（ 内连接会对两个表进行优化，优先把小表放到外边，把大表放到里边。left join 或 right join，不会重新调整顺序）</li>
+<li><strong>Join优化</strong>，能用inner join 就不用left join，right join，如必须使用<strong>一定要以小表为驱动</strong>（ 内连接会对两个表进行优化，优先把小表放到外边，把大表放到里边。left join 或 right join，不会重新调整顺序）<strong>因为被驱动表会用到索引</strong></li>
 <li>使用varchar代替char(因为可变常字段存储空间小，可节省空间)</li>
 <li>将多次插入换成批量Insert插入</li>
 </ul>
-</li>
-<li><p><strong>建立分区。</strong>对关键字段建立水平分区，比如时间字段，若查询条件往往通过时间范围来进行查询，能提升不少性能</p>
-</li>
-<li><p><strong>利用缓存。</strong>利用Redis等缓存热点数据，提高查询效率</p>
-</li>
-<li><p><strong>限定数据的范围。</strong>比如：用户在查询历史信息的时候，可以控制在一个月的时间范围内</p>
-</li>
-<li><p><strong>读写分离。</strong>经典的数据库拆分方案，主库负责写，从库负责读</p>
-</li>
-<li><p>通过分库分表的方式进行优化，主要有垂直拆分和水平拆分</p>
-<p><strong>垂直分割表：</strong>将表根据不同的功能、访问模式分为多个表，避免查询全部字段和频繁更新次数相同的字段会造成索引磁盘更新、查询等性能问题。</p>
-<p><strong>水平分割表：</strong>将表根据数据量分为多个表。在处理超大表（如百万甚至千万级别）时，不仅能有效提高增删改查效率，还可以减少因锁表造成的程序阻塞。</p>
-</li>
+<p><strong>建立分区。</strong>对关键字段建立水平分区，比如时间字段，若查询条件往往通过时间范围来进行查询，能提升不少性能</p>
+<p><strong>利用缓存。</strong>利用Redis等缓存热点数据，提高查询效率</p>
+<p><strong>限定数据的范围。</strong>比如：用户在查询历史信息的时候，可以控制在一个月的时间范围内</p>
+<p><strong>读写分离。</strong>经典的数据库拆分方案，主库负责写，从库负责读</p>
+<p><strong>分库分表：</strong>通过分库分表的方式进行优化，主要有垂直拆分和水平拆分</p>
+<ul>
+<li>垂直分割表：将表根据不同的功能、访问模式分为多个表，避免查询全部字段和频繁更新次数相同的字段会造成索引磁盘更新、查询等性能问题。</li>
+<li>水平分割表：将表根据数据量分为多个表。在处理超大表（如百万甚至千万级别）时，不仅能有效提高增删改查效率，还可以减少因锁表造成的程序阻塞。</li>
 </ul>
 <p><strong>调整数据库服务器参数</strong><br>除了SQL语句优化和数据库结构优化之外，还可以通过调整数据库服务器参数进一步优化系统性能：</p>
 <p>增加内存：MySQL常驻内存较大，如果服务器内存充足，则处理速度能够得到极大的提升。</p>
@@ -392,24 +386,40 @@
 <p>调整InnoDB缓存：InnoDB是MySQL5.5版本后的默认存储引擎，适用于大量在线事务和高并发访问，其缓存参数对于系统性能具有重要作用。可以通过修改以下两个参数来调整InnoDB缓存大小：</p>
 <p>innodb_buffer_pool_size：为InnoDB分配的内存大小，默认为8M，可适当增加该值提高性能。</p>
 <p>innodb_log_file_size：设置InnoDB redo日志文件大小，默认是5M。如果更新操作比较频繁，则应适当增加文本的大小，避免频繁写入磁盘造成性能瓶颈。</p>
-<h3 id="深度分页优化建议"><a href="#深度分页优化建议" class="headerlink" title="深度分页优化建议"></a><strong>深度分页优化建议</strong></h3><p>查询偏移量过大的场景我们称为深度分页，这会导致查询性能较低，例如：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"># MySQL 在无法利用索引的情况下跳过<span class="hljs-number">1000000</span>条记录后，再获取<span class="hljs-number">10</span>条记录<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t_order <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> id LIMIT <span class="hljs-number">1000000</span>, <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+<h3 id="深度分页优化建议"><a href="#深度分页优化建议" class="headerlink" title="深度分页优化建议"></a><strong>深度分页优化建议</strong></h3><h4 id="深度分页原因"><a href="#深度分页原因" class="headerlink" title="深度分页原因"></a><strong>深度分页原因</strong></h4><p>查询偏移量过大的场景我们称为深度分页，这会导致查询性能较低，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> account <span class="hljs-keyword">where</span> update_time<span class="hljs-operator">&gt;</span> <span class="hljs-string">&#x27;2020-09-19&#x27;</span> limit <span class="hljs-number">100000</span>,<span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
 
-<h4 id="范围查询"><a href="#范围查询" class="headerlink" title="范围查询"></a><strong>范围查询</strong></h4><p>当可以保证 ID 的连续性时，根据 ID 范围进行分页是比较好的解决方案：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"># 查询指定 ID 范围的数据<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t_order <span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">&gt;</span> <span class="hljs-number">100000</span> <span class="hljs-keyword">AND</span> id <span class="hljs-operator">&lt;=</span> <span class="hljs-number">100010</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> id<br># 也可以通过记录上次查询结果的最后一条记录的ID进行下一页的查询：<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t_order <span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">&gt;</span> <span class="hljs-number">100000</span> LIMIT <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
-
-<p>这种优化方式限制比较大，且一般项目的 ID 也没办法保证完全连续。</p>
+<p><strong>我们先来看下这个SQL的执行流程：</strong></p>
+<ol>
+<li>通过<strong>普通二级索引树</strong>idx_update_time，过滤update_time条件，找到满足条件的记录ID。</li>
+<li>通过ID，回到<strong>主键索引树</strong>，找到满足记录的行，然后取出展示的列（<strong>回表</strong>）</li>
+<li>扫描满足条件的100010行，然后扔掉前100000行，返回。</li>
+</ol>
+<p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240920170837986.png" srcset="/img/loading.gif" lazyload alt="image-20240920170837986"></p>
+<p><strong>SQL变慢原因有两个</strong>：</p>
+<ol>
+<li>limit语句会先扫描offset+n行，然后再丢弃掉前offset行，返回后n行数据。也就是说<code>limit 100000,10</code>，就会扫描100010行，而<code>limit 0,10</code>，只扫描10行。</li>
+<li>例如<code>limit 100000,10</code> 扫描100010行数，然后再截取后10条，也意味着<strong>回表</strong>了100010。</li>
+</ol>
 <h4 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a><strong>子查询</strong></h4><p>我们先查询出 limit 第一个参数对应的主键值，再根据这个主键值再去过滤并 limit，这样效率会更快一些。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"># 通过子查询来获取 id 的起始值，把 limit <span class="hljs-number">1000000</span> 的条件转移到子查询<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t_order <span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">&gt;=</span> (<span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> t_order limit <span class="hljs-number">1000000</span>, <span class="hljs-number">1</span>) LIMIT <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"># 通过子查询来获取 id 的起始值，把 limit <span class="hljs-number">1000000</span> 的条件转移到子查询<br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> account <span class="hljs-keyword">where</span> id <span class="hljs-operator">&gt;=</span> (<span class="hljs-keyword">select</span> a.id <span class="hljs-keyword">from</span> account a <span class="hljs-keyword">where</span> a.update_time <span class="hljs-operator">&gt;=</span> <span class="hljs-string">&#x27;2020-09-19&#x27;</span> limit <span class="hljs-number">100000</span>, <span class="hljs-number">1</span>) LIMIT <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
 
+<p>子查询 table a查询是用到了<code>idx_update_time</code>索引。首先在索引上拿到了聚集索引的主键ID,省去了回表操作，然后第二查询直接根据第一个查询的 ID往后再去查10个就可以了!</p>
 <p>不过，子查询的结果会产生一张新表，会影响性能，应该尽量避免大量使用子查询。并且，这种方法只适用于 ID 是正序的。在复杂分页场景，往往需要通过过滤条件，筛选到符合条件的 ID，此时的 ID 是离散且不连续的。</p>
 <p>当然，我们也可以利用子查询先去获取目标分页的 ID 集合，然后再根据 ID 集合获取内容，但这种写法非常繁琐，不如使用 INNER JOIN 延迟关联。</p>
-<h4 id="延迟关联"><a href="#延迟关联" class="headerlink" title="延迟关联"></a><strong>延迟关联</strong></h4><p>延迟关联的优化思路，跟子查询的优化思路其实是一样的：都是把条件转移到主键索引树，减少回表的次数。不同点是，延迟关联使用了 INNER JOIN（内连接） 包含子查询。</p>
+<h4 id="延迟关联"><a href="#延迟关联" class="headerlink" title="延迟关联"></a><strong>延迟关联</strong></h4><p>延迟关联的优化思路，跟子查询的优化思路其实是一样的：<strong>都是把条件转移到主键索引树</strong>，减少回表的次数。不同点是，延迟关联使用了 INNER JOIN（内连接） 包含子查询。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> t1.<span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t_order t1<br><span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> (<span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> t_order limit <span class="hljs-number">1000000</span>, <span class="hljs-number">10</span>) t2<br><span class="hljs-keyword">ON</span> t1.id <span class="hljs-operator">=</span> t2.id;<br></code></pre></td></tr></table></figure>
 
 <p>除了使用 INNER JOIN 之外，还可以使用逗号连接子查询。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> t1.<span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t_order t1,<br>(<span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> t_order limit <span class="hljs-number">1000000</span>, <span class="hljs-number">10</span>) t2<br><span class="hljs-keyword">WHERE</span> t1.id <span class="hljs-operator">=</span> t2.id;<br></code></pre></td></tr></table></figure>
 
+
+
+<p><strong>范围查询</strong></p>
+<p>当可以保证 ID 的连续性时，根据 ID 范围进行分页是比较好的解决方案：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"># 查询指定 ID 范围的数据<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t_order <span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">&gt;</span> <span class="hljs-number">100000</span> <span class="hljs-keyword">AND</span> id <span class="hljs-operator">&lt;=</span> <span class="hljs-number">100010</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> id<br># 也可以通过记录上次查询结果的最后一条记录的ID进行下一页的查询：<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> t_order <span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">&gt;</span> xxxx LIMIT <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+
+<p>这种优化方式限制比较大，且一般项目的 ID 也没办法保证完全连续。</p>
 <h4 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a><strong>覆盖索引</strong></h4><p>索引中已经包含了所有需要获取的字段的查询方式称为覆盖索引。</p>
 <p><strong>覆盖索引的好处：</strong></p>
 <ul>
@@ -420,16 +430,16 @@
 
 <p>不过，当查询的结果集占表的总行数的很大一部分时，可能就不会走索引了，自动转换为全表扫描。当然了，也可以通过 <code>FORCE INDEX</code> 来强制查询优化器走索引，但这种提升效果一般不明显</p>
 <h3 id="慢SQL的优化分析思路？"><a href="#慢SQL的优化分析思路？" class="headerlink" title="慢SQL的优化分析思路？"></a><strong>慢SQL的优化分析思路？</strong></h3><p><strong>1.查看慢查询日志记录，分析慢SQL</strong></p>
-<p>通过慢查询日志slow log，定位那些执行效率较低的SQL语句，重点关注分析</p>
+<p>通过<strong>慢查询日志slow log</strong>，定位那些执行效率较低的SQL语句，重点关注分析</p>
 <p><strong>2.explain查看分析SQL的执行计划</strong></p>
 <p>当定位出查询效率低的SQL后，可以使用<code>explain</code>查看<code>SQL</code>的执行计划。</p>
-<p>比如在这里面可以通过key和key_len检查是否命中了索引，如果本身已经添加了索引，也可以判断索引是否有失效的情况，</p>
-<p>第二个，可以通过type字段查看sql是否有进一步的优化空间，是否存在全索引扫描或全盘扫描，</p>
-<p>第三个可以通过extra建议来判断，是否出现了回表的情况，如果出现了，可以尝试添加索引或修改返回字段来修复</p>
+<p>比如在这里面可以通过<strong>key和key_len检查是否命中了索引</strong>，如果本身已经添加了索引，也可以判断索引是否有失效的情况，</p>
+<p>第二个，可以通过<strong>type</strong>字段查看sql是否有进一步的优化空间，是否存在全索引扫描或全盘扫描，</p>
+<p>第三个可以通过<strong>extra</strong>建议来判断，是否出现了回表的情况，如果出现了，可以尝试添加索引或修改返回字段来修复</p>
 <p><strong>3.profile 分析执行耗时</strong></p>
 <p><code>explain</code>只是看到<code>SQL</code>的预估执行计划，如果要了解<code>SQL</code><strong>真正的执行线程状态及消耗的时间</strong>，需要使用<code>profiling</code>。开启<code>profiling</code>参数后，后续执行的<code>SQL</code>语句都会记录其资源开销，包括<code>IO，上下文切换，CPU，内存</code>等等，我们可以根据这些开销进一步分析当前慢SQL的瓶颈再进一步进行优化</p>
 <p><strong>4.Optimizer Trace分析详情</strong></p>
-<p>profile只能查看到SQL的执行耗时，但是无法看到SQL真正执行的过程信息，即不知道MySQL优化器是如何选择执行计划。这时候，我们可以使用<code>Optimizer Trace</code>，它可以跟踪执行语句的解析优化执行的全过程。</p>
+<p>profile只能查看到SQL的执行耗时，但是无法看到SQL真正执行的过程信息，即不知道MySQL优化器是如何选择执行计划。这时候，我们可以使用<code>Optimizer Trace</code>，它可以<strong>跟踪执行语句的解析优化执行的全过程</strong>。</p>
 <p>大家可以查看分析其执行树，会包括三个阶段：</p>
 <ul>
 <li>join_preparation：准备阶段</li>
@@ -491,7 +501,7 @@
 <td>实际用到的索引</td>
 </tr>
 <tr>
-<td>key_len</td>
+<td><strong>key_len</strong></td>
 <td>所选索引的长度</td>
 </tr>
 <tr>
@@ -507,7 +517,7 @@
 <td>按表条件过滤后，留存的记录数的百分比</td>
 </tr>
 <tr>
-<td>Extra</td>
+<td><strong>Extra</strong></td>
 <td>附加信息</td>
 </tr>
 </tbody></table>
@@ -547,7 +557,7 @@
 <p><strong>key（重要）</strong></p>
 <p>key 列表示 MySQL 实际使用到的索引。如果为 NULL，则表示未用到索引。</p>
 <p><strong>key_len</strong></p>
-<p>key_len 列表示 MySQL 实际使用的索引的最大长度；当使用到联合索引时，有可能是多个列的长度和。在满足需求的前提下越短越好。如果 key 列显示 NULL ，则 key_len 列也显示 NULL 。</p>
+<p>key_len 列表示 MySQL 实际使用的索引的最大长度；<strong>当使用到联合索引时，有可能是多个列的长度和</strong>。在满足需求的前提下越短越好。如果 key 列显示 NULL ，则 key_len 列也显示 NULL 。</p>
 <p><strong>rows</strong></p>
 <p>rows 列表示根据表统计信息及选用情况，大致估算出找到所需的记录或所需读取的行数，数值越小越好。</p>
 <p><strong>Extra（重要）</strong></p>
@@ -589,22 +599,22 @@
 <p>这条命令的输出包含大量的信息，包括最近的死锁检测。如果最近发生过死锁，会在输出的某个部分显示死锁相关的信息。</p>
 <p><strong>使用information_schema数据库</strong></p>
 <p>查看当前正在进行的事务</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">SELECT * FROM INFORMATION_SCHEMA.INNODB_TRX;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> INFORMATION_SCHEMA.INNODB_TRX;<br></code></pre></td></tr></table></figure>
 
 <p>查看当前锁定的事务</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable constant_">SELECT</span> * <span class="hljs-variable constant_">FROM</span> <span class="hljs-variable constant_">INFORMATION_SCHEMA</span>.<span class="hljs-property">INNODB_LOCKS</span>;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> INFORMATION_SCHEMA.INNODB_LOCKS;<br></code></pre></td></tr></table></figure>
 
 <p>查看当前等锁的事务</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-variable constant_">SELECT</span> * <span class="hljs-variable constant_">FROM</span> <span class="hljs-variable constant_">INFORMATION_SCHEMA</span>.<span class="hljs-property">INNODB_LOCK_WAITS</span>;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> INFORMATION_SCHEMA.INNODB_LOCK_WAITS;<br></code></pre></td></tr></table></figure>
 
 <p><strong>查看进程列表</strong></p>
 <p>使用以下命令可以查看当前正在运行的进程列表：</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">SHOW PROCESSLIST<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SHOW</span> PROCESSLIST;<br></code></pre></td></tr></table></figure>
 
-<p>在结果中，你可以查看每个进程的状态、执行的SQL语句以及锁的信息。特别是，如果某个进程的状态为Locked，那么它可能涉及死锁。</p>
+<p>在结果中，你可以查看每个进程的状态、执行的SQL语句以及锁的信息。特别是，<strong>如果某个进程的状态为Locked</strong>，那么它可能涉及死锁。</p>
 <p><strong>错误日志</strong></p>
 <p>配置 <code>innodb_print_all_deadlocks</code> 选项，将死锁信息记录到错误日志中，便于后续分析</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">innodb_print_all_deadlocks=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">innodb_print_all_deadlocks<span class="hljs-operator">=</span><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
 <p><strong>性能监控工具</strong></p>
 <p>使用性能监控工具（如Percona Monitoring and Management, PMM, 或者MySQL Enterprise Monitor）可以帮助你实时监控数据库的性能和锁的情况，从而更容易地发现和解决死锁问题。</p>
@@ -676,7 +686,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>MySQL性能优化</div>
+      <div></div>
       <div>http://example.com/2024/04/05/MySQL/MySQL性能优化/</div>
     </div>
     <div class="license-meta">

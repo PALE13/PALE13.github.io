@@ -16,12 +16,12 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="AQS原理AQS队列同步器,用来构建锁的基础框架,Lock实现类都是基于AQS实现的 AQS是基于模板方法模式进行设计的,所以锁的实现需要继承AQS并重写它指定的方法 AQS内部定义了一个FIFO的队列来实现线程的同步,同时还定义了同步状态来记录锁的信息 AQS的模板方法,将管理同步状态的逻辑提炼出来形成标准流程,这些方法主要包括：独占式获取同步状态、独占式释放同步状态、共享式获取同步状态、共享式">
+    <meta name="description" content="AQS原理AQS队列同步器,用来构建锁的基础框架,Lock实现类都是基于AQS实现的 AQS是基于模板方法模式进行设计的,所以锁的实现需要继承AQS并重写它指定的方法 AQS内部定义了一个FIFO的队列来实现线程的同步，同时还定义了同步状态来记录锁的信息 AQS的模板方法,将管理同步状态的逻辑提炼出来形成标准流程,这些方法主要包括：独占式获取同步状态、独占式释放同步状态、共享式获取同步状态、共享式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AQS原理">
 <meta property="og:url" content="http://example.com/2023/05/13/Java/Java%E5%A4%9A%E5%B9%B6%E5%8F%91/AQS/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="AQS原理AQS队列同步器,用来构建锁的基础框架,Lock实现类都是基于AQS实现的 AQS是基于模板方法模式进行设计的,所以锁的实现需要继承AQS并重写它指定的方法 AQS内部定义了一个FIFO的队列来实现线程的同步,同时还定义了同步状态来记录锁的信息 AQS的模板方法,将管理同步状态的逻辑提炼出来形成标准流程,这些方法主要包括：独占式获取同步状态、独占式释放同步状态、共享式获取同步状态、共享式">
+<meta property="og:description" content="AQS原理AQS队列同步器,用来构建锁的基础框架,Lock实现类都是基于AQS实现的 AQS是基于模板方法模式进行设计的,所以锁的实现需要继承AQS并重写它指定的方法 AQS内部定义了一个FIFO的队列来实现线程的同步，同时还定义了同步状态来记录锁的信息 AQS的模板方法,将管理同步状态的逻辑提炼出来形成标准流程,这些方法主要包括：独占式获取同步状态、独占式释放同步状态、共享式获取同步状态、共享式">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240324164942882.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240324222041328.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509154744601.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240508232856738.png">
 <meta property="article:published_time" content="2023-05-13T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-05T02:05:45.468Z">
+<meta property="article:modified_time" content="2024-11-14T13:51:11.997Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -316,9 +316,9 @@
                 
                 <h2 id="AQS原理"><a href="#AQS原理" class="headerlink" title="AQS原理"></a><strong>AQS原理</strong></h2><p>AQS队列同步器,用来构建锁的基础框架,Lock实现类都是基于AQS实现的</p>
 <p>AQS是基于模板方法模式进行设计的,所以锁的实现需要继承AQS并重写它指定的方法</p>
-<p>AQS内部定义了一个FIFO的队列来实现线程的同步,同时还定义了同步状态来记录锁的信息</p>
+<p>AQS内部定义了一个FIFO的队列来实现线程的同步，同时还定义了同步状态来记录锁的信息</p>
 <p>AQS的模板方法,将管理同步状态的逻辑提炼出来形成标准流程,这些方法主要包括：独占式获取同步状态、独占式释放同步状态、共享式获取同步状态、共享式释放同步状态</p>
-<p>AQS 定义两种资源共享方式：<code>Exclusive</code>（独占，只有一个线程能执行，如<code>ReentrantLock</code>）和<code>Share</code>（共享，多个线程可同时执行，如<code>Semaphore</code>&#x2F;<code>CountDownLatch</code>）</p>
+<p><strong>AQS 定义两种资源共享方式：</strong><code>Exclusive</code>（独占，只有一个线程能执行，如<code>ReentrantLock</code>）和<code>Share</code>（共享，多个线程可同时执行，如<code>Semaphore</code>&#x2F;<code>CountDownLatch</code>）</p>
 <p>一般来说，自定义同步器的共享方式要么是独占，要么是共享，他们也只需实现<code>tryAcquire-tryRelease</code>、<code>tryAcquireShared-tryReleaseShared</code>中的一种即可。但 AQS 也支持自定义同步器同时实现独占和共享两种方式，如<code>ReentrantReadWriteLock</code></p>
 <h3 id="AQS-的原理"><a href="#AQS-的原理" class="headerlink" title="AQS 的原理"></a><strong>AQS 的原理</strong></h3><p>AQS 核心思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的工作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，这个机制 AQS 是用 <strong>CLH 队列锁</strong> 实现的，即将暂时获取不到锁的线程加入到队列中。</p>
 <p>CLH(Craig,Landin,and Hagersten) 队列是一个虚拟的双向队列（虚拟的双向队列即不存在队列实例，仅存在结点之间的关联关系）。AQS 是将每条请求共享资源的线程封装成一个 CLH 锁队列的一个结点（Node）来实现锁的分配。在 CLH 同步队列中，<strong>一个节点表示一个线程，它保存着线程的引用（thread）</strong>、 当前节点在队列中的状态（waitStatus）、前驱节点（prev）、后继节点（next）</p>
@@ -332,13 +332,14 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//返回同步状态的当前值</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getState</span><span class="hljs-params">()</span> &#123;<br>     <span class="hljs-keyword">return</span> state;<br>&#125;<br> <span class="hljs-comment">// 设置同步状态的值</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setState</span><span class="hljs-params">(<span class="hljs-type">int</span> newState)</span> &#123;<br>     state = newState;<br>&#125;<br><span class="hljs-comment">//原子地（CAS操作）将同步状态值设置为给定值update如果当前同步状态的值等于expect（期望值）</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">final</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">compareAndSetState</span><span class="hljs-params">(<span class="hljs-type">int</span> expect, <span class="hljs-type">int</span> update)</span> &#123;<br>      <span class="hljs-keyword">return</span> unsafe.compareAndSwapInt(<span class="hljs-built_in">this</span>, stateOffset, expect, update);<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
 <p>以可重入的互斥锁 <code>ReentrantLock</code> 为例，它的内部维护了一个 <code>state</code> 变量，用来表示锁的占用状态。**<code>state</code> 的初始值为 0，表示锁处于未锁定状态。当线程 A 调用 <code>lock()</code> 方法时，会尝试通过 <code>tryAcquire()</code> 方法独占该锁，并让 <code>state</code> 的值加 1。**如果成功了，那么线程 A 就获取到了锁。如果失败了，那么线程 A 就会被加入到一个等待队列（CLH 队列）中，直到其他线程释放该锁。假设线程 A 获取锁成功了，释放锁之前，A 线程自己是可以重复获取此锁的（<code>state</code> 会累加）。这就是可重入性的体现：一个线程可以多次获取同一个锁而不会被阻塞。但是，这也意味着，一个线程必须释放与获取的次数相同的锁，才能让 <code>state</code> 的值回到 0，也就是让锁恢复到未锁定状态。只有这样，其他等待的线程才能有机会获取该锁。</p>
-<h3 id="CHL锁"><a href="#CHL锁" class="headerlink" title="CHL锁"></a><strong>CHL锁</strong></h3><h4 id="自旋锁缺点"><a href="#自旋锁缺点" class="headerlink" title="自旋锁缺点"></a><strong>自旋锁缺点</strong></h4><p>自旋锁实现简单，同时避免了操作系统进程调度和线程上下文切换的开销，但他有两个缺点：</p>
+<h3 id="CLH锁"><a href="#CLH锁" class="headerlink" title="CLH锁"></a><strong>CLH锁</strong></h3><p><strong>CLH 锁是对自旋锁的一种改进</strong>。首先它将线程组织成一个队列，保证先请求的线程先获得锁，避免了饥饿问题。其次锁状态去中心化，让每个线程在不同的状态变量中自旋，这样当一个线程释放它的锁时，只能使其后续线程的高速缓存失效，缩小了影响范围，从而减少了 CPU 的开销。</p>
+<p>CLH 锁数据结构很简单，类似一个链表队列，<strong>所有请求获取锁的线程会排列在链表队列中，自旋访问队列中前一个节点的状态。当一个节点释放锁时，只有它的后一个节点才可以得到锁。</strong>CLH 锁本身有一个队尾指针 Tail，它是一个原子变量，指向队列最末端的 CLH 节点。每一个 CLH 节点有两个属性：所代表的线程和标识是否持有锁的状态变量。当一个线程要获取锁时，它会对 Tail 进行一个 getAndSet 的原子操作。该操作会返回 Tail 当前指向的节点，也就是当前队尾节点，然后使 Tail 指向这个线程对应的 CLH 节点，成为新的队尾节点。入队成功后，该线程会轮询上一个队尾节点的状态变量，当上一个节点释放锁后，它将得到这个锁。</p>
+<p><strong>自旋锁缺点</strong></p>
+<p>自旋锁实现简单，同时避免了<strong>操作系统进程调度和线程上下文切换</strong>的开销，但他有两个缺点：</p>
 <ul>
 <li>第一个是锁饥饿问题。在锁竞争激烈的情况下，可能存在一个线程一直被其他线程”插队“而一直获取不到锁的情况。</li>
 <li>第二是性能问题。在实际的多处理上运行的自旋锁在锁竞争激烈时性能较差。</li>
 </ul>
-<p>CLH 锁是对自旋锁的一种改进，有效的解决了以上的两个缺点。首先它将线程组织成一个队列，保证先请求的线程先获得锁，避免了饥饿问题。其次锁状态去中心化，让每个线程在不同的状态变量中自旋，这样当一个线程释放它的锁时，只能使其后续线程的高速缓存失效，缩小了影响范围，从而减少了 CPU 的开销。</p>
-<p>CLH 锁数据结构很简单，类似一个链表队列，<strong>所有请求获取锁的线程会排列在链表队列中，自旋访问队列中前一个节点的状态。当一个节点释放锁时，只有它的后一个节点才可以得到锁。</strong>CLH 锁本身有一个队尾指针 Tail，它是一个原子变量，指向队列最末端的 CLH 节点。每一个 CLH 节点有两个属性：所代表的线程和标识是否持有锁的状态变量。当一个线程要获取锁时，它会对 Tail 进行一个 getAndSet 的原子操作。该操作会返回 Tail 当前指向的节点，也就是当前队尾节点，然后使 Tail 指向这个线程对应的 CLH 节点，成为新的队尾节点。入队成功后，该线程会轮询上一个队尾节点的状态变量，当上一个节点释放锁后，它将得到这个锁。</p>
 <h4 id="CLH-优缺点分析"><a href="#CLH-优缺点分析" class="headerlink" title="CLH 优缺点分析"></a><strong>CLH 优缺点分析</strong></h4><p>CLH 锁作为自旋锁的改进，有以下几个优点：</p>
 <ol>
 <li>性能优异，获取和释放锁开销小。CLH 的锁状态不再是单一的原子变量，而是分散在每个节点的状态中，降低了自旋锁在竞争激烈时频繁同步的开销。在释放锁的开销也因为不需要使用 CAS 指令而降低了。</li>
@@ -350,6 +351,8 @@
 <p>在原始版本的 CLH 锁中，节点间甚至都没有互相链接。但是，通过在节点中显式地维护前驱节点，CLH 锁就可以处理“超时”和各种形式的“取消”：如果一个节点的前驱节点取消了，这个节点就可以滑动去使用前面一个节点的状态字段。对于通过自旋获取锁的 CLH 锁来说，只需要显式的维护前驱节点就可以实现取消功能，如下图所示：</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240324222041328.png" srcset="/img/loading.gif" lazyload alt="image-20240324222041328" style="zoom:50%;" />
 
+
+
 <h3 id="AQS-对-CLH-队列锁的改造"><a href="#AQS-对-CLH-队列锁的改造" class="headerlink" title="AQS 对 CLH 队列锁的改造"></a><strong>AQS 对 CLH 队列锁的改造</strong></h3><p>针对 CLH 的缺点，AQS 对 CLH 队列锁进行了一定的改造。针对第一个缺点，<strong>AQS 将自旋操作改为阻塞线程操作</strong>。针对第二个缺点，AQS 对 CLH 锁进行改造和扩展，原作者 Doug Lea 称之为“CLH 锁的变体”。下面将详细讲 AQS 底层细节以及对 CLH 锁的改进。AQS 中的对 CLH 锁数据结构的改进主要包括三方面：<strong>扩展每个节点的状态、显式的维护前驱节点和后继节点以及诸如出队节点显式设为 null</strong> 等辅助 GC 的优化。正是这些改进使 AQS 可以支撑 j.u.c 丰富多彩的同步器实现。</p>
 <p><strong>显示的添加了前后指针</strong></p>
 <p>因为 AQS 用阻塞等待替换了自旋操作，线程会阻塞等待锁的释放，不能主动感知到前驱节点状态变化的信息。AQS 中显式的维护前驱节点和后继节点，<strong>需要释放锁的节点会显式通知下一个节点解除阻塞</strong>，如下图所示，T1 释放锁后主动唤醒 T2，使 T2 检测到锁已释放，获取锁成功</p>
@@ -359,7 +362,7 @@
 
 <p> <strong>扩展每个节点的状态</strong></p>
 <p>AQS 每个节点的状态如下所示，在源码中如下所示：</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">volatile</span> <span class="hljs-type">int</span> waitStatus;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">volatile</span> <span class="hljs-type">int</span> waitStatus;<br></code></pre></td></tr></table></figure>
 
 <p>AQS 同样提供了该状态变量的原子读写操作，但和同步器状态不同的是，节点状态在 AQS 中被清晰的定义，如下表所示</p>
 <table>
@@ -452,8 +455,6 @@
 <p>获取head的waitStatus，如果&lt;0，即为SIGNAL，那么将其置为0，表示锁已释放，然后唤醒后续等待线程</p>
 <p>如果后续节点为null或者处于CANCELED状态，那么从后往前搜索，<strong>找到除了head外最靠前且非CANCELED状态的Node，对其进行唤醒，让它起来尝试拿锁</strong>，唤醒的线程会回到acquireQueued(final Node node, int arg)方法的逻辑重新执行<strong>tryAcquire(arg)</strong></p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509163115625.png" srcset="/img/loading.gif" lazyload alt="image-20240509163115625" style="zoom:50%;" />
-
-
 
 
 

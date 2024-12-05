@@ -16,18 +16,18 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="注解何谓注解Annotation （注解） 是 Java5 开始引入的新特性，可以看作是一种特殊的注释，主要用于修饰类、方法或者变量，提供某些信息供程序在编译或者运行时使用。 注解本质是一个继承了Annotation 的特殊接口： 123456789@Target(ElementType.METHOD)@Retention(RetentionPolicy.SOURCE)public @interf">
+    <meta name="description" content="注解何谓注解Annotation （注解） 是 Java5 开始引入的新特性，可以看作是一种特殊的注释，主要用于修饰类、方法或者变量，提供某些信息供程序在编译或者运行时使用。 注解本质是一个继承了Annotation 的特殊接口： 1234567@Target(ElementType.METHOD)@Retention(RetentionPolicy.SOURCE)public @interfac">
 <meta property="og:type" content="article">
 <meta property="og:title" content="注解">
 <meta property="og:url" content="http://example.com/2023/06/26/Java/Java%E8%BF%9B%E9%98%B6/%E6%B3%A8%E8%A7%A3/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="注解何谓注解Annotation （注解） 是 Java5 开始引入的新特性，可以看作是一种特殊的注释，主要用于修饰类、方法或者变量，提供某些信息供程序在编译或者运行时使用。 注解本质是一个继承了Annotation 的特殊接口： 123456789@Target(ElementType.METHOD)@Retention(RetentionPolicy.SOURCE)public @interf">
+<meta property="og:description" content="注解何谓注解Annotation （注解） 是 Java5 开始引入的新特性，可以看作是一种特殊的注释，主要用于修饰类、方法或者变量，提供某些信息供程序在编译或者运行时使用。 注解本质是一个继承了Annotation 的特殊接口： 1234567@Target(ElementType.METHOD)@Retention(RetentionPolicy.SOURCE)public @interfac">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240309174037362.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240309174113258.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240309183222583.png">
 <meta property="article:published_time" content="2023-06-26T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-01T12:08:36.766Z">
+<meta property="article:modified_time" content="2024-12-05T09:33:56.789Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -308,7 +308,7 @@
                 
                 <h2 id="注解"><a href="#注解" class="headerlink" title="注解"></a><strong>注解</strong></h2><h3 id="何谓注解"><a href="#何谓注解" class="headerlink" title="何谓注解"></a><strong>何谓注解</strong></h3><p><code>Annotation</code> （注解） 是 Java5 开始引入的新特性，可以看作是一种特殊的注释，主要用于修饰类、方法或者变量，提供某些信息供程序在编译或者运行时使用。</p>
 <p>注解本质是一个继承了<code>Annotation</code> 的特殊接口：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.METHOD)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.SOURCE)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Override &#123;<br><br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Override</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Annotation</span>&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.METHOD)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.SOURCE)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Override &#123;<br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Override</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Annotation</span>&#123;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
 

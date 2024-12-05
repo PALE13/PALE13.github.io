@@ -16,17 +16,17 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="SpringBoot常用注解Spring Boot 的自动配置是如何实现的?使用Springboot时，我们需要先引入对应starts，Springboot启动时会自动加载相关依赖，配置相应的初始化参数；  自动装配的流程：SpringBoot通过@EnableAutoConfiguration注解开启自动配置，Spring Boot会自动根据项目中的依赖配置相关的Bean。例如，如果项目中引入了">
+    <meta name="description" content="SpringBoot常用注解Spring Boot 的自动配置是如何实现的?使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数；  自动装配的流程：SpringBoot通过**@EnableAutoConfiguration注解开启自动配置**，Spring Boot会自动根据项目中的依赖配置相关的Bean，例如，如果项">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot">
 <meta property="og:url" content="http://example.com/2024/01/16/Spring+MyBatis/SpringBoot/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="SpringBoot常用注解Spring Boot 的自动配置是如何实现的?使用Springboot时，我们需要先引入对应starts，Springboot启动时会自动加载相关依赖，配置相应的初始化参数；  自动装配的流程：SpringBoot通过@EnableAutoConfiguration注解开启自动配置，Spring Boot会自动根据项目中的依赖配置相关的Bean。例如，如果项目中引入了">
+<meta property="og:description" content="SpringBoot常用注解Spring Boot 的自动配置是如何实现的?使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数；  自动装配的流程：SpringBoot通过**@EnableAutoConfiguration注解开启自动配置**，Spring Boot会自动根据项目中的依赖配置相关的Bean，例如，如果项">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240319221351739.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240319222919988.png">
 <meta property="article:published_time" content="2024-01-16T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-12T08:01:00.507Z">
+<meta property="article:modified_time" content="2024-10-30T14:53:14.093Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -252,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.8k 字
+          5.2k 字
         
       </span>
     
@@ -263,7 +263,7 @@
         
         
         
-          41 分钟
+          44 分钟
         
       </span>
     
@@ -305,24 +305,39 @@
             
               <div class="markdown-body">
                 
-                <h2 id="SpringBoot常用注解"><a href="#SpringBoot常用注解" class="headerlink" title="SpringBoot常用注解"></a><strong>SpringBoot常用注解</strong></h2><h3 id="Spring-Boot-的自动配置是如何实现的"><a href="#Spring-Boot-的自动配置是如何实现的" class="headerlink" title="Spring Boot 的自动配置是如何实现的?"></a><strong>Spring Boot 的自动配置是如何实现的?</strong></h3><p>使用Springboot时，我们需要先引入对应starts，Springboot启动时会自动加载相关依赖，配置相应的初始化参数； </p>
-<p><strong>自动装配的流程：</strong>SpringBoot通过@EnableAutoConfiguration注解开启自动配置，Spring Boot会自动根据项目中的依赖配置相关的Bean。例如，如果项目中引入了spring-boot-starter-web依赖</p>
-<p>它使用 Spring 框架提供的 @Import 注解通过AutoConfigurationImportSelector类（选择器）给容器中<strong>导入加载所有符合条件的META-INF&#x2F;spring.factorie类</strong></p>
-<p>如果是条件配置，满足@Conditional注解的条件时，就实例化该AutoConfiguration类中定义的Bean，并注入Spring容器，即可完成Springboot的自动装配</p>
+                <h2 id="SpringBoot常用注解"><a href="#SpringBoot常用注解" class="headerlink" title="SpringBoot常用注解"></a><strong>SpringBoot常用注解</strong></h2><h3 id="Spring-Boot-的自动配置是如何实现的"><a href="#Spring-Boot-的自动配置是如何实现的" class="headerlink" title="Spring Boot 的自动配置是如何实现的?"></a><strong>Spring Boot 的自动配置是如何实现的?</strong></h3><p>使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数； </p>
+<p><strong>自动装配的流程：</strong>SpringBoot通过**@EnableAutoConfiguration注解开启自动配置**，Spring Boot会自动根据项目中的依赖配置相关的Bean，例如，如果项目中引入了spring-boot-starter-web依赖</p>
+<p>它使用 Spring 框架提供的 @Import 注解通过<strong>AutoConfigurationImportSelector类（选择器）</strong>给容器中<strong>加载所有自动配置类的jar包的META-INF&#x2F;spring.factorie文件下面指定的自动配置类</strong></p>
+<p><strong>如果是条件配置，满足@Conditional注解的条件时</strong>，就实例化该AutoConfiguration类中定义的Bean，并注入Spring容器，即可完成Springboot的自动装配</p>
 <p>比如spring.factories定义的AutoConfiguration类是MyConditionalAutoConfiguration</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"># 自动配置类<br>org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.example.MyAutoConfiguration<br><br># 自定义条件化自动配置<br>org.springframework.boot.autoconfigure.condition.ConditionalOnProperty=com.example.MyConditionalAutoConfiguration<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># 自动配置类</span><br><span class="hljs-string">org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.example.MyAutoConfiguration</span><br><br><span class="hljs-comment"># 自定义条件化自动配置</span><br><span class="hljs-string">org.springframework.boot.autoconfigure.condition.ConditionalOnProperty=com.example.MyConditionalAutoConfiguration</span><br></code></pre></td></tr></table></figure>
 
 
 
-<p><strong>spring.factories</strong> </p>
-<p>通常将 <code>spring.factories</code> 文件放置在项目的 <code>META-INF</code> 目录下。在大多数情况下，这个目录位于 <code>src/main/resources</code> 目录下。</p>
+<h4 id="什么是spring-factories？"><a href="#什么是spring-factories？" class="headerlink" title="什么是spring.factories？"></a><strong>什么是spring.factories？</strong></h4><p>通常将 <code>spring.factories</code> 文件放置在项目的 <code>META-INF</code> 目录下。在大多数情况下，这个目录位于 <code>src/main/resources</code> 目录下。</p>
 <p><strong>spring.factories 文件</strong>可以将 spring-boot 项目包以外的 bean（即在 pom 文件中添加依赖中的 bean）注册到 spring-boot 项目的 spring 容器。</p>
 <p>由于@ComponentScan 注解只能扫描 spring-boot 项目包内的 bean 并注册到 spring 容器中，因此需要@EnableAutoConfiguration 注解来注册项目包外的bean。而 spring.factories 文件，则是用来记录项目包外需要注册的bean类名</p>
-<p><strong><code>@Configuration</code></strong> </p>
-<p>使用 <code>@Configuration</code> 注解进行标记，然后在类上添加 <code>@ConditionalOnProperty</code> 注解可以指定条件。例如：</p>
+<h4 id="Configuration的作用是什么"><a href="#Configuration的作用是什么" class="headerlink" title="@Configuration的作用是什么"></a><strong><code>@Configuration</code>的作用是什么</strong></h4><p>使用 <code>@Configuration</code> 注解进行标记，然后在类上添加 <code>@ConditionalOnProperty</code> 注解可以指定条件。例如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">javaCopy codeimport org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;<br><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@ConditionalOnProperty(prefix = &quot;myapp&quot;, name = &quot;enabled&quot;, havingValue = &quot;true&quot;, matchIfMissing = true)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyConditionalAutoConfiguration</span> &#123;<br>    <span class="hljs-comment">// 自动配置内容...</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>只有当配置文件中的 <code>myapp.enabled</code> 属性值为 <code>true</code> 时，才会加载这个自动配置类。</p>
+<h4 id="条件注解有哪些？"><a href="#条件注解有哪些？" class="headerlink" title="条件注解有哪些？"></a><strong>条件注解有哪些？</strong></h4><ol>
+<li>**<code>@ConditionalOnBean</code>**：当容器中存在指定的 Bean 时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnMissingBean</code>**：当容器中不存在指定的 Bean 时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnClass</code>**：当类路径下存在指定的类时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnMissingClass</code>**：当类路径下不存在指定的类时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnProperty</code>**：当指定的属性值符合条件时，才创建当前的 Bean。可以指定属性的键和值。</li>
+<li>**<code>@ConditionalOnResource</code>**：当类路径下存在指定的资源文件时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnWebApplication</code>**：根据应用程序的类型来决定是否创建当前的 Bean。例如，可以指定只有当应用程序是 Web 应用程序时才创建。</li>
+<li>**<code>@ConditionalOnNotWebApplication</code>**：与 <code>@ConditionalOnWebApplication</code> 相反，当应用程序不是 Web 应用程序时才创建 Bean。</li>
+<li>**<code>@ConditionalOnExpression</code>**：当 SpEL 表达式为 true 时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnJava</code>**：当运行在特定版本的 Java 环境下时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnSingleCandidate</code>**：当容器中只有一个指定的 Bean，或者这些 Bean 可以被自动装配时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnCloudPlatform</code>**：当应用程序运行在特定的云平台上时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnRibbon</code>**：当 Ribbon 客户端存在时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnEureka</code>**：当 Eureka 客户端存在时，才创建当前的 Bean。</li>
+<li>**<code>@ConditionalOnZuul</code>**：当 Zuul 客户端存在时，才创建当前的 Bean。</li>
+</ol>
 <h3 id="SpringBootApplication注解工作流程"><a href="#SpringBootApplication注解工作流程" class="headerlink" title="@SpringBootApplication注解工作流程"></a><strong>@SpringBootApplication注解工作流程</strong></h3><p>以下是Spring Boot启动类注解的工作流程：</p>
 <ol>
 <li><strong>初始化SpringApplication</strong>：在Spring Boot应用启动时，首先会进行SpringApplication的初始化。这个过程包括设置源（即设置Spring容器启动时依赖的初始配置类），设置WEB应用程序类型（例如SERVLET或REACTIVE），以及配置一些基本的环境变量、资源、构造器和监听器。</li>
@@ -331,7 +346,7 @@
 <li><strong>自动化配置</strong>：Spring Boot的一个核心特性是自动化配置，它会根据项目的依赖和配置自动配置Spring应用。例如，如果项目中包含了spring-boot-starter-web依赖，Spring Boot会自动配置嵌入式的Tomcat服务器和Spring MVC相关的组件。</li>
 <li><strong>启动应用</strong>：最后，通过调用<code>SpringApplication.run(SpringBoot.class, args)</code>方法，Spring Boot会启动内嵌的Web服务器（默认为Tomcat），并开始监听指定的端口，等待接收请求。</li>
 </ol>
-<h3 id="常用注解"><a href="#常用注解" class="headerlink" title="常用注解"></a><strong>常用注解</strong></h3><h4 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a><strong>@SpringBootApplication</strong></h4><p>这里先单独拎出<code>@SpringBootApplication</code> 注解说一下，虽然我们一般不会主动去使用它。</p>
+<h3 id="常用注解有哪些"><a href="#常用注解有哪些" class="headerlink" title="常用注解有哪些"></a><strong>常用注解有哪些</strong></h3><h4 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a><strong>@SpringBootApplication</strong></h4><p>这里先单独拎出<code>@SpringBootApplication</code> 注解说一下，虽然我们一般不会主动去使用它。</p>
 <p><em>Guide：这个注解是 Spring Boot 项目的基石，创建 SpringBoot 项目之后会默认在主类加上。</em></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringSecurityJwtGuideApplication</span> &#123;<br>      <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(java.lang.String[] args)</span> &#123;<br>        SpringApplication.run(SpringSecurityJwtGuideApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 

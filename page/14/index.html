@@ -467,7 +467,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2023/09/30/Java/Java%E5%A4%9A%E5%B9%B6%E5%8F%91/%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8/" target="_self">
         <div>
-          并发容器CopyOnWriteArrayList在 JDK1.5 之前，如果想要使用并发安全的 List 只能选择 Vector。而 Vector 是一种老旧的集合，已经被淘汰。**Vector 对于增删改查等方法基本都加了 synchronized**，这种方式虽然能够保证同步，但这相当于对整个 Vector 加上了一把大锁，使得每个方法执行的时候都要去获得锁，导致性能非常低下。 JDK1.5
+          并发容器Vector在 JDK1.5 之前，如果想要使用并发安全的 List 只能选择 Vector。而 Vector 是一种老旧的集合，已经被淘汰。**Vector 对于增删改查等方法基本都加了 synchronized**，这种方式虽然能够保证同步，但这相当于对整个 Vector 加上了一把大锁，使得每个方法执行的时候都要去获得锁，导致性能非常低下。 CopyOnWriteArrayListJ
         </div>
       </a>
 

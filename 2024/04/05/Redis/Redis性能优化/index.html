@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240430122022425.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240430133653141.png">
 <meta property="article:published_time" content="2024-04-05T09:46:25.000Z">
-<meta property="article:modified_time" content="2024-06-13T08:52:37.923Z">
+<meta property="article:modified_time" content="2024-11-21T10:05:36.466Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
@@ -255,7 +255,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6.4k 字
+          6.7k 字
         
       </span>
     
@@ -266,7 +266,7 @@
         
         
         
-          54 分钟
+          56 分钟
         
       </span>
     
@@ -324,7 +324,7 @@
 </ol>
 <p>其中，第 1 步和第 4 步耗费时间之和称为 <strong>Round Trip Time (RTT,往返时间)</strong> ，也就是数据在网络上传输的时间。</p>
 <p>使用批量操作可以减少网络传输次数，进而有效减小网络开销，大幅减少 RTT。</p>
-<p>另外，除了能减少 RTT 之外，发送一次命令的 socket I&#x2F;O 成本也比较高（涉及上下文切换，存在<code>read()</code>和<code>write()</code>系统调用），批量操作还可以减少 socket I&#x2F;O 成本。这个在官方对 pipeline 的介绍中有提到：<a target="_blank" rel="noopener" href="https://redis.io/docs/manual/pipelining/">https://redis.io/docs/manual/pipelining/open in new window</a> 。</p>
+<p>另外，除了能减少 RTT 之外，发送一次命令的 socket I&#x2F;O 成本也比较高（涉及上下文切换，存在<code>read()</code>和<code>write()</code>系统调用），批量操作还可以减少 socket I&#x2F;O 成本。这个在官方对 pipeline 的介绍中有提到：<a target="_blank" rel="noopener" href="https://redis.io/docs/manual/pipelining/">https://redis.io/docs/manual/pipelining</a> 。</p>
 <h4 id="原生批量操作命令"><a href="#原生批量操作命令" class="headerlink" title="原生批量操作命令"></a><strong>原生批量操作命令</strong></h4><p>Redis 中有一些原生支持批量操作的命令，比如：</p>
 <ul>
 <li><code>MGET</code>(获取一个或多个指定 key 的值)、<code>MSET</code>(设置一个或多个指定 key 的值)、</li>
@@ -364,12 +364,13 @@
 <p>定期删除执行过程中，如果突然遇到大量过期 key 的话，客户端请求必须等待定期清理过期 key 任务线程执行完成，因为这个这个定期任务线程是在 Redis 主线程中执行的。这就导致客户端请求没办法被及时处理，响应速度会比较慢。</p>
 <p><strong>如何解决呢？</strong> 下面是两种常见的方法：</p>
 <ol>
-<li>给 key 设置随机过期时间。</li>
-<li>开启 lazy-free（惰性删除&#x2F;延迟释放） 。lazy-free 特性是 Redis 4.0 开始引入的，指的是让 Redis 采用异步方式延迟释放 key 使用的内存，将该操作交给单独的子线程处理，避免阻塞主线程。</li>
+<li>给 key <strong>设置随机过期时间。</strong></li>
+<li>开启 lazy-free（惰性删除&#x2F;延迟释放） 。lazy-free 特性是 Redis 4.0 开始引入的，指的是让 Redis 采用异步方式延迟释放 key 使用的内存，<strong>将该操作交给单独的子线程处理，避免阻塞主线程。</strong></li>
 </ol>
 <p>个人建议不管是否开启 lazy-free，我们都尽量给 key 设置随机过期时间。</p>
 <h3 id="Redis-bigkey（大-Key）"><a href="#Redis-bigkey（大-Key）" class="headerlink" title="Redis bigkey（大 Key）"></a><strong>Redis bigkey（大 Key）</strong></h3><p><strong>什么是 bigkey？</strong></p>
-<p>简单来说，<strong>如果一个 key 对应的 value 所占用的内存比较大</strong>，那这个 key 就可以看作是 bigkey。具体多大才算大呢？有一个不是特别精确的参考标准：</p>
+<p>简单来说，<strong>如果一个 key 对应的 value 所占用的内存比较大</strong>，那这个 key 就可以看作是 bigkey。具体多大才算大呢？</p>
+<p>有一个不是特别精确的参考标准：</p>
 <ul>
 <li>String 类型的 value 超过 1MB</li>
 <li>复合类型（List、Hash、Set、Sorted Set 等）的 value 包含的元素超过 5000 个（不过，对于复合类型的 value 来说，不一定包含的元素越多，占用的内存就越多）。</li>
@@ -377,11 +378,11 @@
 <h4 id="bigkey-是怎么产生的？有什么危害？"><a href="#bigkey-是怎么产生的？有什么危害？" class="headerlink" title="bigkey 是怎么产生的？有什么危害？"></a><strong>bigkey 是怎么产生的？有什么危害？</strong></h4><p>bigkey 通常是由于下面这些原因产生的：</p>
 <ul>
 <li>程序设计不当，比如直接使用 String 类型存储较大的文件对应的二进制数据。</li>
-<li>对于业务的数据规模考虑不周到，比如使用集合类型的时候没有考虑到数据量的快速增长。</li>
+<li>对于业务的数据规模考虑不周到，<strong>比如使用集合类型的时候没有考虑到数据量的快速增长。</strong></li>
 <li>未及时清理垃圾数据，比如哈希中冗余了大量的无用键值对。</li>
 </ul>
 <p>bigkey 除了会消耗更多的内存空间和带宽，还会对性能造成比较大的影响。</p>
-<p>在 <a href="">Redis 常见阻塞原因总结</a>这篇文章中我们提到：大 key 还会造成阻塞问题。具体来说，主要体现在下面三个方面：</p>
+<p><strong>大 key 还会造成阻塞问题。具体来说，主要体现在下面三个方面：</strong></p>
 <ol>
 <li>客户端超时阻塞：由于 Redis 执行命令是单线程处理，然后在操作大 key 时会比较耗时，那么就会阻塞 Redis，从客户端这一视角看，就是很久很久都没有响应。</li>
 <li>网络阻塞：每次获取大 key 产生的网络流量较大，如果一个 key 的大小是 1 MB，每秒访问量为 1000，那么每秒会产生 1000MB 的流量，这对于普通千兆网卡的服务器来说是灾难性的。</li>
@@ -389,9 +390,9 @@
 </ol>
 <p>大 key 造成的阻塞问题还会进一步影响到主从同步和集群扩容。</p>
 <h4 id="如何发现-bigkey？"><a href="#如何发现-bigkey？" class="headerlink" title="如何发现 bigkey？"></a><strong>如何发现 bigkey？</strong></h4><p><strong>1、使用 Redis 自带的 <code>--bigkeys</code> 参数来查找。</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"># redis-cli -p <span class="hljs-number">6379</span> --bigkeys<br><br># Scanning the entire keyspace to find biggest keys as well as<br># average sizes per key type.  You can use -i <span class="hljs-number">0.1</span> to sleep <span class="hljs-number">0.1</span> sec<br># per <span class="hljs-number">100</span> SCAN <span class="hljs-title function_">commands</span> <span class="hljs-params">(not usually needed)</span>.<br><br>[<span class="hljs-number">00.00</span>%] Biggest string found so far <span class="hljs-string">&#x27;&quot;ballcat:oauth:refresh_auth:f6cdb384-9a9d-4f2f-af01-dc3f28057c20&quot;&#x27;</span> with <span class="hljs-number">4437</span> bytes<br>[<span class="hljs-number">00.00</span>%] Biggest list   found so far <span class="hljs-string">&#x27;&quot;my-list&quot;&#x27;</span> with <span class="hljs-number">17</span> items<br><br>-------- summary -------<br><br>Sampled <span class="hljs-number">5</span> keys in the keyspace!<br>Total key length in bytes is <span class="hljs-number">264</span> (avg len <span class="hljs-number">52.80</span>)<br><br>Biggest   list found <span class="hljs-string">&#x27;&quot;my-list&quot;&#x27;</span> has <span class="hljs-number">17</span> items<br>Biggest string found <span class="hljs-string">&#x27;&quot;ballcat:oauth:refresh_auth:f6cdb384-9a9d-4f2f-af01-dc3f28057c20&quot;&#x27;</span> has <span class="hljs-number">4437</span> bytes<br><br><span class="hljs-number">1</span> lists with <span class="hljs-number">17</span> items (<span class="hljs-number">20.00</span>% of keys, avg size <span class="hljs-number">17.00</span>)<br><span class="hljs-number">0</span> hashs with <span class="hljs-number">0</span> fields (<span class="hljs-number">00.00</span>% of keys, avg size <span class="hljs-number">0.00</span>)<br><span class="hljs-number">4</span> strings with <span class="hljs-number">4831</span> bytes (<span class="hljs-number">80.00</span>% of keys, avg size <span class="hljs-number">1207.75</span>)<br><span class="hljs-number">0</span> streams with <span class="hljs-number">0</span> entries (<span class="hljs-number">00.00</span>% of keys, avg size <span class="hljs-number">0.00</span>)<br><span class="hljs-number">0</span> sets with <span class="hljs-number">0</span> members (<span class="hljs-number">00.00</span>% of keys, avg size <span class="hljs-number">0.00</span>)<br><span class="hljs-number">0</span> zsets with <span class="hljs-number">0</span> members (<span class="hljs-number">00.00</span>% of keys, avg size <span class="hljs-number">0.00</span><br><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"># redis-cli -p <span class="hljs-number">6379</span> --bigkeys<br><br># Scanning the entire keyspace to find biggest keys as well as<br># average sizes per key type.  You can use -i <span class="hljs-number">0.1</span> to sleep <span class="hljs-number">0.1</span> sec<br># per <span class="hljs-number">100</span> SCAN <span class="hljs-title function_">commands</span> <span class="hljs-params">(not usually needed)</span>.<br><br>[<span class="hljs-number">00.00</span>%] Biggest string found so far <span class="hljs-string">&#x27;&quot;ballcat:oauth:refresh_auth:f6cdb384-9a9d-4f2f-af01-dc3f28057c20&quot;&#x27;</span> with <span class="hljs-number">4437</span> bytes<br>[<span class="hljs-number">00.00</span>%] Biggest list   found so far <span class="hljs-string">&#x27;&quot;my-list&quot;&#x27;</span> with <span class="hljs-number">17</span> items<br><br>-------- summary -------<br>Sampled <span class="hljs-number">5</span> keys in the keyspace!<br>Total key length in bytes is <span class="hljs-number">264</span> (avg len <span class="hljs-number">52.80</span>)<br><br>Biggest   list found <span class="hljs-string">&#x27;&quot;my-list&quot;&#x27;</span> has <span class="hljs-number">17</span> items<br>Biggest string found <span class="hljs-string">&#x27;&quot;ballcat:oauth:refresh_auth:f6cdb384-9a9d-4f2f-af01-dc3f28057c20&quot;&#x27;</span> has <span class="hljs-number">4437</span> bytes<br><br><span class="hljs-number">1</span> lists with <span class="hljs-number">17</span> items (<span class="hljs-number">20.00</span>% of keys, avg size <span class="hljs-number">17.00</span>)<br><span class="hljs-number">0</span> hashs with <span class="hljs-number">0</span> fields (<span class="hljs-number">00.00</span>% of keys, avg size <span class="hljs-number">0.00</span>)<br><span class="hljs-number">4</span> strings with <span class="hljs-number">4831</span> bytes (<span class="hljs-number">80.00</span>% of keys, avg size <span class="hljs-number">1207.75</span>)<br><span class="hljs-number">0</span> streams with <span class="hljs-number">0</span> entries (<span class="hljs-number">00.00</span>% of keys, avg size <span class="hljs-number">0.00</span>)<br><span class="hljs-number">0</span> sets with <span class="hljs-number">0</span> members (<span class="hljs-number">00.00</span>% of keys, avg size <span class="hljs-number">0.00</span>)<br><span class="hljs-number">0</span> zsets with <span class="hljs-number">0</span> members (<span class="hljs-number">00.00</span>% of keys, avg size <span class="hljs-number">0.00</span><br><br></code></pre></td></tr></table></figure>
 
-<p>从这个命令的运行结果，我们可以看出：这个命令会扫描(Scan) Redis 中的所有 key ，会对 Redis 的性能有一点影响。并且，这种方式只能找出每种数据结构 top 1 bigkey（占用内存最大的 String 数据类型，包含元素最多的复合数据类型）。然而，一个 key 的元素多并不代表占用内存也多，需要我们根据具体的业务情况来进一步判断。</p>
+<p>从这个命令的运行结果，我们可以看出：这个命令会扫描(Scan) Redis 中的所有 key ，<strong>会对 Redis 的性能有一点影响。并且，这种方式只能找出每种数据结构 top 1 bigkey</strong>（占用内存最大的 String 数据类型，包含元素最多的复合数据类型）。然而，一个 key 的元素多并不代表占用内存也多，需要我们根据具体的业务情况来进一步判断。</p>
 <p>在线上执行该命令时，为了降低对 Redis 的影响，需要指定 <code>-i</code> 参数控制扫描的频率。<code>redis-cli -p 6379 --bigkeys -i 3</code> 表示扫描过程中每次扫描后休息的时间间隔为 3 秒。</p>
 <p><strong>2、使用 Redis 自带的 SCAN 命令</strong></p>
 <p><code>SCAN</code> 命令可以按照一定的模式和数量返回匹配的 key。获取了 key 之后，可以利用 <code>STRLEN</code>、<code>HLEN</code>、<code>LLEN</code>等命令返回其长度或成员数量。</p>
@@ -435,29 +436,33 @@
 <td>有序集合的元素数量</td>
 </tr>
 </tbody></table>
-<p>对于集合类型还可以使用 <code>MEMORY USAGE</code> 命令（Redis 4.0+），这个命令会返回键值对占用的内存空间。</p>
+<p><code>scan+ debug object bigkey </code>命令。循环遍历redis key 序列化后的长度。debug object bigkey可能会比较慢，它存在阻塞Redis的可能，建议在从节点执行该命令，官方不推荐</p>
+<p><code>scan+ memory usage</code>命令，该命令是在 Redis 4.0+以后提供的，可以循环遍历统计计算每个键值的字节数。</p>
 <p><strong>3、借助开源工具分析 RDB 文件。</strong></p>
 <p>通过分析 RDB 文件来找出 big key。这种方案的前提是你的 Redis 采用的是 RDB 持久化。</p>
 <p>网上有现成的代码&#x2F;工具可以直接拿来使用：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://github.com/sripathikrishnan/redis-rdb-tools">redis-rdb-toolsopen in new window</a>：Python 语言写的用来分析 Redis 的 RDB 快照文件用的工具</li>
-<li><a target="_blank" rel="noopener" href="https://github.com/weiyanwei412/rdb_bigkeys">rdb_bigkeysopen in new window</a> : Go 语言写的用来分析 Redis 的 RDB 快照文件用的工具，性能更好。</li>
-<li></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sripathikrishnan/redis-rdb-tools">redis-rdb-tools</a>：Python 语言写的用来分析 Redis 的 RDB 快照文件用的工具</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/weiyanwei412/rdb_bigkeys">rdb_bigkeys</a> : Go 语言写的用来分析 Redis 的 RDB 快照文件用的工具，性能更好。</li>
 </ul>
 <p><strong>4、借助公有云的 Redis 分析服务。</strong></p>
 <p>如果你用的是公有云的 Redis 服务的话，可以看看其是否提供了 key 分析功能（一般都提供了）。</p>
-<p>这里以阿里云 Redis 为例说明，它支持 bigkey 实时分析、发现，文档地址：<a target="_blank" rel="noopener" href="https://www.alibabacloud.com/help/zh/apsaradb-for-redis/latest/use-the-real-time-key-statistics-feature">https://www.alibabacloud.com/help/zh/apsaradb-for-redis/latest/use-the-real-time-key-statistics-featureopen in new window</a> 。</p>
+<p>这里以阿里云 Redis 为例说明，它支持 bigkey 实时分析、发现，文档地址：<a target="_blank" rel="noopener" href="https://www.alibabacloud.com/help/zh/apsaradb-for-redis/latest/use-the-real-time-key-statistics-feature">https://www.alibabacloud.com/help/zh/apsaradb-for-redis/latest/use-the-real-time-key-statistics-feature</a> </p>
 <h4 id="如何处理-bigkey？"><a href="#如何处理-bigkey？" class="headerlink" title="如何处理 bigkey？"></a><strong>如何处理 bigkey？</strong></h4><p>bigkey 的常见处理以及优化办法如下（这些方法可以配合起来使用）：</p>
 <ul>
 <li><strong>分割 bigkey</strong>：将一个 bigkey 分割为多个小 key。例如，将一个含有上万字段数量的 Hash 按照一定策略（比如二次哈希）拆分为多个 Hash。</li>
-<li><strong>手动清理</strong>：Redis 4.0+ 可以使用 <code>UNLINK</code> 命令来异步删除一个或多个指定的 key。Redis 4.0 以下可以考虑使用 <code>SCAN</code> 命令结合 <code>DEL</code> 命令来分批次删除。</li>
+<li><strong>手动清理</strong>：Redis 4.0+ 可以使用 <strong><code>UNLINK</code> 命令</strong>来异步删除一个或多个指定的 key。Redis 4.0 以下可以考虑使用 <code>SCAN</code> 命令结合 <code>DEL</code> 命令来分批次删除。</li>
 <li><strong>采用合适的数据结构</strong>：例如，文件二进制数据不使用 String 保存、使用 HyperLogLog 统计页面 UV、Bitmap 保存状态信息（0&#x2F;1）。</li>
-<li><strong>开启 lazy-free（惰性删除&#x2F;延迟释放）</strong> ：lazy-free 特性是 Redis 4.0 开始引入的，指的是让 Redis 采用异步方式延迟释放 key 使用的内存，将该操作交给单独的子线程处理，避免阻塞主线程。</li>
+<li><strong>开启 lazy-free（惰性删除&#x2F;延迟释放）</strong> ：lazy-free 特性是 Redis 4.0 开始引入的，指的是让 Redis 采用异步方式延迟释放 key 使用的内存，<strong>将该操作交给单独的子线程处理，避免阻塞主线程。</strong></li>
 </ul>
 <h3 id="Redis-hotkey（热-Key）"><a href="#Redis-hotkey（热-Key）" class="headerlink" title="Redis hotkey（热 Key）"></a><strong>Redis hotkey（热 Key）</strong></h3><p><strong>什么是 hotkey？</strong></p>
-<p>如果一个 key 的访问次数比较多且明显多于其他 key 的话，那这个 key 就可以看作是 <strong>hotkey（热 Key）</strong>。例如在 Redis 实例的每秒处理请求达到 5000 次，而其中某个 key 的每秒访问量就高达 2000 次，那这个 key 就可以看作是 hotkey。</p>
+<p>如果一个 key 的访问次数比较多且明显多于其他 key 的话，那这个 key 就可以看作是 <strong>hotkey（热 Key）</strong>。例如在 Redis 实例的每秒处理请求达到 5000 次，而其中<strong>某个 key 的每秒访问量就高达 2000 次</strong>，那这个 key 就可以看作是 hotkey。</p>
 <p>hotkey 出现的原因主要是某个热点数据访问量暴增，如重大的热搜事件、参与秒杀的商品。</p>
-<h4 id="hotkey-有什么危害？"><a href="#hotkey-有什么危害？" class="headerlink" title="hotkey 有什么危害？"></a><strong>hotkey 有什么危害？</strong></h4><p>处理 hotkey 会占用大量的 CPU 和带宽，可能会影响 Redis 实例对其他请求的正常处理。此外，如果突然访问 hotkey 的请求超出了 Redis 的处理能力，Redis 就会直接宕机。这种情况下，大量请求将落到后面的数据库上，可能会导致数据库崩溃。</p>
+<h4 id="hotkey-有什么危害？"><a href="#hotkey-有什么危害？" class="headerlink" title="hotkey 有什么危害？"></a><strong>hotkey 有什么危害？</strong></h4><ul>
+<li>处理 hotkey 会占用大量的 CPU 和带宽，可能会影响 Redis 实例对其他请求的正常处理。</li>
+<li>请求过多，热点key引起redis节点数据倾斜，超出了Redis的处理能力，缓存服务被打垮。</li>
+<li>大量请求将落到后面的数据库上，可能会导致数据库崩溃。</li>
+</ul>
 <p>因此，hotkey 很可能成为系统性能的瓶颈点，需要单独对其进行优化，以确保系统的高可用性和稳定性</p>
 <h4 id="如何发现-hotkey？"><a href="#如何发现-hotkey？" class="headerlink" title="如何发现 hotkey？"></a><strong>如何发现 hotkey？</strong></h4><p><strong>1、使用 Redis 自带的 <code>--hotkeys</code> 参数来查找。</strong></p>
 <p>Redis 4.0.3 版本中新增了 <code>hotkeys</code> 参数，该参数能够返回所有 key 的被访问次数。</p>
@@ -487,15 +492,17 @@
 <p>在业务代码中添加相应的逻辑对 key 的访问情况进行记录分析。不过，这种方式会让业务代码的复杂性增加，一般也不会采用。</p>
 <p><strong>6、借助公有云的 Redis 分析服务。</strong></p>
 <p>如果你用的是公有云的 Redis 服务的话，可以看看其是否提供了 key 分析功能（一般都提供了）。</p>
-<p>这里以阿里云 Redis 为例说明，它支持 hotkey 实时分析、发现，文档地址：<a target="_blank" rel="noopener" href="https://www.alibabacloud.com/help/zh/apsaradb-for-redis/latest/use-the-real-time-key-statistics-feature">https://www.alibabacloud.com/help/zh/apsaradb-for-redis/latest/use-the-real-time-key-statistics-featureopen in new window</a> 。</p>
+<p>这里以阿里云 Redis 为例说明，它支持 hotkey 实时分析、发现，文档地址：<a target="_blank" rel="noopener" href="https://www.alibabacloud.com/help/zh/apsaradb-for-redis/latest/use-the-real-time-key-statistics-feature">https://www.alibabacloud.com/help/zh/apsaradb-for-redis/latest/use-the-real-time-key-statistics-feature</a> 。</p>
 <h4 id="如何解决-hotkey？"><a href="#如何解决-hotkey？" class="headerlink" title="如何解决 hotkey？"></a><strong>如何解决 hotkey？</strong></h4><p>hotkey 的常见处理以及优化办法如下（这些方法可以配合起来使用）：</p>
 <ul>
+<li><strong>二级缓存</strong>：hotkey 采用二级缓存的方式进行处理，将 hotkey 存放一份到 <strong>JVM 本地内存中（可以用 Caffeine）</strong>，现在假设，你的应用有100个节点。这10万个请求平均分散开来，每个节点有1000个请求，会从JVM中取到值然后返回数据。避免了10万个请求打到同一台redis上的情形。而如果该key是在本地内存中，读取一个内存中的值，每秒多少个万次也很正常，不存在数据层的瓶颈。</li>
+<li><strong>提前预热：</strong>可以根据业务情况来预估一些 hotkey，比如参与秒杀活动的商品数据等，提前加载到本地缓存或者redis</li>
+<li><strong>冗余存储热点key</strong>：将热点数据分散存储在多个 Redis 节点上，<strong>优点是请求量大是可以轻松做到水平扩容，缺点是同一份数据冗余了多份，浪费了内存</strong></li>
 <li><strong>读写分离</strong>：主节点处理写请求，从节点处理读请求。</li>
-<li><strong>使用 Redis Cluster</strong>：将热点数据分散存储在多个 Redis 节点上。</li>
-<li><strong>二级缓存</strong>：hotkey 采用二级缓存的方式进行处理，将 hotkey 存放一份到 JVM 本地内存中（可以用 Caffeine）。</li>
+<li><strong>限流熔断：</strong>兜底方案，保障系统高可用，常用的限流框架：hystrix或阿里的sentinel。</li>
 </ul>
 <p>除了这些方法之外，如果你使用的公有云的 Redis 服务话，还可以留意其提供的开箱即用的解决方案。</p>
-<p>这里以阿里云 Redis 为例说明，它支持通过代理查询缓存功能（Proxy Query Cache）优化热点 Key 问题。</p>
+<p>这里以阿里云 Redis 为例说明，它支持通过<strong>代理查询缓存功能（Proxy Query Cache）优化热点 Key 问题</strong>。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240430121219029.png" srcset="/img/loading.gif" lazyload alt="image-20240430121219029" style="zoom:50%;" />
 
 
@@ -509,7 +516,7 @@
 </ol>
 <p>Redis 慢查询统计的是命令执行这一步骤的耗时，慢查询命令也就是那些命令执行时间较长的命令。</p>
 <p>Redis 为什么会有慢查询命令呢？</p>
-<p>Redis 中的大部分命令都是 O(1)时间复杂度，但也有少部分 O(n) 时间复杂度的命令，例如：</p>
+<p>Redis 中的大部分命令都是 O(1)时间复杂度，<strong>但也有少部分 O(n) 时间复杂度的命令</strong>，例如：</p>
 <ul>
 <li><code>KEYS *</code>：会返回所有符合规则的 key。</li>
 <li><code>HGETALL</code>：会返回一个 Hash 中所有的键值对。</li>
@@ -517,7 +524,7 @@
 <li><code>SMEMBERS</code>：返回 Set 中的所有元素。</li>
 <li><code>SINTER</code>&#x2F;<code>SUNION</code>&#x2F;<code>SDIFF</code>：计算多个 Set 的交集&#x2F;并集&#x2F;差集。</li>
 </ul>
-<p>由于这些命令时间复杂度是 O(n)，有时候也会全表扫描，随着 n 的增大，执行耗时也会越长。不过， 这些命令并不是一定不能使用，但是需要明确 N 的值。另外，有遍历的需求可以使用 <code>HSCAN</code>、<code>SSCAN</code>、<code>ZSCAN</code> 代替。</p>
+<p>由于这些命令时间复杂度是 O(n)，有时候也会全表扫描，随着 n 的增大，执行耗时也会越长。不过， 这些命令并不是一定不能使用，但是需要明确 N 的值。另外，<strong>有遍历的需求可以使用 <code>HSCAN</code>、<code>SSCAN</code>、<code>ZSCAN</code> 代替。</strong></p>
 <p>除了这些 O(n)时间复杂度的命令可能会导致慢查询之外， 还有一些时间复杂度可能在 O(N) 以上的命令，例如：</p>
 <ul>
 <li><code>ZRANGE</code>&#x2F;<code>ZREVRANGE</code>：返回指定 Sorted Set 中指定排名范围内的所有元素。时间复杂度为 O(log(n)+m)，n 为所有元素的数量， m 为返回的元素数量，当 m 和 n 相当大时，O(n) 的时间复杂度更小。</li>
@@ -564,16 +571,16 @@
 <p>To store user keys, Redis allocates at most as much memory as the <code>maxmemory</code> setting enables (however there are small extra allocations possible).</p>
 </blockquote>
 <p>Redis 使用 <code>zmalloc</code> 方法(Redis 自己实现的内存分配方法)进行内存分配的时候，除了要分配 <code>size</code> 大小的内存之外，还会多分配 <code>PREFIX_SIZE</code> 大小的内存。</p>
-<p><code>zmalloc</code> 方法源码如下（源码地址：<a target="_blank" rel="noopener" href="https://github.com/antirez/redis-tools/blob/master/zmalloc.c%EF%BC%89%EF%BC%9A">https://github.com/antirez/redis-tools/blob/master/zmalloc.c）：open in new window</a></p>
+<p><code>zmalloc</code> 方法源码如下（源码地址：<a target="_blank" rel="noopener" href="https://github.com/antirez/redis-tools/blob/master/zmalloc.c%EF%BC%89%EF%BC%9A">https://github.com/antirez/redis-tools/blob/master/zmalloc.c</a></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">void</span> *zmalloc(size_t size) &#123;<br>   <span class="hljs-comment">// 分配指定大小的内存</span><br>   <span class="hljs-keyword">void</span> *ptr = malloc(size+PREFIX_SIZE);<br>   <span class="hljs-keyword">if</span> (!ptr) zmalloc_oom_handler(size);<br>#ifdef HAVE_MALLOC_SIZE<br>   <span class="hljs-title function_">update_zmalloc_stat_alloc</span><span class="hljs-params">(zmalloc_size(ptr)</span>);<br>   <span class="hljs-keyword">return</span> ptr;<br>#<span class="hljs-keyword">else</span><br>   *((size_t*)ptr) = size;<br>   update_zmalloc_stat_alloc(size+PREFIX_SIZE);<br>   <span class="hljs-keyword">return</span> (<span class="hljs-type">char</span>*)ptr+PREFIX_SIZE;<br>#endif<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>另外，Redis 可以使用多种内存分配器来分配内存（ libc、jemalloc、tcmalloc），默认使用 <a target="_blank" rel="noopener" href="https://github.com/jemalloc/jemalloc">jemallocopen in new window</a>，而 jemalloc 按照一系列固定的大小（8 字节、16 字节、32 字节……）来分配内存的。jemalloc 划分的内存单元如下图所示</p>
+<p>另外，Redis 可以使用多种内存分配器来分配内存（ libc、jemalloc、tcmalloc），默认使用 <a target="_blank" rel="noopener" href="https://github.com/jemalloc/jemalloc">jemalloc</a>，而 jemalloc 按照一系列固定的大小（8 字节、16 字节、32 字节……）来分配内存的。jemalloc 划分的内存单元如下图所示</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240430122022425.png" srcset="/img/loading.gif" lazyload alt="image-20240430122022425" style="zoom:50%;" />
 
 <p>当程序申请的内存最接近某个固定值时，jemalloc 会给它分配相应大小的空间，就比如说程序需要申请 17 字节的内存，jemalloc 会直接给它分配 32 字节的内存，这样会导致有 15 字节内存的浪费。不过，jemalloc 专门针对内存碎片问题做了优化，一般不会存在过度碎片化的问题。</p>
 <p><strong>2、频繁修改 Redis 中的数据也会产生内存碎片。</strong></p>
 <p>当 Redis 中的某个数据删除时，Redis 通常不会轻易释放内存给操作系统。</p>
-<h4 id="如何查看-Redis-内存碎片的信息？"><a href="#如何查看-Redis-内存碎片的信息？" class="headerlink" title="如何查看 Redis 内存碎片的信息？"></a><strong>如何查看 Redis 内存碎片的信息？</strong></h4><p>使用 <code>info memory</code> 命令即可查看 Redis 内存相关的信息。下图中每个参数具体的含义，Redis 官方文档有详细的介绍：<a target="_blank" rel="noopener" href="https://redis.io/commands/INFO">https://redis.io/commands/INFOopen in new window</a> 。</p>
+<h4 id="如何查看-Redis-内存碎片的信息？"><a href="#如何查看-Redis-内存碎片的信息？" class="headerlink" title="如何查看 Redis 内存碎片的信息？"></a><strong>如何查看 Redis 内存碎片的信息？</strong></h4><p>使用 <code>info memory</code> 命令即可查看 Redis 内存相关的信息。下图中每个参数具体的含义，Redis 官方文档有详细的介绍：<a target="_blank" rel="noopener" href="https://redis.io/commands/INFO">https://redis.io/commands/INF</a> </p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240430133653141.png" srcset="/img/loading.gif" lazyload alt="image-20240430133653141" style="zoom:50%;" />
 
 <p>Redis 内存碎片率的计算公式：<code>mem_fragmentation_ratio</code> （内存碎片率）&#x3D; <code>used_memory_rss</code> (操作系统实际分配给 Redis 的物理内存空间大小)&#x2F; <code>used_memory</code>(Redis 内存分配器为了存储数据实际申请使用的内存空间大小)</p>
@@ -584,7 +591,7 @@
 <p>如果想要快速查看内存碎片率的话，你还可以通过下面这个命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">&gt; redis-cli -p 6379 info | grep mem_fragmentation_ratio<br></code></pre></td></tr></table></figure>
 
-<p>另外，内存碎片率可能存在小于 1 的情况。这种情况我在日常使用中还没有遇到过，感兴趣的小伙伴可以看看这篇文章 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/drlDvp7bfq5jt2M5pTqJCw">故障分析 | Redis 内存碎片率太低该怎么办？- 爱可生开源社区open in new window</a> 。</p>
+<p>另外，内存碎片率可能存在小于 1 的情况。这种情况我在日常使用中还没有遇到过，感兴趣的小伙伴可以看看这篇文章 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/drlDvp7bfq5jt2M5pTqJCw">故障分析 | Redis 内存碎片率太低该怎么办？- 爱可生开源社区</a> 。</p>
 <h4 id="如何清理-Redis-内存碎片？"><a href="#如何清理-Redis-内存碎片？" class="headerlink" title="如何清理 Redis 内存碎片？"></a><strong>如何清理 Redis 内存碎片？</strong></h4><p>Redis4.0-RC3 版本以后自带了内存整理，可以避免内存碎片率过大的问题。</p>
 <p>直接通过 <code>config set</code> 命令将 <code>activedefrag</code> 配置项设置为 <code>yes</code> 即可。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">config <span class="hljs-built_in">set</span> activedefrag <span class="hljs-built_in">yes</span><br></code></pre></td></tr></table></figure>

@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519194449541.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519200529393.png">
 <meta property="article:published_time" content="2024-05-18T15:16:45.000Z">
-<meta property="article:modified_time" content="2024-06-11T09:34:08.160Z">
+<meta property="article:modified_time" content="2024-12-05T08:03:56.815Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary_large_image">
@@ -252,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3k 字
+          5.3k 字
         
       </span>
     
@@ -263,7 +263,7 @@
         
         
         
-          26 分钟
+          44 分钟
         
       </span>
     
@@ -317,10 +317,10 @@
 <li><strong>消息队列</strong>：建立实时流数据管道，以可靠地在系统或应用程序之间获取数据。</li>
 <li><strong>数据处理：</strong> 构建实时的流数据处理程序来转换或处理数据流。</li>
 </ol>
-<h3 id="和其他消息队列相比-Kafka-的优势在哪里？"><a href="#和其他消息队列相比-Kafka-的优势在哪里？" class="headerlink" title="和其他消息队列相比,Kafka 的优势在哪里？"></a><strong>和其他消息队列相比,Kafka 的优势在哪里？</strong></h3><p>我们现在经常提到 Kafka 的时候就已经默认它是一个非常优秀的消息队列了，我们也会经常拿它跟 RocketMQ、RabbitMQ 对比。我觉得 Kafka 相比其他消息队列主要的优势如下：</p>
+<h3 id="和其他消息队列相比，Kafka-的优势在哪里？"><a href="#和其他消息队列相比，Kafka-的优势在哪里？" class="headerlink" title="和其他消息队列相比，Kafka 的优势在哪里？"></a><strong>和其他消息队列相比，Kafka 的优势在哪里？</strong></h3><p>我们现在经常提到 Kafka 的时候就已经默认它是一个非常优秀的消息队列了，我们也会经常拿它跟 RocketMQ、RabbitMQ 对比。我觉得 Kafka 相比其他消息队列主要的优势如下：</p>
 <ol>
 <li><strong>极致的性能</strong>：基于 Scala 和 Java 语言开发，设计中大量使用了批量处理和异步的思想，最高可以每秒处理千万级别的消息。</li>
-<li><strong>生态系统兼容性无可匹敌</strong>：Kafka 与周边生态系统的兼容性是最好的没有之一，尤其在大数据和流计算领域。</li>
+<li><strong>生态系统兼容性无可匹敌</strong>：Kafka 与周边生态系统的兼容性是最好的没有之一，尤其在<strong>大数据和流计算领域。</strong></li>
 </ol>
 <p>实际上在早期的时候 Kafka 并不是一个合格的消息队列，早期的 Kafka 在消息队列领域就像是一个衣衫褴褛的孩子一样，功能不完备并且有一些小问题比如丢失消息、不保证消息可靠性等等。当然，这也和 LinkedIn 最早开发 Kafka 用于处理海量的日志有很大关系。</p>
 <p>随着后续的发展，这些短板都被 Kafka 逐步修复完善。所以，Kafka 作为消息队列不可靠这个说法已经过时</p>
@@ -357,19 +357,18 @@
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240519200529393.png" srcset="/img/loading.gif" lazyload alt="image-20240519200529393" style="zoom: 67%;" />
 
 <p>每次添加消息到 Partition(分区) 的时候都会采用尾加法，如上图所示。 <strong>Kafka 只能为我们保证 Partition(分区) 中的消息有序。</strong></p>
-<blockquote>
-<p>消息在被追加到 Partition(分区)的时候都会分配一个特定的偏移量（offset）。Kafka 通过偏移量（offset）来保证消息在分区内的顺序性。</p>
-</blockquote>
+<h4 id="一个topic对应一个Partition"><a href="#一个topic对应一个Partition" class="headerlink" title="一个topic对应一个Partition"></a><strong>一个topic对应一个Partition</strong></h4><p>消息在被追加到 Partition(分区)的时候都会分配一个特定的偏移量（offset）。Kafka 通过偏移量（offset）来保证消息在分区内的顺序性。</p>
 <p>所以，我们就有一种很简单的保证消息消费顺序的方法：<strong>1 个 Topic 只对应一个 Partition</strong>。这样当然可以解决问题，但是破坏了 Kafka 的设计初衷。</p>
-<p>Kafka 中发送 1 条消息的时候，可以指定 topic, partition, key,data（数据） 4 个参数。如果你发送消息的时候指定了 Partition 的话，所有消息都会被发送到指定的 Partition。并且，同一个 key 的消息可以保证只发送到同一个 partition，这个我们可以采用表&#x2F;对象的 id 来作为 key 。</p>
+<h4 id="发送消息时指定partition"><a href="#发送消息时指定partition" class="headerlink" title="发送消息时指定partition"></a><strong>发送消息时指定partition</strong></h4><p>Kafka 中发送 1 条消息的时候，可以指定 topic, partition, key, data（数据） 4 个参数。如果你发送消息的时候指定了 Partition 的话，所有消息都会被发送到指定的 Partition。<strong>并且，同一个 key 的消息可以保证只发送到同一个 partition，这个我们可以采用表&#x2F;对象的 id 来作为 key 。</strong></p>
 <p>总结一下，对于如何保证 Kafka 中消息消费的顺序，有了下面两种方法：</p>
 <ol>
 <li>1 个 Topic 只对应一个 Partition。</li>
 <li>（推荐）发送消息的时候指定 key&#x2F;Partition。</li>
 </ol>
 <p>当然不仅仅只有上面两种方法，上面两种方法是我觉得比较好理解的</p>
+<p><strong>注意：</strong>Kafka只能保证单个分区的顺序性消费，如果要实现多分区的顺序消费，也不是不行，但是代价太多</p>
 <h3 id="Kafka-如何保证消息不丢失？"><a href="#Kafka-如何保证消息不丢失？" class="headerlink" title="Kafka 如何保证消息不丢失？"></a><strong>Kafka 如何保证消息不丢失？</strong></h3><h4 id="生产者丢失消息的情况"><a href="#生产者丢失消息的情况" class="headerlink" title="生产者丢失消息的情况"></a><strong>生产者丢失消息的情况</strong></h4><p>生产者(Producer) 调用<code>send</code>方法发送消息之后，消息可能因为网络问题并没有发送过去。</p>
-<p>所以，我们不能默认在调用<code>send</code>方法发送消息之后消息发送成功了。为了确定消息是发送成功，我们要判断消息发送的结果。但是要注意的是 Kafka 生产者(Producer) 使用 <code>send</code> 方法发送消息实际上是异步的操作，我们可以通过 <code>get()</code>方法获取调用结果，但是这样也让它变为了同步操作，示例代码如下：</p>
+<p>所以，我们不能默认在调用<code>send</code>方法发送消息之后消息发送成功了。为了确定消息是发送成功，我们要判断消息发送的结果。但是要注意的是 Kafka 生产者(Producer) 使用 <code>send</code> 方法发送消息实际上是异步的操作，<strong>我们可以通过 <code>get()</code>方法获取调用结果</strong>，但是这样也让它变为了同步操作，示例代码如下：</p>
 <blockquote>
 <p><strong>详细代码见这篇文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=Mzg2OTA0Njk0OA==&mid=2247486269&idx=2&sn=ec00417ad641dd8c3d145d74cafa09ce&chksm=cea244f6f9d5cde0c8eb233fcc4cf82e11acd06446719a7af55230649863a3ddd95f78d111de&token=1633957262&lang=zh_CN#rd">Kafka 系列第三篇！10 分钟学会如何在 Spring Boot 程序中使用 Kafka 作为消息队列?</a></strong></p>
 </blockquote>
@@ -379,12 +378,14 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ListenableFuture&lt;SendResult&lt;String, Object&gt;&gt; future = kafkaTemplate.send(topic, o);<br>future.addCallback(result -&gt; logger.info(<span class="hljs-string">&quot;生产者成功发送消息到topic:&#123;&#125; partition:&#123;&#125;的消息&quot;</span>, result.getRecordMetadata().topic(), result.getRecordMetadata().partition()),<br>        ex -&gt; logger.error(<span class="hljs-string">&quot;生产者发送消失败，原因：&#123;&#125;&quot;</span>, ex.getMessage()));<br></code></pre></td></tr></table></figure>
 
 <p>如果消息发送失败的话，我们检查失败的原因之后重新发送即可！</p>
-<p>另外，这里推荐为 Producer 的<code>retries</code>（重试次数）设置一个比较合理的值，一般是 3 ，但是为了保证消息不丢失的话一般会设置比较大一点。设置完成之后，当出现网络问题之后能够自动重试消息发送，避免消息丢失。另外，建议还要设置重试间隔，因为间隔太小的话重试的效果就不明显了，网络波动一次你 3 次一下子就重试完了。</p>
+<p>另外，<strong>这里推荐为 Producer 的<code>retries</code>（重试次数）设置一个比较合理的值，一般是 3</strong> ，但是为了保证消息不丢失的话一般会设置比较大一点。设置完成之后，当出现网络问题之后能够自动重试消息发送，避免消息丢失。另外，建议还要设置重试间隔，因为间隔太小的话重试的效果就不明显了，网络波动一次你 3 次一下子就重试完了。</p>
 <h4 id="消费者丢失消息的情况"><a href="#消费者丢失消息的情况" class="headerlink" title="消费者丢失消息的情况"></a><strong>消费者丢失消息的情况</strong></h4><p>我们知道消息在被追加到 Partition(分区)的时候都会分配一个特定的偏移量（offset）。偏移量（offset)表示 Consumer 当前消费到的 Partition(分区)的所在的位置。<strong>Kafka 通过偏移量（offset）可以保证消息在分区内的顺序性</strong></p>
 <p>当消费者拉取到了分区的某个消息之后，消费者会自动提交了 offset。自动提交的话会有一个问题，试想一下，当消费者刚拿到这个消息准备进行真正消费的时候，突然挂掉了，消息实际上并没有被消费，但是 offset 却被自动提交了。</p>
 <p><strong>解决办法也比较粗暴，我们手动关闭自动提交 offset，每次在真正消费完消息之后再自己手动提交 offset 。</strong> 但是，细心的朋友一定会发现，这样会带来消息被重新消费的问题。比如你刚刚消费完消息之后，还没提交 offset，结果自己挂掉了，那么这个消息理论上就会被消费两次。</p>
-<h4 id="Kafka-弄丢了消息"><a href="#Kafka-弄丢了消息" class="headerlink" title="Kafka 弄丢了消息"></a><strong>Kafka 弄丢了消息</strong></h4><p>我们知道 Kafka 为分区（Partition）引入了多副本（Replica）机制。分区（Partition）中的多个副本之间会有一个叫做 leader 的家伙，其他副本称为 follower。我们发送的消息会被发送到 leader 副本，然后 follower 副本才能从 leader 副本中拉取消息进行同步。生产者和消费者只与 leader 副本交互。你可以理解为其他副本只是 leader 副本的拷贝，它们的存在只是为了保证消息存储的安全性。</p>
-<p><strong>试想一种情况：假如 leader 副本所在的 broker 突然挂掉，那么就要从 follower 副本重新选出一个 leader ，但是 leader 的数据还有一些没有被 follower 副本的同步的话，就会造成消息丢失。</strong></p>
+<h4 id="Kafka-弄丢了消息"><a href="#Kafka-弄丢了消息" class="headerlink" title="Kafka 弄丢了消息"></a><strong>Kafka 弄丢了消息</strong></h4><p>我们知道 Kafka 为分区（Partition）引入了多副本（Replica）机制。分区（Partition）中的多个副本之间会有一个叫做 leader 的家伙，其他副本称为 follower。</p>
+<p><strong>我们发送的消息会被发送到 leader 副本，然后 follower 副本才能从 leader 副本中拉取消息进行同步。</strong>生产者和消费者只与 leader 副本交互。你可以理解为其他副本只是 leader 副本的拷贝，它们的存在只是为了保证消息存储的安全性。</p>
+<p><strong>如果保证高可用</strong></p>
+<p>试想一种情况：假如 leader 副本所在的 broker 突然挂掉，那么就要从 follower 副本重新选出一个 leader ，但是 leader 的数据还有一些没有被 follower 副本的同步的话，就会造成消息丢失。</p>
 <p><strong>设置 acks &#x3D; all</strong></p>
 <p>解决办法就是我们设置 <strong>acks &#x3D; all</strong>。acks 是 Kafka 生产者(Producer) 很重要的一个参数。</p>
 <p>acks 的默认值即为 1，代表我们的消息被 leader 副本接收之后就算被成功发送。当我们配置 <strong>acks &#x3D; all</strong> 表示只有所有 ISR 列表的副本全部收到消息时，生产者才会接收到来自服务器的响应. 这种模式是最高级别的，也是最安全的，可以确保不止一个 Broker 接收到了消息. 该模式的延迟会很高。</p>
@@ -398,6 +399,55 @@
 <p>Kafka 0.11.0.0 版本开始 unclean.leader.election.enable 参数的默认值由原来的 true 改为 false</p>
 </blockquote>
 <p>我们最开始也说了我们发送的消息会被发送到 leader 副本，然后 follower 副本才能从 leader 副本中拉取消息进行同步。多个 follower 副本之间的消息同步情况不一样，当我们配置了 <strong>unclean.leader.election.enable &#x3D; false</strong> 的话，当 leader 副本发生故障时就不会从 follower 副本中和 leader 同步程度达不到要求的副本中选择出 leader ，这样降低了消息丢失的可能性</p>
+<h3 id="Kafka-重试机制"><a href="#Kafka-重试机制" class="headerlink" title="Kafka 重试机制"></a><strong>Kafka 重试机制</strong></h3><p>在 Kafka 如何保证消息不丢失这里，我们提到了 Kafka 的重试机制。由于这部分内容较为重要，我们这里再来详细介绍一下。</p>
+<p>网上关于 Spring Kafka 的默认重试机制文章很多，但大多都是过时的，和实际运行结果完全不一样。以下是根据 <a target="_blank" rel="noopener" href="https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka/2.9.3">spring-kafka-2.9.3</a> 源码重新梳理一下。</p>
+<h4 id="消费失败会怎么样？"><a href="#消费失败会怎么样？" class="headerlink" title="消费失败会怎么样？"></a><strong>消费失败会怎么样？</strong></h4><p>在消费过程中，当其中一个消息消费异常时，会不会卡住后续队列消息的消费？这样业务岂不是卡住了？</p>
+<p>生产者代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>  kafkaTemplate.send(KafkaConst.TEST_TOPIC, String.valueOf(i))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>消费者消代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@KafkaListener(topics = &#123;KafkaConst.TEST_TOPIC&#125;,groupId = &quot;apple&quot;)</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">customer</span><span class="hljs-params">(String message)</span> <span class="hljs-keyword">throws</span> InterruptedException &#123;<br>    log.info(<span class="hljs-string">&quot;kafka customer:&#123;&#125;&quot;</span>,message);<br>    <span class="hljs-type">Integer</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> Integer.parseInt(message);<br>    <span class="hljs-keyword">if</span> (n%<span class="hljs-number">5</span>==<span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span>  <span class="hljs-title class_">RuntimeException</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在默认配置下，当消费异常会进行重试，重试多次后会跳过当前消息，继续进行后续消息的消费，不会一直卡在当前消息。下面是一段消费的日志，可以看出当 <code>test-0@95</code> 重试多次后会被跳过。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"> : Skipping seek of: test-0@95<br>2023-08-10 12:03:32.918 TRACE 9700 --- [ntainer#0-0-C-1] o.s.kafka.listener.DefaultErrorHandler   : Seeking: test-0 to: 96<br>2023-08-10 12:03:32.918  INFO 9700 --- [ntainer#0-0-C-1] o.a.k.clients.consumer.KafkaConsumer     : [Consumer clientId=consumer-apple-1, groupId=apple] Seeking to offset 96 for partition test-0<br></code></pre></td></tr></table></figure>
+
+<p>因此，即使某个消息消费异常，Kafka 消费者仍然能够继续消费后续的消息，不会一直卡在当前消息，保证了业务的正常进行。</p>
+<h4 id="默认会重试多少次？"><a href="#默认会重试多少次？" class="headerlink" title="默认会重试多少次？"></a><strong>默认会重试多少次？</strong></h4><p>默认配置下，消费异常会进行重试，重试次数是多少, 重试是否有时间间隔？</p>
+<p>看源码 <code>FailedRecordTracker</code> 类有个 <code>recovered</code> 函数，返回 Boolean 值判断是否要进行重试，下面是这个函数中判断是否重试的逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">recovered</span><span class="hljs-params">(ConsumerRecord &lt;&lt; ? , ? &gt; record, Exception exception,</span><br><span class="hljs-params">    <span class="hljs-meta">@Nullable</span> MessageListenerContainer container,</span><br><span class="hljs-params">    <span class="hljs-meta">@Nullable</span> Consumer &lt;&lt; ? , ? &gt; consumer)</span> <span class="hljs-keyword">throws</span> InterruptedException &#123;<br><br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.noRetries) &#123;<br>     <span class="hljs-comment">// 不支持重试</span><br>        attemptRecovery(record, exception, <span class="hljs-literal">null</span>, consumer);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br> <span class="hljs-comment">// 取已经失败的消费记录集合</span><br>    Map &lt; TopicPartition, FailedRecord &gt; map = <span class="hljs-built_in">this</span>.failures.get();<br>    <span class="hljs-keyword">if</span> (map == <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-built_in">this</span>.failures.set(<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span> &lt; &gt; ());<br>        map = <span class="hljs-built_in">this</span>.failures.get();<br>    &#125;<br> <span class="hljs-comment">//  获取消费记录所在的Topic和Partition</span><br>    <span class="hljs-type">TopicPartition</span> <span class="hljs-variable">topicPartition</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TopicPartition</span>(record.topic(), record.partition());<br>    <span class="hljs-type">FailedRecord</span> <span class="hljs-variable">failedRecord</span> <span class="hljs-operator">=</span> getFailedRecordInstance(record, exception, map, topicPartition);<br> <span class="hljs-comment">// 通知注册的重试监听器，消息投递失败</span><br>    <span class="hljs-built_in">this</span>.retryListeners.forEach(rl - &gt;<br>        rl.failedDelivery(record, exception, failedRecord.getDeliveryAttempts().get()));<br>    <span class="hljs-comment">// 获取下一次重试的时间间隔</span><br><span class="hljs-type">long</span> <span class="hljs-variable">nextBackOff</span> <span class="hljs-operator">=</span> failedRecord.getBackOffExecution().nextBackOff();<br>    <span class="hljs-keyword">if</span> (nextBackOff != BackOffExecution.STOP) &#123;<br>        <span class="hljs-built_in">this</span>.backOffHandler.onNextBackOff(container, exception, nextBackOff);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        attemptRecovery(record, exception, topicPartition, consumer);<br>        map.remove(topicPartition);<br>        <span class="hljs-keyword">if</span> (map.isEmpty()) &#123;<br>            <span class="hljs-built_in">this</span>.failures.remove();<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其中， <code>BackOffExecution.STOP</code> 的值为 -1。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FunctionalInterface</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">BackOffExecution</span> &#123;<br><br>	<span class="hljs-type">long</span> <span class="hljs-variable">STOP</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br>	<span class="hljs-type">long</span> <span class="hljs-title function_">nextBackOff</span><span class="hljs-params">()</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>nextBackOff</code> 的值调用 <code>BackOff</code> 类的 <code>nextBackOff()</code> 函数。如果当前执行次数大于最大执行次数则返回 <code>STOP</code>，既超过这个最大执行次数后才会停止重试。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">long</span> <span class="hljs-title function_">nextBackOff</span><span class="hljs-params">()</span> &#123;<br>  <span class="hljs-built_in">this</span>.currentAttempts++;<br>  <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.currentAttempts &lt;= getMaxAttempts()) &#123;<br>    <span class="hljs-keyword">return</span> getInterval();<br>  &#125;<br>  <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-keyword">return</span> STOP;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>那么这个 <code>getMaxAttempts</code> 的值又是多少呢？回到最开始，当执行出错会进入 <code>DefaultErrorHandler</code> 。<code>DefaultErrorHandler</code> 默认的构造函数是：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">DefaultErrorHandler</span><span class="hljs-params">()</span> &#123;<br>  <span class="hljs-built_in">this</span>(<span class="hljs-literal">null</span>, SeekUtils.DEFAULT_BACK_OFF);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>SeekUtils.DEFAULT_BACK_OFF</code> 定义的是:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">DEFAULT_MAX_FAILURES</span> <span class="hljs-operator">=</span> <span class="hljs-number">10</span>;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">FixedBackOff</span> <span class="hljs-variable">DEFAULT_BACK_OFF</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FixedBackOff</span>(<span class="hljs-number">0</span>, DEFAULT_MAX_FAILURES - <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+
+<p><code>DEFAULT_MAX_FAILURES</code> 的值是 10，<code>currentAttempts</code> 从 0 到 9，所以总共会执行 10 次，每次重试的时间间隔为 0。</p>
+<p>最后，简单总结一下：Kafka 消费者在默认配置下会进行最多 10 次 的重试，每次重试的时间间隔为 0，即立即进行重试。如果在 10 次重试后仍然无法成功消费消息，则不再进行重试，消息将被视为消费失败。</p>
+<h4 id="如何自定义重试次数以及时间间隔"><a href="#如何自定义重试次数以及时间间隔" class="headerlink" title="如何自定义重试次数以及时间间隔?"></a><strong>如何自定义重试次数以及时间间隔?</strong></h4><p>从上面的代码可以知道，默认错误处理器的重试次数以及时间间隔是由 <code>FixedBackOff</code> 控制的，<code>FixedBackOff</code> 是 <code>DefaultErrorHandler</code> 初始化时默认的。所以自定义重试次数以及时间间隔，只需要在 <code>DefaultErrorHandler</code> 初始化的时候传入自定义的 <code>FixedBackOff</code> 即可。重新实现一个 <code>KafkaListenerContainerFactory</code> ，调用 <code>setCommonErrorHandler</code> 设置新的自定义的错误处理器就可以实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-keyword">public</span> KafkaListenerContainerFactory <span class="hljs-title function_">kafkaListenerContainerFactory</span><span class="hljs-params">(ConsumerFactory&lt;String, String&gt; consumerFactory)</span> &#123;<br>    <span class="hljs-type">ConcurrentKafkaListenerContainerFactory</span> <span class="hljs-variable">factory</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentKafkaListenerContainerFactory</span>();<br>    <span class="hljs-comment">// 自定义重试时间间隔以及次数</span><br>    <span class="hljs-type">FixedBackOff</span> <span class="hljs-variable">fixedBackOff</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FixedBackOff</span>(<span class="hljs-number">1000</span>, <span class="hljs-number">5</span>);<br>    factory.setCommonErrorHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultErrorHandler</span>(fixedBackOff));<br>    factory.setConsumerFactory(consumerFactory);<br>    <span class="hljs-keyword">return</span> factory;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><p><strong>如何在重试失败后进行告警?</strong></p>
+<p>自定义重试失败后逻辑，需要手动实现，以下是一个简单的例子，重写 <code>DefaultErrorHandler</code> 的 <code>handleRemaining</code> 函数，加上自定义的告警等操作。</p>
+<p>当达到最大重试次数后，数据会直接被跳过，继续向后进行。当代码修复后，如何重新消费这些重试失败的数据呢？</p>
+<p><strong>死信队列（Dead Letter Queue，简称 DLQ）</strong> 是消息中间件中的一种特殊队列。它主要用于处理无法被消费者正确处理的消息，通常是因为消息格式错误、处理失败、消费超时等情况导致的消息被”丢弃”或”死亡”的情况。当消息进入队列后，消费者会尝试处理它。<strong>如果处理失败，或者超过一定的重试次数仍无法被成功处理，消息可以发送到死信队列中，而不是被永久性地丢弃。</strong>在死信队列中，可以进一步分析、处理这些无法正常消费的消息，以便定位问题、修复错误，并采取适当的措施。</p>
+<p><code>@RetryableTopic</code> 是 Spring Kafka 中的一个注解,它用于配置某个 Topic 支持消息重试，更推荐使用这个注解来完成重试。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 重试 5 次，重试间隔 100 毫秒,最大间隔 1 秒</span><br><span class="hljs-meta">@RetryableTopic(</span><br><span class="hljs-meta">        attempts = &quot;5&quot;,</span><br><span class="hljs-meta">        backoff = @Backoff(delay = 100, maxDelay = 1000)</span><br><span class="hljs-meta">)</span><br><span class="hljs-meta">@KafkaListener(topics = &#123;KafkaConst.TEST_TOPIC&#125;, groupId = &quot;apple&quot;)</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">customer</span><span class="hljs-params">(String message)</span> &#123;<br>    log.info(<span class="hljs-string">&quot;kafka customer:&#123;&#125;&quot;</span>, message);<br>    <span class="hljs-type">Integer</span> <span class="hljs-variable">n</span> <span class="hljs-operator">=</span> Integer.parseInt(message);<br>    <span class="hljs-keyword">if</span> (n % <span class="hljs-number">5</span> == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>();<br>    &#125;<br>    System.out.println(n);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当达到最大重试次数后，如果仍然无法成功处理消息，消息会被发送到对应的死信队列中。对于死信队列的处理，既可以用 <code>@DltHandler</code> 处理，也可以使用 <code>@KafkaListener</code> 重新消费。</p>
+<h3 id="Kafka为什么这么快？"><a href="#Kafka为什么这么快？" class="headerlink" title="Kafka为什么这么快？"></a><strong>Kafka为什么这么快？</strong></h3><p>参考：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1975094">Kafka性能篇：为何Kafka这么”快”？-腾讯云开发者社区-腾讯云 (tencent.com)</a></p>
+<p><strong>顺序写入：</strong>顺序写入时，磁盘写入头不需要在磁盘上频繁移动来寻找写入位置，因为所有数据都按照顺序追加到磁盘末尾。这大大减少了磁盘寻址时间，提高了写入效率。</p>
+<p><strong>page cache：</strong>producer 生产消息到 Broker 时，Broker 会使用 pwrite()系统调用按偏移量写入数据，此时数据都会先写入 page cachec，consumer 消费消息时，Broker 使用 sendfile()系统调用，<strong>零拷贝地将数据从 page cache 传输到 broker 的 Socket buffer，再通过网络传输。</strong>因此如果 Kafka producer 的生产速率与 consumer 的消费速率相差不大，那么就能几乎只靠对 broker page cache 的读写完成整个生产-消费过程，<strong>磁盘访问非常少。</strong></p>
+<p><strong>零拷贝技术</strong>：Kafka在数据传输过程中采用了Zero-Copy技术，<strong>减少了一次系统调用（两次上下文切换），由sendfile代替read和write，数据拷贝减少1次，数据直接由内核缓冲区传送到socket缓冲区。</strong>降低了CPU的消耗，提高了数据传输的效率。</p>
+<p><strong>批量处理</strong>：Kafka在写入数据时，会将多个消息批量写入磁盘。这种批量操作减少了磁盘I&#x2F;O的次数，进一步提高了写入性能。</p>
+<p><strong>压缩：</strong>同时Kafka 支持多种压缩算法：lz4、snappy、gzip。Kafka 2.1.0 正式支持 ZStandard（Facebook 开源的压缩算法，旨在提供超高的压缩比）。Producer、Broker 和 Consumer 使用相同的压缩算法，<strong>在 producer 向 Broker 写入数据，Consumer 向 Broker 读取数据时甚至可以不用解压缩，最终在 Consumer Poll 到消息时才解压</strong>，这样节省了大量的网络和磁盘开销。</p>
+<p><strong>分区与并行处理</strong>：Kafka通过将数据分散存储在多个分区中，实现了数据的并行处理。每个分区都是一个有序的、不可变的消息序列，<strong>可以独立地被消费者读取和处理。</strong>这种设计极大地提高了Kafka的吞吐量。</p>
+<p><strong>网络模型：</strong>Kafka 自己实现了网络模型做 RPC。底层基于 Java NIO，采用和 Netty 一样的 Reactor线程模型。针对传统阻塞 IO模型的两个问题，<strong>Reactor 模型基于池化思想，避免为每个连接创建线程</strong>，连接完成后将业务处理交给线程池处理;基于IO复用模型，多个连接共用同一个阻塞对象，不用等待所有的连接。遍历到有新数据可以处理时，操作系统会通知程序，线程跳出阻塞状态，进行业务逻辑处理</p>
 
                 
               </div>

@@ -24,7 +24,7 @@
 <meta property="og:description" content="GitGit是一种分布式版本控制系统，它的原理和工作流程如下： 原理：  分布式版本控制系统：Git使用分布式的版本控制系统，每个开发者都有一个完整的代码仓库的副本，不依赖于中央服务器。 快照：Git不保存文件的变化差异，而是保存文件在不同版本中的快照。每次提交都会生成一个快照，包含了当前工作目录的所有文件状态。 三层架构：Git的数据存储分为三层：工作目录、暂存区（Index）、仓库（Repos">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-12T10:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-09T06:44:58.364Z">
+<meta property="article:modified_time" content="2024-10-03T03:31:20.433Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary_large_image">
@@ -354,7 +354,11 @@
 <li><strong>对文件重命名</strong>：<code>git mv README.md README</code>(这个命令相当于<code>mv README.md README</code>、<code>git rm README.md</code>、<code>git add README</code> 这三条命令的集合)</li>
 </ol>
 <h4 id="推送改动到远程仓库"><a href="#推送改动到远程仓库" class="headerlink" title="推送改动到远程仓库"></a><strong>推送改动到远程仓库</strong></h4><ul>
-<li><p>如果你还没有克隆现有仓库，并欲将你的仓库连接到某个远程服务器，你可以使用如下命令添加：<code>git remote add origin &lt;server&gt;</code> ,比如我们要让本地的一个仓库和 GitHub 上创建的一个仓库关联可以这样<code>git remote add origin https://github.com/Snailclimb/test.git</code></p>
+<li><p>如果你还没有克隆现有仓库，并欲将你的仓库连接到某个远程服务器，你可以使用如下命令添加：</p>
+</li>
+<li><p><code>git remote add origin &lt;server&gt;</code> </p>
+</li>
+<li><p>比如我们要让本地的一个仓库和 GitHub 上创建的一个仓库关联可以这样<code>git remote add origin https://github.com/Snailclimb/test.git</code></p>
 </li>
 <li><p>将这些改动提交到远端仓库：<code>git push origin master</code> (可以把 <em>master</em> 换成你想要推送的任何分支)</p>
 <p>如此你就能够将你的改动推送到所添加的服务器上去了。</p>

@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/c296c1889f0101d335699311b4ef20a8.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com//mysql/other/f380ef357d065498d8d54ad07f145e09.png">
 <meta property="article:published_time" content="2024-02-18T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-11T07:50:46.307Z">
+<meta property="article:modified_time" content="2024-10-26T04:42:02.288Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -374,7 +374,7 @@
 <p>另外，当会话退出后，也会释放所有表锁。</p>
 <p>不过尽量避免在使用 InnoDB 引擎的表使用表锁，<strong>因为表锁的颗粒度太大，会影响并发性能</strong></p>
 <p><strong>以下语句也会自动加表级锁</strong></p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> student <span class="hljs-keyword">where</span> <span class="hljs-type">name</span> = <span class="hljs-string">&#x27;tom&#x27;</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">update</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> student <span class="hljs-keyword">where</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;tom&#x27;</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">update</span><br></code></pre></td></tr></table></figure>
 
 <p>因为没有在name上加索引，所以默认使用全表扫描，加的是表锁</p>
 <p>InnoDB在使用过程中<strong>只要不通过索引检索数据</strong>时，全部是表锁。</p>
@@ -447,7 +447,7 @@
 <li>当一个事务对一条记录加了 X 型记录锁后，其他事务既不可以对该记录加 S 型记录锁（S 型与 X 锁不兼容），也不可以对该记录加 X 型记录锁（X 型与 X 锁不兼容）。</li>
 </ul>
 <p>举个例子，当一个事务执行了下面这条语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">mysql <span class="hljs-operator">&gt;</span> <span class="hljs-keyword">begin</span>;<br>mysql <span class="hljs-operator">&gt;</span> <span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> t_test <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">update</span>;<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql">mysql &gt; begin;<br>mysql &gt; select * from t_test where id = 1 for update;<br></code></pre></td></tr></table></figure>
 
 <p><strong>事务会对表中主键 id &#x3D; 1 的这条记录加上 X 型的记录锁</strong>，如果这时候其他事务对这条记录进行删除或者更新操作，那么这些操作都会被阻塞。注意，其他事务插入一条 id &#x3D; 1 的新记录并不会被阻塞，而是会报主键冲突的错误，这是因为主键有唯一性的约束。</p>
 <p><img src="https://mmbiz.qpic.cn/mmbiz_png/J0g14CUwaZceY2jjakaLcWiapUB3Qbh4VQpBEfF80CMYJdUPM5UJAZr1SB4jmjQtJBaIAicNIdgSsOKlblafmCxw/640?wx_fmt=png" srcset="/img/loading.gif" lazyload alt="img"></p>
@@ -472,7 +472,7 @@
 <p>插入意向锁名字虽然有意向锁，但是它并<strong>不是意向锁，它是一种特殊的间隙锁，属于行级别锁</strong>。</p>
 <p>如果说间隙锁锁住的是一个区间，那么「插入意向锁」锁住的就是一个点。因而从这个角度来说，插入意向锁确实是一种特殊的间隙锁。</p>
 <p>插入意向锁与间隙锁的另一个非常重要的差别是：尽管「插入意向锁」也属于间隙锁，但两个事务却不能在同一时间内，一个拥有间隙锁，另一个拥有该间隙区间内的插入意向锁（当然，插入意向锁如果不在间隙锁区间内则是可以的）。</p>
-<p>也就是说插入意向锁与间隙锁是冲突的</p>
+<p><strong>也就是说一个事务的插入意向锁与其他事务的间隙锁是冲突的</strong></p>
 <p>###<strong>乐观锁和悲观锁</strong></p>
 <p><strong>悲观锁</strong></p>
 <ul>

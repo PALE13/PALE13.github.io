@@ -33,10 +33,8 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240415171621113.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240415134228867.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240415171914770.png">
-<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240415153015782.png">
-<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418010012529.png">
 <meta property="article:published_time" content="2024-03-23T01:35:21.000Z">
-<meta property="article:modified_time" content="2024-09-12T06:48:01.740Z">
+<meta property="article:modified_time" content="2024-12-05T08:24:37.846Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -262,7 +260,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.8k 字
+          7.7k 字
         
       </span>
     
@@ -273,7 +271,7 @@
         
         
         
-          73 分钟
+          65 分钟
         
       </span>
     
@@ -365,7 +363,7 @@
 </ul>
 </li>
 </ol>
-<h3 id="死亡对象判断方法"><a href="#死亡对象判断方法" class="headerlink" title="死亡对象判断方法"></a><strong>死亡对象判断方法</strong></h3><p>堆中几乎放着所有的对象实例，对堆垃圾回收前的第一步就是要判断哪些对象已经死亡（即不能再被任何途径使用的对象）。</p>
+<h3 id="死亡对象判断方法"><a href="#死亡对象判断方法" class="headerlink" title="死亡对象判断方法"></a><strong>死亡对象判断方法</strong></h3><p>堆中几乎放着所有的对象实例，对堆垃圾回收前的第一步就是要判断哪些对象已经死亡（即不能再被任何途径使用的对象）</p>
 <h4 id="引用计数法"><a href="#引用计数法" class="headerlink" title="引用计数法"></a><strong>引用计数法</strong></h4><p>给对象中添加一个引用计数器：</p>
 <ul>
 <li>每当有一个地方引用它，计数器就加 1；</li>
@@ -385,13 +383,11 @@
 
 
 
-<h4 id="哪些对象可以作为-GC-Roots-呢？"><a href="#哪些对象可以作为-GC-Roots-呢？" class="headerlink" title="哪些对象可以作为 GC Roots 呢？"></a><strong>哪些对象可以作为 GC Roots 呢？</strong></h4><ul>
+<h5 id="哪些对象可以作为-GC-Roots-呢？"><a href="#哪些对象可以作为-GC-Roots-呢？" class="headerlink" title="哪些对象可以作为 GC Roots 呢？"></a><strong>哪些对象可以作为 GC Roots 呢？</strong></h5><ul>
 <li>虚拟机栈(栈帧中的局部变量表)中引用的对象</li>
 </ul>
 <p>如下代码所示，a 是栈帧中的本地变量，当 a &#x3D; null 时，由于此时 a 充当了 <strong>GC Root</strong> 的作用，a 与原来指向的实例 <strong>new Test()</strong> 断开了连接，所以对象会被回收。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>	<span class="hljs-type">Test</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Test</span>();<br>	a = <span class="hljs-literal">null</span>;<br>    &#125;<br></code></pre></td></tr></table></figure>
-
-
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Test</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span>  <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>	<span class="hljs-type">Test</span> <span class="hljs-variable">a</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Test</span>();<br>	a = <span class="hljs-literal">null</span>;<br> &#125;<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>方法区(1.7之后是堆区class对象)中类静态属性引用的对象</li>
@@ -427,18 +423,18 @@
 <p>JDK1.2 之前，Java 中引用的定义很传统：如果 reference 类型的数据存储的数值代表的是另一块内存的起始地址，就称这块内存代表一个引用。</p>
 <p>JDK1.2 以后，Java 对引用的概念进行了扩充，将引用分为强引用、软引用、弱引用、虚引用四种（引用强度逐渐减弱）</p>
 <p><strong>强引用（StrongReference）</strong></p>
-<p>以前我们使用的大部分引用实际上都是强引用，这是使用最普遍的引用。如果一个对象具有强引用，那就类似于<strong>必不可少的生活用品</strong>，垃圾回收器绝不会回收它。当内存空间不足，Java 虚拟机宁愿抛出 OutOfMemoryError 错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足问题。</p>
-<p><strong>软引用（SoftReference）</strong></p>
-<p>如果一个对象只具有软引用，那就类似于<strong>可有可无的生活用品</strong>。如果内存空间足够，垃圾回收器就不会回收它，如果内存空间不足了，就会回收这些对象的内存。只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存。</p>
-<p>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收，JAVA 虚拟机就会把这个软引用加入到与之关联的引用队列中。</p>
+<p>以前我们使用的大部分引用实际上都是强引用，这是使用最普遍的引用。如果一个对象具有强引用，那就类似于<strong>必不可少的生活用品</strong>，垃圾回收器绝不会回收它。<strong>当内存空间不足，Java 虚拟机宁愿抛出 OutOfMemoryError 错误</strong>，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足问题。</p>
 <p><strong>弱引用（WeakReference）</strong></p>
-<p>如果一个对象只具有弱引用，那就类似于<strong>可有可无的生活用品</strong>。弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，<strong>一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。</strong>不过，由于垃圾回收器是一个优先级很低的线程， 因此不一定会很快发现那些只具有弱引用的对象。</p>
+<p>如果一个对象只具有弱引用，那就类似于可有可无的生活用品。弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，<strong>一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。</strong>不过，由于垃圾回收器是一个优先级很低的线程， 因此不一定会很快发现那些只具有弱引用的对象。</p>
 <p>弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java 虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<p><strong>软引用（SoftReference）</strong></p>
+<p>如果一个对象只具有软引用，那就类似于可有可无的生活用品。<strong>如果内存空间足够，垃圾回收器就不会回收它，如果内存空间不足了，就会回收这些对象的内存。</strong>只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存。</p>
+<p>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收，JAVA 虚拟机就会把这个软引用加入到与之关联的引用队列中。</p>
+<p>特别注意，在程序设计中一般很少使用弱引用与虚引用，使用软引用的情况较多，这是因为<strong>软引用可以加速 JVM 对垃圾内存的回收速度，可以维护系统的运行安全，防止内存溢出（OutOfMemory）等问题的产生</strong>。</p>
 <p><strong>虚引用（PhantomReference）</strong></p>
 <p>“虚引用”顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收。</p>
 <p><strong>虚引用主要用来跟踪对象被垃圾回收的活动</strong></p>
-<p><strong>虚引用与软引用和弱引用的一个区别在于：</strong> 虚引用必须和引用队列（ReferenceQueue）联合使用。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。程序如果发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</p>
-<p>特别注意，在程序设计中一般很少使用弱引用与虚引用，使用软引用的情况较多，这是因为<strong>软引用可以加速 JVM 对垃圾内存的回收速度，可以维护系统的运行安全，防止内存溢出（OutOfMemory）等问题的产生</strong>。</p>
+<p>虚引用与软引用和弱引用的一个区别在于： <strong>虚引用必须和引用队列（ReferenceQueue）联合使用。</strong>当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。<strong>程序如果发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</strong></p>
 <h3 id="如何判断一个常量是废弃常量？"><a href="#如何判断一个常量是废弃常量？" class="headerlink" title="如何判断一个常量是废弃常量？"></a><strong>如何判断一个常量是废弃常量？</strong></h3><p>运行时常量池主要回收的是废弃的常量。那么，我们如何判断一个常量是废弃常量呢？</p>
 <p>假如在字符串常量池中存在字符串 “abc”，如果当前没有任何 String 对象引用该字符串常量的话，就说明常量 “abc” 就是废弃常量，如果这时发生内存回收的话而且有必要的话，”abc” 就会被系统清理出常量池了。</p>
 <h3 id="如何判断一个类是无用的类？"><a href="#如何判断一个类是无用的类？" class="headerlink" title="如何判断一个类是无用的类？"></a><strong>如何判断一个类是无用的类？</strong></h3><p>方法区主要回收的是无用的类，那么如何判断一个类是无用的类的呢？</p>
@@ -448,7 +444,7 @@
 <li>加载该类的 <code>ClassLoader</code> 已经被回收。</li>
 <li>该类对应的 <code>java.lang.Class</code> 对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
 </ul>
-<p>虚拟机可以对满足上述 3 个条件的无用类进行回收，这里说的仅仅是“可以”，而并不是和对象一样不使用了就会必然被回收。</p>
+<p>虚拟机可以对满足上述 3 个条件的无用类进行回收，这里说的仅仅是“可以”，<strong>而并不是和对象一样不使用了就会必然被回收。</strong></p>
 <h3 id="常见的垃圾回收算法"><a href="#常见的垃圾回收算法" class="headerlink" title="常见的垃圾回收算法"></a><strong>常见的垃圾回收算法</strong></h3><h4 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a><strong>分代收集算法</strong></h4><p>当前虚拟机的垃圾收集都采用分代收集算法，这种算法没有什么新的思想，只是根据对象存活周期的不同将内存分为几块。一般将 Java 堆分为新生代和老年代，这样我们就可以根据各个年代的特点选择合适的垃圾收集算法。</p>
 <p>比如在新生代中，每次收集都会有大量对象死去，所以可以选择”标记-复制“算法，只需要付出少量对象的复制成本就可以完成每次垃圾收集。而老年代的对象存活几率是比较高的，而且没有额外的空间对它进行分配担保，所以我们必须选择“标记-清除”或“标记-整理”算法进行垃圾收集。</p>
 <h4 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a><strong>标记-清除算法</strong></h4><p>标记-清除（Mark-and-Sweep）算法分为“标记（Mark）”和“清除（Sweep）”阶段：首先标记出所有不需要回收的对象，在标记完成后统一回收掉所有没有被标记的对象。</p>
@@ -528,8 +524,8 @@
 
 
 
-<h4 id="ZGC-收集器"><a href="#ZGC-收集器" class="headerlink" title="ZGC 收集器"></a><strong>ZGC 收集器</strong></h4><p>与 CMS 中的 ParNew 和 G1 类似，ZGC 也采用标记-复制算法，不过 ZGC 对该算法做了重大改进。</p>
-<p>ZGC 可以将暂停时间控制在几毫秒以内，且暂停时间不受堆内存大小的影响，出现 Stop The World 的情况会更少，但代价是牺牲了一些吞吐量。ZGC 最大支持 16TB 的堆内存。</p>
+<h4 id="ZGC-收集器"><a href="#ZGC-收集器" class="headerlink" title="ZGC 收集器"></a><strong>ZGC 收集器</strong></h4><p>与 CMS 中的 ParNew 和 G1 类似，ZGC 也采用标记-复制算法，<strong>不过 ZGC 对该算法做了重大改进。</strong></p>
+<p>ZGC 可以将暂停时间控制在<strong>几毫秒以内</strong>，且暂停时间不受堆内存大小的影响，出现 Stop The World 的情况会更少，但代价是牺牲了一些吞吐量。<strong>ZGC 最大支持 16TB 的堆内存。</strong></p>
 <p>ZGC 在 Java11 中引入，处于试验阶段。经过多个版本的迭代，不断的完善和修复问题，ZGC 在 Java15 已经可以正式使用了。</p>
 <p>不过，默认的垃圾回收器依然是 G1。你可以通过下面的参数启用 ZGC：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">java -XX:+UseZGC className<br></code></pre></td></tr></table></figure>
@@ -538,58 +534,20 @@
 <p>你可以通过下面的参数启用分代 ZGC：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">java -XX:+UseZGC -XX:+ZGenerational className<br></code></pre></td></tr></table></figure>
 
-<p>关于 ZGC 收集器的详细介绍推荐阅读美团技术团队的 <a target="_blank" rel="noopener" href="https://tech.meituan.com/2020/08/06/new-zgc-practice-in-meituan.html">新一代垃圾回收器 ZGC 的探索与实践open in new window</a> 这篇文章。</p>
+<p>关于 ZGC 收集器的详细介绍推荐阅读美团技术团队的 <a target="_blank" rel="noopener" href="https://tech.meituan.com/2020/08/06/new-zgc-practice-in-meituan.html">新一代垃圾回收器 ZGC 的探索与实践</a> 这篇文章</p>
 <h3 id="如何选择垃圾回收器"><a href="#如何选择垃圾回收器" class="headerlink" title="如何选择垃圾回收器"></a><strong>如何选择垃圾回收器</strong></h3><p>Serial（新生代）、Serial Old（老年代）：适用于单核小CPU，单核工作，回收时会暂停其他工作stop the word，因为性能较差，现在一般不使用</p>
-<p>PawNew（新生代-标记复制）、CMS（老年代-<strong>标记清除</strong>）：适用于多核CPU，追求短暂停时间，适用于需要低停顿时间的应用，如 Web 服务器、应用服务器。如电商网站、在线游戏、高并发服务器</p>
-<p>JDK8: 4-8G可以使用PawNew+CMS</p>
-<p>Parallel Scavenge（新生代-标记复制算法）、Parallel Old（老年代-<strong>标记整理算法</strong>）：1.7,1.8默认的组合，适用于多核CPU，<strong>追求最大吞吐量</strong>，因为使用标记整理算法，所有STW时间会更长一点，适用于多核处理器的高吞吐量应用。如科学计算、数据分析、大规模数据处理</p>
-<p>JDK8: 4G以下可以使用Parallel </p>
-<p>G1 jdk1.9默认，<strong>适用于大内存多核CPU服务器</strong>，它不按整个新生代或老年代去回收，而是开辟了面向局部收集，G1 除了追求低停顿外，<strong>还能建立可预测的停顿时间模型</strong>，实现了较小的停顿时间和高吞吐量。适用于企业级中大规模应用，应用要求响应高</p>
-<p>JDK9: 8G以上可以使用G1</p>
-<h3 id="JVM内存泄漏的原因？"><a href="#JVM内存泄漏的原因？" class="headerlink" title="JVM内存泄漏的原因？"></a><strong>JVM内存泄漏的原因？</strong></h3><p><strong>对象引用未及时释放</strong></p>
-<p>如果某个对象持有了对其他对象的引用，并且这个引用没有被及时释放，就会导致对象无法被垃圾回收器回收。</p>
 <ul>
-<li>静态集合类（如 HashMap、ArrayList）中的对象引用未被及时清除，可能会导致内存泄漏，静态类或变量需要手动进行回收</li>
-<li>单例模式：和上面的例子原理类似，单例对象在初始化后会以静态变量的方式在了JVM 的整个生命周期中存在<br><strong>如果单例对象持有外部的引用，那么这个外部对象将不能被 GC 回收，导致内存泄漏。</strong></li>
+<li>JDK8: 4G以下可以使用Parallel</li>
 </ul>
-<p><strong>数据连接、I&#x2F;O、Socket等连接</strong></p>
-<p>创建的连接不再使用时，<strong>需要调用 close 方法关闭连接</strong>，只有连接被关闭后，GC 才会回收对应的对象(Connection，Statement，ResultSet，Session)。忘记关闭这些资源会导致持续占有内存，无法被GC 回收。</p>
-<p><strong>变量的作用域不合理</strong></p>
-<p>变量的定义作用域大于其使用范围，很可能存在内存泄漏；或不再使用对象没有及时将对象设置为nul，很可能导致内存泄漏的发生。</p>
-<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240415153015782.png" srcset="/img/loading.gif" lazyload alt="image-20240415153015782" style="zoom: 67%;" />
-
-
-
-<p><strong>hash值发生变化</strong></p>
-<p>对象Hash值改变使用HashMap、HashSet等容器中时候于对象修改之后的hash值和存储进容器时的hash值不同，因为我们重写了hashCode方法，所以修改之后无法使用remove清除原来对象 (这造成内存泄漏也是为什么String类型被设置成了不可变类型）。</p>
-<p><strong>如何解决：</strong></p>
-<p>保证作为HashMap 的Key 的对象是不可变的。也就是使用只读多对象来当作Key</p>
-<p>重写hashCode时，保证hashCode 的生成只和某些不可变的成员相关，如Person对象，hashcode只和name相关，改变age并不会改变hashCode。</p>
-<p><strong>ThreadLocal使用不当</strong></p>
-<p>ThreadLocal的弱引用导致内存泄漏也是个老生常谈的话题了，使用完ThreadLocal一定要记得使用remove方法来进行清除。</p>
-<h3 id="造成OOM的原因"><a href="#造成OOM的原因" class="headerlink" title="造成OOM的原因"></a><strong>造成OOM的原因</strong></h3><p><strong>一次性申请的资源太多</strong></p>
-<p>应用一次性申请的对象太多了，有可能把数据库所有的数据都查询过来，然后把数据都放到List中，就有可能造成OOM</p>
-<p>解决方法：限制申请数据的数量，比如做一个分页</p>
-<p><strong>不合理的递归调用</strong> </p>
-<p>如果程序中存在不合理的递归调用，递归层次过深，可能会消耗大量的栈空间，最终导致栈溢（StackOverflowError），间接引发 OOM</p>
-<p><strong>内存资源耗尽未释放（内存泄漏）</strong> </p>
-<p>内存泄漏是指程序在运行过程中无法释放不再使用的对象占用的内存空间，导致内存不断累积，最终耗尽了可用内存而引发 OOM。常见的内存泄漏情况包括未关闭资源（如文件流、数据库连接）、静态集合未清理导致的长生命周期对象等。</p>
-<p>解决方法：引入池化的思想，最多只能申请10个线程&#x2F;10个连接等，用完的资源要马上释放</p>
-<p><strong>本身分配的资源空间不够</strong></p>
-<p>堆空间不足可能是由于程序需要的内存超过了 JVM 分配的最大堆空间限制，也可能是堆内存碎片化导致无法为大对象分配连续的内存空间。</p>
-<p>解决方法：jmap -heap 查看堆信息，调整堆内存大小</p>
-<h3 id="如何监控堆内存和定位内存溢出"><a href="#如何监控堆内存和定位内存溢出" class="headerlink" title="如何监控堆内存和定位内存溢出"></a><strong>如何监控堆内存和定位内存溢出</strong></h3><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418010012529.png" srcset="/img/loading.gif" lazyload alt="image-20240418010012529" style="zoom: 33%;" />
-
-<p><strong>系统已经OOM挂了</strong></p>
-<p>提前设置参数</p>
-<p>-XX:+HeapDumpOnOutOfMemoryError </p>
-<p>-XX:HeapDumpPath&#x3D; dump文件路径</p>
-<p>然后导出dump文件，通过可视化工具分析</p>
-<p><strong>系统在运行中但还未OOM</strong></p>
-<p>导出dump文件：jmap -dump: format&#x3D;b,file&#x3D;dump文件路径 线程id</p>
-<p>dump文件是当前系统中堆的快照，然后结合JVisual VM进行调试</p>
-<p>但是也不是一上来就导出jump文件，比如系统频繁的进行Full GC或者CPU Load飙高的警告才进行操作</p>
-<p>虽然导出文件会进行GC的STW，但是可以快速的定位OOM，也是值得的，可以提前避免系统挂掉</p>
+<p>Parallel Scavenge（新生代-标记复制算法）、Parallel Old（老年代-<strong>标记整理算法</strong>）：1.7,1.8默认的组合，适用于多核CPU，<strong>追求最大吞吐量</strong>，因为使用标记整理算法，所有STW时间会更长一点，适用于多核处理器的高吞吐量应用。如科学计算、数据分析、大规模数据处理</p>
+<ul>
+<li>JDK8: 4-8G可以使用PawNew+CMS</li>
+</ul>
+<p>PawNew（新生代-标记复制）、CMS（老年代-<strong>标记清除</strong>）：适用于多核CPU，追求短暂停时间，适用于需要低停顿时间的应用，如 Web 服务器、应用服务器。如电商网站、在线游戏、高并发服务器</p>
+<ul>
+<li>JDK9: 8G以上可以使用G1</li>
+</ul>
+<p>G1 jdk1.9默认，<strong>适用于大内存多核CPU服务器</strong>，它不按整个新生代或老年代去回收，而是开辟了面向局部收集，G1 除了追求低停顿外，<strong>还能建立可预测的停顿时间模型</strong>，实现了较小的停顿时间和高吞吐量。适用于企业级中大规模应用，应用要求响应高</p>
 
                 
               </div>

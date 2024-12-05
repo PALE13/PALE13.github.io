@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240312123012860.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240420171113311.png">
 <meta property="article:published_time" content="2024-01-15T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-09T09:37:45.240Z">
+<meta property="article:modified_time" content="2024-09-24T06:13:57.237Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -305,14 +305,11 @@
             
               <div class="markdown-body">
                 
-                <h2 id="SpirngAOP"><a href="#SpirngAOP" class="headerlink" title="SpirngAOP"></a><strong>SpirngAOP</strong></h2><h3 id="谈谈自己对于-AOP-的了解？"><a href="#谈谈自己对于-AOP-的了解？" class="headerlink" title="谈谈自己对于 AOP 的了解？"></a><strong>谈谈自己对于 AOP 的了解？</strong></h3><p>AOP(Aspect-Oriented Programming:面向切面编程)能够将那些<strong>与业务无关，却为业务模块所共同调用的逻辑或责任</strong>（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。所谓切面，相当于应用对象间的横切点，我们可以将其单独抽象为单独的模块。</p>
+                <h2 id="SpirngAOP"><a href="#SpirngAOP" class="headerlink" title="SpirngAOP"></a><strong>SpirngAOP</strong></h2><h3 id="谈谈自己对于-AOP-的了解？"><a href="#谈谈自己对于-AOP-的了解？" class="headerlink" title="谈谈自己对于 AOP 的了解？"></a><strong>谈谈自己对于 AOP 的了解？</strong></h3><p>AOP(Aspect-Oriented Programming:面向切面编程)能够将那些<strong>与业务无关，却为业务模块所共同调用的逻辑或责任</strong>（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，<strong>并有利于未来的可拓展性和可维护性。</strong>所谓切面，相当于应用对象间的横切点，我们可以将其单独抽象为单独的模块。</p>
 <p>Spring AOP 就是<strong>基于动态代理</strong>的，如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 <strong>JDK Proxy</strong>，去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候 Spring AOP 会使用 <strong>Cglib</strong> 生成一个被代理对象的子类来作为代理，如下图所示：</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240312123012860.png" srcset="/img/loading.gif" lazyload alt="image-20240312123012860" style="zoom: 67%;" />
 
 <p>当然你也可以使用 <strong>AspectJ</strong> ，Spring AOP 已经集成了 AspectJ ，AspectJ 应该算的上是 Java 生态系统中最完整的 AOP 框架了。</p>
-<p><strong>JDK Proxy 和 Cglib的区别</strong></p>
-<p>JDK Proxy：<strong>JDK Proxy是基于Java的反射机制实现</strong>的。它要求被代理的类实现一个或多个接口，然后通过java.lang.reflect.Proxy类和java.lang.reflect.InvocationHandler接口来创建代理对象和处理代理方法调用。JDK Proxy适用于代理接口的情况。它要求被代理的类实现接口，然后基于接口生成代理对象。由于Java只支持单继承，因此JDK Proxy无法直接代理没有实现接口的类。</p>
-<p>Cglib：Cglib是<strong>通过继承被代理类并生成子类</strong>来实现的。它通过<strong>字节码操作库（ASM或Byte Buddy）在运行时动态生成代理类的子类（运行时直接在内存中生成并加载修改后的字节码文件）</strong>，并重写需要代理的方法。Cglib适用于代理类的情况。它可以直接代理没有实现接口的类，通过生成被代理类的子类来实现代理。</p>
 <p>AOP 切面编程涉及到的一些专业术语：</p>
 <table>
 <thead>
@@ -350,6 +347,8 @@
 <td align="center">将通知应用到目标对象，进而生成代理对象的过程动作，分为编译器织入和运行时织入</td>
 </tr>
 </tbody></table>
+<h3 id="JDK-Proxy-和-Cglib的区别"><a href="#JDK-Proxy-和-Cglib的区别" class="headerlink" title="JDK Proxy 和 Cglib的区别"></a><strong>JDK Proxy 和 Cglib的区别</strong></h3><p><strong>JDK Proxy：</strong> JDK Proxy是基于Java的<strong>反射机制实现的</strong>。它要求被代理的类实现一个或多个接口，然后通过java.lang.reflect.Proxy类和java.lang.reflect.InvocationHandler接口来创建代理对象和处理代理方法调用。JDK Proxy适用于代理接口的情况。<strong>它要求被代理的类实现接口，然后基于接口生成代理对象。</strong>由于Java只支持单继承，因此JDK Proxy无法直接代理没有实现接口的类。</p>
+<p><strong>Cglib：</strong>Cglib是<strong>通过继承被代理类并生成子类</strong>来实现的。它通过<strong>字节码操作库（ASM或Byte Buddy）在运行时动态生成被代理类的子类（运行时直接在内存中生成并加载修改后的字节码文件）</strong>，并重写需要代理的方法。Cglib适用于代理类的情况。它可以直接代理没有实现接口的类，通过生成被代理类的子类来实现代理。</p>
 <h3 id="AOP-解决了什么问题？"><a href="#AOP-解决了什么问题？" class="headerlink" title="AOP 解决了什么问题？"></a><strong>AOP 解决了什么问题？</strong></h3><p>OOP 不能很好地处理一些分散在多个类或对象中的公共行为（如日志记录、事务管理、权限控制、接口限流、接口幂等等），这些行为通常被称为 <strong>横切关注点（cross-cutting concerns）</strong> 。如果我们在每个类或对象中都重复实现这些行为，那么会导致代码的冗余、复杂和难以维护。</p>
 <p>AOP 可以将横切关注点（如日志记录、事务管理、权限控制、接口限流、接口幂等等）从 <strong>核心业务逻辑（core concerns，核心关注点）</strong> 中分离出来，实现关注点的分离。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240420171113311.png" srcset="/img/loading.gif" lazyload alt="image-20240420171113311" style="zoom:50%;" />
@@ -370,7 +369,7 @@
 <li><strong>AfterThrowing</strong>（异常通知）：目标对象的方法运行中抛出 &#x2F; 触发异常后触发。AfterReturning 和 AfterThrowing 两者互斥。如果方法调用成功无异常，则会有返回值；如果方法抛出了异常，则不会有返回值。</li>
 <li><strong>Around</strong> （环绕通知）：编程式控制目标对象的方法调用。环绕通知是所有通知类型中可操作范围最大的一种，因为它可以直接拿到目标对象，以及要执行的方法，所以环绕通知可以任意的在目标对象的方法调用前后搞事，甚至不调用目标对象的方法</li>
 </ul>
-<h3 id="如何实现环绕通知？"><a href="#如何实现环绕通知？" class="headerlink" title="如何实现环绕通知？"></a><strong>如何实现环绕通知？</strong></h3><p>在Spring AOP中，环绕通知（Around Advice）是一种比较灵活的通知类型，它可以在目标方法执行前后执行额外的逻辑，并且还可以决定是否调用目标方法。<br>在Spring AOP中，环绕通知（Around Advice）是一种比较灵活的通知类型，它可以在目标方法执行前后执行额外的逻辑，并且还可以决定是否调用目标方法。下面是使用环绕通知的步骤：</p>
+<h3 id="如何实现环绕通知？"><a href="#如何实现环绕通知？" class="headerlink" title="如何实现环绕通知？"></a><strong>如何实现环绕通知？</strong></h3><p>在Spring AOP中，环绕通知（Around Advice）是一种比较灵活的通知类型，它可以在目标方法<strong>执行前后执行额外的逻辑，并且还可以决定是否调用目标方法。</strong><br>在Spring AOP中，环绕通知（Around Advice）是一种比较灵活的通知类型，它可以在目标方法执行前后执行额外的逻辑，并且还可以决定是否调用目标方法。下面是使用环绕通知的步骤：</p>
 <ol>
 <li><strong>定义环绕通知方法</strong>：首先，需要在切面类中定义一个方法，该方法使用 <code>@Around</code> 注解标记，以表示它是一个环绕通知。方法的签名必须是 <code>public Object</code> 类型，并且接受一个 <code>ProceedingJoinPoint</code> 类型的参数。在方法内部可以编写环绕通知的逻辑，并通过 <code>ProceedingJoinPoint</code> 对象来控制目标方法的执行。</li>
 <li><strong>编写环绕通知逻辑</strong>：在环绕通知方法内部，可以编写额外的逻辑，例如日志记录、性能监控、事务管理等。可以在目标方法执行前执行预处理逻辑，在目标方法执行后执行后续处理逻辑，并且可以决定是否调用 <code>ProceedingJoinPoint</code> 对象的 <code>proceed()</code> 方法来执行目标方法。</li>

@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304224021135.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png">
 <meta property="article:published_time" content="2024-05-12T04:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-11T07:53:38.761Z">
+<meta property="article:modified_time" content="2024-11-01T08:52:55.349Z">
 <meta property="article:author" content="PALE13">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240327095915641.png">
@@ -264,7 +264,7 @@
         
         
         
-          85 分钟
+          86 分钟
         
       </span>
     
@@ -312,8 +312,8 @@
 <p>RabbitMQ：时效性极高的消息队列，在项目中用于将 AIGC 生成图表这一耗时任务进行异步化和解耦。</p>
 <h4 id="如何使用-AIGC-来生成指定格式的-json"><a href="#如何使用-AIGC-来生成指定格式的-json" class="headerlink" title="**如何使用 AIGC 来生成指定格式的 json **"></a>**如何使用 AIGC 来生成指定格式的 json **</h4><p>我使用了第三方 AI助手平台(本质上和 OpenAIGPT 一样的)，首先创建了一个智能 BI 助手，并且编写了一段系统预设 prompt，全局指定助手的职责、输入内容和回复格式。</p>
 <p>在这个过程中，我不断地更改 prompt 并调试输出效果，最终得到了生成内容比较稳定的 Promot。可以根据我上传的分析目标和原始数据自动生成 Apache ECharts 可视化库接受的图表配置 JSON。创建好助手后，我通过 AI 助手平台官方的 SDK 调用该助手完成内容的生成。值得一提的是，AI 生成内容是一个比较耗时的操作，为了提高用户的体验，我使用消息队列将生成过程从同步改造为异步。</p>
-<h4 id="你给-AI-预设的-Prompt-结构"><a href="#你给-AI-预设的-Prompt-结构" class="headerlink" title="你给 AI 预设的 Prompt 结构"></a><strong>你给 AI 预设的 Prompt 结构</strong></h4><p>几个优化 Prompt 的小技巧:</p>
-<p>1.使用系统预设全局改变 A1助手的行为，并且给 AI一个角色的定义比如“你是一个数据分析师和前端开发专家”)</p>
+<h4 id="你给-AI-预设的-Prompt-结构"><a href="#你给-AI-预设的-Prompt-结构" class="headerlink" title="你给 AI 预设的 Prompt 结构"></a><strong>你给 AI 预设的 Prompt 结构</strong></h4><p>几个优化 Prompt 的小技巧：</p>
+<p>1.使用系统预设全局改变 AI 助手的行为，并且给 AI 一个角色的定义比如“你是一个数据分析师和前端开发专家”)</p>
 <p>2.控制输入格式，便于 AI精确地理解我们的需求(比如“接下来我会按照以下固定格式给你提供内容”)</p>
 <p>3.控制输出格式，便于处理AI返回的内容(比如“此外不要输出任何多余的开头、结尾、注释”)</p>
 <p>4.给 Al 指定一组示例问答(few-shot)</p>
@@ -332,6 +332,11 @@
 <li><strong>遍历Excel数据：</strong> 遍历Excel文件中的每一行和每一列，过滤掉空的数据，将单元格中的数据提取出来。</li>
 <li><strong>生成CSV格式数据：</strong> 根据CSV文件的格式，将<strong>提取出的数据以逗号分隔并组织成CSV格式</strong>的字符串。通常，需要处理特殊字符、换行符等情况。</li>
 <li><strong>写入CSV文件：</strong> 将生成的CSV格式数据写入到CSV文件中。可以使用文本文件写入操作或专门的CSV库。</li>
+</ol>
+<h4 id="为什么使用EasyExcel？"><a href="#为什么使用EasyExcel？" class="headerlink" title="为什么使用EasyExcel？"></a><strong>为什么使用EasyExcel？</strong></h4><ol>
+<li><strong>内存占用低</strong>：EasyExcel在解析Excel文件时，不会一次性将所有数据加载到内存中，而是逐行读取和解析数据，有效避免了内存溢出的问题，尤其适合处理大型Excel文件。</li>
+<li><strong>高性能</strong>：EasyExcel采用异步读取和写入方式，结合NIO技术，使得处理大数据量的Excel文件时性能非常高效。</li>
+<li><strong>简单易用</strong>：提供了简洁直观的API，开发者可以轻松上手，无需深入了解底层实现细节即可完成Excel的读写操作。</li>
 </ol>
 <h4 id="CSV数据存储到一个字段里面，需要进一步压缩吗？"><a href="#CSV数据存储到一个字段里面，需要进一步压缩吗？" class="headerlink" title="CSV数据存储到一个字段里面，需要进一步压缩吗？"></a><strong>CSV数据存储到一个字段里面，需要进一步压缩吗？</strong></h4><p>如果将 CSV 格式的数据存储到 MySQL 数据库的一个字段中，并且数据量较大，那么有时候可能需要进一步压缩这些数据。压缩可以节省存储空间，并且在某些情况下还可以提高数据的传输效率和处理速度。以下是一些考虑压缩 CSV 数据的情况：</p>
 <ol>
@@ -392,7 +397,7 @@
 <p>以后进行图表数据查询时，可以先根据图表的ID来查找，然后进行数据查询，方便我们排查问题。甚至返回用户原始数据，通过全表扫描的方式直接捞出所有数据，这比对数据库查询数据进行处理更加快速和高效。</p>
 </blockquote>
 <p>分库分表的缺点是会增加项目和架构的复杂性，如果业务涉及关联査询、跨分表查询，查询逻辑会变得更加复杂。<br>所以还是要根据自己的实际业务场景和数据特点来决定是否选用分库分表。</p>
-<h4 id="什么是-Redisson-的-RateLimiter"><a href="#什么是-Redisson-的-RateLimiter" class="headerlink" title="什么是 Redisson 的 RateLimiter"></a><strong>什么是 Redisson 的 RateLimiter</strong></h4><p>RateLimiter 是 Redisson 基于 Redis 实现的分布式限流组件，底层使用<strong>令牌桶算法</strong>，能够控制某个操作或服务在一定时间内的请求频率，保护系统不被过多的请求压垮。在项目中，考虑到 AI生成图表是一个耗时且耗费资源的操作，我决定给 AI生成图表接口增加限流，具体的策略是：单个用户每秒内最多执行2次生成图表操作。</p>
+<h4 id="什么是-Redisson-的-RateLimiter"><a href="#什么是-Redisson-的-RateLimiter" class="headerlink" title="什么是 Redisson 的 RateLimiter"></a><strong>什么是 Redisson 的 RateLimiter</strong></h4><p>RateLimiter 是 Redisson 基于 Redis 实现的分布式限流组件，底层使用<strong>令牌桶算法</strong>，能够控制某个操作或服务在一定时间内的请求频率，保护系统不被过多的请求压垮。在项目中，考虑到 AI 生成图表是一个耗时且耗费资源的操作，我决定给 AI生成图表接口增加限流，具体的策略是：单个用户每秒内最多执行2次生成图表操作。</p>
 <p>具体的实现方式如下：<br>1)集中管理限流器：创建一个 RedisLimiterManager 类，集中管理整个项日中所有的限流器，并提供创建限流器的接口。</p>
 <p>2)创建限流器：通过向 redissonClient 传入指定的 key 来创建限流器，<strong>每个用户对应的 key 不同</strong>，对应的限流<br>器也不同，从而<strong>实现不同用户的独立限流</strong></p>
 <p>3)设置限流规则：通过 rateLimiter 的 trySetRate 方法制定限流规则，每秒内最多获取 2 个令牌</p>
@@ -437,7 +442,7 @@
 <p>管理员先生成一批令牌，每秒生成10个令牌；当用户要操作前，先去拿到一个令牌，有令牌的人就有资格执行操作、同时执行操作；拿不到令牌的就等着</p>
 <p>优点：<strong>能够并发处理同时的请求</strong>，并发性能会更高</p>
 <p>比如，当令牌桶满的时候有10个可用令牌，此时允许10个请求同时通过限流器（<strong>允许流量一定程度的突发</strong>），这10个请求瞬间消耗完令牌后，后续的流量只能按照速率r通过限流器。</p>
-<p>需要考虑的问题：还是存在时间单位选取的问题</p>
+<p><strong>需要考虑的问题：</strong>还是存在时间单位选取的问题</p>
 <p>如果令牌发放的策略正确，这个系统即不会被拖垮，也能提高机器的利用率。Guava的RateLimiter限流组件，就是基于<strong>令牌桶算法</strong>实现的</p>
 <p>缺点：令牌桶算法可以缓解漏桶算法的缺点，但在一些场景下可能存在一定问题。比如在应对<strong>短时间内的高并发请求时，由于令牌数有限</strong>，引入过大的并发请求会导致严重的性能问题，也可能会造成请求失败或者拒绝。</p>
 <p>限流粒度</p>

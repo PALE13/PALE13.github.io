@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240103132730242.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/202208292137307.png">
 <meta property="article:published_time" content="2023-10-15T01:35:21.000Z">
-<meta property="article:modified_time" content="2024-06-04T08:47:20.959Z">
+<meta property="article:modified_time" content="2024-11-04T12:35:50.406Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="计算机基础">
 <meta name="twitter:card" content="summary_large_image">
@@ -305,7 +305,7 @@
             
               <div class="markdown-body">
                 
-                <h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><p><strong>什么是设计模式？</strong></p>
+                <h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a><strong>设计模式</strong></h2><p><strong>什么是设计模式？</strong></p>
 <p>设计模式 Design Pattern 是⼀套被反复使⽤、多数⼈知晓的、经过分类编⽬的、代码设计经验的总结，使⽤设计模式是为了可重⽤代码、让代码更容易被他⼈理解、保证代码可靠性。</p>
 <p><strong>设计模式的4个元素</strong></p>
 <p>pattern name模式名称，一个助记名，它用两个词来描述模式的问题、解决方案和效果。</p>
@@ -320,14 +320,14 @@
 
 
 
-<h4 id="（1）单一职责原则（Single-Responsibility-Principle）"><a href="#（1）单一职责原则（Single-Responsibility-Principle）" class="headerlink" title="（1）单一职责原则（Single Responsibility Principle）"></a>（1）单一职责原则（Single Responsibility Principle）</h4><p><strong>定义：</strong>一个类应该只包含单一职责，既是信息内聚又是功能内聚，信息与行为除了要集中外，还要联合起来表达一个内聚的概念。</p>
+<h3 id="（1）单一职责原则（Single-Responsibility-Principle）"><a href="#（1）单一职责原则（Single-Responsibility-Principle）" class="headerlink" title="（1）单一职责原则（Single Responsibility Principle）"></a><strong>（1）单一职责原则（Single Responsibility Principle）</strong></h3><p><strong>定义：</strong>一个类应该只包含单一职责，既是信息内聚又是功能内聚，信息与行为除了要集中外，还要联合起来表达一个内聚的概念。</p>
 <p><strong>解释：</strong>简单的讲，就是一个类或接口只负责一个”职责”。如果一个类有一个以上的职责，这些职责就耦合在一起了。</p>
 <p><strong>优点：</strong></p>
 <p>1.可以降低类的复杂度</p>
 <p>2.提高类的可读性，系统的可维护性</p>
 <p>3.降低变更的时候对其他功能的影响(变更不可避免)</p>
 <p><strong>缺点：</strong>如果把职责划分过细反而会造成接口和实现类的数量剧增，反而不利于维护和阅读。</p>
-<h4 id="（2）里氏替换原则（Listkov-Substitution-Principle）"><a href="#（2）里氏替换原则（Listkov-Substitution-Principle）" class="headerlink" title="（2）里氏替换原则（Listkov Substitution Principle）"></a>（2）里氏替换原则（Listkov Substitution Principle）</h4><p><strong>定义：</strong>子类型能够替换基类型并起同样的作用。(最典型的反例：正方形和长方形)</p>
+<h3 id="（2）里氏替换原则（Listkov-Substitution-Principle）"><a href="#（2）里氏替换原则（Listkov-Substitution-Principle）" class="headerlink" title="（2）里氏替换原则（Listkov Substitution Principle）"></a><strong>（2）里氏替换原则（Listkov Substitution Principle）</strong></h3><p><strong>定义：</strong>子类型能够替换基类型并起同样的作用。(最典型的反例：正方形和长方形)</p>
 <p>为了满足LSP：</p>
 <ol>
 <li><p>子类的前置方法条件（形参）必须与超类方法的前置条件相同或者要求更少。</p>
@@ -341,7 +341,7 @@
 <li>里氏替换原则增强了程序的健壮性，使程序传递不同的子类完成不同的逻辑而不产生错误.</li>
 <li>里氏替换原则其实也就是对继承的一种规范，实现抽象化的一种规范。</li>
 </ol>
-<h4 id="（3）依赖倒置原则（Dependency-Inversion-Principle）"><a href="#（3）依赖倒置原则（Dependency-Inversion-Principle）" class="headerlink" title="（3）依赖倒置原则（Dependency Inversion Principle）"></a>（3）依赖倒置原则（Dependency Inversion Principle）</h4><p><strong>定义：</strong>高层模块不应该依赖于低层模块，二者都应该依赖于抽象；抽象不应该依赖于具体的细节；细节应该依赖于抽象。</p>
+<h3 id="（3）依赖倒置原则（Dependency-Inversion-Principle）"><a href="#（3）依赖倒置原则（Dependency-Inversion-Principle）" class="headerlink" title="（3）依赖倒置原则（Dependency Inversion Principle）"></a><strong>（3）依赖倒置原则（Dependency Inversion Principle）</strong></h3><p><strong>定义：</strong>高层模块不应该依赖于低层模块，二者都应该依赖于抽象；抽象不应该依赖于具体的细节；细节应该依赖于抽象。</p>
 <p><strong>解释：</strong>针对接口编程</p>
 <p><strong>优点：</strong></p>
 <p>传统过程化程序设计所创建的依赖关系，策略依赖于细节，这是糟糕的，因为策略受到细节改变的影响。依赖倒置原则使细节和策略都依赖于抽象，抽象的稳定性决定了系统的稳定性。</p>
@@ -353,7 +353,7 @@
 <p>1.通过构造函数传递依赖对象；</p>
 <p>2.通过setter方法传递依赖对象；</p>
 <p>3.接口声明实现依赖对象，也叫接口注入</p>
-<h4 id="（4）接口隔离原则（Interface-Segregation-Principle）"><a href="#（4）接口隔离原则（Interface-Segregation-Principle）" class="headerlink" title="（4）接口隔离原则（Interface Segregation Principle）"></a>（4）接口隔离原则（Interface Segregation Principle）</h4><p><strong>定义：</strong>客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。</p>
+<h3 id="（4）接口隔离原则（Interface-Segregation-Principle）"><a href="#（4）接口隔离原则（Interface-Segregation-Principle）" class="headerlink" title="（4）接口隔离原则（Interface Segregation Principle）"></a><strong>（4）接口隔离原则（Interface Segregation Principle）</strong></h3><p><strong>定义：</strong>客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。</p>
 <p><strong>编程注意：</strong></p>
 <ul>
 <li><p>接口尽量小，但是也有一个限度。（接口太小造成接口数量过多）</p>
@@ -363,18 +363,18 @@
 <li><p>提高内聚，减少对外的交互</p>
 </li>
 </ul>
-<h4 id="（5）迪米特法则（Law-of-Demeter）-最少知识原则（Least-Knowledge-Principle）"><a href="#（5）迪米特法则（Law-of-Demeter）-最少知识原则（Least-Knowledge-Principle）" class="headerlink" title="（5）迪米特法则（Law of Demeter）&#x2F;最少知识原则（Least Knowledge Principle）"></a>（5）迪米特法则（Law of Demeter）&#x2F;最少知识原则（Least Knowledge Principle）</h4><p><strong>定义：</strong>一个对象应该对其他对象保持最少的了解。</p>
+<h3 id="（5）迪米特法则（Law-of-Demeter）-最少知识原则（Least-Knowledge-Principle）"><a href="#（5）迪米特法则（Law-of-Demeter）-最少知识原则（Least-Knowledge-Principle）" class="headerlink" title="（5）迪米特法则（Law of Demeter）&#x2F;最少知识原则（Least Knowledge Principle）"></a><strong>（5）迪米特法则（Law of Demeter）&#x2F;最少知识原则（Least Knowledge Principle）</strong></h3><p><strong>定义：</strong>一个对象应该对其他对象保持最少的了解。</p>
 <p><strong>解释：</strong>只和直接朋友交流。出现在成员变量、方法参数、方法返回值中的类为直接的朋友。</p>
 <p><strong>优点：</strong>降低了类之间的耦合。</p>
 <p><strong>缺点：</strong>过分的使用迪米特原则，会产生大量这样的中介和传递类，导致系统复杂度变大。</p>
-<h4 id="（6）开闭原则（Open-Closed-Principle）"><a href="#（6）开闭原则（Open-Closed-Principle）" class="headerlink" title="（6）开闭原则（Open-Closed Principle）"></a>（6）开闭原则（Open-Closed Principle）</h4><p><strong>定义：</strong>一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。</p>
+<h3 id="（6）开闭原则（Open-Closed-Principle）"><a href="#（6）开闭原则（Open-Closed-Principle）" class="headerlink" title="（6）开闭原则（Open-Closed Principle）"></a><strong>（6）开闭原则（Open-Closed Principle）</strong></h3><p><strong>定义：</strong>一个软件实体如类、模块和函数应该对扩展开放，对修改关闭。</p>
 <p><strong>解释：</strong>当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
 <p><strong>关系</strong></p>
 <p>OCP开闭原则是面向对象设计的目标，DIP依赖倒置原则是主要的实现手段，LSP里氏替换原则是DIP依赖倒置原则的基础</p>
 <p>LSP（保证）-&gt;DIP（实现机制）-&gt;OCP（目标）</p>
 <p>多态也是OCP的实现机制之一   </p>
-<h4 id="（7）好莱坞原则-The-Hollywood-Principle"><a href="#（7）好莱坞原则-The-Hollywood-Principle" class="headerlink" title="（7）好莱坞原则(The Hollywood Principle)"></a>（7）好莱坞原则(The Hollywood Principle)</h4><p>定义: ⼦类不显式调⽤⽗类的⽅法，⽽是通过覆盖⽗类的⽅法来实现某些具体业务逻辑，通过⽗类来调⽤⼦类</p>
-<h4 id="（8）合成复用原则（Composite-Reuse-Principle）"><a href="#（8）合成复用原则（Composite-Reuse-Principle）" class="headerlink" title="（8）合成复用原则（Composite Reuse Principle）"></a>（8）合成复用原则（Composite Reuse Principle）</h4><p>尽量使用合成&#x2F;聚合的方式，而不是使用继承。</p>
+<h3 id="（7）好莱坞原则-The-Hollywood-Principle"><a href="#（7）好莱坞原则-The-Hollywood-Principle" class="headerlink" title="（7）好莱坞原则(The Hollywood Principle)"></a><strong>（7）好莱坞原则(The Hollywood Principle)</strong></h3><p>定义: ⼦类不显式调⽤⽗类的⽅法，⽽是通过覆盖⽗类的⽅法来实现某些具体业务逻辑，通过⽗类来调⽤⼦类</p>
+<h3 id="（8）组合复用原则（Composite-Reuse-Principle）"><a href="#（8）组合复用原则（Composite-Reuse-Principle）" class="headerlink" title="（8）组合复用原则（Composite Reuse Principle）"></a><strong>（8）组合复用原则（Composite Reuse Principle）</strong></h3><p>尽量使用合成&#x2F;聚合的方式，而不是使用继承。</p>
 <p>在不满足LSP时，用组合来代替继承实现代码的复用。      </p>
 <p>子类应该能替换基类而起相同的作用，只为了复用代码而不为了组织类型差异的继承用法往往是不符合LSP原则，需要使用组合代替继承（既能复用代码又能保持接口灵活性）</p>
 <p><strong>继承与组合对比</strong></p>

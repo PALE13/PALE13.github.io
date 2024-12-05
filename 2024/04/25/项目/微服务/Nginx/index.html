@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509203722890.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240509204601563.png">
 <meta property="article:published_time" content="2024-04-25T10:46:25.000Z">
-<meta property="article:modified_time" content="2024-08-29T01:20:26.817Z">
+<meta property="article:modified_time" content="2024-10-04T07:21:47.193Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="服务器">
 <meta name="twitter:card" content="summary_large_image">
@@ -266,7 +266,7 @@
         
         
         
-          26 分钟
+          25 分钟
         
       </span>
     
@@ -309,9 +309,9 @@
               <div class="markdown-body">
                 
                 <h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a><strong>Nginx</strong></h2><p><strong>什么是 Nginx ?</strong></p>
-<p>俄罗斯的工程师 lgor Sysoev，在 Rambler Media 工作期间使用 C语言开发并开源了 Nginx。<br>Nginx 同 Apache 一样都是 WEB 服务器，不过，Nginx 更加轻量级，它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。并且，Nginx 可以作为反向代理服务器使用，支持IMAP&#x2F;POP3&#x2F;SMTP 服务。</p>
+<p>俄罗斯的工程师 lgor Sysoev，在 Rambler Media 工作期间使用 C语言开发并开源了 Nginx。Nginx 同 Apache 一样都是 WEB 服务器，不过，Nginx 更加轻量级，它的内存占用少，启动极快，高并发能力强，在互联网项目中广泛应用。并且，Nginx 可以作为反向代理服务器使用，支持IMAP&#x2F;POP3&#x2F;SMTP 服务。</p>
 <h3 id="Nginx-的特点是有哪些"><a href="#Nginx-的特点是有哪些" class="headerlink" title="Nginx 的特点是有哪些?"></a><strong>Nginx 的特点是有哪些?</strong></h3><ul>
-<li>内存占用非常少:一般情况下，10000 个非活跃的 HTTP Keep-Alive 连接在 Nginx 中仅消耗 2.5MB的内存，这是 Nginx 支持高并发连接的基础。</li>
+<li>内存占用非常少：一般情况下，10000 个非活跃的 HTTP Keep-Alive 连接在 Nginx 中仅消耗 2.5MB的内存，这是 Nginx 支持高并发连接的基础。</li>
 <li>高并发:单机支持 10 万以上的并发连接</li>
 <li>跨平台:可以运行在 Linux，Windows，FreeBSD，Solaris，AIX，Mac Os 等操作系统上。</li>
 <li>扩展性好:第三方插件非常多</li>
@@ -349,8 +349,7 @@
 
 <h3 id="Nginx-为什么适合做负载均衡"><a href="#Nginx-为什么适合做负载均衡" class="headerlink" title="Nginx 为什么适合做负载均衡?"></a><strong>Nginx 为什么适合做负载均衡?</strong></h3><p>Nginx 工作在网络的第七层(应用层)，可以针对 HTTP 应用本身来做分流策略，支持 HTTP、HTTPS 协议的负载均衡。在工作中，我们通常会使用 Nginx 来做七层负载均衡。</p>
 <ul>
-<li>Nginx 为什么适合做负载均衡呢？我简单总结了下面几方面主要原因：</li>
-<li>Nginx 属于软件负载均衡，相比于硬件负载均衡来说，价格非常低廉，一个较低配置的服务器即可满满足。</li>
+<li>Nginx 属于<strong>软件负载均衡</strong>，相比于硬件负载均衡来说，价格非常低廉，一个较低配置的服务器即可满满足。</li>
 <li>Nginx 使用简单，上手比较快。</li>
 <li>Nginx 基于C语言的实现，”性能非常好。一般情况下，10000个非活跃的 HTTP Keep-Alive 连接在Nginx 中仅消耗 2.5MB 的内存，这是 Nginx 支持高并发连接的基础。并且，Nginx 单机支持 10 万以上的并发连接。</li>
 <li>Nginx 自带健康检查(服务器心跳检查)功能，会定期轮询向集群里的所有服务器发送健康检查请求，来检查集群中是否有服务器处于异常状态。</li>
@@ -359,7 +358,7 @@
 </ul>
 <h3 id="Nginx-有哪些负载均衡策略"><a href="#Nginx-有哪些负载均衡策略" class="headerlink" title="Nginx 有哪些负载均衡策略?"></a><strong>Nginx 有哪些负载均衡策略?</strong></h3><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1607277">五分钟看懂 Nginx 负载均衡-腾讯云开发者社区-腾讯云 (tencent.com)</a></p>
 <p><a target="_blank" rel="noopener" href="https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/">HTTP Load Balancing | NGINX Documentation</a></p>
-<h3 id="Nginx-常用命令有哪些"><a href="#Nginx-常用命令有哪些" class="headerlink" title="Nginx 常用命令有哪些?"></a>Nginx 常用命令有哪些?</h3><ul>
+<h3 id="Nginx-常用命令有哪些"><a href="#Nginx-常用命令有哪些" class="headerlink" title="Nginx 常用命令有哪些?"></a><strong>Nginx 常用命令有哪些?</strong></h3><ul>
 <li>启动 nginx 。</li>
 <li>停止 nginx-s stop或nginx-s quit</li>
 <li>重载配置.&#x2F;sbin&#x2F;nginx-sreload(平滑重启)或 service nginx reload</li>
@@ -368,7 +367,7 @@
 <li>检查配置文件是否正确 nginx-t。</li>
 <li>显示帮助信息 nginx-h</li>
 </ul>
-<h3 id="Nginx-性能优化的常见方式"><a href="#Nginx-性能优化的常见方式" class="headerlink" title="Nginx 性能优化的常见方式?"></a>Nginx 性能优化的常见方式?</h3><ul>
+<h3 id="Nginx-性能优化的常见方式"><a href="#Nginx-性能优化的常见方式" class="headerlink" title="Nginx 性能优化的常见方式?"></a><strong>Nginx 性能优化的常见方式?</strong></h3><ul>
 <li>设置 Nginx 运行工作进程个数:一般设置 CPU 的核心数或者核心数 x2;</li>
 <li>开启 Gzip 压缩:这样可以使网站的图片、CSS、JS 等文件在传输时进行压缩，提高访问速度，优化Nginx 性能。详细介绍可以参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/kevingrace/p/10018914.html">Nginx性能优化功能- Gzip压缩(大幅度提高页面加载速度) - 散尽浮华 - 博客园 (cnblogs.com)</a></li>
 <li>设置单个 worker 进程允许客户端最大连接数:一般设置为 65535 就足够了;</li>
@@ -392,7 +391,7 @@
 <p>相关阅读：</p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6970093569096810526">Nginx系列教程（五）| 利用 Nginx+Keepalived 实现高可用技术 | 周末学习 - 掘金 (juejin.cn)</a></p>
 <p><a target="_blank" rel="noopener" href="https://support.huaweicloud.com/bestpractice-vpc/bestpractice_0010.html">搭建Keepalived Nginx高可用Web集群_虚拟私有云 VPC_最佳实践 (huaweicloud.com)</a></p>
-<h3 id="Nginx-如何实现后端服务健康检查"><a href="#Nginx-如何实现后端服务健康检查" class="headerlink" title="Nginx 如何实现后端服务健康检查?"></a>Nginx 如何实现后端服务健康检查?</h3><p>我们可以利用第三方模块 upstream_check module 来检测后端服务的健康状态，如果后端服务器不可用，则所有的请求不转发到这台服务器。</p>
+<h3 id="Nginx-如何实现后端服务健康检查"><a href="#Nginx-如何实现后端服务健康检查" class="headerlink" title="Nginx 如何实现后端服务健康检查?"></a><strong>Nginx 如何实现后端服务健康检查?</strong></h3><p>我们可以利用第三方模块 upstream_check module 来检测后端服务的健康状态，如果后端服务器不可用，则所有的请求不转发到这台服务器。</p>
 <p>upstream_check_module 是一款阿里的一位大佬开源的，使用 Perl和C编写而成，Github 地址:<a target="_blank" rel="noopener" href="https://github.com/yaoweibin/nginx">https://github.com/yaoweibin/nginx</a> upstream check module </p>
 <p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1700001">Nginx负载均衡健康检查功能-腾讯云开发者社区-腾讯云 (tencent.com)</a></p>
 <h3 id="Nginx-总体架构了解吗"><a href="#Nginx-总体架构了解吗" class="headerlink" title="Nginx 总体架构了解吗?"></a><strong>Nginx 总体架构了解吗?</strong></h3><p>关于 Nginx 总结架构的详细解答，请看这篇文章：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/CxapDUkSdqBbuJU4JrQ8Aw">最近和Nginx杠上了！ (qq.com)</a></p>
@@ -404,14 +403,8 @@
 
 
 
-
-
-
-
-
-
 <h3 id="Nginx-进程模型了解么"><a href="#Nginx-进程模型了解么" class="headerlink" title="Nginx 进程模型了解么?"></a><strong>Nginx 进程模型了解么?</strong></h3><p>关于进程模型的详细解答，请看这篇文章：<a target="_blank" rel="noopener" href="https://learnku.com/articles/38414">Nginx 工作模式和进程模型 | Server 运维论坛 (learnku.com)</a></p>
-<p>Nginx 启动后，会产生一个 master 主进程，主进程执行一系列的工作后会产生一个或者多个工作进程worker 进程。master 进程用来管理 worker 进程， worker 进程负责处理网络请求。也就是说 Nginx 采用的是经典的 master-worker 模型的多进程模型</p>
+<p>Nginx 启动后，会产生一个 master 主进程，主进程执行一系列的工作后会产生一个或者多个工作进程worker 进程。master 进程用来管理 worker 进程， worker 进程负责处理网络请求。<strong>也就是说 Nginx 采用的是经典的 master-worker 模型的多进程模型</strong>。</p>
 <h3 id="Nginx-如何处理-HTTP-请求"><a href="#Nginx-如何处理-HTTP-请求" class="headerlink" title="Nginx 如何处理 HTTP 请求?"></a><strong>Nginx 如何处理 HTTP 请求?</strong></h3><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022348375">Nginx 是如何处理 HTTP 头部的？ - 原少子杨 - SegmentFault 思否</a></p>
 <p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000022709975">万字长文！一次性弄懂 Nginx 处理 HTTP 请求的 11 个阶段 - 原少子杨 - SegmentFault 思否</a></p>
 

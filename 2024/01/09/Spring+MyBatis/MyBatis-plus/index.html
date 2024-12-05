@@ -24,7 +24,7 @@
 <meta property="og:description" content="MyBatis-PlusMyBatis-Plus作为一个强大的ORM（对象关系映射）框架，为Java开发人员提供了在数据库操作中更高效的工具和方法。 数据库查询在许多应用程序中起着至关重要的作用，因此优化查询效率对于提高应用程序性能至关重要。MyBatis-Plus的Wrapper提供了一种强大的工具，可以帮助我们以更直观、更灵活的方式构建复杂的SQL查询，而无需编写繁琐的SQL语句。 MyBat">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-01-09T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-09T11:25:51.993Z">
+<meta property="article:modified_time" content="2024-10-30T14:54:26.167Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MyBatis">
 <meta name="twitter:card" content="summary_large_image">
@@ -322,46 +322,31 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.core.toolkit.Wrappers;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;<br><span class="hljs-keyword">import</span> com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LambdaExpressionExample</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 使用Lambda表达式创建查询条件</span><br>        QueryWrapper&lt;User&gt; queryWrapper = Wrappers.&lt;User&gt;lambdaQuery()<br>                .ge(User::getAge, <span class="hljs-number">30</span>);<br>        <br>        <span class="hljs-comment">// 执行查询</span><br>        List&lt;User&gt; userList = userDao.selectList(queryWrapper);<br>        <br>        <span class="hljs-comment">// 输出查询结果</span><br>        <span class="hljs-keyword">for</span> (User user : userList) &#123;<br>            System.out.println(user);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>在这个示例中，我们使用了<code>Wrappers.lambdaQuery()</code>来创建一个Lambda查询包装器，然后使用<code>.ge(User::getAge, 30)</code>来表示年龄大于等于30岁的条件。这种方式更加直观和类型安全，不需要编写原始的SQL语句，提高了代码的可读性和可维护性。</p>
-<p>总之，Lambda表达式在MyBatis-Plus中的重要性在于它们提供了一种更加直观和类型安全的方式来构建数据库查询条件，从而简化了代码并降低了错误的风险。</p>
+<p>总之，Lambda表达式在MyBatis-Plus中的重要性在于它们<strong>提供了一种更加直观和类型安全的方式来构建数据库查询条件</strong>，从而简化了代码并降低了错误的风险。</p>
 <h3 id="QueryWrapper与LambdaQueryWrapper区别"><a href="#QueryWrapper与LambdaQueryWrapper区别" class="headerlink" title="QueryWrapper与LambdaQueryWrapper区别"></a><strong>QueryWrapper与LambdaQueryWrapper区别</strong></h3><p><code>QueryWrapper</code>和<code>LambdaQueryWrapper</code>都是MyBatis-Plus中用于构建查询条件的工具，但它们之间存在一些重要的区别：</p>
 <p><strong>构建方式：</strong></p>
 <ul>
-<li><ul>
-<li><code>QueryWrapper</code>：使用字符串表示列名，通过字符串拼接的方式构建查询条件，类似于传统的SQL查询。这种方式灵活但不够类型安全。</li>
+<li><code>QueryWrapper</code>：使用字符串表示列名，通过<strong>字符串拼接的方式构建查询条件</strong>，类似于传统的SQL查询。这种方式灵活但不够类型安全。</li>
 <li><code>LambdaQueryWrapper</code>：使用Lambda表达式表示列名，通过Lambda表达式的方式构建查询条件。这种方式更加类型安全，可以在编译时捕获拼写错误。</li>
-</ul>
-</li>
 </ul>
 <p><strong>类型安全：</strong></p>
 <ul>
-<li><ul>
 <li><code>QueryWrapper</code>：由于使用字符串表示列名，编译器无法检查列名的正确性，因此存在拼写错误或不合法列名的风险。</li>
 <li><code>LambdaQueryWrapper</code>：使用Lambda表达式，可以在编译时捕获属性和字段名的拼写错误，提高了类型安全性。</li>
 </ul>
-</li>
-</ul>
 <p><strong>可读性：</strong></p>
 <ul>
-<li><ul>
 <li><code>QueryWrapper</code>：由于使用字符串，查询条件的构建可能不够清晰和直观，可能需要更多的注释来解释查询条件的含义。</li>
 <li><code>LambdaQueryWrapper</code>：Lambda表达式更加直观和清晰，使代码更易于理解，通常不需要额外的注释。</li>
 </ul>
-</li>
-</ul>
 <p><strong>智能提示：</strong></p>
 <ul>
-<li><ul>
 <li><code>QueryWrapper</code>：不同于一些集成开发环境（IDE）提供的智能提示，因为列名是字符串，难以提供准确的自动完成和错误检查。</li>
 <li><code>LambdaQueryWrapper</code>：常见的IDE通常能够提供Lambda表达式的智能提示，帮助您更快地编写查询条件。</li>
 </ul>
-</li>
-</ul>
 <p><strong>链式操作：</strong></p>
 <ul>
-<li><ul>
 <li><code>QueryWrapper</code>和<code>LambdaQueryWrapper</code>都支持链式操作，使得构建复杂的查询条件变得更加清晰。</li>
-</ul>
-</li>
 </ul>
 <p>总的来说，**<code>LambdaQueryWrapper</code>相对于<code>QueryWrapper</code>更加类型安全、清晰易读，因此在实际开发中，特别是需要在编译时捕获错误和提高代码可维护性的情况下，更常用。**但如果您对查询条件的灵活性有更高的要求，<code>QueryWrapper</code>仍然是一个有效的选择，因为它允许您以字符串的形式构建复杂的查询条件。</p>
 <h3 id="LambdaQueryWrapper的高级用法"><a href="#LambdaQueryWrapper的高级用法" class="headerlink" title="LambdaQueryWrapper的高级用法"></a><strong>LambdaQueryWrapper的高级用法</strong></h3><p>LambdaQueryWrapper是MyBatis-Plus中用于构建复杂查询条件的强大工具。它允许你使用Lambda表达式来创建查询条件，包括条件构建和多表关联查询。下面将深入讨论LambdaQueryWrapper的高级用法，并演示如何使用Lambda表达式生成查询条件。</p>

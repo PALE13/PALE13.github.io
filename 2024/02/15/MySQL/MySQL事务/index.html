@@ -30,7 +30,6 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image020.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image023.png">
 <meta property="og:image" content="https://pic2.zhimg.com/80/v2-ab809605698a47bf3c42174e63859935_720w.webp">
-<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image002.gif">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image004.gif">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image006.gif">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image008.gif">
@@ -42,7 +41,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image020.gif">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image022.gif">
 <meta property="article:published_time" content="2024-02-15T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-07T04:50:02.077Z">
+<meta property="article:modified_time" content="2024-11-18T05:55:12.477Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MySQL">
 <meta name="twitter:card" content="summary_large_image">
@@ -279,7 +278,7 @@
         
         
         
-          40 分钟
+          39 分钟
         
       </span>
     
@@ -329,7 +328,7 @@
 <li>一致性状态：数据库中只包含成功事务提交的结果</li>
 <li>不一致状态：数据库中包含事务未完成时的状态</li>
 </ul>
-<p>事务操作前后，数据总量不变。保证隔离性才能确保一致性。</p>
+<p>事务操作前后，数据总量不变，保证隔离性才能确保一致性。</p>
 <p>例如银行转账业务，账户 A 转1万元到账户 B ,该事务包含两个操作：首先是 A 减少一万元，其次是 B 增加一万元，这两个操作要么全部做要么全不做，如果只做其中一个就会发生逻辑错误，数据库就处于不一致状态了</p>
 <p><strong>③：隔离性（Isolation）</strong></p>
 <p>隔离性：一个事务不能被其他事务干扰。也即一个事务的内部操作及使用的数据对其他并发事务是隔离的，并发执行的各个事务之间不能互相干扰</p>
@@ -393,7 +392,7 @@
 <h3 id="可重复读隔离下为什么会产生幻读？"><a href="#可重复读隔离下为什么会产生幻读？" class="headerlink" title="可重复读隔离下为什么会产生幻读？"></a><strong>可重复读隔离下为什么会产生幻读？</strong></h3><p>在可重复读隔离级别下，普通的查询是快照读，是不会看到别的事务插入的数据的。因此，幻读在<strong>当前读</strong>下才会出现。</p>
 <p>什么是快照读，什么是当前读？</p>
 <p>快照读读取的是快照数据。不加锁的简单的 SELECT都属于快照读，需要借助MVCC的机制。比如这样：</p>
-<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lasso"><span class="hljs-keyword">SELECT</span> * FROM <span class="hljs-params">...</span>. <span class="hljs-keyword">WHERE</span> <span class="hljs-params">...</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> .... <span class="hljs-keyword">WHERE</span> ...<br></code></pre></td></tr></table></figure>
 
 <p>如下例子：</p>
 <p>查找年龄为20岁的作者，并把姓名改成G0</p>
@@ -408,7 +407,7 @@
 <p><strong>为什么事务自己修改后就能读取到修改后的数据？</strong></p>
 <p>当一个事务修改数据时，数据库会为这个修改创建一个新版本，<strong>并且这个新版本会与当前事务的事务ID关联。这个新版本成为当前事务的私有版本，只有在当前事务内部是可见的。</strong>这种机制确保了在可重复读隔离级别下，同一个事务内的修改对自己是可见的，而对其他事务则是隔离的。</p>
 <p><strong>结论：</strong>如果事务中都使用快照读（即在RR隔离级别下，只使用select <em>from…where…语句），那么就不会产生幻读现象，因为快照读只在第一次select时生成一个readView，之后每次读取都是用这个readView，所以即使其他事务新增的数据也不会影响快照读，但是*<em>快照读和当前读混用就会产生幻读。</em></em></p>
-<h3 id="MySQL-是怎么解决幻读的？"><a href="#MySQL-是怎么解决幻读的？" class="headerlink" title="MySQL 是怎么解决幻读的？"></a><strong>MySQL 是怎么解决幻读的？</strong></h3><p>MySQL InnoDB 引擎的默认隔离级别虽然是「可重复读」，但是它很大程度上避免幻读现象（并不是完全解决了，详见这篇<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/transaction/phantom.html">文章 (opens new window)</a>），解决的方案有两种：</p>
+<h3 id="MySQL-是怎么解决幻读的？"><a href="#MySQL-是怎么解决幻读的？" class="headerlink" title="MySQL 是怎么解决幻读的？"></a><strong>MySQL 是怎么解决幻读的？</strong></h3><p>MySQL InnoDB 引擎的默认隔离级别虽然是「可重复读」，但是它很大程度上避免幻读现象（并不是完全解决了，详见这篇<a target="_blank" rel="noopener" href="https://xiaolincoding.com/mysql/transaction/phantom.html">文章 </a>），解决的方案有两种：</p>
 <ul>
 <li>针对<strong>快照读</strong>（普通 select 语句），是<strong>通过 MVCC 方式解决了幻读</strong>，因为可重复读隔离级别下，事务执行过程中看到的数据，一直跟这个事务启动时看到的数据是一致的，即使中途有其他事务插入了一条数据，是查询不出来这条数据的，所以就很好了避免幻读问题。</li>
 <li>针对<strong>当前读</strong>（select … for update 等语句），是<strong>通过 next-key lock（记录锁+间隙锁）方式解决了幻读</strong>，因为当执行 select … for update 语句的时候，会加上 next-key lock，如果有其他事务在 next-key lock 锁范围内插入了一条记录，那么这个插入语句就会被阻塞，无法成功插入，所以就很好了避免幻读问题。</li>
@@ -429,19 +428,17 @@
 <p><strong>undo log日志可以实现事务的回滚操作</strong></p>
 <p>我们在进行数据更新操作的时候，不仅会记录redo log，还会记录undo log，如果因为某些原因导致事务回滚，那么这个时候MySQL就要执行回滚（rollback）操作，利用undo log将数据恢复到事务开始之前的状态。</p>
 <p>如我们执行下面一条删除语句：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">delete <span class="hljs-keyword">from</span> book <span class="hljs-keyword">where</span> <span class="hljs-built_in">id</span> = <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> book <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
 
 <p>那么此时undo log会生成一条与之相反的insert 语句【反向操作的语句】，在需要进行事务回滚的时候，直接执行该条sql，可以将数据完整还原到修改前的数据，从而达到事务回滚的目的。</p>
 <p>再比如我们执行一条update语句：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">update</span> book <span class="hljs-keyword">set</span> <span class="hljs-type">name</span> = &quot;三国&quot; <span class="hljs-keyword">where</span> id = <span class="hljs-number">1</span>;  <span class="hljs-comment">---修改之前name = 西游记</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> book <span class="hljs-keyword">set</span> name <span class="hljs-operator">=</span> &quot;三国&quot; <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;  <span class="hljs-comment">---修改之前name = 西游记</span><br></code></pre></td></tr></table></figure>
 
 <p>此时undo log会记录一条相反的update语句，如下：</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">update</span> book <span class="hljs-keyword">set</span> <span class="hljs-type">name</span> = &quot;西游记&quot; <span class="hljs-keyword">where</span> id = <span class="hljs-number">1</span>;  <span class="hljs-comment">---11.3undolog和MVCC机制</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> book <span class="hljs-keyword">set</span> name <span class="hljs-operator">=</span> &quot;西游记&quot; <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;  <span class="hljs-comment">---11.3undolog和MVCC机制</span><br></code></pre></td></tr></table></figure>
 
 <p>如果这个修改出现异常，可以使用undo log日志来实现回滚操作，以保证事务的一致性。</p>
 <p><strong>uodo log的工作原理</strong></p>
-<p><strong><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image002.gif" srcset="/img/loading.gif" lazyload alt="img"></strong></p>
-<p>如上图所示：</p>
 <p>当事务A进行一个update操作，将id&#x3D;1修改成id&#x3D;2。首先会修改buffer pool中的缓存数据，同时会将旧数据备份到undo log buffer中，记录的是还原操作的sql语句。</p>
 <p>此时如果事务B要查询修改的数据，但是事务A还没有提交，那么事务B就会从undo log buffer中，查询到事务A修改之前的数据，也就是id&#x3D;1。此时undo log buffer会将数据持久化到undo log日志中(落盘操作)。</p>
 <p>undo日志持久化之后，才会将数据真正写入磁盘中，也就是写入IBD的文件中，最后才会执行事务的提交。</p>
@@ -462,15 +459,11 @@
 
  
 
- 
-
 <p>因为事务id是10，所以这条数据的trx_id&#x3D;10。因为是插入数据，所以没有下一个undo log数据，roll_pointer是空的。</p>
 <p>接着，此时有一个事务B需要执行，事务B的id&#x3D;20，那么执行完之后就会新生成一条undo log日志数据，trx_id&#x3D;20，roll_pointer就会指向实际的回滚日志，也就是值A那条数据。结构如下图所示：</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image008.gif" srcset="/img/loading.gif" lazyload alt="img" style="zoom:80%;" />
 
- 
 
- 
 
 <p>以此类推，在这个多个事务中，每个事务新生成的undo log日志数据的roll_pointer都会指向前一个undo log日志数据，一次行程undo log版本链。</p>
 <p><strong>基于undo log多版本链实现的ReadView机制</strong></p>
@@ -490,15 +483,15 @@
 <p>当事务A要读数据时，就会生成一个ReadView，当前活跃事务m_ids的为30，35，min_trx_id&#x3D;30，max_trx_i&#x3D;36，表示30之前的所有事务已经提交了</p>
 <p>此时事务A会判断当前行的trx_id是否小于ReadView中的min_trx_id。发现20&lt;30，所以可以得知在事务A开启之前，当前行的事务就已经提交了，因此事务A可以直接读取这条数据。</p>
 <p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image012.gif" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>接着事务B开始操作，他把初始值修改成了值B，trx_id设置为自己的事务id，也就是35，同时roll_pointer指向了之前生成的undo log，然后事务B提交了。如下图：</p>
+<p>接着事务B开始操作，他把初始值修改成了值B，trx_id设置为自己的事务id，也就是35，同时roll_pointer指向了之前生成的undo log。如下图：</p>
 <p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image014.gif" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>这个时候，事务A再查询，就会发现一个问题，事务A就会发现trx_id变成了35，那么trx_id大于min_trx_id&#x3D;30，同时小于max_trx_id&#x3D;36，说明这个事务是活跃的事务。</p>
 <p>然后就会查看这个trx_id是否在m_ids中，在m_ids中发现了35的id，那么就证明当前的数据是和自己同一时间段并发启动的事务修改的（但是仍未提交），所以按道理这条数据不能让他看到（读已提交隔离级别）</p>
 <p>然后顺着roll_pointer找之前的undo log数据，发现trx_id&#x3D;20，小于min_trx_id，说明这条数据是在事务A提交之前就完成的，符合查询条件，读取这条数据</p>
 <p><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image016.gif" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><strong>注意：</strong>读已提交隔离级别中，事务每次执行，都会重新生成一个ReadView，因为只有这样才能获取到最新的事务ID数据。</p>
+<p><strong>注意：</strong>读已提交隔离级别中，事务每次提交，都会重新生成一个ReadView，因为只有这样才能获取到最新的事务ID数据。</p>
 <p>例如：如果此时将事务B提交，事务A就会<strong>重新生成一个ReadView</strong>，那么35就不在该ReadView的m_ids里，事务A就可以读取到事务B修改后的数据</p>
-<h4 id="ReadView机制是如何实现可重复读隔离级别（RR隔离级别）"><a href="#ReadView机制是如何实现可重复读隔离级别（RR隔离级别）" class="headerlink" title="ReadView机制是如何实现可重复读隔离级别（RR隔离级别）"></a><strong>ReadView机制是如何实现可重复读隔离级别（RR隔离级别）</strong></h4><p>在RR隔离级别里，当前事务读取一条数据，无论读取多少次，都是一个值，ReadView也一样，别的事务哪怕事务提交了，也不能看到修改后的值，这样就避免了不可重复读的问题。</p>
+<h4 id="ReadView机制是如何实现可重复读隔离级别（RR隔离级别）"><a href="#ReadView机制是如何实现可重复读隔离级别（RR隔离级别）" class="headerlink" title="ReadView机制是如何实现可重复读隔离级别（RR隔离级别）"></a><strong>ReadView机制是如何实现可重复读隔离级别（RR隔离级别）</strong></h4><p>在RR隔离级别里，当前事务读取一条数据，无论读取多少次，都是一个值，ReadView也一样，<strong>别的事务哪怕事务提交了，也不能看到修改后的值，这样就避免了不可重复读的问题。</strong></p>
 <p>例子：</p>
 <p>首先假设有个数据，是事务id&#x3D;50之前就插入进去的，现在活跃着两个事务，事务Aid&#x3D;60，事务Bid&#x3D;70。如下图：</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/clip_image018.gif" srcset="/img/loading.gif" lazyload alt="img" style="zoom: 80%;" />

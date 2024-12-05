@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240512224938518.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240512225219713.png">
 <meta property="article:published_time" content="2024-01-09T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-10T04:19:59.406Z">
+<meta property="article:modified_time" content="2024-10-30T15:02:53.173Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="MyBatis">
 <meta name="twitter:card" content="summary_large_image">
@@ -252,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.8k 字
+          4.9k 字
         
       </span>
     
@@ -263,7 +263,7 @@
         
         
         
-          40 分钟
+          41 分钟
         
       </span>
     
@@ -313,7 +313,7 @@
 </ul>
 <h3 id="MyBatis与其他技术对比"><a href="#MyBatis与其他技术对比" class="headerlink" title="MyBatis与其他技术对比"></a><strong>MyBatis与其他技术对比</strong></h3><ul>
 <li>JDBC<ul>
-<li>SQL 夹杂在Java代码中耦合度高，导致硬编码内伤</li>
+<li><strong>SQL 夹杂在Java代码中耦合度高</strong>，导致硬编码内伤</li>
 <li>维护不易且实际开发需求中 SQL 有变化，频繁修改的情况多见</li>
 <li>代码冗长，开发效率低</li>
 </ul>
@@ -328,7 +328,7 @@
 </li>
 <li>MyBatis<ul>
 <li>轻量级，性能出色</li>
-<li>SQL 和 Java 编码分开，功能边界清晰。Java代码专注业务、SQL语句专注数据</li>
+<li><strong>SQL 和 Java 编码分开，功能边界清晰。</strong>Java代码专注业务、SQL语句专注数据</li>
 <li>开发效率稍逊于HIbernate，但是完全能够接受</li>
 </ul>
 </li>
@@ -340,11 +340,12 @@
 <p>⑤Executor接口的执行方法中有一个MappedStatement类型的参数，封装了映射信息</p>
 <p>⑥输入参数映射</p>
 <p>⑦输出结果映射</p>
-<h3 id="MyBatis-是如何进行分页的"><a href="#MyBatis-是如何进行分页的" class="headerlink" title="MyBatis 是如何进行分页的"></a><strong>MyBatis 是如何进行分页的</strong></h3><p><strong>(1)</strong> MyBatis 使用 RowBounds 对象进行逻辑分页，它是针对 ResultSet 结果集执行的内存分页，而非物理分页；</p>
-<p><strong>(2)</strong> 可以在 sql 内直接书写带有物理分页的参数来完成物理分页功能；</p>
-<p><strong>(3)</strong> 也可以使用分页插件来完成物理分页。</p>
-<p>分页插件的基本原理是使用 MyBatis 提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的 sql，然后重写 sql，根据 dialect 方言，<strong>添加对应的物理分页语句和物理分页参数</strong>。</p>
+<h3 id="MyBatis-是如何进行分页的"><a href="#MyBatis-是如何进行分页的" class="headerlink" title="MyBatis 是如何进行分页的"></a><strong>MyBatis 是如何进行分页的</strong></h3><p><strong>(1)</strong> MyBatis 使用 <strong>RowBounds 对象</strong>进行逻辑分页，它是针对 ResultSet <strong>结果集执行的内存分页</strong>，而非物理分页；</p>
+<p><strong>(2)</strong> 可以在 sql 内直接书<strong>写带有物理分页的参数limit</strong>来完成物理分页功能；</p>
+<p><strong>(3)</strong> 也可以使用<strong>分页插件</strong>来完成物理分页。</p>
+<p>分页插件的基本原理是使用 MyBatis 提供的插件接口，实现自定义插件，在插件的拦截方法内<strong>拦截待执行的 sql，然后重写 sql</strong>，根据 dialect 方言，<strong>添加对应的物理分页语句和物理分页参数</strong>。</p>
 <p>举例：<code>select _ from student</code> ，拦截 sql 后重写为：<code>select t._ from （select \* from student）t limit 0，10</code></p>
+<p>分页插件都是基于MyBatis的Interceptor拦截器进行实现的，像PageHelper，MyBatis-plus，tkmybatis框架，本质上都是通过Interceptor拦截器进行拓展去帮助我们实现分页的封装，<strong>使我们不需要关心分页的配置，节省开发时间</strong></p>
 <h3 id="Mybatis缓存"><a href="#Mybatis缓存" class="headerlink" title="Mybatis缓存"></a><strong>Mybatis缓存</strong></h3><p>MyBatis包含一个非常强大的查询缓存特性，它可以非常方便地定制和配置缓存。缓存可以极大的提升查询效率。</p>
 <p>MyBatis系统中默认定义了两级缓存：一级缓存和二级缓存</p>
 <ul>
@@ -381,16 +382,13 @@
 <p>为了提高扩展性，MyBatis定义了缓存接口Cache，我们可以通过实现Cache接口来实现不同缓存实现类的组合</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240512225219713.png" srcset="/img/loading.gif" lazyload alt="image-20240512225219713" style="zoom: 50%;" />
 
+<p><strong>使用方法一</strong></p>
+<p>在mybatis-config.xml开启全局缓存 </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">setting</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;cacheEnabled&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
 
-
-
-
-<p>开启全局缓存 【mybatis-config.xml】</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;setting name=<span class="hljs-string">&quot;cacheEnabled&quot;</span> value=<span class="hljs-string">&quot;true&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
-
-
-<p>去每个mapper.xml中配置使用二级缓存，这个配置非常简单；【xxxMapper.xml】</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs abnf">&lt;cache/&gt;<br>官方示例<span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span><span class="hljs-operator">=</span>&gt;查看官方文档<br>&lt;cache<br>  eviction<span class="hljs-operator">=</span><span class="hljs-string">&quot;FIFO&quot;</span><br>  flushInterval<span class="hljs-operator">=</span><span class="hljs-string">&quot;60000&quot;</span><br>  size<span class="hljs-operator">=</span><span class="hljs-string">&quot;512&quot;</span><br>  readOnly<span class="hljs-operator">=</span><span class="hljs-string">&quot;true&quot;</span>/&gt;<br></code></pre></td></tr></table></figure>
+<p><strong>使用方法二</strong></p>
+<p>去每个xxxMapper.xml中配置使用二级缓存，这个配置非常简单</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">cache</span>/&gt;</span><br>官方示例=====&gt;查看官方文档<br><span class="hljs-tag">&lt;<span class="hljs-name">cache</span></span><br><span class="hljs-tag">  <span class="hljs-attr">eviction</span>=<span class="hljs-string">&quot;FIFO&quot;</span></span><br><span class="hljs-tag">  <span class="hljs-attr">flushInterval</span>=<span class="hljs-string">&quot;60000&quot;</span></span><br><span class="hljs-tag">  <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;512&quot;</span></span><br><span class="hljs-tag">  <span class="hljs-attr">readOnly</span>=<span class="hljs-string">&quot;true&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>这个更高级的配置创建了一个 FIFO 缓存，每隔 60 秒刷新，最多可以存储结果对象或列表的 512 个引用，而且返回的对象被认为是只读的，因此对它们进行修改可能会在不同线程中的调用者产生冲突。</p>
 <p><strong>二级缓存清除方式</strong></p>
@@ -407,7 +405,7 @@
 
 <p><code>orderCols</code>可以是 <code>name</code>、<code>name desc</code>、<code>name,sex asc</code>等，实现灵活的排序。</p>
 <ul>
-<li><strong><code>#&#123;&#125;</code>是 sql 的参数占位符</strong>，MyBatis 会将 sql 中的<code>#&#123;&#125;</code>替换为? 号，在 sql 执行前会使用 PreparedStatement 的参数设置方法，按序给 sql 的? 号占位符设置参数值，比如 ps.setInt(0, parameterValue)，<code>#&#123;item.name&#125;</code> 的取值方式为使用反射从参数对象中获取 item 对象的 name 属性值，相当于 <code>param.getItem().getName()</code>。</li>
+<li><strong><code>#&#123;&#125;</code>是 sql 的参数占位符</strong>，MyBatis 会将 sql 中的<code>#&#123;&#125;</code>替换为? 号，<strong>在 sql 执行前会使用 PreparedStatement 的参数设置方法</strong>，按序给 sql 的? 号占位符设置参数值，比如 ps.setInt(0, parameterValue)，<code>#&#123;item.name&#125;</code> 的取值方式为使用反射从参数对象中获取 item 对象的 name 属性值，相当于 <code>param.getItem().getName()</code>。</li>
 </ul>
 <h3 id="xml-映射文件中的标签？"><a href="#xml-映射文件中的标签？" class="headerlink" title="xml 映射文件中的标签？"></a><strong>xml 映射文件中的标签？</strong></h3><p>答：还有很多其他的标签， <code>&lt;resultMap&gt;</code>、 <code>&lt;parameterMap&gt;</code>、 <code>&lt;sql&gt;</code>、 <code>&lt;include&gt;</code>、 <code>&lt;selectKey&gt;</code> ，加上动态 sql 的 9 个标签， <code>trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中 <code>&lt;sql&gt;</code> 为 sql 片段标签，通过 <code>&lt;include&gt;</code> 标签引入 sql 片段， <code>&lt;selectKey&gt;</code> 为不支持自增的主键生成策略标签。</p>
 <h3 id="Dao-接口的工作原理"><a href="#Dao-接口的工作原理" class="headerlink" title="Dao 接口的工作原理"></a><strong>Dao 接口的工作原理</strong></h3><p>最佳实践中，通常一个 xml 映射文件，都会写一个 Dao 接口与之对应。Dao 接口就是人们常说的 <code>Mapper</code> 接口，接口的全限名，就是映射文件中的 namespace 的值，接口的方法名，就是映射文件中 <code>MappedStatement</code> 的 id 值，接口方法内的参数，就是传递给 sql 的参数。 <code>Mapper</code> 接口是没有实现类的，<strong>当调用接口方法时，接口全限名+方法名拼接字符串作为 key 值，可唯一定位一个 <code>MappedStatement</code></strong> ，举例：<code>com.mybatis3.mappers. StudentDao.findStudentById</code> ，可以唯一找到 namespace 为 <code>com.mybatis3.mappers. StudentDao</code> 下面 <code>id = findStudentById</code> 的 <code>MappedStatement</code> 。在 MyBatis 中，每一个 <code>&lt;select&gt;</code>、 <code>&lt;insert&gt;</code>、 <code>&lt;update&gt;</code>、 <code>&lt;delete&gt;</code> 标签，都会被解析为一个 <code>MappedStatement</code> 对象。</p>
@@ -439,14 +437,11 @@
 <li><code>&lt;foreach&gt;&lt;/foreach&gt;</code></li>
 <li><code>&lt;bind/&gt;</code></li>
 </ul>
-<!-- OrderMapper.xml -->
-<mapper namespace="com.example.mapper.OrderMapper">
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;!-- 定义 ResultMap --&gt;<br>&lt;resultMap id=<span class="hljs-string">&quot;orderCustomerResultMap&quot;</span> type=<span class="hljs-string">&quot;com.example.domain.Order&quot;</span>&gt;<br>    &lt;id property=<span class="hljs-string">&quot;id&quot;</span> column=<span class="hljs-string">&quot;order_id&quot;</span> /&gt;<br>    &lt;result property=<span class="hljs-string">&quot;customerId&quot;</span> column=<span class="hljs-string">&quot;customer_id&quot;</span> /&gt;<br>    &lt;result property=<span class="hljs-string">&quot;orderDate&quot;</span> column=<span class="hljs-string">&quot;order_date&quot;</span> /&gt;<br>    &lt;association property=<span class="hljs-string">&quot;customer&quot;</span> javaType=<span class="hljs-string">&quot;com.example.domain.Customer&quot;</span>&gt;<br>        &lt;id property=<span class="hljs-string">&quot;id&quot;</span> column=<span class="hljs-string">&quot;customer_id&quot;</span> /&gt;<br>        &lt;result property=<span class="hljs-string">&quot;name&quot;</span> column=<span class="hljs-string">&quot;customer_name&quot;</span> /&gt;<br>        &lt;!-- 更多的 customer 属性 --&gt;<br>    &lt;/association&gt;<br>&lt;/resultMap&gt;<br><br>&lt;!-- 多表查询 --&gt;<br>&lt;select id=<span class="hljs-string">&quot;selectOrdersWithCustomers&quot;</span> resultMap=<span class="hljs-string">&quot;orderCustomerResultMap&quot;</span>&gt;<br>    SELECT o.id AS order_id,<br>           o.customer_id,<br>           o.order_date,<br>           c.id AS customer_id,<br>           c.name AS customer_name<br>    FROM orders o<br>    JOIN customers c ON o.customer_id = c.id<br>    &lt;where&gt;<br>        &lt;<span class="hljs-keyword">if</span> test=<span class="hljs-string">&quot;customerId != null&quot;</span>&gt;<br>            AND o.customer_id = #&#123;customerId&#125;<br>        &lt;/<span class="hljs-keyword">if</span>&gt;<br>        &lt;<span class="hljs-keyword">if</span> test=<span class="hljs-string">&quot;orderDate != null&quot;</span>&gt;<br>            AND o.order_date = #&#123;orderDate&#125;<br>        &lt;/<span class="hljs-keyword">if</span>&gt;<br>    &lt;/where&gt;<br>&lt;/select&gt;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java">&lt;!-- OrderMapper.xml --&gt;<br>&lt;mapper namespace=<span class="hljs-string">&quot;com.example.mapper.OrderMapper&quot;</span>&gt;<br>&lt;!-- 定义 ResultMap --&gt;<br>&lt;resultMap id=<span class="hljs-string">&quot;orderCustomerResultMap&quot;</span> type=<span class="hljs-string">&quot;com.example.domain.Order&quot;</span>&gt;<br>    &lt;id property=<span class="hljs-string">&quot;id&quot;</span> column=<span class="hljs-string">&quot;order_id&quot;</span> /&gt;<br>    &lt;result property=<span class="hljs-string">&quot;customerId&quot;</span> column=<span class="hljs-string">&quot;customer_id&quot;</span> /&gt;<br>    &lt;result property=<span class="hljs-string">&quot;orderDate&quot;</span> column=<span class="hljs-string">&quot;order_date&quot;</span> /&gt;<br>    &lt;association property=<span class="hljs-string">&quot;customer&quot;</span> javaType=<span class="hljs-string">&quot;com.example.domain.Customer&quot;</span>&gt;<br>        &lt;id property=<span class="hljs-string">&quot;id&quot;</span> column=<span class="hljs-string">&quot;customer_id&quot;</span> /&gt;<br>        &lt;result property=<span class="hljs-string">&quot;name&quot;</span> column=<span class="hljs-string">&quot;customer_name&quot;</span> /&gt;<br>        &lt;!-- 更多的 customer 属性 --&gt;<br>    &lt;/association&gt;<br>&lt;/resultMap&gt;<br><br>&lt;!-- 多表查询 --&gt;<br>&lt;select id=<span class="hljs-string">&quot;selectOrdersWithCustomers&quot;</span> resultMap=<span class="hljs-string">&quot;orderCustomerResultMap&quot;</span>&gt;<br>    SELECT o.id AS order_id,<br>           o.customer_id,<br>           o.order_date,<br>           c.id AS customer_id,<br>           c.name AS customer_name<br>    FROM orders o<br>    JOIN customers c ON o.customer_id = c.id<br>    &lt;where&gt;<br>        &lt;<span class="hljs-keyword">if</span> test=<span class="hljs-string">&quot;customerId != null&quot;</span>&gt;<br>            AND o.customer_id = #&#123;customerId&#125;<br>        &lt;/<span class="hljs-keyword">if</span>&gt;<br>        &lt;<span class="hljs-keyword">if</span> test=<span class="hljs-string">&quot;orderDate != null&quot;</span>&gt;<br>            AND o.order_date = #&#123;orderDate&#125;<br>        &lt;/<span class="hljs-keyword">if</span>&gt;<br>    &lt;/where&gt;<br>&lt;/select&gt;<br></code></pre></td></tr></table></figure>
 
 </mapper>
 
-<p>关于 MyBatis 动态 SQL 的详细介绍，请看这篇文章：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000039335704">Mybatis 系列全解（八）：Mybatis 的 9 大动态 SQL 标签你知道几个？open in new window</a> 。</p>
+<p>关于 MyBatis 动态 SQL 的详细介绍，请看这篇文章：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000039335704">Mybatis 系列全解（八）：Mybatis 的 9 大动态 SQL 标签你知道几个？</a> 。</p>
 <p>关于这些动态 SQL 的具体使用方法，请看这篇文章：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1943349">Mybatis【13】– Mybatis 动态 sql 标签怎么使用？</a></p>
 <h3 id="SQL注入问题"><a href="#SQL注入问题" class="headerlink" title="SQL注入问题"></a><strong>SQL注入问题</strong></h3><p>假设有一个简单的登录功能，使用用户名和密码验证用户身份。以下是一个示例代码，其中存在 SQL 注入漏洞：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">javaCopy <span class="hljs-type">codeString</span> <span class="hljs-variable">username</span> <span class="hljs-operator">=</span> request.getParameter(<span class="hljs-string">&quot;username&quot;</span>);<br><span class="hljs-type">String</span> <span class="hljs-variable">password</span> <span class="hljs-operator">=</span> request.getParameter(<span class="hljs-string">&quot;password&quot;</span>);<br><br><span class="hljs-type">String</span> <span class="hljs-variable">sql</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;SELECT * FROM users WHERE username=&#x27;&quot;</span> + username + <span class="hljs-string">&quot;&#x27; AND password=&#x27;&quot;</span> + password + <span class="hljs-string">&quot;&#x27;&quot;</span>;<br><span class="hljs-type">Statement</span> <span class="hljs-variable">statement</span> <span class="hljs-operator">=</span> connection.createStatement();<br><span class="hljs-type">ResultSet</span> <span class="hljs-variable">resultSet</span> <span class="hljs-operator">=</span> statement.executeQuery(sql);<br></code></pre></td></tr></table></figure>

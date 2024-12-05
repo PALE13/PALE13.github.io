@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240425145941510.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240425145956347.png">
 <meta property="article:published_time" content="2023-09-20T01:35:21.000Z">
-<meta property="article:modified_time" content="2024-09-07T05:00:31.072Z">
+<meta property="article:modified_time" content="2024-10-15T03:01:18.943Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -262,7 +262,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          7.9k 字
+          8.1k 字
         
       </span>
     
@@ -273,7 +273,7 @@
         
         
         
-          67 分钟
+          68 分钟
         
       </span>
     
@@ -323,12 +323,12 @@
 
 <p><strong>加载（Loading）：</strong></p>
 <ul>
-<li><p>类加载的第一阶段是加载。在加载阶段，Java虚拟机会<strong>查找并加载类的字节码</strong>。加载阶段的任务包括从文件系统、网络或其他来源获取类的字节码，并将字节码转换为内部数据结构，用来在Java虚拟机内部表示类。</p>
+<li><p>类加载的第一阶段是加载。在加载阶段，Java虚拟机会<strong>通过类加载器查找并加载类的字节码</strong>。加载阶段的任务包括从文件系统、网络或其他来源获取类的字节码，并将字节码转换为内部数据结构，用来在Java虚拟机内部表示类。</p>
 <p>主要做了三件事：</p>
 </li>
-<li><p>通过全类名获取定义此类的二进制字节流。</p>
+<li><p>通过<strong>全类名获取定义此类的二进制字节流</strong>。</p>
 </li>
-<li><p>将字节流所代表的静态存储结构转换为方法区的运行时数据结构。</p>
+<li><p>将字节流所代表的静态存储结构<strong>转换为方法区的运行时数据结构</strong>。</p>
 </li>
 <li><p><strong>在内存中生成一个代表该类的 <code>Class</code> 对象</strong>，作为方法区这些数据的访问入口。</p>
 </li>
@@ -362,15 +362,19 @@
 <ul>
 <li>在准备阶段，Java虚拟机为<strong>类的静态变量</strong>分配内存并<strong>设置默认初始值</strong>。这些静态变量包括类级别的<strong>静态变量和类的常量。</strong>这些内存都将在方法区中分配。注意此阶段<strong>仅仅</strong>是为<strong>类变量即静态变量</strong>分配内存，并将其初始化为默认值，举个例子</li>
 </ul>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs dart"><span class="hljs-keyword">static</span> <span class="hljs-built_in">int</span> value = <span class="hljs-number">3</span>;<span class="hljs-comment">//类变量 初始化，设为默认值 0，不是 3哦 ！！！</span><br><br><span class="hljs-built_in">int</span> <span class="hljs-built_in">num</span> = <span class="hljs-number">4</span>;<span class="hljs-comment">//类成员变量，在这个阶段不初始化；在 new类，调用对应类的构造函数才进行初始化</span><br><br><span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> valFin = <span class="hljs-number">5</span>;<span class="hljs-comment">//这个比较特殊，在这个阶段也不会分配内存！！！</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> <span class="hljs-number">3</span>;<span class="hljs-comment">//类变量 初始化，设为默认值 0，不是 3哦 ！！！</span><br><br><span class="hljs-type">int</span> <span class="hljs-variable">num</span> <span class="hljs-operator">=</span> <span class="hljs-number">4</span>;<span class="hljs-comment">//类成员变量，在这个阶段不初始化；在 new类，调用对应类的构造函数才进行初始化</span><br><br><span class="hljs-keyword">final</span> <span class="hljs-type">static</span> <span class="hljs-variable">valFin</span> <span class="hljs-operator">=</span> <span class="hljs-number">5</span>;<span class="hljs-comment">//这个比较特殊，在编译阶段已经分配好</span><br></code></pre></td></tr></table></figure>
 
-<p>注意: <code>valFin</code>是被<code>final static修饰的常量</code>在 **编译 **的时候已分配好了，所以在准备阶段 此时的值为5，所以在这个阶段也不会初始化！</p>
+<p>注意: <code>valFin</code>是被<code>final static修饰的常量</code>在 **编译 **的时候已分配好了，所以在准备阶段 此时的值为5，所以在这个阶段也不会初始化。</p>
 <p>这时候进行内存分配的仅包括类变量（ Class Variables ，即静态变量，被 <code>static</code> 关键字修饰的变量，只与类相关，因此被称为类变量），而不包括实例变量。<strong>实例变量会在对象实例化时随着对象一块分配在 Java 堆中。</strong></p>
-<p>从概念上讲，类变量所使用的内存都应当在 <strong>方法区</strong> 中进行分配。不过有一点需要注意的是：JDK 7 之前，HotSpot 使用永久代来实现方法区的时候，实现是完全符合这种逻辑概念的。 而在 JDK 7 及之后，<strong>HotSpot 已经把原本放在永久代的字符串常量池、静态变量等移动到堆中，这个时候类变量则会随着 Class 对象一起存放在 Java 堆中</strong>。相关阅读：<a target="_blank" rel="noopener" href="https://github.com/fenixsoft/jvm_book/issues/75">《深入理解 Java 虚拟机（第 3 版）》勘误#75open in new window</a></p>
+<p>从概念上讲，类变量所使用的内存都应当在 <strong>方法区</strong> 中进行分配。不过有一点需要注意的是：JDK 7 之前，HotSpot 使用永久代来实现方法区的时候，实现是完全符合这种逻辑概念的。 而在 JDK 7 及之后，<strong>HotSpot 已经把原本放在永久代的字符串常量池、静态变量等移动到堆中，这个时候类变量则会随着 Class 对象一起存放在 Java 堆中</strong>。相关阅读：<a target="_blank" rel="noopener" href="https://github.com/fenixsoft/jvm_book/issues/75">《深入理解 Java 虚拟机（第 3 版）》勘误#75</a></p>
 <p>这里所设置的初始值”通常情况”下是数据类型默认的零值（如 0、0L、null、false 等），比如我们定义了<code>public static int value=111</code> ，那么 value 变量在准备阶段的初始值就是 0 而不是 111（初始化阶段才会赋值）。特殊情况：比如给 value 变量加上了 final 关键字<code>public static final int value=111</code> ，那么准备阶段 value 的值就被赋值为 111。</p>
 <p><strong>解析（Resolution）：</strong></p>
 <ul>
-<li>解析阶段是可选的，它会将类、接口、字段和方法的<strong>符号引用解析为直接引用</strong>。解析阶段的目标是将类加载器在加载阶段创建的符号引用替换为直接引用，以便在运行期间能够直接定位到目标。解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。<strong>符号引用</strong>就是一组符号来描述目标，可以是任何字面量。 <strong>直接引用</strong>就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。</li>
+<li>解析阶段是可选的，它会<strong>将类、接口、字段和方法的符号引用解析为直接引用</strong>。解析阶段的目标是将类加载器在加载阶段创建的符号引用替换为直接引用，以便在运行期间能够直接定位到目标。解析动作主要针对类或接口、字段、类方法、接口方法、方法类型、方法句柄和调用点限定符7类符号引用进行。<ul>
+<li><strong>符号引用</strong>就是一组符号来描述目标，可以是任何字面量。</li>
+<li><strong>直接引用</strong>就是直接指向目标的指针、相对偏移量或一个间接定位到目标的句柄。</li>
+</ul>
+</li>
 <li>Java 虚拟机为每个类都准备了一张方法表来存放类中所有的方法。当需要调用一个类的方法的时候，只要知道这个方法在方法表中的偏移量就可以直接调用该方法了。<strong>通过解析操作符号引用就可以直接转变为目标方法在类中方法表的位置，从而使得方法可以被调用。</strong></li>
 </ul>
 <p><strong>符号引用验证</strong></p>
@@ -383,14 +387,14 @@
 </ul>
 <p><strong>初始化（Initialization）：</strong></p>
 <p>初始化阶段，简言之，<strong>为类的静态变量赋予正确的初始值</strong>，执行静态代码块。类的初始化是类装载的最后一个阶段。此时，<strong>类才会开始执行Java字节码。</strong></p>
-<p>初始化阶段的重要工作是执行类的初始化方法&lt; clinit &gt;()方法。</p>
+<p>初始化阶段的重要工作是执行类的<strong>初始化方法&lt; clinit &gt;()方法</strong>。</p>
 <ul>
 <li>该方法仅能由Java编译器生成并由JVM调用，程序开发者无法自定义一个同名的方法，更无法直接在Java程序中调用该方法，虽然该方法也是由字节码指令所组成。</li>
 <li>它是由<strong>类静态成员的赋值语句以及static语句块</strong>合并产生的。</li>
 </ul>
 <h3 id="类初始化的时机"><a href="#类初始化的时机" class="headerlink" title="类初始化的时机"></a><strong>类初始化的时机</strong></h3><p>对于初始化阶段，虚拟机严格规范了有且只有 6 种情况下，必须对类进行初始化(只有主动去使用类才会初始化类)：</p>
 <ol>
-<li>当遇到 new、 getstatic、putstatic、invokestatic 这 4 条字节码指令时，比如 new一个类，读取一个静态字段(未被 final 修饰)、或调用一个类的静态方法时。 <ul>
+<li>当遇到 new、 getstatic、putstatic、invokestatic 这 4 条字节码指令时，<strong>比如 new一个类，读取一个静态字段(未被 final 修饰)、或调用一个类的静态方法时。</strong> <ul>
 <li>当 jvm 执行 <code>new</code> 指令时会初始化类。即当程序创建一个类的实例对象。</li>
 <li>当 jvm 执行 <code>getstatic</code> 指令时会初始化类。即程序访问类的静态变量(不是静态常量，常量会被加载到运行时常量池)。</li>
 <li>当 jvm 执行 <code>putstatic</code> 指令时会初始化类。即程序给类的静态变量赋值。</li>
@@ -402,7 +406,7 @@
 <p>初始化一个类，如果其父类还未初始化，则先触发该父类的初始化。</p>
 <p>当虚拟机启动时，用户需要定义一个要执行的主类 (包含 <code>main</code> 方法的那个类)，虚拟机会先初始化这个类。</p>
 <p><code>MethodHandle</code> 和 <code>VarHandle</code> 可以看作是轻量级的反射调用机制，而要想使用这 2 个调用，<br> 就必须先使用 <code>findStaticVarHandle</code> 来初始化要调用的类。</p>
-<p><strong>「补充，来自<a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/issues/745">issue745open in new window</a>」</strong> 当一个接口中定义了 JDK8 新加入的默认方法（被 default 关键字修饰的接口方法）时，如果有这个接口的实现类发生了初始化，那该接口要在其之前被初始化。</p>
+<p><strong>「补充，来自<a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/issues/745">issue745</a>」</strong> 当一个接口中定义了 JDK8 新加入的默认方法（被 default 关键字修饰的接口方法）时，如果有这个接口的实现类发生了初始化，那该接口要在其之前被初始化。</p>
 <h3 id="类卸载的时机"><a href="#类卸载的时机" class="headerlink" title="类卸载的时机"></a><strong>类卸载的时机</strong></h3><p><strong>卸载类即该类的 Class 对象被 GC。</strong></p>
 <p>卸载类需要满足 3 个要求:</p>
 <ol>
@@ -412,16 +416,17 @@
 </ol>
 <p>所以，在 JVM 生命周期内，<strong>由 jvm 自带的类加载器加载的类是不会被卸载的。但是由我们自定义的类加载器加载的类是可能被卸载的。</strong></p>
 <p>只要想通一点就好了，JDK 自带的 <code>BootstrapClassLoader</code>, <code>ExtClassLoader</code>, <code>AppClassLoader</code> 负责加载 JDK 提供的类，所以它们(类加载器的实例)肯定不会被回收。而我们自定义的类加载器的实例是可以被回收的，所以使用我们自定义加载器加载的类是可以被卸载掉的。</p>
-<h3 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a><strong>双亲委派模型</strong></h3><h4 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a><strong>类加载器</strong></h4><p>那什么是类加载器？<code>通过一个类的全限定名来获取描述此类的二进制字节流到JVM中，然后转换为一个与目标类对应的java.lang.Class对象实例</code></p>
+<h3 id="双亲委派模型"><a href="#双亲委派模型" class="headerlink" title="双亲委派模型"></a><strong>双亲委派模型</strong></h3><h4 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a><strong>类加载器</strong></h4><p><strong>那什么是类加载器？</strong></p>
+<p>通过一个类的全限定名来获取描述此类的二进制字节流到JVM中，然后转换为一个与目标类对应的java.lang.Class对象实例</p>
 <p>Java虚拟机支持类加载器的种类：主要包括3中： <code>引导类加载器（Bootstrap ClassLoader）、扩展类加载器（Extension ClassLoader）、应用类加载器（系统类加载器，AppClassLoader)</code>，另外我们还可以自定义加载器-<code>用户自定义类加载器</code></p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240306153256496.png" srcset="/img/loading.gif" lazyload alt="image-20240306153256496" style="zoom: 50%;" />
 
-<p><strong>引导类加载器（Bootstrap ClassLoader）：</strong><code>BootStrapClassLoader</code>是由c++实现的。引导类加载器加载java运行过程中的<strong>核心类库</strong><code>JRE＼lib＼rt.jar，sunrsasign.jar， charsets.jar， jce.jar， jsse.jar， plugin.jar</code> 以及存放 在<code>JRE＼classes</code>里的类，也就是JDK提供的类等常见的比如：<code>Object、Stirng、List</code>等</p>
+<p><strong>引导类加载器（Bootstrap ClassLoader）：</strong><code>BootStrapClassLoader</code>是由c++实现的。引导类加载器加载java运行过程中的<strong>核心类库</strong><code>jre＼lib＼rt.jar，sunrsasign.jar， charsets.jar， jce.jar， jsse.jar， plugin.jar</code> 以及存放 在<code>JRE＼classes</code>里的类，也就是JDK提供的类等常见的比如：<code>Object、Stirng、List</code>等</p>
 <p><strong>扩展类加载器（Extension ClassLoader）：</strong>它用来加载<code>/jre/lib/ext</code>目录以及<code>java.ext.dirs</code>系统变量指定的类路径下的类。</p>
 <p><strong>应用类加载器（AppClassLoader)：</strong>它主要加载应用程序ClassPath下的类（包含jar包中的类）。它是java应用程序默认的类加载器。其实就是加载我们一般开发使用的类</p>
 <p><strong>用户自定义类加载器：</strong> 用户根据自定义需求，自由的定制加载的逻辑，只需<strong>继承应用类加载器AppClassLoader</strong>，负责加载用户自定义路径下的class字节码文件</p>
-<p><strong>线程上下文类加载器：</strong>除了以上列举的三种类加载器，其实还有一种比较特殊的类型就是<code>线程上下文类加载器</code>。ThreadContextClassLoader可以是上述类加载器的任意一种，。</p>
-<h4 id="双亲委派模型-1"><a href="#双亲委派模型-1" class="headerlink" title="双亲委派模型"></a><strong>双亲委派模型</strong></h4><p>双亲委派模型（又称双亲委托模型）是Java类加载器（ClassLoader）的一种工作机制。这个模型的核心思想是在类加载的过程中，类加载器之间形成一种层次关系，每个类加载器都有一个父类加载器。<strong>类加载器之间的父子关系一般不是以继承的关系来实现的，而是通常使用组合关系来复用父加载器的代码。</strong>当一个类加载器接收到类加载请求时，它首先将这个请求委派给它的父类加载器去完成。只有在父类加载器无法完成加载任务（即在它的搜索范围内找不到所需的类），子类加载器才会尝试加载。</p>
+<p><strong>线程上下文类加载器：</strong>除了以上列举的三种类加载器，其实还有一种比较特殊的类型就是线程上下文类加载器ThreadContextClassLoader可以是上述类加载器的任意一种，<strong>它允许在运行时为特定线程设置一个类加载器。</strong></p>
+<h4 id="双亲委派模型-1"><a href="#双亲委派模型-1" class="headerlink" title="双亲委派模型"></a><strong>双亲委派模型</strong></h4><p>双亲委派模型（又称双亲委托模型）是Java类加载器（ClassLoader）的一种工作机制。这个模型的核心思想是在类加载的过程中，类加载器之间形成一种层次关系，每个类加载器都有一个父类加载器。类加载器之间的父子关系一般不是以继承的关系来实现的，而是通常<strong>使用组合关系来复用父加载器的代码</strong>。当一个类加载器接收到类加载请求时，它首先将这个请求委派给它的父类加载器去完成。<strong>只有在父类加载器无法完成加载任务（即在它的搜索范围内找不到所需的类），子类加载器才会尝试加载。</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassLoader</span> &#123;<br>  ...<br>  <span class="hljs-comment">// 组合</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ClassLoader parent;<br>  <span class="hljs-keyword">protected</span> <span class="hljs-title function_">ClassLoader</span><span class="hljs-params">(ClassLoader parent)</span> &#123;<br>       <span class="hljs-built_in">this</span>(checkCreateClassLoader(), parent);<br>  &#125;<br>  ...<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
@@ -436,16 +441,15 @@
 <li>只有当父加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载（调用自己的 <code>findClass()</code> 方法来加载类）。</li>
 <li>如果子类加载器也无法加载这个类，那么它会抛出一个 <code>ClassNotFoundException</code> 异常。</li>
 </ul>
-<h4 id="双亲委派模型的好处"><a href="#双亲委派模型的好处" class="headerlink" title="双亲委派模型的好处"></a><strong>双亲委派模型的好处</strong></h4><p>双亲委派模型保证了 Java 程序的稳定运行，<strong>可以避免类的重复加载</strong>（JVM 区分不同类的方式不仅仅根据类名，相同的类文件被不同的类加载器加载产生的是两个不同的类），并且通过层级关系可以实现一定程度的隔离和安全性，<strong>也保证了 Java 的核心 API 不被篡改。</strong></p>
+<h4 id="双亲委派模型的好处"><a href="#双亲委派模型的好处" class="headerlink" title="双亲委派模型的好处"></a><strong>双亲委派模型的好处</strong></h4><p><strong>避免类重复加载：</strong>双亲委派模型保证了 Java 程序的稳定运行，<strong>可以避免类的重复加载</strong>（JVM 区分不同类的方式不仅仅根据类名，相同的类文件被不同的类加载器加载产生的是两个不同的类），并且通过层级关系可以实现一定程度的隔离和安全性，<strong>也保证了 Java 的核心 API 不被篡改。</strong></p>
 <p>如果没有使用双亲委派模型，而是每个类加载器加载自己的话就会出现一些问题，比如我们编写一个称为 <code>java.lang.Object</code> 类的话，那么程序运行的时候，系统就会出现两个不同的 <code>Object</code> 类。双亲委派模型可以保证加载的是 JRE 里的那个 <code>Object</code> 类，而不是你写的 <code>Object</code> 类。这是因为 <code>AppClassLoader</code> 在加载你的 <code>Object</code> 类时，会委托给 <code>ExtClassLoader</code> 去加载，而 <code>ExtClassLoader</code> 又会委托给 <code>BootstrapClassLoader</code>，<code>BootstrapClassLoader</code> 发现自己已经加载过了 <code>Object</code> 类，会直接返回，不会去加载你写的 <code>Object</code> 类。</p>
 <p>在类加载的过程中，当一个类被加载时，首先由最顶层的Bootstrap ClassLoader尝试加载，如果找不到类，则由Extension ClassLoader尝试加载，最后由Application ClassLoader尝试加载。这种层次结构确保了类的加载是有序的，避免了类的冲突和混乱。</p>
 <h4 id="打破双亲委派模型方法"><a href="#打破双亲委派模型方法" class="headerlink" title="打破双亲委派模型方法"></a><strong>打破双亲委派模型方法</strong></h4><p>为了避免双亲委托机制，我们可以自己定义一个类加载器，然后重写 <code>loadClass()</code> 即可。</p>
-<p><strong>🐛 修正（参见：<a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/issues/871">issue871open in new window</a> ）</strong>：自定义加载器的话，需要继承 <code>ClassLoader</code> 。如果我们不想打破双亲委派模型，就重写 <code>ClassLoader</code> 类中的 <code>findClass()</code> 方法即可，无法被父类加载器加载的类最终会通过这个方法被加载。但是，<strong>如果想打破双亲委派模型则需要重写 <code>loadClass()</code> 方法。</strong></p>
+<p><strong>修正（参见：<a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/issues/871">issue871</a> ）</strong>：自定义加载器的话，需要继承 <code>ClassLoader</code> 。如果我们不想打破双亲委派模型，就重写 <code>ClassLoader</code> 类中的 <code>findClass()</code> 方法即可，无法被父类加载器加载的类最终会通过这个方法被加载。但是，<strong>如果想打破双亲委派模型则需要重写 <code>loadClass()</code> 方法。</strong></p>
 <p>为什么是重写 <code>loadClass()</code> 方法打破双亲委派模型呢？双亲委派模型的执行流程已经解释了：</p>
 <p>类加载器在进行类加载的时候，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成（调用父加载器 <code>loadClass()</code>方法来加载类）</p>
 <p>重写 <code>loadClass()</code>方法之后，我们就可以改变传统双亲委派模型的执行流程。例如，<strong>子类加载器可以在委派给父类加载器之前，先自己尝试加载这个类</strong>，或者在父类加载器返回之后，再尝试从其他地方加载这个类。具体的规则由我们自己实现，根据项目需求定制化</p>
-<p><strong>Tomcat</strong></p>
-<p>我们比较熟悉的 Tomcat 服务器为了能够优先加载 Web 应用目录下的类，然后再加载其他目录下的类，就自定义了类加载器 <code>WebAppClassLoader</code> 来打破双亲委托机制。这也是 Tomcat 下 Web 应用之间的类实现隔离的具体原理。</p>
+<h4 id="Tomcat中的委派模型"><a href="#Tomcat中的委派模型" class="headerlink" title="Tomcat中的委派模型"></a><strong>Tomcat中的委派模型</strong></h4><p>我们比较熟悉的 Tomcat 服务器为了能够优先加载 Web 应用目录下的类，然后再加载其他目录下的类，就<strong>自定义了类加载器 <code>WebAppClassLoader</code> 来打破双亲委托机制。</strong>这也是 Tomcat 下 Web 应用之间的类实现隔离的具体原理。</p>
 <p>Tomcat是web容器，我们把war包放到 tomcat 的webapp目录下，这意味着一个tomcat可以部署多个应用程序。</p>
 <p><strong>不同的应用程序可能会依赖同一个第三方类库的不同版本，但是不同版本的类库中某一个类的全路径名可能是一样的</strong>。防止出现一个应用中加载的类库会影响另一个应用的情况。<strong>如果采用默认的双亲委派类加载机制，那么是无法加载多个相同的类。</strong></p>
 <p>Tomcat 的类加载器的层次结构如下</p>
@@ -465,23 +469,29 @@
 <li><strong>CommonClassLoader：</strong><code>CommonClassLoader</code>作为 <code>CatalinaClassLoader</code> 和 <code>SharedClassLoader</code> 的父加载器。<code>CommonClassLoader</code> 能加载的类都可以被 <code>CatalinaClassLoader</code> 和 <code>SharedClassLoader</code> 使用。因此，<code>CommonClassLoader</code> 是为了实现公共类库（可以被所有 Web 应用和 Tomcat 内部组件使用的类库）的共享和隔离。</li>
 <li><code>CatalinaClassLoader</code> 和 <code>SharedClassLoader</code> 能加载的类则与对方相互隔离。<code>CatalinaClassLoader</code> 用于加载 Tomcat 自身的类，为了隔离 Tomcat 本身的类和 Web 应用的类。<code>SharedClassLoader</code> 作为 <code>WebAppClassLoader</code> 的父加载器，专门来加载 Web 应用之间共享的类比如 Spring、Mybatis。</li>
 <li><strong>WebAppClassLoader：</strong>每个 Web 应用都会创建一个单独的 <code>WebAppClassLoader</code>，并在启动 Web 应用的线程里设置线程线程上下文类加载器为 <code>WebAppClassLoader</code>。<strong>各个 <code>WebAppClassLoader</code> 实例之间相互隔离（比如不同的应用有不同的User）</strong>，进而实现 Web 应用之间的类隔。 为了实现隔离性，优先加载 Web 应用自己定义的类，所以没有遵照双亲委派的约定，<strong>每一个应用自己的类加载器(多个应用程序，就有多个WebAppClassLoader)，负责优先加载本身的目录下的class文件</strong>，加载不到时再交给<code>CommonClassLoader</code>以及上层的<code>ClassLoader</code>进行加载，<strong>这破坏了双亲委派机制。</strong></li>
-<li><strong>Jsp类加载器（JasperLoader）：</strong>实现热部署的功能，修改文件不用重启就自动重新装载类库。<code>JasperLoader</code>的加载范围仅仅是这个JSP文件所编译出来的那一个.Class文件，它出现的目的就是为了被丢弃：当Web容器检测到JSP文件被修改时，会替换掉目前的<code>JasperLoader</code>的实例，并通过再建立一个新的Jsp类加载器来实现JSP文件的<code>HotSwap</code>功能。</li>
+<li><strong>Jsp类加载器（JasperLoader）：</strong>实现热部署的功能，修改文件不用重启就自动重新装载类库。<code>JasperLoader</code>的加载范围仅仅是这个JSP文件所编译出来的那一个.Class文件，它出现的目的就是为了被丢弃：<strong>当Web容器检测到JSP文件被修改时，会替换掉目前的<code>JasperLoader</code>的实例</strong>，并通过再建立一个新的Jsp类加载器来实现JSP文件的<code>HotSwap</code>功能。</li>
 </ul>
-<h4 id="线程上下文类加载器"><a href="#线程上下文类加载器" class="headerlink" title="线程上下文类加载器"></a><strong>线程上下文类加载器</strong></h4><p>单纯依靠自定义类加载器没办法满足某些场景的要求，例如，有些情况下，高层的类加载器需要加载低层的加载器才能加载的类。</p>
-<p>比如，SPI 中，SPI 的接口（如 <code>java.sql.Driver</code>）是由 Java 核心库提供的，由<code>BootstrapClassLoader</code> 加载。而 SPI 的实现（如<code>com.mysql.cj.jdbc.Driver</code>）是由第三方供应商提供的，它们是由应用<strong>程序类加载器或者自定义类加载器来加载的。</strong>默认情况下，一个类及其依赖类由同一个类加载器加载。所以，加载 SPI 的接口的类加载器（<code>BootstrapClassLoader</code>）也会用来加载 SPI 的实现。按照双亲委派模型，**<code>BootstrapClassLoader</code> 是无法找到 SPI 的实现类的，因为它无法委托给子类加载器去尝试加载。**</p>
-<p>再比如，假设我们的项目中有 Spring 的 jar 包，由于其是 Web 应用之间共享的，因此会由 <code>SharedClassLoader</code> 加载（Web 服务器是 Tomcat）。我们项目中有一些用到了 Spring 的业务类，比如实现了 Spring 提供的接口、用到了 Spring 提供的注解。所以，加载 Spring 的类加载器（也就是 <code>SharedClassLoader</code>）也会用来加载这些业务类。但是业务类在 Web 应用目录下，不在 <code>SharedClassLoader</code> 的加载路径下，所以 <code>SharedClassLoader</code> 无法找到业务类，也就无法加载它们</p>
-<p>如何解决这个问题呢？ 这个时候就需要用到 <strong>线程上下文类加载器（<code>ThreadContextClassLoader</code>）</strong> 。</p>
-<p>拿 Spring 这个例子来说，当 Spring 需要加载业务类的时候，它不是用自己的类加载器，而是用当前线程的上下文类加载器。还记得我上面说的吗？每个 Web 应用都会创建一个单独的 <code>WebAppClassLoader</code>，并在启动 Web 应用的线程里设置线程线程上下文类加载器为 <code>WebAppClassLoader</code>。<strong>这样就可以让高层的类加载器（<code>SharedClassLoader</code>）借助子类加载器（ <code>WebAppClassLoader</code>）来加载业务类，破坏了 Java 的类加载委托机制，让应用逆向使用类加载器。</strong></p>
-<p>线程线程上下文类加载器的原理是将一个类加载器保存在线程私有数据里，跟线程绑定，然后在需要的时候取出来使用。这个类加载器通常是由应用程序或者容器（如 Tomcat）设置的。</p>
+<h4 id="线程上下文类加载器"><a href="#线程上下文类加载器" class="headerlink" title="线程上下文类加载器"></a><strong>线程上下文类加载器</strong></h4><h5 id="JDBC中的委派模型"><a href="#JDBC中的委派模型" class="headerlink" title="JDBC中的委派模型"></a><strong>JDBC中的委派模型</strong></h5><p>单纯依靠自定义类加载器没办法满足某些场景的要求，例如，有些情况下，高层的类加载器需要加载低层的加载器才能加载的类。</p>
+<p>SPI 中，SPI 的接口（如 <code>java.sql.Driver</code>）是由 Java 核心库提供的，由<code>BootstrapClassLoader</code> 加载。而 SPI 的实现（如<code>com.mysql.cj.jdbc.Driver</code>）是由第三方供应商提供的，它们是由应用程序类加载器或者自定义类加载器来加载的。<strong>默认情况下，一个类及其依赖类由同一个类加载器加载</strong>。所以，加载 SPI 的接口的类加载器（<code>BootstrapClassLoader</code>）也会用来加载 SPI 的实现。按照双亲委派模型，**<code>BootstrapClassLoader</code> 是无法找到 SPI 的实现类的，因为它无法委托给子类加载器去尝试加载。**</p>
+<blockquote>
+<p>Java 中的 SPI 机制（ ServiceLoader 工具类）就是在每次类加载的时候会先去找到 class 相对目录下的 META-INF &#x2F;services 的文件夹，将这个文件夹下面的所有文件先加载到内存中，然后根据这些文件的文件名和里面的文件内容找到相应接口的具体实现类，找到实现类后就可以通过反射去生成对应的对象，保存在一个 list 列表里面，所以可以通过迭代或者遍历的方式拿到对应的实例对象，生成不同的实现。</p>
+</blockquote>
+<h5 id="Spring的委派模型"><a href="#Spring的委派模型" class="headerlink" title="Spring的委派模型"></a><strong>Spring的委派模型</strong></h5><p>假设我们的项目中有 Spring 的 jar 包，由于其是 Web 应用之间共享的，因此会由 <code>SharedClassLoader</code> 加载（Web 服务器是 Tomcat）。我们项目中有一些用到了 Spring 的业务类，比如<strong>实现了 Spring 提供的接口、用到了 Spring 提供的注解。</strong>所以， Spring 的类加载器（也就是 <code>SharedClassLoader</code>）也会用来加载这些业务类。但是业务类在 Web 应用目录下，不在 <code>SharedClassLoader</code> 的加载路径下，<strong>所以 <code>SharedClassLoader</code> 无法找到业务类，也就无法加载它们</strong></p>
+<p><strong>如何解决这个问题呢？</strong> </p>
+<p>这个时候就需要用到 <strong>线程上下文类加载器（<code>ThreadContextClassLoader</code>）</strong> </p>
+<p>拿 Spring 这个例子来说，当 Spring 需要加载业务类的时候，它不是用自己的类加载器，而是用当前线程的上下文类加载器。还记得我上面说的吗？每个 Web 应用都会创建一个单独的 <code>WebAppClassLoader</code>，<strong>并在启动 Web 应用的线程里设置线程线程上下文类加载器为 <code>WebAppClassLoader</code>。这样就可以让高层的类加载器（<code>SharedClassLoader</code>）借助子类加载器（ <code>WebAppClassLoader</code>）来加载业务类，破坏了 Java 的类加载委托机制，让应用逆向使用类加载器。</strong></p>
+<p>线程线程上下文类加载器的原理是将一个类加载器保存在线程私有数据里，跟线程绑定，然后在需要的时候取出来使用。这个类加载器通常是由应用程序或者容器（如 Tomcat）设置的。<strong>也就是让父类加载器有了使用子类加载器的能力。</strong></p>
 <p><code>Java.lang.Thread</code> 中的<code>getContextClassLoader()</code>和 <code>setContextClassLoader(ClassLoader cl)</code>分别用来获取和设置线程的上下文类加载器。如果没有通过<code>setContextClassLoader(ClassLoader cl)</code>进行设置的话，线程将继承其父线程的上下文类加载器。</p>
 <p>Spring 获取线程线程上下文类加载器的代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">cl = Thread.currentThread().getContextClassLoader();<br></code></pre></td></tr></table></figure>
 
 
 
-<h3 id="Class-文件结构"><a href="#Class-文件结构" class="headerlink" title="Class 文件结构"></a><strong>Class 文件结构</strong></h3><p>根据 Java 虚拟机规范，Class 文件通过 <code>ClassFile</code> 定义，有点类似 C 语言的结构体。</p>
+
+
+<h3 id="Class-文件的结构"><a href="#Class-文件的结构" class="headerlink" title="Class 文件的结构"></a><strong>Class 文件的结构</strong></h3><p>根据 Java 虚拟机规范，Class 文件通过 <code>ClassFile</code> 定义，有点类似 C 语言的结构体。</p>
 <p><code>ClassFile</code> 的结构如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java">ClassFile &#123;<br>    u4             magic; <span class="hljs-comment">//Class 文件的标志</span><br>    u2             minor_version;<span class="hljs-comment">//Class 的小版本号</span><br>    u2             major_version;<span class="hljs-comment">//Class 的大版本号</span><br>    u2             constant_pool_count;<span class="hljs-comment">//常量池的数量</span><br>    cp_info        constant_pool[constant_pool_count-<span class="hljs-number">1</span>];<span class="hljs-comment">//常量池</span><br>    u2             access_flags;<span class="hljs-comment">//Class 的访问标记</span><br>    u2             this_class;<span class="hljs-comment">//当前类</span><br>    u2             super_class;<span class="hljs-comment">//父类</span><br>    u2             interfaces_count;<span class="hljs-comment">//接口数量</span><br>    u2             interfaces[interfaces_count];<span class="hljs-comment">//一个类可以实现多个接口</span><br>    u2             fields_count;<span class="hljs-comment">//字段数量</span><br>    field_info     fields[fields_count];<span class="hljs-comment">//一个类可以有多个字段</span><br>    u2             methods_count;<span class="hljs-comment">//方法数量</span><br>    method_info    methods[methods_count];<span class="hljs-comment">//一个类可以有个多个方法</span><br>    u2             attributes_count;<span class="hljs-comment">//此类的属性表中的属性数</span><br>    attribute_info attributes[attributes_count];<span class="hljs-comment">//属性表集合</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java">ClassFile &#123;<br>    u4             magic; <span class="hljs-comment">//Class 文件的标志</span><br>    u2             minor_version;<span class="hljs-comment">//Class 的小版本号</span><br>    u2             major_version;<span class="hljs-comment">//Class 的大版本号</span><br>    u2             constant_pool_count;<span class="hljs-comment">//常量池的数量</span><br>    cp_info        constant_pool[constant_pool_count-<span class="hljs-number">1</span>];<span class="hljs-comment">//常量池</span><br>    u2             access_flags;<span class="hljs-comment">//Class 的访问标记</span><br>    u2             this_class;<span class="hljs-comment">//当前类</span><br>    u2             super_class;<span class="hljs-comment">//父类</span><br>    u2             interfaces_count;<span class="hljs-comment">//接口数量</span><br>    u2             interfaces[interfaces_count];<span class="hljs-comment">//一个类可以实现多个接口</span><br>    u2             fields_count;<span class="hljs-comment">//字段数量</span><br>    field_info     fields[fields_count];<span class="hljs-comment">//一个类可以有多个字段</span><br>    u2             methods_count;<span class="hljs-comment">//方法数量</span><br>    method_info    methods[methods_count];<span class="hljs-comment">//一个类可以有个多个方法</span><br>    u2             attributes_count;<span class="hljs-comment">//此类的属性表中的属性数</span><br>    attribute_info attributes[attributes_count];<span class="hljs-comment">//属性表集合</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240425145321380.png" srcset="/img/loading.gif" lazyload alt="image-20240425145321380" style="zoom:50%;" />
 

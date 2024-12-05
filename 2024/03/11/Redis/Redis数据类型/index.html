@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/redis/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/%E6%B6%88%E6%81%AF%E7%A1%AE%E8%AE%A4.png">
 <meta property="og:image" content="https://cdn.xiaolincoding.com/gh/xiaolincoder/redis/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5.png">
 <meta property="article:published_time" content="2024-03-11T12:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-07T04:34:59.067Z">
+<meta property="article:modified_time" content="2024-12-02T09:32:46.920Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary_large_image">
@@ -281,7 +281,7 @@
         
         
         
-          114 分钟
+          119 分钟
         
       </span>
     
@@ -497,7 +497,10 @@
 <img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/redis/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/hash%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom:50%;" />
 
 <p>在介绍 String 类型的应用场景时有所介绍，String + Json也是存储对象的一种方式，那么存储对象时，到底用 String + json 还是用 Hash 呢？</p>
-<p>一般对象用 String + Json 存储，对象中某些频繁变化的属性可以考虑抽出来用 Hash 类型存储。</p>
+<p>一般对象用 String + Json 存储，<strong>对象中某些频繁变化的属性可以考虑抽出来用 Hash 类型存储。</strong></p>
+<p><strong>使用 Hash 代替 String 存储用户信息的好处是什么?</strong></p>
+<p><strong>部分更新：</strong>如果用户信息发生变化，只需要更新哈希中的对应字段，而不需要像字符串那样更新整个对象。</p>
+<p><strong>序列号开销：</strong>使用字符串存储可能需要将用户信息对象序列化为JSON或其他格式的字符串，这增加了序列化和反序列化的开销。而哈希表可以直接存储对象的各个字段。</p>
 <h5 id="购物车"><a href="#购物车" class="headerlink" title="购物车"></a><strong>购物车</strong></h5><p>以用户 id 为 key，商品 id 为 field，商品数量为 value，恰好构成了购物车的3个要素，如下图所示。</p>
 <img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/redis/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/%E8%B4%AD%E7%89%A9%E8%BD%A6.png" srcset="/img/loading.gif" lazyload alt="img" style="zoom: 33%;" />
 
@@ -596,6 +599,19 @@
 
 <h4 id="应用场景-4"><a href="#应用场景-4" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h4><p>Zset 类型（Sorted Set，有序集合） 可以根据元素的权重来排序，我们可以自己来决定每个元素的权重值。比如说，我们可以根据元素插入 Sorted Set 的时间确定权重值，先插入的元素权重小，后插入的元素权重大。</p>
 <p>在面对需要展示最新列表、排行榜等场景时，如果数据更新频繁或者需要分页显示，可以优先考虑使用 Sorted Set。</p>
+<h5 id="延迟队列"><a href="#延迟队列" class="headerlink" title="延迟队列"></a><strong>延迟队列</strong></h5><p>zset 会按 score 进行排序，如果 score 代表想要执行时间的时间戳。在某个时间将它插入zset集合中，它变会按照时间戳大小进行排序，也就是对执行时间前后进行排序。</p>
+<p>起一个死循环线程不断地进行取第一个key值，如果当前时间戳大于等于该key值的score就将它取出来进行消费删除，可以达到延时执行的目的。</p>
+<ul>
+<li>使用 <code>ZADD key score value</code> 语法进行入队操作，把延迟任务的ID作为key值，整个任务详情作为value值，该任务需要延时的时间作为score。</li>
+<li>启动一个线程(每隔一秒执行)通过 <code>ZRANGEBYSCORE KEY -inf +inf limit 0 1 WITHSCORES</code> 方法查询ZSet中的任务是否可执行。其中会有两种情况：</li>
+<li>如果查询出来的分数小于当前时间戳，说明这个任务已经可以执行了，则去异步执行</li>
+<li>如果查询出来的分数大于当前时间戳，说明该队列中没有需要执行的任务，则休眠一秒后再次轮训</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>轮询存在时间间隔，所以延时消息的实际消费时间会大于设定的时间</li>
+<li>大量轮训会对Redis服务器造成压力，所以如果需要去使用延迟消息，很多MQ组件都支持这个能力</li>
+</ul>
 <h5 id="排行榜"><a href="#排行榜" class="headerlink" title="排行榜"></a><strong>排行榜</strong></h5><p>有序集合比较典型的使用场景就是排行榜。例如学生成绩的排名榜、游戏积分排行榜、视频播放排名、电商系统中商品的销量排名等。</p>
 <p>我们以博文点赞排名为例，小林发表了五篇博文，分别获得赞为 200、40、100、50、150。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">arcticle:1 文章获得了200个赞</span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ZADD user:xiaolin:ranking 200 arcticle:1</span><br>(integer) 1<br><span class="hljs-meta prompt_"># </span><span class="language-bash">arcticle:2 文章获得了40个赞</span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ZADD user:xiaolin:ranking 40 arcticle:2</span><br>(integer) 1<br><span class="hljs-meta prompt_"># </span><span class="language-bash">arcticle:3 文章获得了100个赞</span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ZADD user:xiaolin:ranking 100 arcticle:3</span><br>(integer) 1<br><span class="hljs-meta prompt_"># </span><span class="language-bash">arcticle:4 文章获得了50个赞</span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ZADD user:xiaolin:ranking 50 arcticle:4</span><br>(integer) 1<br><span class="hljs-meta prompt_"># </span><span class="language-bash">arcticle:5 文章获得了150个赞</span><br><span class="hljs-meta prompt_">&gt; </span><span class="language-bash">ZADD user:xiaolin:ranking 150 arcticle:5</span><br>(integer) 1<br></code></pre></td></tr></table></figure>
@@ -641,11 +657,11 @@
 
 
 
-<h3 id="BitMap"><a href="#BitMap" class="headerlink" title="BitMap"></a><strong>BitMap</strong></h3><p>Bitmap，即位图，是一串连续的二进制数组（0和1），可以通过偏移量（offset）定位元素。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。</p>
+<h3 id="BitMap"><a href="#BitMap" class="headerlink" title="BitMap"></a><strong>BitMap</strong></h3><p>Bitmap，即位图，是一串连续的二进制数组（0和1），<strong>可以通过偏移量（offset）定位元素</strong>。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。</p>
 <p><code>offset</code> 参数指定了位图中的一个位的位置，以字节为单位。在位图中，每个字节包含 8 个位。偏移量表示了位在位图中的位置，从 0 开始计数，0 表示位图的第一个位，1 表示第二个位，以此类推。因此，<code>offset</code> 参数的取值范围是 0 到 2^32-1（Redis 5.0 之前版本的限制是 0 到 2^32-1）。</p>
 <p>由于 bit 是计算机中最小的单位，使用它进行储存将非常节省空间，特别适合一些数据量大且使用<strong>二值统计的场景</strong>。</p>
 <p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/redis/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/bitmap.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h4 id="内部实现-1"><a href="#内部实现-1" class="headerlink" title="内部实现"></a><strong>内部实现</strong></h4><p>Bitmap 本身是用 String 类型作为底层数据结构实现的一种统计二值状态的数据类型。</p>
+<h4 id="内部实现-1"><a href="#内部实现-1" class="headerlink" title="内部实现"></a><strong>内部实现</strong></h4><p>Bitmap 本身是<strong>用 String 类型作为底层数据结构实现</strong>的一种统计二值状态的数据类型。</p>
 <p>String 类型是会保存为二进制的字节数组，所以，Redis 就把字节数组的每个 bit 位利用起来，用来表示一个元素的二值状态，你可以把 Bitmap 看作是一个 bit 数组。</p>
 <h4 id="常用命令-4"><a href="#常用命令-4" class="headerlink" title="常用命令"></a><strong>常用命令</strong></h4><p>bitmap 基本操作：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">设置值，其中value只能是 0 和 1</span><br>SETBIT key offset value<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">获取值</span><br>GETBIT key offset<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">获取指定范围内值为 1 的个数</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">start 和 end 以字节为单位</span><br>BITCOUNT key start end<br></code></pre></td></tr></table></figure>
@@ -661,15 +677,13 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">SETBIT uid:sign:100:202206 2 1<br></code></pre></td></tr></table></figure>
 
 <p>第二步，检查该用户 6 月 3 日是否签到。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">GETBIT uid:sign:100:202206 2 <br></code></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">GETBIT</span> uid:sign:<span class="hljs-number">100</span>:<span class="hljs-number">202206</span> <span class="hljs-number">2</span> <br></code></pre></td></tr></table></figure>
 
 <p>第三步，统计该用户在 6 月份的签到次数。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">BITCOUNT uid:sign:100:202206<br></code></pre></td></tr></table></figure>
 
 <p>这样，我们就知道该用户在 6 月份的签到情况了。</p>
-<blockquote>
-<p>如何统计这个月首次打卡时间呢？</p>
-</blockquote>
+<p><strong>如何统计这个月首次打卡时间呢？</strong></p>
 <p>Redis 提供了 <code>BITPOS key bitValue [start] [end]</code>指令，返回数据表示 Bitmap 中第一个值为 <code>bitValue</code> 的 offset 位置。</p>
 <p>在默认情况下， 命令将检测整个位图， 用户可以通过可选的 <code>start</code> 参数和 <code>end</code> 参数指定要检测的范围。所以我们可以通过执行这条命令来获取 userID &#x3D; 100 在 2022 年 6 月份<strong>首次打卡</strong>日期：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">BITPOS uid:sign:100:202206 1<br></code></pre></td></tr></table></figure>
@@ -687,27 +701,33 @@
 <p>第三步，登出，将 offset 对应的 value 设置成 0。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">SETBIT login_status 10086 0<br></code></pre></td></tr></table></figure>
 
-<h5 id="连续签到用户总数"><a href="#连续签到用户总数" class="headerlink" title="连续签到用户总数"></a><strong>连续签到用户总数</strong></h5><p>如何统计出这连续 7 天连续打卡用户总数呢？</p>
-<p>我们把每天的日期作为 Bitmap 的 key，userId 作为 offset，若是打卡则将 offset 位置的 bit 设置成 1。</p>
+
+
+<h5 id="连续签到用户总数"><a href="#连续签到用户总数" class="headerlink" title="连续签到用户总数"></a><strong>连续签到用户总数</strong></h5><p><strong>如何统计出这连续 3 天连续打卡用户总数呢？</strong></p>
+<p>我们把每天的日期作为 Bitmap 的 key，userId 作为 offset，若是打卡则将 offset 位置的 bit 设置成 1</p>
 <p>key 对应的集合的每个 bit 位的数据则是一个用户在该日期的打卡记录。</p>
-<p>一共有 7 个这样的 Bitmap，如果我们能对这 7 个 Bitmap 的对应的 bit 位做 『与』运算。同样的 UserID offset 都是一样的，当一个 userID 在 7 个 Bitmap 对应对应的 offset 位置的 bit &#x3D; 1 就说明该用户 7 天连续打卡。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 设置第1天的签到状态</span><br><span class="hljs-attribute">SETBIT</span> bitmap:day1 <span class="hljs-number">0</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">1</span>签到<br><span class="hljs-attribute">SETBIT</span> bitmap:day1 <span class="hljs-number">2</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">3</span>签到<br><span class="hljs-attribute">SETBIT</span> bitmap:day1 <span class="hljs-number">4</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">5</span>签到<br><br><span class="hljs-comment"># 设置第2天的签到状态</span><br><span class="hljs-attribute">SETBIT</span> bitmap:day2 <span class="hljs-number">1</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">2</span>签到<br><span class="hljs-attribute">SETBIT</span> bitmap:day2 <span class="hljs-number">3</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">4</span>签到<br><span class="hljs-attribute">SETBIT</span> bitmap:day2 <span class="hljs-number">5</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">6</span>签到<br><span class="hljs-attribute">SETBIT</span> bitmap:day2 <span class="hljs-number">7</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">8</span>签到<br><br><span class="hljs-comment"># 设置第3天的签到状态</span><br><span class="hljs-attribute">SETBIT</span> bitmap:day3 <span class="hljs-number">0</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">1</span>签到<br><span class="hljs-attribute">SETBIT</span> bitmap:day3 <span class="hljs-number">3</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">4</span>签到<br><span class="hljs-attribute">SETBIT</span> bitmap:day3 <span class="hljs-number">6</span> <span class="hljs-number">1</span>  # 用户<span class="hljs-number">7</span>签到<br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>一共有 3个这样的 Bitmap，如果我们能对这 3 个 Bitmap 的对应的 bit 位做 『与』运算。</strong>同样的 UserID offset 都是一样的，当一个 userID 在 3 个 Bitmap 对应对应的 offset 位置的 bit &#x3D; 1 就说明该用户 7 天连续打卡。</p>
 <p>结果保存到一个新 Bitmap 中，我们再通过 <code>BITCOUNT</code> 统计 bit &#x3D; 1 的个数便得到了连续打卡 7 天的用户总数了。</p>
 <p>Redis 提供了 <code>BITOP operation destkey key [key ...]</code>这个指令用于对一个或者多个 key 的 Bitmap 进行位元操作。</p>
 <ul>
 <li><code>operation</code> 可以是 <code>and</code>、<code>OR</code>、<code>NOT</code>、<code>XOR</code>。当 BITOP 处理不同长度的字符串时，较短的那个字符串所缺少的部分会被看作 <code>0</code> 。空的 <code>key</code> 也被看作是包含 <code>0</code> 的字符串序列。</li>
 </ul>
-<p>假设要统计 3 天连续打卡的用户数，则是将三个 bitmap 进行 AND 操作，并将结果保存到 destmap 中，接着对 destmap 执行 BITCOUNT 统计，如下命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">与操作</span><br>BITOP AND destmap bitmap:01 bitmap:02 bitmap:03<br><span class="hljs-meta prompt_"># </span><span class="language-bash">统计 bit 位 =  1 的个数</span><br>BITCOUNT destmap<br></code></pre></td></tr></table></figure>
+<p>假设要统计 3 天连续打卡的用户数，<strong>则是将三个 bitmap 进行 AND 操作，并将结果保存到 destmap 中</strong>，接着对 destmap 执行 BITCOUNT 统计，如下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">与操作，保存把连续签到的用户保存在新的bitmap里面</span><br>BITOP AND destmap bitmap:day1 bitmap:day2 bitmap:day3<br><span class="hljs-meta prompt_"># </span><span class="language-bash">统计 bit 位 =  1 的个数，即为连续签到的用户数</span><br>BITCOUNT destmap<br><span class="hljs-meta prompt_"># </span><span class="language-bash">判断用户1是否连续签到</span><br>GETBIT destmap 0<br></code></pre></td></tr></table></figure>
 
 <p>即使一天产生一个亿的数据，Bitmap 占用的内存也不大，大约占 12 MB 的内存（10^8&#x2F;8&#x2F;1024&#x2F;1024），7 天的 Bitmap 的内存开销约为 84 MB。同时我们最好给 Bitmap 设置过期时间，让 Redis 删除过期的打卡数据，节省内存。</p>
-<h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a><strong>HyperLogLog</strong></h3><p>Redis HyperLogLog 是 Redis 2.8.9 版本新增的数据类型，是一种用于「统计基数」的数据集合类型，基数统计就是指统计一个集合中不重复的元素个数。但要注意，HyperLogLog 是统计规则是基于概率完成的，不是非常准确，标准误算率是 0.81%。</p>
+<h3 id="HyperLogLog"><a href="#HyperLogLog" class="headerlink" title="HyperLogLog"></a><strong>HyperLogLog</strong></h3><p>Redis HyperLogLog 是 Redis 2.8.9 版本新增的数据类型，是一种用于「统计基数」的数据集合类型，基数统计就是指统计一个集合中不重复的元素个数。但要注意，HyperLogLog 是统计规则是<strong>基于概率完成的</strong>，不是非常准确，标准误算率是 0.81%。</p>
 <p>所以，简单来说 HyperLogLog <strong>提供不精确的去重计数</strong>。</p>
 <p>HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的内存空间总是固定的、并且是很小的。</p>
 <p>在 Redis 里面，<strong>每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 <code>2^64</code> 个不同元素的基数</strong>，和元素越多就越耗费内存的 Set 和 Hash 类型相比，HyperLogLog 就非常节省空间。</p>
-<p>这什么概念？举个例子给大家对比一下。</p>
-<p>用 Java 语言来说，一般 long 类型占用 8 字节，而 1 字节有 8 位，即：1 byte &#x3D; 8 bit，即 long 数据类型最大可以表示的数是：<code>2^63-1</code>。对应上面的<code>2^64</code>个数，假设此时有<code>2^63-1</code>这么多个数，从 <code>0 ~ 2^63-1</code>，按照<code>long</code>以及<code>1k = 1024 字节</code>的规则来计算内存总数，就是：<code>((2^63-1) * 8/1024)K</code>，这是很庞大的一个数，存储空间远远超过<code>12K</code>，而 <code>HyperLogLog</code> 却可以用 <code>12K</code> 就能统计完。</p>
-<h4 id="内部实现-2"><a href="#内部实现-2" class="headerlink" title="内部实现"></a><strong>内部实现</strong></h4><p>HyperLogLog 的实现涉及到很多数学问题，太费脑子了，我也没有搞懂，如果你想了解一下，课下可以看看这个：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/HyperLogLog">HyperLogLog (opens new window)</a>。</p>
-<h4 id="应用场景-6"><a href="#应用场景-6" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h4><h5 id="百万级网页-UV-计数"><a href="#百万级网页-UV-计数" class="headerlink" title="百万级网页 UV 计数"></a><strong>百万级网页 UV 计数</strong></h5><p>Redis HyperLogLog 优势在于只需要花费 12 KB 内存，就可以计算接近 2^64 个元素的基数，和元素越多就越耗费内存的 Set 和 Hash 类型相比，HyperLogLog 就非常节省空间。</p>
+<p>这什么概念？举个例子给大家对比一下</p>
+<p>用 Java 语言来说，一般 long 类型占用 8 字节，而 1 字节有 8 位，即：1 byte &#x3D; 8 bit，即 long 数据类型最大可以表示的数是：<code>2^63-1</code>。对应上面的<code>2^64</code>个数，假设此时有<code>2^63-1</code>这么多个数，从 <code>0 ~ 2^63-1</code>，按照<code>long</code>以及1k &#x3D; 1024 字节的规则来计算内存总数，就是：<code>((2^63-1) * 8/1024)K</code>，这是很庞大的一个数，存储空间远远超过<code>12K</code>，而 <code>HyperLogLog</code> 却可以用 <code>12K</code> 就能统计完。</p>
+<h4 id="内部实现-2"><a href="#内部实现-2" class="headerlink" title="内部实现"></a><strong>内部实现</strong></h4><p>HyperLogLog 的实现涉及到很多数学问题，可以看看这个：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/HyperLogLog">HyperLogLog </a></p>
+<h4 id="应用场景-6"><a href="#应用场景-6" class="headerlink" title="应用场景"></a><strong>应用场景</strong></h4><h5 id="百万级网页-UV-计数"><a href="#百万级网页-UV-计数" class="headerlink" title="百万级网页 UV 计数"></a><strong>百万级网页 UV 计数</strong></h5><p>Redis HyperLogLog 优势在于只需要花费 12 KB 内存，就可以计算接近 2^64 个元素的基数，<strong>和元素越多就越耗费内存的 Set 和 Hash 类型相比，HyperLogLog 就非常节省空间。</strong></p>
 <p>所以，非常适合统计百万级以上的网页 UV 的场景。</p>
 <p>在统计 UV 时，你可以用 PFADD 命令（用于向 HyperLogLog 中添加新元素）把访问页面的每个用户都添加到 HyperLogLog 中。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">PFADD page1:uv user1 user2 user3 user4 user5<br></code></pre></td></tr></table></figure>
@@ -876,7 +896,7 @@
 <li>发布订阅模式是“发后既忘”的工作模式，如果有订阅者离线重连之后不能消费之前的历史消息。</li>
 <li>当消费端有一定的消息积压时，也就是生产者发送的消息，消费者消费不过来时，如果超过 32M 或者是 60s 内持续保持在 8M 以上，消费端会被强行断开，这个参数是在配置文件中设置的，默认值是 <code>client-output-buffer-limit pubsub 32mb 8mb 60</code>。</li>
 </ol>
-<p>所以，发布&#x2F;订阅机制只适合即时通讯的场景，比如<a target="_blank" rel="noopener" href="https://xiaolincoding.com/redis/cluster/sentinel.html#%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4%E6%98%AF%E5%A6%82%E4%BD%95%E7%BB%84%E6%88%90%E7%9A%84">构建哨兵集群 (opens new window)</a>的场景采用了发布&#x2F;订阅机制。</p>
+<p>所以，发布&#x2F;订阅机制只适合即时通讯的场景，比如<a target="_blank" rel="noopener" href="https://xiaolincoding.com/redis/cluster/sentinel.html#%E5%93%A8%E5%85%B5%E9%9B%86%E7%BE%A4%E6%98%AF%E5%A6%82%E4%BD%95%E7%BB%84%E6%88%90%E7%9A%84">构建哨兵集群</a>的场景采用了发布&#x2F;订阅机制。</p>
 
                 
               </div>

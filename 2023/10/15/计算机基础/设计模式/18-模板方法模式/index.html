@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231229132410289.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231229132632042.png">
 <meta property="article:published_time" content="2023-10-15T01:35:21.000Z">
-<meta property="article:modified_time" content="2024-09-09T09:28:05.201Z">
+<meta property="article:modified_time" content="2024-11-04T12:33:26.114Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="计算机基础">
 <meta name="twitter:card" content="summary_large_image">
@@ -339,7 +339,7 @@
 
 
 
-<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>分析：出国留学手续一般经过以下流程：索取学校资料，提出入学申请，办理因私出国护照、出境卡和公证，申请签证，体检、订机票、准备行装，抵达目标学校等，其中有些业务对各个学校是一样的，但有些业务因学校不同而不同，所以比较适合用模板方法模式来实现。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>分析：出国留学手续一般经过以下流程：索取学校资料，提出入学申请，办理因私出国护照、出境卡和公证，申请签证，体检、订机票、准备行装，抵达目标学校等，其中有些业务对各个学校是一样的，但有些业务因学校不同而不同，所以比较适合用模板方法模式来实现。</p>
 <p>在本实例中，我们先定义一个出国留学的抽象类 StudyAbroad，里面包含了一个模板方法 TemplateMethod()，该方法中包含了办理出国留学手续流程中的各个基本方法，其中有些方法的处理由于各国都一样，所以在抽象类中就可以实现，但有些方法的处理各国是不同的，必须在其具体子类（如美国留学类 StudyInAmerica）中实现。如果再增加一个国家，只要增加一个子类就可以了</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20231229132410289.png" srcset="/img/loading.gif" lazyload alt="image-20231229132410289" style="zoom: 67%;" />
 
@@ -364,23 +364,23 @@
 
 
 
-<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ul>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
 <li>它封装了不变部分，扩展可变部分。它把认为是不变部分的算法封装到父类中实现，而把可变部分算法由子类继承实现，<strong>便于子类继续扩展</strong>。</li>
 <li>它在父类中提取了公共的部分代码，<strong>便于代码复用</strong>。</li>
 <li>部分方法是由子类实现的，因此子类可以通过扩展方式增加相应的功能，<strong>符合开闭原则</strong>。</li>
 </ul>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
 <li>对每个不同的实现都需要定义一个子类，这会导致<strong>类的个数增加</strong>，系统更加庞大，设计也更加抽象。</li>
 <li>父类中的抽象方法由子类实现，子类执行的结果会影响父类的结果，这导致一种反向的控制结构，它<strong>提高了代码阅读的难度</strong>。</li>
 <li>继承关系自身缺点，如果父类添加新的抽象方法，所有子类都要改一遍。</li>
 </ul>
-<h2 id="策略模式和模板方法模式"><a href="#策略模式和模板方法模式" class="headerlink" title="策略模式和模板方法模式"></a>策略模式和模板方法模式</h2><ul>
+<h3 id="策略模式和模板方法模式"><a href="#策略模式和模板方法模式" class="headerlink" title="策略模式和模板方法模式"></a>策略模式和模板方法模式</h3><ul>
 <li>策略模式和模版方法模式的共同点是都封装算法。</li>
 <li>策略模式是定义算法家族，让他们之间可以相互替换，模版方法是针对一个算法流程，某个步骤的具体细节交给子类去实现。</li>
 <li>策略模式可以改变算法流程，使一个个步骤可以相互替换，模版方法模式算法流程是固定的。</li>
 <li>策略模式使用组合来实现，模版方法模式使用继承来实现</li>
 </ul>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
 <li><strong>算法的整体步骤很固定，但其中个别部分易变时</strong>，这时候可以使用模板方法模式，将容易变的部分抽象出来，供子类实现。</li>
 <li><strong>当多个子类存在公共的行为时，可以将其提取出来并集中到一个公共父类中以避免代码重复</strong>。首先，要识别现有代码中的不同之处，并且将不同之处分离为新的操作。最后，用一个调用这些新的操作的模板方法来替换这些不同的代码。</li>
 <li>当需要控制子类的扩展时，模板方法只在特定点调用钩子操作，这样就只允许在这些点进行扩展。</li>

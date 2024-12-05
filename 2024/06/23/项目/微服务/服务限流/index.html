@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623163640364.png">
 <meta property="article:published_time" content="2024-06-23T10:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-02T11:20:37.641Z">
+<meta property="article:modified_time" content="2024-10-05T03:59:31.185Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary_large_image">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          2.1k 字
         
       </span>
     
@@ -307,7 +307,7 @@
             
               <div class="markdown-body">
                 
-                <h2 id="服务限流"><a href="#服务限流" class="headerlink" title="服务限流"></a>服务限流</h2><h3 id="固定窗口限流"><a href="#固定窗口限流" class="headerlink" title="固定窗口限流"></a><strong>固定窗口限流</strong></h3><p>首先维护一个计数器，将单位时间段当做一个窗口，计数器记录这个窗口接收请求的次数。</p>
+                <h2 id="服务限流"><a href="#服务限流" class="headerlink" title="服务限流"></a><strong>服务限流</strong></h2><h3 id="固定窗口限流"><a href="#固定窗口限流" class="headerlink" title="固定窗口限流"></a><strong>固定窗口限流</strong></h3><p>首先维护一个计数器，将单位时间段当做一个窗口，计数器记录这个窗口接收请求的次数。</p>
 <ul>
 <li>当次数少于限流阀值，就允许访问，并且计数器+1</li>
 <li>当次数大于限流阀值，就拒绝访问。</li>
@@ -348,9 +348,10 @@ boolean fixedWindowsTryAcquire() &#123;
 
 <p><strong>解决了固定窗口限流存在的问题</strong></p>
 <p>优点：能够解决上述流量突刺的问题，因为第59分钟时，限流窗口是59分~1小时59分，这个时间段内只能接受10次请求，只要还在这个窗口内，更多的操作就会被拒绝。</p>
-<p>缺点：实现相对固定窗口来说比较复杂，限流效果和你的滑动单位有关，滑动单位越小，限流效果越好，但往往很难选取到一个特别合适的滑动单位。滑动窗口算法虽然解决了<strong>固定窗口的临界问题</strong>，但是一旦到达限流后，请求都会直接暴力被拒绝。我们会损失一部分请求，这其实对于产品来说，并不太友好。</p>
+<p>缺点：实现相对固定窗口来说比较复杂，限流效果和你的滑动单位有关，<strong>滑动单位越小，限流效果越好</strong>，但往往很难选取到一个特别合适的滑动单位。滑动窗口算法虽然解决了<strong>固定窗口的临界问题</strong>，但是一旦到达限流后，请求都会直接暴力被拒绝。我们会损失一部分请求，这其实对于产品来说，并不太友好。</p>
 <p>当滑动窗口的格子周期划分的越多，那么滑动窗口的滚动就越平滑，限流的统计就会越精确。</p>
-<h3 id="漏桶限流"><a href="#漏桶限流" class="headerlink" title="漏桶限流"></a><strong>漏桶限流</strong></h3><p>特点：以固定的速率处理请求（漏水），当请求桶满了后，拒绝请求。</p>
+<h3 id="漏桶限流"><a href="#漏桶限流" class="headerlink" title="漏桶限流"></a><strong>漏桶限流</strong></h3><p>把请求比作是水滴，需要进入桶才能被处理，同时桶会有一定的容量，超出容量的请求将会被拒绝，漏桶以固定速率处理请求。</p>
+<p>特点：以固定的速率处理请求（漏水），当请求桶满了后，拒绝请求。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png" srcset="/img/loading.gif" lazyload alt="image-20240304225935821" style="zoom:50%;" />
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 每秒处理数（出水率）</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> rate;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    *  当前剩余水量</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> currentWater;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 最后刷新时间</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> refreshTime;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 桶容量</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">private</span> <span class="hljs-type">long</span> capacity;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 漏桶算法</span><br><span class="hljs-comment">    * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-type">boolean</span> <span class="hljs-title function_">leakybucketLimitTryAcquire</span><span class="hljs-params">()</span> &#123;<br>       <span class="hljs-type">long</span> <span class="hljs-variable">currentTime</span> <span class="hljs-operator">=</span> System.currentTimeMillis();  <span class="hljs-comment">//获取系统当前时间</span><br>       <span class="hljs-type">long</span> <span class="hljs-variable">outWater</span> <span class="hljs-operator">=</span> (currentTime - refreshTime) / <span class="hljs-number">1000</span> * rate; <span class="hljs-comment">//流出的水量 =(当前时间-上次刷新时间)* 出水率</span><br>       <span class="hljs-type">long</span> <span class="hljs-variable">currentWater</span> <span class="hljs-operator">=</span> Math.max(<span class="hljs-number">0</span>, currentWater - outWater); <span class="hljs-comment">// 当前水量 = 之前的桶内水量-流出的水量</span><br>       refreshTime = currentTime; <span class="hljs-comment">// 刷新时间</span><br><br>       <span class="hljs-comment">// 当前剩余水量还是小于桶的容量，则请求放行</span><br>       <span class="hljs-keyword">if</span> (currentWater &lt; capacity) &#123;<br>           currentWater++;<br>           <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>       &#125;<br>       <br>       <span class="hljs-comment">// 当前剩余水量大于等于桶的容量，限流</span><br>       <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>   &#125;<br><br></code></pre></td></tr></table></figure>
