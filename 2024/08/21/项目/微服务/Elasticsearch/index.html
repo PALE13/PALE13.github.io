@@ -16,12 +16,12 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="ElasticsearchElasticsearch（以下称之为 ES）是一款基于 Lucene 的分布式全文搜索引擎，擅长海量数据存储、数据分析以及全文检索查询，它是一款非常优秀的数据存储与数据分析中间件，广泛应用于日志分析以及全文检索等领域，目前很多大厂都基于 Elasticsearch 开发了自己的存储中间件以及数据分析平台。 优势速度快：因为它是基于Lucene 构建的，所以在执行查询时非">
+    <meta name="description" content="ElasticsearchElasticsearch（以下称之为 ES）是一款基于 Lucene 的分布式全文搜索引擎，擅长海量数据存储、数据分析以及全文检索查询，它是一款非常优秀的数据存储与数据分析中间件，广泛应用于日志分析以及全文检索等领域，目前很多大厂都基于 Elasticsearch 开发了自己的存储中间件以及数据分析平台。 优势 速度快：因为它是基于Lucene 构建的，所以在执行查询时">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Elasticsearch">
 <meta property="og:url" content="http://example.com/2024/08/21/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Elasticsearch/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="ElasticsearchElasticsearch（以下称之为 ES）是一款基于 Lucene 的分布式全文搜索引擎，擅长海量数据存储、数据分析以及全文检索查询，它是一款非常优秀的数据存储与数据分析中间件，广泛应用于日志分析以及全文检索等领域，目前很多大厂都基于 Elasticsearch 开发了自己的存储中间件以及数据分析平台。 优势速度快：因为它是基于Lucene 构建的，所以在执行查询时非">
+<meta property="og:description" content="ElasticsearchElasticsearch（以下称之为 ES）是一款基于 Lucene 的分布式全文搜索引擎，擅长海量数据存储、数据分析以及全文检索查询，它是一款非常优秀的数据存储与数据分析中间件，广泛应用于日志分析以及全文检索等领域，目前很多大厂都基于 Elasticsearch 开发了自己的存储中间件以及数据分析平台。 优势 速度快：因为它是基于Lucene 构建的，所以在执行查询时">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240907181032884.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240907181140243.png">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240907182440740.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240907182458267.png">
 <meta property="article:published_time" content="2024-08-21T06:46:25.000Z">
-<meta property="article:modified_time" content="2024-11-20T05:12:49.848Z">
+<meta property="article:modified_time" content="2024-12-09T02:41:35.096Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary_large_image">
@@ -312,14 +312,17 @@
               <div class="markdown-body">
                 
                 <h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a><strong>Elasticsearch</strong></h2><p>Elasticsearch（以下称之为 ES）是一款基于 Lucene 的分布式全文搜索引擎，擅长海量数据存储、数据分析以及全文检索查询，它是一款非常优秀的数据存储与数据分析中间件，广泛应用于日志分析以及全文检索等领域，目前很多大厂都基于 Elasticsearch 开发了自己的存储中间件以及数据分析平台。</p>
-<p><strong>优势</strong><br>速度快：因为它是基于Lucene 构建的，所以在执行查询时非常快速。此外，它还支持近实时搜索，可以在数据插入后的几秒钟内进行搜索。</p>
-<p>扩展性强：Elasticsearch 是分布式的，能轻松地通过增加节点来扩展集群，从而处理更大量的数据和更高的查询需求。</p>
-<p>高可用性：通过集群的形式部署，支持数据的分片和复制，即使某个节点失效也不会影响服务的整体运行。</p>
-<p>多种类型的搜索和分析：不仅支持全文搜索，还支持结构化搜索、地理位置搜索、模糊搜索等，可以对数据进行多维度的复杂查询。</p>
-<p>强大的REST APl：Elasticsearch 提供强大的 restfulAPI，使得其易于与各类编程语言和框架进行集成。</p>
+<p><strong>优势</strong></p>
+<p><strong>速度快：</strong>因为它是基于Lucene 构建的，所以在执行查询时非常快速。此外，它还支持近实时搜索，可以在数据插入后的几秒钟内进行搜索。</p>
+<p><strong>扩展性强：</strong>Elasticsearch 是分布式的，能轻松地通过增加节点来扩展集群，从而处理更大量的数据和更高的查询需求。</p>
+<p><strong>高可用性：</strong>通过集群的形式部署，支持数据的分片和复制，即使某个节点失效也不会影响服务的整体运行。</p>
+<p><strong>多种类型的搜索和分析：</strong>不仅支持全文搜索，还支持结构化搜索、地理位置搜索、模糊搜索等，可以对数据进行多维度的复杂查询。</p>
+<p><strong>强大的REST APl：</strong>Elasticsearch 提供强大的 restfulAPI，使得其易于与各类编程语言和框架进行集成。</p>
 <p><strong>应用场景</strong></p>
-<p>网站搜索：公司的网站常常需要功能强大目快速的内部按索引擎,，比如电商网站使用 Elasticsearch 提供商品搜索功能，通过分词以及模糊匹配等技术来提高用户搜索体验。</p>
-<p>日志分析：与Logstash 和 Kibana 结合，组成 ELK堆栈，能对大规模日志数据进行实时分析和可视化展示，是许多公司进行业务监控和安全分析的重要<br>工具。<br>数据分析：通过高速的搜索能力和强大的数据处理能力，支持复杂的数据分析流程。这在金融、医药、网络安全等领域非常常见。<br>实时业务监控：比如监控服务器运行状况、用户行为分析与跟踪等需要实时数据更新和快速响应的应用。</p>
+<p><strong>网站搜索：</strong>公司的网站常常需要功能强大目快速的内部按索引擎,，比如电商网站使用 Elasticsearch 提供商品搜索功能，通过分词以及模糊匹配等技术来提高用户搜索体验。</p>
+<p><strong>日志分析：</strong>与Logstash 和 Kibana 结合，组成 ELK堆栈，能对大规模日志数据进行实时分析和可视化展示，是许多公司进行业务监控和安全分析的重要工具。</p>
+<p><strong>数据分析：</strong>通过高速的搜索能力和强大的数据处理能力，支持复杂的数据分析流程。这在金融、医药、网络安全等领域非常常见。</p>
+<p><strong>实时业务监控：</strong>比如监控服务器运行状况、用户行为分析与跟踪等需要实时数据更新和快速响应的应用。</p>
 <h3 id="document"><a href="#document" class="headerlink" title="document"></a><strong>document</strong></h3><p>我们都说 ES 是面向 document 的，这句话什么意思呢？<strong>实际就是表示 ES 是基于 document 进行数据操作的</strong>，操作主要包括数据搜索以及索引（这里的索引时数据写入的意思）。因此可以说 document 是 ES 的基础数据结构，它会被序列化之后保存到 ES 中。相信大家都对 Mysql 还是比较熟悉的，因此我们用 Mysql 中的数据库与表的概念与 ES 的 index 进行对比，可能并不是十分的恰当和吻合，但是可以有助于大家对于这些概念的理解。另外 type 也在 ES6.x 版本之后逐渐取消了。</p>
 <h3 id="Index"><a href="#Index" class="headerlink" title="Index"></a><strong>Index</strong></h3><p>在 ES 之前的版本中，是有 type 这个概念的，类比数据库中的表，那上文中所说的 document 就会放在 type 中。但是在 ES 后面的版本中为了提高数据存储的效率逐渐取消了 type，<strong>因此 index 实际上在现在的 ES 中既有库的概念也有表的概念。</strong>简单理解就是 index 就是文档的容器，它是一类文档的集合，但是这里需要注意的是 index 是逻辑空间的分类，实际数据是存在物理空间的分片上的。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240907181032884.png" srcset="/img/loading.gif" lazyload alt="image-20240907181032884" style="zoom: 67%;" />
@@ -363,11 +366,11 @@
 <p><strong>索引存储：</strong>FST不仅在查询阶段发挥作用，还在索引创建阶段有所贡献。在索引创建时，FST帮助压<strong>缩存储需要索引的词项数据</strong>，使索引存储更加高效，节省存储空间的同时也提升了检索速度。</p>
 <p>总的来说，FST在Elasticsearch中的应用不仅优化了存储空间，还极大地提升了査询效率，使得Elasticsearch能够在处理大规模数据和高并发查询时表现得更加出色。</p>
 <h3 id="Elasticsearch-的评分算法是如何工作的？它基于哪些因素计算相关性得分？"><a href="#Elasticsearch-的评分算法是如何工作的？它基于哪些因素计算相关性得分？" class="headerlink" title="Elasticsearch 的评分算法是如何工作的？它基于哪些因素计算相关性得分？"></a><strong>Elasticsearch 的评分算法是如何工作的？它基于哪些因素计算相关性得分？</strong></h3><p>Elasticsearch 的评分算法主要基于 <strong>BM25(Best Matching 25)算法</strong>，这是一种改进的 TF-IDF 算法。它通过计算每个文档和查询之间的相关性得分来排序结果。相关性得分基于以下几个主要因素:</p>
-<p>1)TF(Term Frequency):词频，某个词在文档中出现的次数。出现次数越多，该词对该文档的重要性越大。</p>
-<p>2)IDF(Inverse Document Frequency):逆文档频率，用于衡量一个词在所有文档中有多重要。出现频率越低，IDF 越高，反之亦然。</p>
-<p>3)Field Length Norm(规范化字段长度):字段的长度。一般来说，较短的字段如果包含查询词，那么该字段的相关性得分会更言。</p>
-<p>4)Document Norms(文档规范化):这是对文档多个字段进行规范化处理的一个综合得分。</p>
-<p>总得来说，Elasticsearch 的评分算法即是通过这些因素来计算每个文档的相关性得分，并将得分高的文档返回给用户。</p>
+<p>1)TF(Term Frequency)：词频，某个词在文档中出现的次数。出现次数越多，该词对该文档的重要性越大。</p>
+<p>2)IDF(Inverse Document Frequency)：逆文档频率，用于衡量一个词在所有文档中有多重要。出现频率越低，IDF 越高，反之亦然。</p>
+<p>3)Field Length Norm(规范化字段长度)：字段的长度。一般来说，较短的字段如果包含查询词，那么该字段的相关性得分会更言。</p>
+<p>4)Document Norms(文档规范化)：这是对文档多个字段进行规范化处理的一个综合得分。</p>
+<p>总得来说，Elasticsearch 的评分算法即是通过这些因素来计算每个文档的相关性得分，并将得分高的文档返回给用户</p>
 
                 
               </div>
@@ -468,8 +471,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/28/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" title="分布式任务调度">
-                        <span class="hidden-mobile">分布式任务调度</span>
+                      <a href="/2024/08/07/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/" title="设计一个秒杀系统">
+                        <span class="hidden-mobile">设计一个秒杀系统</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

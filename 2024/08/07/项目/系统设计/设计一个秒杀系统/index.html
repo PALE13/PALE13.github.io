@@ -16,26 +16,27 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="场景设计如何设计一个点赞系统？系统架构设计从架构方面需要考虑:服务拆分、异步、缓存。 1)分布式架构大流量场景下，可以将点赞功能独立成一个服务，解耦业务逻辑，便于扩展和维护。例如点赞服务压力倍增的时候，可以仅扩容点赞服务即可。 2)异步处理只要涉及到大流量，且实时性并没有那么强烈的场景，就需要考虑异步。可以使用消息队列(如 Kafka、RocketMO)来异步处理点赞请求，减少直接写数据库的压力。">
+    <meta name="description" content="如何设计一个秒杀系统？秒杀系统需要考虑的问题？瞬时并发量大  大量用户会在同一时间进行抢购 网站瞬时访问流量激增  库存少  访问请求数量远远大于库存数量 只有少部分用户能够秒杀成功  前端CDN一般情况下，秒杀的流量特性就是持续性短和大 流量集中在活动即将开始的时候，会有很多用户开始持续性地刷新页面。前端资源的访问也需要损耗大量的资源因此需要利用 CDN 缓存秒杀页面的一些静态资源(如商品详情，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="场景设计">
-<meta property="og:url" content="http://example.com/2024/07/07/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E5%9C%BA%E6%99%AF%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:title" content="设计一个秒杀系统">
+<meta property="og:url" content="http://example.com/2024/08/07/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%A7%92%E6%9D%80%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="场景设计如何设计一个点赞系统？系统架构设计从架构方面需要考虑:服务拆分、异步、缓存。 1)分布式架构大流量场景下，可以将点赞功能独立成一个服务，解耦业务逻辑，便于扩展和维护。例如点赞服务压力倍增的时候，可以仅扩容点赞服务即可。 2)异步处理只要涉及到大流量，且实时性并没有那么强烈的场景，就需要考虑异步。可以使用消息队列(如 Kafka、RocketMO)来异步处理点赞请求，减少直接写数据库的压力。">
+<meta property="og:description" content="如何设计一个秒杀系统？秒杀系统需要考虑的问题？瞬时并发量大  大量用户会在同一时间进行抢购 网站瞬时访问流量激增  库存少  访问请求数量远远大于库存数量 只有少部分用户能够秒杀成功  前端CDN一般情况下，秒杀的流量特性就是持续性短和大 流量集中在活动即将开始的时候，会有很多用户开始持续性地刷新页面。前端资源的访问也需要损耗大量的资源因此需要利用 CDN 缓存秒杀页面的一些静态资源(如商品详情，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240910134940922.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021212232125.png">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241208233116862.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021213731453.png">
-<meta property="article:published_time" content="2024-07-07T09:46:25.000Z">
-<meta property="article:modified_time" content="2024-10-22T01:30:32.329Z">
+<meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241209212145456.png">
+<meta property="article:published_time" content="2024-08-07T09:46:25.000Z">
+<meta property="article:modified_time" content="2024-12-09T13:50:02.035Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="系统设计">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240910134940922.png">
+<meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021212232125.png">
   
   
   
-  <title>场景设计 - PALE13</title>
+  <title>设计一个秒杀系统 - PALE13</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -230,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="场景设计"></span>
+            <span id="subtitle" data-typed-text="设计一个秒杀系统"></span>
           
         </div>
 
@@ -241,8 +242,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-07 17:46" pubdate>
-          2024年7月7日 下午
+        <time datetime="2024-08-07 17:46" pubdate>
+          2024年8月7日 下午
         </time>
       </span>
     
@@ -253,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          2k 字
         
       </span>
     
@@ -264,7 +265,7 @@
         
         
         
-          16 分钟
+          17 分钟
         
       </span>
     
@@ -301,63 +302,87 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">场景设计</h1>
+            <h1 id="seo-header">设计一个秒杀系统</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="场景设计"><a href="#场景设计" class="headerlink" title="场景设计"></a><strong>场景设计</strong></h2><h3 id="如何设计一个点赞系统？"><a href="#如何设计一个点赞系统？" class="headerlink" title="如何设计一个点赞系统？"></a><strong>如何设计一个点赞系统？</strong></h3><h4 id="系统架构设计"><a href="#系统架构设计" class="headerlink" title="系统架构设计"></a><strong>系统架构设计</strong></h4><p>从架构方面需要考虑:服务拆分、异步、缓存。</p>
-<p><strong>1)分布式架构</strong><br>大流量场景下，可以将点赞功能独立成一个服务，解耦业务逻辑，便于扩展和维护。例如点赞服务压力倍增的时候，可以仅扩容点赞服务即可。</p>
-<p><strong>2)异步处理</strong><br>只要涉及到大流量，且实时性并没有那么强烈的场景，就需要考虑异步。可以使用消息队列(如 Kafka、RocketMO)来异步处理点赞请求，减少直接写数据库的压力。</p>
-<p><strong>3)缓存机制</strong><br>除了异步，其实也可以利用缓存(如 Redis、Memcached)存储点赞数，减少数据库访问</p>
-<h4 id="库表设计"><a href="#库表设计" class="headerlink" title="库表设计"></a><strong>库表设计</strong></h4><img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240910134940922.png" srcset="/img/loading.gif" lazyload alt="image-20240910134940922" style="zoom: 67%;" />
-
-<h4 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a><strong>数据存储</strong></h4><p>上面我们提到了缓存，实际上很多公司除了用 MVSQL存储数据之外，还会利用缓存来存储这种高并发修改的数据。例如使用 <strong>Redis 存储点赞数，承接实时的热数据，后续再将点赞数落库存储至 MySQL 中</strong>。即将热门的点赞数缓存到 Redis 中，设置适当的过期时间，定期同步到数据库。<br>有些大公司还会对缓存进行改造，保证缓存本身的数据持久性。</p>
-<h4 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a><strong>性能优化</strong></h4><p><strong>1)数据库优化</strong><br>例如为常用查询添加合适的索引。like_record 表的 user_id 和 item_id 字段。<br>如果整体的数据量过大，我们还根据 item_id 或 user_id 对数据进行分库分表，减少单个表的写压力。</p>
-<p><strong>2)缓存优化</strong><br>处理上面提到的 Redis 分布式缓存，还可以利用本地缓存来减轻 Redis 的压力，但是要考虑好数据同步的问题。</p>
-<p><strong>3)异步批量处理</strong><br>对于点赞数的写入，我们可以将一定时间窗口内的点赞请求批量更新到数据库，减少数据库的写操作。<br>如果用了缓存，那么可以使用<strong>定时任务定期将 Redis 中的数据同步到数据库，确保数据一致性</strong>。</p>
-<h4 id="容灾备份"><a href="#容灾备份" class="headerlink" title="容灾备份"></a><strong>容灾备份</strong></h4><p><strong>1)数据备份</strong><br>定期备份：对数据库进行定期备份，使用增量备份和全量备份相结合的策略异地备份：有条件的公司(几乎很少)会进行异地备份，防止极端情况发生。</p>
-<p><strong>2)高可用架构</strong><br>数据库主从复制:使用 MySQL 主从复制或 Redis 主从复制，实现数据的高可用性。</p>
-<p><strong>3)容灾演练</strong><br>定期进行容灾演练，确保在发生故障时系统能够快速恢复。有些公司还有混沌工程。<strong>混沌工程</strong>是一种故意向系统注入故障以测试其恢复能力的做法。其目的是找出潜在的故障点，并在它们造成实际中断或其他破坏之前加以纠正</p>
-<h3 id="如何设计一个秒杀系统？"><a href="#如何设计一个秒杀系统？" class="headerlink" title="如何设计一个秒杀系统？"></a><strong>如何设计一个秒杀系统？</strong></h3><p><strong>首先是前端:</strong></p>
+                <h2 id="如何设计一个秒杀系统？"><a href="#如何设计一个秒杀系统？" class="headerlink" title="如何设计一个秒杀系统？"></a><strong>如何设计一个秒杀系统？</strong></h2><h3 id="秒杀系统需要考虑的问题？"><a href="#秒杀系统需要考虑的问题？" class="headerlink" title="秒杀系统需要考虑的问题？"></a><strong>秒杀系统需要考虑的问题？</strong></h3><p><strong>瞬时并发量大</strong></p>
 <ul>
-<li>利用 CDN 缓存静态资源(秒杀页面的 HTML、CSS、JS 等)，减轻服务器的压力.</li>
-<li>客户端限流，在前端随机限流，降低请求量</li>
-<li>按钮防抖，防止用户重复多次点击发出大量请求</li>
+<li>大量用户会在同一时间进行抢购</li>
+<li>网站瞬时访问流量激增</li>
 </ul>
-<p><strong>其次是后端：</strong></p>
+<p><strong>库存少</strong></p>
 <ul>
-<li>Nginx(或其他接入层)做统一接入，负载均衡与流量过滤、限流</li>
-<li>业务端限流，可以自定义实现本地 quava 限流或利用 sentinel等</li>
-<li>服务拆分，将秒杀功能拆分为独立的服务，避免对现有服务产生影响</li>
-<li>秒杀数据的拆分和缓存，缓存可以使用分布式缓存或本地缓存方案，且需要缓存预热精准地库存扣减，防止超卖发生</li>
-<li>风控识别黑产，进行流量防控且需要动态黑名单机制</li>
-<li>验证码、答题等手段预防脚本刷单</li>
-<li>幂等操作，防止重复下单</li>
-<li>业务手段降低并发量，例如通过预约、预售。</li>
-<li>兜底方案，如果服务压力过大或者代码有漏洞，那么关闭秒杀直接返回秒杀结束，降低服务压力及时止损</li>
+<li>访问请求数量远远大于库存数量</li>
+<li>只有少部分用户能够秒杀成功</li>
 </ul>
-<h4 id="瞬时流量承接"><a href="#瞬时流量承接" class="headerlink" title="瞬时流量承接"></a><strong>瞬时流量承接</strong></h4><p><strong>CDN</strong></p>
-<p>一般情况下，秒杀的流量特性就是持续性短和大。</p>
-<p>流量集中在活动即将开始的时候，会有很多用户开始持续性地刷新页面。前端资源的访问也需要损耗大量的资源因此需要利用 CDN 缓存秒杀页面的一些静态资源，将这部分压力给到CDN 厂商。并且静态资源放在 CDN 厂商那之后，地理位置也距离用户更近，用户访问也就更快，体验上也更好。</p>
+<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a><strong>前端</strong></h3><h4 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a><strong>CDN</strong></h4><p>一般情况下，秒杀的流量特性就是持续性短和大</p>
+<p>流量集中在活动即将开始的时候，会有很多用户开始持续性地刷新页面。前端资源的访问也需要损耗大量的资源因此需要利用 CDN 缓存秒杀页面的一些静态资源(如商品详情，图片等)，将这部分压力给到CDN 厂商。并且静态资源放在 CDN 厂商那之后，地理位置也距离用户更近，用户访问也就更快，体验上也更好。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021212232125.png" srcset="/img/loading.gif" lazyload alt="image-20241021212232125" style="zoom: 50%;" />
 
-<p>秒杀页面可手动推给 CDN 预热。秒杀流量还有个特点，就是大部分请求实际都是无效的，因为秒杀的商品库存往往都是个位数，而抢购的用户是其成千上万倍。</p>
-<p><strong>服务限流</strong></p>
-<p>假设有 100 万的请求来抢购一台 iPhone，那么需要放这 100 万请求直接打到后端服务吗?显然不需要。针对这个情况，我们就需要层层过滤请求。</p>
-<p>例如前面提到的客户端限流，即在前端随机限流，降低请求量。说的更直白一些即部分用户点击抢购按钮，但是请求都发不到后端，直接前端代码返回秒杀结束。(如果预测量是在太大，可以这样操作，毕竟也是随机的)</p>
-<p>如果前端请求发出来了，那么可以利用 nginx 统一接入，针对更大的流量可以在 nginx 前面再加 Ivs。</p>
-<p>Ivs 四层转发请求打到多台 nginx 上， nginx 再负载均衡到多台后端服务，且 nginx 有限流功能，例如 ip 限流，还可以配置黑名单等等，其实已经可以拦截大量请求流量。</p>
-<h4 id="库存扣减"><a href="#库存扣减" class="headerlink" title="库存扣减"></a><strong>库存扣减</strong></h4><p><strong>缓存</strong></p>
-<p>利用缓存来承接热点数据是很多人都熟知的方案，例如使用 Redis。</p>
-<p>可以将库存提前同步到 Redis 中，然后利用 redis +lua 脚本控制库存的扣减。</p>
-<p>lua 脚本的内容实际上很简单，我用文字来描述一下:<br>1.根据商品 key 获取库存<br>2.如果有则库存-1，返回新库存<br>3.如果没库存，则返回没库存</p>
-<p>redis + lua 可以保证操作的原子性，且性能足够优秀，因此是一个非常高效的库存扣减方案。然后 redis 扣减完毕之后，可以发送一个异步消息(消息队列削峰填谷)，后端服务异步消费把数据库中的库存给扣了，实现最终一致性。</p>
+
+
+<h4 id="按钮防抖"><a href="#按钮防抖" class="headerlink" title="按钮防抖"></a><strong>按钮防抖</strong></h4><p>点击后禁用按钮，防止用户重复多次点击发出大量请求，同时可以<strong>设置验证码</strong>防止非法用户。</p>
+<h3 id="访问层"><a href="#访问层" class="headerlink" title="访问层"></a><strong>访问层</strong></h3><h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a><strong>负载均衡</strong></h4><p>如果前端请求发出来了，那么可以利用 Nginx 统一接入，针对更大的流量可以在 Nginx 前面再加 LVS</p>
+<p>LVS四层转发请求打到多台 Nginx 上， Nginx 再负载均衡到多台后端服务，且 Nginx 有限流功能，例如 ip 限流，还可以配置黑名单等等，其实已经可以拦截大量请求流量</p>
+<p>Nginx负载均衡到网关后，会通过客户端的负载均衡器，如Ribbon来进行服务的分发，这里的4级负载均衡基本就可以处理每秒10w以上的QPS并发</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241208233116862.png" srcset="/img/loading.gif" lazyload alt="image-20241208233116862" style="zoom:50%;" />
+
+
+
+<h4 id="动态伸缩"><a href="#动态伸缩" class="headerlink" title="动态伸缩"></a><strong>动态伸缩</strong></h4><p>通常这种秒杀服务都会结合Docker&#x2F;K8S进行云服务器的动态伸缩部署，因为这种秒杀并不是一直用到的，所以当秒杀出现时我们就可以动态扩容服务器节点数量，当秒杀结束时自动缩减服务器节点数量，这样可以有效的利用服务器的资源。</p>
+<h4 id="限流"><a href="#限流" class="headerlink" title="限流"></a><strong>限流</strong></h4><p>秒杀场景中可能参杂很多羊毛党，黑产等无效的流量，风控识别黑产，进行流量防控且需要动态黑名单机制</p>
+<p>可以在Nginx层需要配置好限流，黑名单等 ，同时在网关层，通过比如sentinel对不同的服务节点设置限流或者熔断</p>
+<h3 id="服务层"><a href="#服务层" class="headerlink" title="服务层"></a><strong>服务层</strong></h3><h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a><strong>缓存</strong></h4><p>在秒杀开始之前，可以将秒杀需要的商品，库存等信息提前预热到Redis当中，<strong>防止数据库被击穿</strong></p>
+<p>然后在秒杀开始的时候利用 <strong>redis +lua 脚本控制</strong>库存的扣减。</p>
+<p>lua 脚本的内容分为三步：</p>
+<ol>
+<li>根据商品 key 获取库存</li>
+<li>如果有则库存-1，返回新库存</li>
+<li>如果没库存，则返回没库存</li>
+</ol>
+<p>redis + lua 可以保证操作的原子性，且性能足够优秀，因此是一个非常高效的库存扣减方案。</p>
+<h4 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a><strong>消息队列</strong></h4><p>通过MQ进行削峰填谷，可以减轻下游的压力，防止激增流量打垮下游的数据库</p>
+<p>Redis 扣减完毕之后，可以发送一个异步消息(消息队列削峰填谷)，后端服务异步消费把数据库中的库存给扣了，实现最终一致性。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241021213731453.png" srcset="/img/loading.gif" lazyload alt="image-20241021213731453" style="zoom: 67%;" />
 
-<p>看到这肯定有同学会问：redis 操作成功后，mq发送失败怎么办?</p>
+<p><strong>Redis 操作成功后，mq发送失败怎么办?</strong></p>
 <p>因此，我们还需要一个准实时对账机制，lua 脚本内不仅要扣减库存，还需要利用 zset 增加流水，score 设置为时间。定时拉取一段时间流水记录比对数据库的库存是否一致，如果不一致则补偿。</p>
-<p>至于本地缓存，理论上性能更高，但是方案设计上会更复杂，因为库存被分配到多个应用中。需要在秒杀预热的时候，给后端服务预分配好库存，然后应用各自承接库存扣减，也需要做好对账，防止意外的发生。</p>
+<h4 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a><strong>本地缓存</strong></h4><p>至于本地缓存，理论上性能更高，但是方案设计上会更复杂，因为库存被分配到多个应用中。需要在秒杀预热的时候，给后端服务预分配好库存，然后应用各自承接库存扣减，也需要做好对账，防止意外的发生</p>
+<h4 id="库存扣减"><a href="#库存扣减" class="headerlink" title="库存扣减"></a><strong>库存扣减</strong></h4><p>数据库使用乐观锁防止库存超卖</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> inventory <span class="hljs-keyword">set</span> available_inventory <span class="hljs-operator">=</span> available_inventory <span class="hljs-operator">-</span> <span class="hljs-number">1</span><br><span class="hljs-keyword">where</span> sku_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> available_inventory <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+
+<p>如果使用这个语句，在高并发场景下，实际上就会产生热点行问题。</p>
+<p><strong>数据库热点行问题解决方案</strong></p>
+<p>使用数据库补丁优化</p>
+<p>如果数据库用的是阿里云的 RDS，实际上有一个可落地的优化方案：Inventory hint + Returning。如果你公司本身用的就是阿里云的 RDS，这个改造成本就很低，仅需在 SQL 上填写一些 hint 即可。在SQL表名前加&#x2F;<em>+COMMIT ON SUCCESS ROLLBACK ON_FAIL TARGET AFFECT ROW(1)</em>&#x2F;</p>
+<p><strong>Inventory hint</strong></p>
+<ul>
+<li>COMMIT ON SUCCESS：当前语句执行成功就提交事务上下文。</li>
+<li>ROLLBACK ON FAIL：当前语句执行失败就回滚事务上下文。</li>
+<li>TARGET AFFECT ROW(NUMBER)：如果当前语句影响行数是指定的就成功，否则语句失败。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">update</span> <span class="hljs-comment">/*+ COMMIT_ON_SUCCESS ROLLBACK_ON_FAIL</span><br><span class="hljs-comment">  TARGET_AFFECT_ROW(1)*/</span> inventory <br> <span class="hljs-keyword">set</span> available_inventory <span class="hljs-operator">=</span> available_inventory <span class="hljs-operator">-</span> <span class="hljs-number">1</span><br><span class="hljs-keyword">where</span> sku_id <span class="hljs-operator">=</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> available_inventory <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span>;<br><br></code></pre></td></tr></table></figure>
+
+<p>设置了这几个 hint 后，当前的语句会按照主键(或唯一键)分组，将相同行的请求修改分为一组，分组后仅组内第一条SQL需要抢锁，后续的都不需要申请锁，减少申请锁的流程，然后组内第一条 SQL 已经遍历 B+树査询到数据了，后续组内库存扣减直接改即可，不用再次査询。且组内 SQL 都修改完之后，仅需一次分组提交事务即可。<strong>从而实现了将串行处理变成了批处理。</strong></p>
+<p>根据阿里云介绍，结合 Inventory hint 单行 TPS 可达 3.1w:</p>
+<img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20241209212145456.png" srcset="/img/loading.gif" lazyload alt="image-20241209212145456" style="zoom: 67%;" />
+
+<p><strong>Returning</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CALL</span> dbms_trans.returning(&quot;*&quot;, &quot;update /*+ COMMIT_ON_SUCCESS ROLLBACK_ON_FAIL<br>  TARGET_AFFECT_ROW(1)*/ inventory <br> set available_inventory = available_inventory - 1<br>where sku_id = 1 and available_inventory &gt; 0;&quot;);<br><br></code></pre></td></tr></table></figure>
+
+<p>正常情况下，如果我们 update 扣减了一次库存之后，如果想得知最新的库存，那么需要再执行一次 select 操作，而 Returning 可以直接返回实时的库存减少一次查询。</p>
+<p>利用 Returning，我们可以得知实时的库存，发现没库存后，可以直接设置一个标志位，表明秒杀已经结束，快速 fail 请求，降低服务的压力。</p>
+<h4 id="幂等性"><a href="#幂等性" class="headerlink" title="幂等性"></a><strong>幂等性</strong></h4><p><strong>token</strong></p>
+<p>前端按钮防抖虽然能防止用户的重复提交，但是防止不了绕过前端的恶意请求，这个时候可以通过token保证同一时间，同一个用户只能对同一个商品进行有效请求，后端可以通过检测该标识是否已存在，来决定是否创建新订单。</p>
+<p><strong>分布式锁</strong></p>
+<p>1.以用户维度，加上分布式锁，例如分布式锁的 key 中的内容可以是 xxx+userId ，这样同一个用户的操作会被锁定<br>2.判断用户是否有在流程中未支付的订单。<br>3.如果没有则正常进行下单流程<br>4.如果有则直接返回，提醒前端您还有未支付的订单，请先支付后再继续下单。</p>
+<p>这样就能保证用户无法重复下单(恶意占用库存锁单)。</p>
+<h3 id="业务手段"><a href="#业务手段" class="headerlink" title="业务手段"></a><strong>业务手段</strong></h3><h4 id="预约"><a href="#预约" class="headerlink" title="预约"></a><strong>预约</strong></h4><p>例如 Nike 设计就是抢购，预约有一个比较长的时间段，例如 15 分钟。然后预约通过后等待最终抽签结果即可这样的设计通过一段时间的预约，可减少瞬时的压力，再异步通过后台实现抽签来间接解决秒杀的问题。</p>
+<h4 id="预售"><a href="#预售" class="headerlink" title="预售"></a><strong>预售</strong></h4><p>例如现在的电商活动都搞定金预售</p>
+<p>通过下定让用户感觉这个商品已经到手了，不需要再等到双十一或者 618 零点准时抢购，均摊了请求，减少准点抢购的压力。</p>
+<h3 id="兜底方案"><a href="#兜底方案" class="headerlink" title="兜底方案"></a><strong>兜底方案</strong></h3><p>如果服务压力过大或者代码有漏洞，那么关闭秒杀直接返回秒杀结束，降低服务压力及时止损</p>
 
                 
               </div>
@@ -403,8 +428,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>场景设计</div>
-      <div>http://example.com/2024/07/07/项目/系统设计/场景设计/</div>
+      <div>设计一个秒杀系统</div>
+      <div>http://example.com/2024/08/07/项目/系统设计/设计一个秒杀系统/</div>
     </div>
     <div class="license-meta">
       
@@ -416,7 +441,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年7月7日</div>
+          <div>2024年8月7日</div>
         </div>
       
       
@@ -448,9 +473,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/07/28/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" title="分布式任务调度">
+                      <a href="/2024/08/21/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/Elasticsearch/" title="Elasticsearch">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">分布式任务调度</span>
+                        <span class="hidden-mobile">Elasticsearch</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -458,8 +483,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/30/%E5%A4%A7%E6%A8%A1%E5%9E%8B/Prompt%E5%B7%A5%E7%A8%8B/" title="Prompt工程">
-                        <span class="hidden-mobile">Prompt工程</span>
+                      <a href="/2024/07/28/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6/" title="分布式任务调度">
+                        <span class="hidden-mobile">分布式任务调度</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -24,7 +24,7 @@
 <meta property="og:description" content="GitGit是一种分布式版本控制系统，它的原理和工作流程如下： 原理：  分布式版本控制系统：Git使用分布式的版本控制系统，每个开发者都有一个完整的代码仓库的副本，不依赖于中央服务器。 快照：Git不保存文件的变化差异，而是保存文件在不同版本中的快照。每次提交都会生成一个快照，包含了当前工作目录的所有文件状态。 三层架构：Git的数据存储分为三层：工作目录、暂存区（Index）、仓库（Repos">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-04-12T10:46:25.000Z">
-<meta property="article:modified_time" content="2024-10-03T03:31:20.433Z">
+<meta property="article:modified_time" content="2024-12-08T14:58:30.906Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Git">
 <meta name="twitter:card" content="summary_large_image">
@@ -329,24 +329,14 @@
 <li>版本比较和差异查看：版本控制系统可以比较不同版本之间的差异，并展示修改的具体内容。这有助于开发者了解代码的变化，审查和审计代码改动，以及解决冲突和合并代码。</li>
 <li>分布式开发：一些版本控制系统（如Git）采用分布式架构，每个开发者都可以在本地拥有完整的代码仓库。这使得开发者可以离线工作、快速提交和切换分支，更加灵活地进行开发。</li>
 </ol>
-<h3 id="commit和push的区别"><a href="#commit和push的区别" class="headerlink" title="commit和push的区别"></a><strong>commit和push的区别</strong></h3><p>在 Git 版本控制系统中，”commit”（提交）和 “push”（推送）是两个常用的操作，它们的用途和作用如下：</p>
-<p>Commit（提交）：Commit 操作用于将当前工作目录的修改内容保存为一个新的提交（commit）。<strong>Commit 操作只会将修改的内容保存到本地仓库，生成本地的提交历史。</strong>每个提交都包含了一系列文件的变动，并附带了一个描述该提交的消息。Commit 是将代码变动永久记录在版本库中的步骤，它将当前修改的状态固定下来，并生成一个唯一的标识符（commit ID）。每个提交都构成了项目的一个快照，可以用于回退、比较和追溯代码的历史。</p>
-<p>Push（推送）：Push 操作用于将本地的提交推送到远程仓库。当你在本地仓库进行了一系列的提交后，如果希望将这些提交分享给其他开发者或备份到远程服务器，你需要执行 Push 操作。Push 将本地的提交上传到远程仓库，并更新远程仓库的分支状态，使得其他开发者可以访问和获取这些提交。</p>
-<h3 id="fetch和pull的区别"><a href="#fetch和pull的区别" class="headerlink" title="fetch和pull的区别"></a><strong>fetch和pull的区别</strong></h3><p>“fetch” 和 “pull” 是 Git 版本控制系统中常用的两个命令，它们用于从远程仓库获取更新。它们的区别如下：</p>
-<ol>
-<li>Fetch：Fetch 命令用于从远程仓库下载最新的提交和分支信息，但不会自动合并或更新本地分支。它会将远程仓库的提交和分支信息下载到本地，并更新远程分支的引用。使用 Fetch 命令后，你可以查看远程仓库的新提交和分支信息，但不会自动应用到当前工作分支。</li>
-<li>Pull：Pull 命令是 Fetch 命令的扩展，它会自动从远程仓库下载最新的提交、分支信息，并尝试将这些更新合并到当前工作分支。它包含了 Fetch 和合并两个步骤，使得代码更新更加方便。当你执行 Pull 命令时，它会自动下载远程仓库的更新，并尝试自动合并到当前工作分支。</li>
-</ol>
-<h3 id="merge和rebase的区别"><a href="#merge和rebase的区别" class="headerlink" title="merge和rebase的区别"></a><strong>merge和rebase的区别</strong></h3><p>合并（Merge）：合并操作将两个或多个分支的修改内容合并到一个新的提交中。当你执行合并操作时，版本控制系统会自动创建一个新的合并提交，将不同分支的修改内容合并在一起。合并的结果是一个包含了来自不同分支的修改的新提交。合并会保留原有分支的提交历史，因此可以清晰地看到哪些分支进行了合并。</p>
-<p>变基（Rebase）：变基操作将当前分支的修改内容重新应用到目标分支的顶部。它会将当前分支的修改提交逐个应用到目标分支上，形成一系列新的提交。通过变基，可以使得当前分支的提交历史看起来像是在目标分支的顶部进行的连续修改。变基的结果是一个线性的提交历史，使得项目的提交历史更加干净整洁。</p>
 <h3 id="Git常用命令"><a href="#Git常用命令" class="headerlink" title="Git常用命令"></a><strong>Git常用命令</strong></h3><h4 id="获取-Git-仓库"><a href="#获取-Git-仓库" class="headerlink" title="获取 Git 仓库"></a><strong>获取 Git 仓库</strong></h4><p>有两种取得 Git 项目仓库的方法。</p>
 <ol>
 <li>在现有目录中初始化仓库: 进入项目目录运行 <code>git init</code> 命令,该命令将创建一个名为 <code>.git</code> 的子目录。</li>
 <li>从一个服务器克隆一个现有的 Git 仓库: <code>git clone [url]</code> 自定义本地仓库的名字: <code>git clone [url] directoryname</code></li>
 </ol>
-<h4 id="记录每次更新到仓库"><a href="#记录每次更新到仓库" class="headerlink" title="记录每次更新到仓库"></a><strong>记录每次更新到仓库</strong></h4><ol>
+<h4 id="更新到本地仓库"><a href="#更新到本地仓库" class="headerlink" title="更新到本地仓库"></a><strong>更新到本地仓库</strong></h4><ol>
 <li><strong>检测当前文件状态</strong> : <code>git status</code></li>
-<li><strong>提出更改（把它们添加到暂存区</strong>）：<code>git add filename</code> (针对特定文件)、<code>git add *</code>(所有文件)、<code>git add *.txt</code>（支持通配符，所有 .txt 文件）</li>
+<li><strong>把文件添加到暂存区</strong>：<code>git add filename</code> (针对特定文件)、<code>git add *</code>(所有文件)、<code>git add *.txt</code>（支持通配符，所有 .txt 文件）</li>
 <li><strong>忽略文件</strong>：<code>.gitignore</code> 文件</li>
 <li><strong>提交更新:</strong> <code>git commit -m &quot;代码提交信息&quot;</code> （每次准备提交前，先用 <code>git status</code> 看下，是不是都已暂存起来了， 然后再运行提交命令 <code>git commit</code>）</li>
 <li><strong>跳过使用暂存区域更新的方式</strong> : <code>git commit -a -m &quot;代码提交信息&quot;</code>。 <code>git commit</code> 加上 <code>-a</code> 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 <code>git add</code> 步骤。</li>
@@ -354,21 +344,23 @@
 <li><strong>对文件重命名</strong>：<code>git mv README.md README</code>(这个命令相当于<code>mv README.md README</code>、<code>git rm README.md</code>、<code>git add README</code> 这三条命令的集合)</li>
 </ol>
 <h4 id="推送改动到远程仓库"><a href="#推送改动到远程仓库" class="headerlink" title="推送改动到远程仓库"></a><strong>推送改动到远程仓库</strong></h4><ul>
-<li><p>如果你还没有克隆现有仓库，并欲将你的仓库连接到某个远程服务器，你可以使用如下命令添加：</p>
-</li>
-<li><p><code>git remote add origin &lt;server&gt;</code> </p>
-</li>
-<li><p>比如我们要让本地的一个仓库和 GitHub 上创建的一个仓库关联可以这样<code>git remote add origin https://github.com/Snailclimb/test.git</code></p>
-</li>
-<li><p>将这些改动提交到远端仓库：<code>git push origin master</code> (可以把 <em>master</em> 换成你想要推送的任何分支)</p>
+<li>如果你还没有克隆现有仓库，并欲将你的仓库连接到某个远程服务器，你可以使用如下命令添加：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git remote add origin &lt;server&gt;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>比如我们要让本地的一个仓库和 GitHub 上创建的一个仓库关联可以这样</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git remote add origin https://github.com/Snailclimb/test.git<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>将这些改动提交到远端仓库：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git push origin master<br></code></pre></td></tr></table></figure>
+
+<p> 可以把 <em>master</em> 换成你想要推送的任何分支</p>
 <p>如此你就能够将你的改动推送到所添加的服务器上去了。</p>
-</li>
-</ul>
 <h4 id="远程仓库的移除与重命名"><a href="#远程仓库的移除与重命名" class="headerlink" title="远程仓库的移除与重命名"></a><strong>远程仓库的移除与重命名</strong></h4><ul>
-<li>将 test 重命名为 test1：<code>git remote rename test test1</code></li>
-<li>移除远程仓库 test1:<code>git remote rm test1</code></li>
-</ul>
-<h4 id="远程仓库的移除与重命名-1"><a href="#远程仓库的移除与重命名-1" class="headerlink" title="远程仓库的移除与重命名"></a><strong>远程仓库的移除与重命名</strong></h4><ul>
 <li>将 test 重命名为 test1：<code>git remote rename test test1</code></li>
 <li>移除远程仓库 test1:<code>git remote rm test1</code></li>
 </ul>
@@ -393,13 +385,16 @@
 
 
 
-<h4 id="分支"><a href="#分支" class="headerlink" title="分支"></a><strong>分支</strong></h4><p>分支是用来将特性开发绝缘开来的。在你创建仓库的时候，<em>master</em> 是“默认”的分支。在其他分支上进行开发，完成后再将它们合并到主分支上。</p>
+<h4 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a><strong>分支操作</strong></h4><p>分支是用来将特性开发绝缘开来的。在你创建仓库的时候，<em>master</em> 是“默认”的分支。在其他分支上进行开发，完成后再将它们合并到主分支上。</p>
 <p>我们通常在开发新功能、修复一个紧急 bug 等等时候会选择创建分支。单分支开发好还是多分支开发好，还是要看具体场景来说。</p>
 <p>创建一个名字叫做 test 的分支</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch <span class="hljs-built_in">test</span><br></code></pre></td></tr></table></figure>
 
 <p>切换当前分支到 test（当你切换分支的时候，Git 会重置你的工作目录，使其看起来像回到了你在那个分支上最后一次提交的样子。 Git 会自动添加、删除、修改文件以确保此时你的工作目录和这个分支最后一次提交时的样子一模一样）</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git checkout <span class="hljs-built_in">test</span><br></code></pre></td></tr></table></figure>
+
+<p>查看本地分支信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch -a<br></code></pre></td></tr></table></figure>
 
 <p>你也可以直接这样创建分支并切换过去(上面两条命令的合写)</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git checkout -b feature_x<br></code></pre></td></tr></table></figure>
@@ -414,14 +409,26 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch -d feature_x<br></code></pre></td></tr></table></figure>
 
 <p>将分支推送到远端仓库（推送成功后其他人可见）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git push origin<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git push origin <span class="hljs-built_in">test</span><br></code></pre></td></tr></table></figure>
+
+<p>查看远程仓库分支</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git branch -r<br></code></pre></td></tr></table></figure>
+
+<p>删除远程仓库分支</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git push origin :<span class="hljs-built_in">test</span><br></code></pre></td></tr></table></figure>
 
 
 
-
-
-
-
+<h3 id="commit和push的区别"><a href="#commit和push的区别" class="headerlink" title="commit和push的区别"></a><strong>commit和push的区别</strong></h3><p>在 Git 版本控制系统中，”commit”（提交）和 “push”（推送）是两个常用的操作，它们的用途和作用如下：</p>
+<p>Commit（提交）：Commit 操作用于将当前工作目录的修改内容保存为一个新的提交（commit）。<strong>Commit 操作只会将修改的内容保存到本地仓库，生成本地的提交历史。</strong>每个提交都包含了一系列文件的变动，并附带了一个描述该提交的消息。Commit 是将代码变动永久记录在版本库中的步骤，它将当前修改的状态固定下来，并生成一个唯一的标识符（commit ID）。每个提交都构成了项目的一个快照，可以用于回退、比较和追溯代码的历史。</p>
+<p>Push（推送）：Push 操作用于将本地的提交推送到远程仓库。当你在本地仓库进行了一系列的提交后，如果希望将这些提交分享给其他开发者或备份到远程服务器，你需要执行 Push 操作。Push 将本地的提交上传到远程仓库，并更新远程仓库的分支状态，使得其他开发者可以访问和获取这些提交。</p>
+<h3 id="fetch和pull的区别"><a href="#fetch和pull的区别" class="headerlink" title="fetch和pull的区别"></a><strong>fetch和pull的区别</strong></h3><p>“fetch” 和 “pull” 是 Git 版本控制系统中常用的两个命令，它们用于从远程仓库获取更新。它们的区别如下：</p>
+<ol>
+<li>Fetch：Fetch 命令用于从远程仓库下载最新的提交和分支信息，但不会自动合并或更新本地分支。它会将远程仓库的提交和分支信息下载到本地，并更新远程分支的引用。使用 Fetch 命令后，你可以查看远程仓库的新提交和分支信息，但不会自动应用到当前工作分支。</li>
+<li>Pull：Pull 命令是 Fetch 命令的扩展，它会自动从远程仓库下载最新的提交、分支信息，并尝试将这些更新合并到当前工作分支。它包含了 Fetch 和合并两个步骤，使得代码更新更加方便。当你执行 Pull 命令时，它会自动下载远程仓库的更新，并尝试自动合并到当前工作分支。</li>
+</ol>
+<h3 id="merge和rebase的区别"><a href="#merge和rebase的区别" class="headerlink" title="merge和rebase的区别"></a><strong>merge和rebase的区别</strong></h3><p>合并（Merge）：合并操作将两个或多个分支的修改内容合并到一个新的提交中。当你执行合并操作时，版本控制系统会自动创建一个新的合并提交，将不同分支的修改内容合并在一起。合并的结果是一个包含了来自不同分支的修改的新提交。<strong>合并会保留原有分支的提交历史</strong>，因此可以清晰地看到哪些分支进行了合并。</p>
+<p>变基（Rebase）：变基操作将当前分支的修改内容重新应用到目标分支的顶部。它会将当前分支的修改提交逐个应用到目标分支上，形成一系列新的提交。通过变基，可以使得当前分支的提交历史看起来像是在目标分支的顶部进行的连续修改。变基的结果是一个线性的提交历史，使得项目的提交历史更加干净整洁</p>
 
                 
               </div>
