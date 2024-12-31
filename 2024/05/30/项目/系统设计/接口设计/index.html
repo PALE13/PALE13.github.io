@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240922210252084.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240922210426385.png">
 <meta property="article:published_time" content="2024-05-30T09:46:25.000Z">
-<meta property="article:modified_time" content="2024-10-25T13:41:53.055Z">
+<meta property="article:modified_time" content="2024-12-24T14:14:26.076Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="系统设计">
 <meta name="twitter:card" content="summary_large_image">
@@ -336,7 +336,7 @@
 <p>高并发的场景下，激烈的锁竞争会造成线程阻塞，大量阻塞线程会导致系统的上下文切换，增加系统的性能开销。并且，悲观锁还可能会存在死锁问题，影响代码的正常运行。</p>
 <h4 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a><strong>乐观锁</strong></h4><p>乐观锁一般会使用版本号机制或 CAS 算法实现。</p>
 <p>拿版本号机制来说，通过在表中增加一个版本号字段，每次更新数据时，检查当前的版本号否和数据库中的一致。如果一致，则更新成功，并且版本号加一。如果不一致，则更新失败，表示数据已经被其他请求修改过。</p>
-<h4 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a><strong>唯一索引</strong></h4><p>通过在表中加上唯一索引，保证数据的唯一性，如果有重复的数据插入，会抛出异常，程序可以捕获异常并处理。不过，这种方法只适用于插入数据的场景。</p>
+<h4 id="唯一索引"><a href="#唯一索引" class="headerlink" title="唯一索引"></a><strong>唯一索引</strong></h4><p>通过在表中加上唯一索引，保证数据的唯一性，如果有重复的数据插入，会抛出异常，程序可以捕获异常并处理。不过，这种方法只适用于<strong>插入数据</strong>的场景。</p>
 <p>不要依靠唯一索引来保证接口幂等，但建议使用唯一索引作为兜底，避免产生脏数据。</p>
 <p><strong>去重表</strong>本质上也是一种唯一索引方案。去重表是一张专门用于记录请求信息的表，其中某个字段需要建立唯一索引，用于标识请求的唯一性当客户端发出请求时，服务端会将这次请求的一些信息(如订单号、交易流水号等)插入到去重表中，如果插入成功，说明这是第一次请求，可以执行后续的业务辑；如果插入失败，说明这是重复请求，可以直接返回或者忽略。</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240425220401509.png" srcset="/img/loading.gif" lazyload alt="image-20240425220401509" style="zoom: 80%;" />
@@ -355,7 +355,7 @@
 
 
 
-<h4 id="缓冲队列"><a href="#缓冲队列" class="headerlink" title="缓冲队列"></a><strong>缓冲队列</strong></h4><p>将请求都快速地接收下来后放入缓冲队列中,后续使用异步任务处理队列中的数据,过滤掉重复的请求,该解决方案优点是同步处理改成异步处理、高吞吐量,缺点则是不能及时地返回请求结果,需要后续轮询得处理结果。</p>
+<h4 id="缓冲队列"><a href="#缓冲队列" class="headerlink" title="缓冲队列"></a><strong>缓冲队列</strong></h4><p>将请求都快速地接收下来后放入缓冲队列中，后续使用异步任务处理队列中的数据，过滤掉重复的请求，该解决方案优点是同步处理改成异步处理、高吞吐量，缺点则是不能及时地返回请求结果，需要后续轮询得处理结果。</p>
 <h4 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a><strong>分布式锁</strong></h4><p>分布式系统下，不同的服务&#x2F;客户端通常运行在独立的 JVM 进程上，需要使用分布式锁</p>
 <p>常见分布式锁实现方案如下：</p>
 <ul>

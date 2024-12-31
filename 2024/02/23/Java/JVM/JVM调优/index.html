@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240418010012529.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240415153015782.png">
 <meta property="article:published_time" content="2024-02-23T01:35:21.000Z">
-<meta property="article:modified_time" content="2024-10-15T07:55:00.156Z">
+<meta property="article:modified_time" content="2024-12-16T01:49:28.248Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -375,8 +375,8 @@
 <p>垃圾搜集器内部是根据变量 <code>_capacity_until_GC</code>来判断 Metaspace 区域是否达到阈值的，初始化代码如下所示：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">MetaspaceGC::initialize</span><span class="hljs-params">()</span> &#123;<br>  <span class="hljs-comment">// Set the high-water mark to MaxMetapaceSize during VM initialization since</span><br>  <span class="hljs-comment">// we can&#x27;t do a GC during initialization.</span><br>  _capacity_until_GC = MaxMetaspaceSize;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>相关阅读：<a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/issues/1204">issue 更正：MaxMetaspaceSize 如果不指定大小的话，不会耗尽内存 #1204open in new window</a> 。</p>
-<h3 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a><strong>垃圾回收器</strong></h3><p>为了提高应用程序的稳定性，选择正确的<a target="_blank" rel="noopener" href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html">垃圾收集open in new window</a>算法至关重要。</p>
+<p>相关阅读：<a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/issues/1204">issue 更正：MaxMetaspaceSize 如果不指定大小的话，不会耗尽内存 #1204</a> 。</p>
+<h3 id="垃圾回收器"><a href="#垃圾回收器" class="headerlink" title="垃圾回收器"></a><strong>垃圾回收器</strong></h3><p>为了提高应用程序的稳定性，选择正确的<a target="_blank" rel="noopener" href="http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html">垃圾收集</a>算法至关重要。</p>
 <p>JVM 具有四种类型的 GC 实现：</p>
 <ul>
 <li>串行垃圾收集器</li>
@@ -387,7 +387,7 @@
 <p>可以使用以下参数声明这些实现：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash">-XX:+UseSerialGC<br>-XX:+UseParallelGC<br>-XX:+UseParNewGC<br>-XX:+UseG1GC<br></code></pre></td></tr></table></figure>
 
-<p>有关<em>垃圾回收</em>实施的更多详细信息，请参见<a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/jvm/JVM%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6.md">此处open in new window</a>。</p>
+<p>有关<em>垃圾回收</em>实施的更多详细信息，请参见[此处。</p>
 <h3 id="GC-日志记录"><a href="#GC-日志记录" class="headerlink" title="GC 日志记录"></a><strong>GC 日志记录</strong></h3><p>生产环境上，或者其他要测试 GC 问题的环境上，一定会配置上打印 GC 日志的参数，便于分析 GC 相关的问题。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 必选</span><br><span class="hljs-comment"># 打印基本 GC 信息</span><br>-XX:+PrintGCDetails<br>-XX:+PrintGCDateStamps<br><span class="hljs-comment"># 打印对象分布</span><br>-XX:+PrintTenuringDistribution<br><span class="hljs-comment"># 打印堆数据</span><br>-XX:+PrintHeapAtGC<br><span class="hljs-comment"># 打印Reference处理信息</span><br><span class="hljs-comment"># 强引用/弱引用/软引用/虚引用/finalize 相关的方法</span><br>-XX:+PrintReferenceGC<br><span class="hljs-comment"># 打印STW时间</span><br>-XX:+PrintGCApplicationStoppedTime<br><br><span class="hljs-comment"># 可选</span><br><span class="hljs-comment"># 打印safepoint信息，进入 STW 阶段之前，需要要找到一个合适的 safepoint</span><br>-XX:+PrintSafepointStatistics<br>-XX:PrintSafepointStatisticsCount=1<br><br><span class="hljs-comment"># GC日志输出的文件路径</span><br>-Xloggc:/path/to/gc-%t.log<br><span class="hljs-comment"># 开启日志文件分割</span><br>-XX:+UseGCLogFileRotation<br><span class="hljs-comment"># 最多分割几个文件，超过之后从头文件开始写</span><br>-XX:NumberOfGCLogFiles=14<br><span class="hljs-comment"># 每个文件上限大小，超过就触发分割</span><br>-XX:GCLogFileSize=50M<br></code></pre></td></tr></table></figure>
 

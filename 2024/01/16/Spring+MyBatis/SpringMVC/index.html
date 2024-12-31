@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://oss.javaguide.cn/java-guide-blog/mvc-model2.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240312125953988.png">
 <meta property="article:published_time" content="2024-01-16T03:46:25.000Z">
-<meta property="article:modified_time" content="2024-09-26T15:37:58.947Z">
+<meta property="article:modified_time" content="2024-12-16T15:51:16.765Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -254,7 +254,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          2.4k 字
         
       </span>
     
@@ -265,7 +265,7 @@
         
         
         
-          15 分钟
+          21 分钟
         
       </span>
     
@@ -307,7 +307,7 @@
             
               <div class="markdown-body">
                 
-                <h2 id="SpringMVC"><a href="#SpringMVC" class="headerlink" title="SpringMVC"></a>SpringMVC</h2><h4 id="说一下对MVC的理解"><a href="#说一下对MVC的理解" class="headerlink" title="说一下对MVC的理解"></a><strong>说一下对MVC的理解</strong></h4><p> MVC是一种设计模式,在这种模式下软件被分为三层，<strong>即Model（模型）、View（视图）、Controller（控制器）</strong>。Model代表的是数据,View代表的是用户界面,Controller代表的是数据的处理逻辑,它是Model和View这两层的桥梁。</p>
+                <h2 id="SpringMVC"><a href="#SpringMVC" class="headerlink" title="SpringMVC"></a><strong>SpringMVC</strong></h2><h4 id="说一下对MVC的理解"><a href="#说一下对MVC的理解" class="headerlink" title="说一下对MVC的理解"></a><strong>说一下对MVC的理解</strong></h4><p> MVC是一种设计模式,在这种模式下软件被分为三层，<strong>即Model（模型）、View（视图）、Controller（控制器）</strong>。Model代表的是数据,View代表的是用户界面,Controller代表的是数据的处理逻辑,它是Model和View这两层的桥梁。</p>
 <p>将软件分层的好处是,，可以将对象之间的耦合度降低，便于代码的维护。 </p>
 <p><strong>Model：</strong>指从现实世界中抽象出来的对象模型，是应用逻辑的反应；它封装了数据和对数据的操作，是实际进行数据处理的地方（模型层与数据库才有交互）。在MVC的三个部件中，模型拥有最多的处理任务。被模型返回的数据是中立的，模型与数据格式无关，这样一个模型能为多个视图提供数据，由于应用于模型的代码只需写一次就可以被多个视图重用，所以减少了代码的重复性。 </p>
 <p><strong>View：</strong>负责进行模型的展示,一般就是我们见到的用户界面。 </p>
@@ -360,6 +360,73 @@
 <li><code>DispaterServlet</code> 把返回的 <code>Model</code> 传给 <code>View</code>（视图渲染）。</li>
 <li>把 <code>View</code> 返回给请求者（浏览器）</li>
 </ol>
+<h3 id="DispatcherServlet-前端控制器"><a href="#DispatcherServlet-前端控制器" class="headerlink" title="DispatcherServlet(前端控制器)"></a><strong>DispatcherServlet(前端控制器)</strong></h3><p><strong>作用</strong></p>
+<p>Dispatcherservlet 是整个 Spring MVC应用的前端控制器(front Controller)，它拦载所有的 HTTP 请求，并将请求分发给适当的组件进行处理。</p>
+<p><strong>工作原理</strong></p>
+<ul>
+<li>当客户端发送请求时，Dispatcherservlet会先接收请求</li>
+<li>然后，它会根据请求 URL通过 HandlerMapping找到合适的处理器(Controller)。</li>
+<li>处理完请求后，它会根据 viewResolver 找到对应的视图，将处理结果发送回客户端。</li>
+</ul>
+<h3 id="HandlerMapping-处理器映射"><a href="#HandlerMapping-处理器映射" class="headerlink" title="HandlerMapping(处理器映射)"></a><strong>HandlerMapping(处理器映射)</strong></h3><p><strong>作用</strong></p>
+<p>Handlerapins负责将请求 URL 映射到具体的处理器(即 Controller)方法。它通过配置的映射规则来査找 Controller 并确定应该调用哪个方法。</p>
+<p><strong>常用实现</strong></p>
+<ul>
+<li>RequestMappingHandlerMapping：处理基于 @RequestMapping 注解的映射。</li>
+<li>SimpleUrlHandlerMapping：通过简单的 URL 配置映射请求。</li>
+</ul>
+<h3 id="HandlerAdapter-处理器适配器"><a href="#HandlerAdapter-处理器适配器" class="headerlink" title="HandlerAdapter(处理器适配器)"></a><strong>HandlerAdapter(处理器适配器)</strong></h3><p><strong>作用</strong></p>
+<p>HandlerAdapter 是 Spring MVC 中的处理器执行器，它负责调用找到的处理器(Controer)方法。它解耦了Dispatcherservlet 和具体的处理器。</p>
+<p><strong>工作原理</strong></p>
+<p>DispatcherServlet 通过 HandlerMapping 找到对应的处理器后，HandlerAdapter 会调用该处理器执行相应的逻辑。不同类型的处理器可能有不同的HandlerAdapter，如处理注解的RequestMappingHandlerAdapter 。</p>
+<h3 id="Controller-控制器"><a href="#Controller-控制器" class="headerlink" title="Controller(控制器)"></a><strong>Controller(控制器)</strong></h3><p><strong>作用</strong></p>
+<p>Controller是 MVC 模式中的核心，它接收来自 Dispatcherservlet 的请求，处理业务逻辑，并将处理结果返回给视图层。Controller 通过@RequestMapping 注解映射 URL路径，并通过 nodel 向视图传递数据</p>
+<p><strong>常见用法</strong></p>
+<ul>
+<li>使用 @Controller 注解定义控制器。</li>
+<li>使用 @RequestMapping 注解指定处理的请求路径。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductController</span> &#123;<br><br>    <span class="hljs-meta">@GetMapping(&quot;/products&quot;)</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">listProducts</span><span class="hljs-params">(Model model)</span> &#123;<br>        model.addAttribute(<span class="hljs-string">&quot;products&quot;</span>, productService.findAll());<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;productList&quot;</span>;  <span class="hljs-comment">// 返回视图名称</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="ModelAndView-模型和视图"><a href="#ModelAndView-模型和视图" class="headerlink" title="ModelAndView(模型和视图)"></a><strong>ModelAndView(模型和视图)</strong></h3><p><strong>作用</strong></p>
+<p>ModelAndview 是控制器返回的对象，包含模型数据和视图名称。模型部分包含业务数据，视图部分指定渲染该数据的视图模板</p>
+<p><strong>使用方式</strong></p>
+<p>控制器方法可以直接返回 ModelAndview 或者视图名称，通过 Model 传递数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/user/&#123;id&#125;&quot;)</span><br><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title function_">getUser</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> Long id)</span> &#123;<br>    <span class="hljs-type">ModelAndView</span> <span class="hljs-variable">mav</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ModelAndView</span>(<span class="hljs-string">&quot;userProfile&quot;</span>);<br>    mav.addObject(<span class="hljs-string">&quot;user&quot;</span>, userService.getUser(id));<br>    <span class="hljs-keyword">return</span> mav;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="ViewResolver-视图解析器"><a href="#ViewResolver-视图解析器" class="headerlink" title="ViewResolver(视图解析器)"></a><strong>ViewResolver(视图解析器)</strong></h3><p><strong>作用</strong></p>
+<p>Viewsolver 的作用是根据控制器返回的视图名称找到对应的视图文件(如 JSP、Thymeleaf 模板)，并将处理结果渲染成 HTML 响应给客户端。</p>
+<p><strong>常见实现</strong></p>
+<ul>
+<li>InternalResourceViewResolver：用于解析JSP 视图</li>
+<li>ThymeleafViewResolver：用于解析 Thymeleaf 模板视图</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span><br><span class="hljs-keyword">public</span> InternalResourceViewResolver <span class="hljs-title function_">viewResolver</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">InternalResourceViewResolver</span> <span class="hljs-variable">resolver</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">InternalResourceViewResolver</span>();<br>    resolver.setPrefix(<span class="hljs-string">&quot;/WEB-INF/views/&quot;</span>);<br>    resolver.setSuffix(<span class="hljs-string">&quot;.jsp&quot;</span>);<br>    <span class="hljs-keyword">return</span> resolver;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Handlerlnterceptor-拦截器"><a href="#Handlerlnterceptor-拦截器" class="headerlink" title="Handlerlnterceptor(拦截器)"></a><strong>Handlerlnterceptor(拦截器)</strong></h3><p><strong>作用</strong></p>
+<p>HandlerInterceptor 用于在请求处理的各个阶段(如控制器方法执行前后)进行拦截。它可以用于实现日志记录、权限验证功能</p>
+<p><strong>常见应用</strong></p>
+<ul>
+<li>日志记录：在请求开始时记录日志。</li>
+<li>权限检查：在控制器方法执行前检查用户权限。</li>
+<li>性能监控：记录请求的执行时间。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LoggingInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HandlerInterceptor</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;Before request handling&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;  <span class="hljs-comment">// 返回 true 才会继续处理请求</span><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">postHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;After request handling&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
 
                 
               </div>

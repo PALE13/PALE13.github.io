@@ -18,8 +18,8 @@
   
     <meta name="description" content="服务限流固定窗口限流首先维护一个计数器，将单位时间段当做一个窗口，计数器记录这个窗口接收请求的次数。  当次数少于限流阀值，就允许访问，并且计数器+1 当次数大于限流阀值，就拒绝访问。 当前的时间窗口过去之后，计数器清零。  假设单位时间是1秒，限流阀值为3。在单位时间1秒内，每来一个请求,计数器就加1，如果计数器累加的次数超过限流阀值3，后续的请求全部拒绝。等到1s结束后，计数器清0，重新开始计">
 <meta property="og:type" content="article">
-<meta property="og:title" content="服务限流">
-<meta property="og:url" content="http://example.com/2024/06/23/%E9%A1%B9%E7%9B%AE/%E5%BE%AE%E6%9C%8D%E5%8A%A1/%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81/index.html">
+<meta property="og:title" content="服务限流设计">
+<meta property="og:url" content="http://example.com/2024/06/23/%E9%A1%B9%E7%9B%AE/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81%E8%AE%BE%E8%AE%A1/index.html">
 <meta property="og:site_name" content="PALE13">
 <meta property="og:description" content="服务限流固定窗口限流首先维护一个计数器，将单位时间段当做一个窗口，计数器记录这个窗口接收请求的次数。  当次数少于限流阀值，就允许访问，并且计数器+1 当次数大于限流阀值，就拒绝访问。 当前的时间窗口过去之后，计数器清零。  假设单位时间是1秒，限流阀值为3。在单位时间1秒内，每来一个请求,计数器就加1，如果计数器累加的次数超过限流阀值3，后续的请求全部拒绝。等到1s结束后，计数器清0，重新开始计">
 <meta property="og:locale" content="zh_CN">
@@ -28,15 +28,15 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304225935821.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623163640364.png">
 <meta property="article:published_time" content="2024-06-23T10:46:25.000Z">
-<meta property="article:modified_time" content="2024-10-05T03:59:31.185Z">
+<meta property="article:modified_time" content="2024-12-19T07:57:08.254Z">
 <meta property="article:author" content="PALE13">
-<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="系统设计">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240623162103150.png">
   
   
   
-  <title>服务限流 - PALE13</title>
+  <title>服务限流设计 - PALE13</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -231,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="服务限流"></span>
+            <span id="subtitle" data-typed-text="服务限流设计"></span>
           
         </div>
 
@@ -302,7 +302,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">服务限流</h1>
+            <h1 id="seo-header">服务限流设计</h1>
             
             
               <div class="markdown-body">
@@ -320,24 +320,13 @@
 <p>优点：最简单</p>
 <p>缺点：可出现流量突刺</p>
 <p>比如：前59分钟没有1个操作，第59分钟来了10个操作；第1小时01分钟又来了10个操作。相当于2分钟内执行了20个操作，<strong>服务器仍然有高峰危险</strong></p>
-<pre><code class="hljs">/**
- * 固定窗口时间算法
- * @return
- */
-boolean fixedWindowsTryAcquire() &#123;
-    long currentTime = System.currentTimeMillis();  //获取系统当前时间
-    if (currentTime - lastRequestTime &gt; windowUnit) &#123;  //检查是否在时间窗口内
-        counter = 0;  // 计数器清0
-        lastRequestTime = currentTime;  //开启新的时间窗口
-    &#125;
-    if (counter &lt; threshold) &#123;  // 小于阀值
-        counter++;  //计数器加1
-        return true;
-    &#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 固定窗口时间算法</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment"> */</span><br><span class="hljs-type">boolean</span> <span class="hljs-title function_">fixedWindowsTryAcquire</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">long</span> <span class="hljs-variable">currentTime</span> <span class="hljs-operator">=</span> System.currentTimeMillis();  <span class="hljs-comment">//获取系统当前时间</span><br>    <span class="hljs-keyword">if</span> (currentTime - lastRequestTime &gt; windowUnit) &#123;  <span class="hljs-comment">//检查是否在时间窗口内</span><br>        counter = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 计数器清0</span><br>        lastRequestTime = currentTime;  <span class="hljs-comment">//开启新的时间窗口</span><br>    &#125;<br>    <span class="hljs-keyword">if</span> (counter &lt; threshold) &#123;  <span class="hljs-comment">// 小于阀值</span><br>        counter++;  <span class="hljs-comment">//计数器加1</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-    return false;
-&#125;
-</code></pre>
+
+
+
+
+
 <h3 id="滑动窗口限流"><a href="#滑动窗口限流" class="headerlink" title="滑动窗口限流"></a><strong>滑动窗口限流</strong></h3><p>假设单位时间还是1s，滑动窗口算法把它划分为5个小周期，也就是滑动窗口（单位时间）被划分为5个小格子。每格表示0.2s。每过0.2s，时间窗口就会往右滑动一格。然后呢，每个小周期，都有自己独立的计数器，如果请求是0.83s到达的，0.8~1.0s对应的计数器就会加1。 </p>
 <p>只要窗口中所有单元格的计数总和不超过阈值都可以放行</p>
 <img src="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240304224021135.png" srcset="/img/loading.gif" lazyload alt="image-20240304224021135" style="zoom:50%;" />
@@ -401,7 +390,7 @@ boolean fixedWindowsTryAcquire() &#123;
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="category-chain-item">微服务</a>
+  <a href="/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="category-chain-item">系统设计</a>
   
   
 
@@ -416,7 +405,7 @@ boolean fixedWindowsTryAcquire() &#123;
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="print-no-link">#微服务</a>
+        <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="print-no-link">#系统设计</a>
       
     </div>
   
@@ -428,8 +417,8 @@ boolean fixedWindowsTryAcquire() &#123;
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>服务限流</div>
-      <div>http://example.com/2024/06/23/项目/微服务/服务限流/</div>
+      <div>服务限流设计</div>
+      <div>http://example.com/2024/06/23/项目/系统设计/服务限流设计/</div>
     </div>
     <div class="license-meta">
       

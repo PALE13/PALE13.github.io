@@ -16,17 +16,17 @@
   <meta name="author" content="PALE13">
   <meta name="keywords" content="">
   
-    <meta name="description" content="SpringBoot常用注解Spring Boot 的自动配置是如何实现的?使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数；  自动装配的流程：SpringBoot通过**@EnableAutoConfiguration注解开启自动配置**，Spring Boot会自动根据项目中的依赖配置相关的Bean，例如，如果项">
+    <meta name="description" content="SpringBootSpring Boot 的自动配置是如何实现的?使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数；  自动装配的流程：SpringBoot通过**@EnableAutoConfiguration注解开启自动配置**，Spring Boot会自动根据项目中的依赖配置相关的Bean，例如，如果项目中引入">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot">
 <meta property="og:url" content="http://example.com/2024/01/16/Spring+MyBatis/SpringBoot/index.html">
 <meta property="og:site_name" content="PALE13">
-<meta property="og:description" content="SpringBoot常用注解Spring Boot 的自动配置是如何实现的?使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数；  自动装配的流程：SpringBoot通过**@EnableAutoConfiguration注解开启自动配置**，Spring Boot会自动根据项目中的依赖配置相关的Bean，例如，如果项">
+<meta property="og:description" content="SpringBootSpring Boot 的自动配置是如何实现的?使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数；  自动装配的流程：SpringBoot通过**@EnableAutoConfiguration注解开启自动配置**，Spring Boot会自动根据项目中的依赖配置相关的Bean，例如，如果项目中引入">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240319221351739.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240319222919988.png">
 <meta property="article:published_time" content="2024-01-16T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-10-30T14:53:14.093Z">
+<meta property="article:modified_time" content="2024-12-31T07:46:39.923Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -252,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          5.2k 字
+          6.5k 字
         
       </span>
     
@@ -263,7 +263,7 @@
         
         
         
-          44 分钟
+          55 分钟
         
       </span>
     
@@ -305,9 +305,9 @@
             
               <div class="markdown-body">
                 
-                <h2 id="SpringBoot常用注解"><a href="#SpringBoot常用注解" class="headerlink" title="SpringBoot常用注解"></a><strong>SpringBoot常用注解</strong></h2><h3 id="Spring-Boot-的自动配置是如何实现的"><a href="#Spring-Boot-的自动配置是如何实现的" class="headerlink" title="Spring Boot 的自动配置是如何实现的?"></a><strong>Spring Boot 的自动配置是如何实现的?</strong></h3><p>使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数； </p>
+                <h2 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a><strong>SpringBoot</strong></h2><h3 id="Spring-Boot-的自动配置是如何实现的"><a href="#Spring-Boot-的自动配置是如何实现的" class="headerlink" title="Spring Boot 的自动配置是如何实现的?"></a><strong>Spring Boot 的自动配置是如何实现的?</strong></h3><p>使用Springboot时，我们需要先引入对应starter，Springboot启动时会自动加载相关依赖，配置相应的初始化参数； </p>
 <p><strong>自动装配的流程：</strong>SpringBoot通过**@EnableAutoConfiguration注解开启自动配置**，Spring Boot会自动根据项目中的依赖配置相关的Bean，例如，如果项目中引入了spring-boot-starter-web依赖</p>
-<p>它使用 Spring 框架提供的 @Import 注解通过<strong>AutoConfigurationImportSelector类（选择器）</strong>给容器中<strong>加载所有自动配置类的jar包的META-INF&#x2F;spring.factorie文件下面指定的自动配置类</strong></p>
+<p>它使用 Spring 框架提供的 <strong>@Import 注解</strong>通过<strong>AutoConfigurationImportSelector类（选择器）</strong>给容器中<strong>加载所有自动配置类的jar包的META-INF&#x2F;spring.factorie文件下面指定的自动配置类</strong></p>
 <p><strong>如果是条件配置，满足@Conditional注解的条件时</strong>，就实例化该AutoConfiguration类中定义的Bean，并注入Spring容器，即可完成Springboot的自动装配</p>
 <p>比如spring.factories定义的AutoConfiguration类是MyConditionalAutoConfiguration</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># 自动配置类</span><br><span class="hljs-string">org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.example.MyAutoConfiguration</span><br><br><span class="hljs-comment"># 自定义条件化自动配置</span><br><span class="hljs-string">org.springframework.boot.autoconfigure.condition.ConditionalOnProperty=com.example.MyConditionalAutoConfiguration</span><br></code></pre></td></tr></table></figure>
@@ -346,7 +346,42 @@
 <li><strong>自动化配置</strong>：Spring Boot的一个核心特性是自动化配置，它会根据项目的依赖和配置自动配置Spring应用。例如，如果项目中包含了spring-boot-starter-web依赖，Spring Boot会自动配置嵌入式的Tomcat服务器和Spring MVC相关的组件。</li>
 <li><strong>启动应用</strong>：最后，通过调用<code>SpringApplication.run(SpringBoot.class, args)</code>方法，Spring Boot会启动内嵌的Web服务器（默认为Tomcat），并开始监听指定的端口，等待接收请求。</li>
 </ol>
-<h3 id="常用注解有哪些"><a href="#常用注解有哪些" class="headerlink" title="常用注解有哪些"></a><strong>常用注解有哪些</strong></h3><h4 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a><strong>@SpringBootApplication</strong></h4><p>这里先单独拎出<code>@SpringBootApplication</code> 注解说一下，虽然我们一般不会主动去使用它。</p>
+<h3 id="Spring有哪些设计模式？"><a href="#Spring有哪些设计模式？" class="headerlink" title="Spring有哪些设计模式？"></a><strong>Spring有哪些设计模式？</strong></h3><h4 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a><strong>单例模式</strong></h4><p>在我们的系统中，有一些对象其实我们只需要一个，比如说：线程池、缓存、对话框、注册表、日志对象、充当打印机、显卡等设备驱动程序的对象。事实上，这一类对象只能有一个实例，如果制造出多个实例就可能会导致一些问题的产生，比如：程序的行为异常、资源使用过量、或者不一致性的结果。</p>
+<p><strong>使用单例模式的好处</strong> :</p>
+<ul>
+<li>对于频繁使用的对象，可以省略创建对象所花费的时间，这对于那些重量级对象而言，是非常可观的一笔系统开销；</li>
+<li>由于 new 操作的次数减少，因而对系统内存的使用频率也会降低，这将减轻 GC 压力，缩短 GC 停顿时间。</li>
+</ul>
+<p>Spring 中 bean 的默认作用域就是 singleton(单例)的</p>
+<h4 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a><strong>工厂模式</strong></h4><p>Spring 使用工厂模式可以通过 <code>BeanFactory</code> 或 <code>ApplicationContext</code> 创建 bean 对象。</p>
+<p><strong>两者对比：</strong></p>
+<ul>
+<li><code>BeanFactory</code>：延迟注入(使用到某个 bean 的时候才会注入)，相比于<code>ApplicationContext</code> 来说会占用更少的内存，程序启动速度更快。</li>
+<li><code>ApplicationContext</code>：容器启动的时候，不管你用没用到，一次性创建所有 bean 。<code>BeanFactory</code> 仅提供了最基本的依赖注入支持，<code>ApplicationContext</code> 扩展了 <code>BeanFactory</code> ,除了有<code>BeanFactory</code>的功能还有额外更多功能，所以一般开发人员使用<code>ApplicationContext</code>会更多。</li>
+</ul>
+<p><code>ApplicationContext</code> 的三个实现类：</p>
+<ol>
+<li><code>ClassPathXmlApplication</code>：把上下文文件当成类路径资源。</li>
+<li><code>FileSystemXmlApplication</code>：从文件系统中的 XML 文件载入上下文定义信息。</li>
+<li><code>XmlWebApplicationContext</code>：从 Web 系统中的 XML 文件载入上下文定义信息。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;<br><span class="hljs-keyword">import</span> org.springframework.context.support.FileSystemXmlApplicationContext;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">App</span> &#123;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileSystemXmlApplicationContext</span>(<br>        <span class="hljs-string">&quot;C:/work/IOC Containers/springframework.applicationcontext/src/main/resources/bean-factory-config.xml&quot;</span>);<br><br>    <span class="hljs-type">HelloApplicationContext</span> <span class="hljs-variable">obj</span> <span class="hljs-operator">=</span> (HelloApplicationContext) context.getBean(<span class="hljs-string">&quot;helloApplicationContext&quot;</span>);<br>    obj.getMsg();<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a><strong>代理模式</strong></h4><p><strong>AOP(Aspect-Oriented Programming，面向切面编程)</strong> 能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
+<p><strong>Spring AOP 就是基于动态代理的</strong>，如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 <strong>JDK Proxy</strong> 去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候 Spring AOP 会使用 <strong>Cglib</strong> 生成一个被代理对象的子类来作为代理</p>
+<h4 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a><strong>适配器模式</strong></h4><p>适配器模式(Adapter Pattern) 将一个接口转换成客户希望的另一个接口，适配器模式使接口不兼容的那些类可以一起工作。</p>
+<p><strong>Spring AOP 中的适配器</strong></p>
+<p>我们知道 Spring AOP 的实现是基于代理模式，但是 Spring AOP 的增强或通知(Advice)使用到了适配器模式，与之相关的接口是<code>AdvisorAdapter</code> 。</p>
+<p>Advice 常用的类型有：<code>BeforeAdvice</code>（目标方法调用前,前置通知）、<code>AfterAdvice</code>（目标方法调用后,后置通知）、<code>AfterReturningAdvice</code>(目标方法执行结束后，return 之前)等等。每个类型 Advice（通知）都有对应的拦截器:<code>MethodBeforeAdviceInterceptor</code>、<code>AfterReturningAdviceInterceptor</code>、<code>ThrowsAdviceInterceptor</code> 等等。</p>
+<p>Spring 预定义的通知要通过对应的适配器，适配成 <code>MethodInterceptor</code> 接口(方法拦截器)类型的对象（如：<code>MethodBeforeAdviceAdapter</code> 通过调用 <code>getInterceptor</code> 方法，将 <code>MethodBeforeAdvice</code> 适配成 <code>MethodBeforeAdviceInterceptor</code> ）。</p>
+<p><strong>Spring MVC 中的适配器模式</strong></p>
+<p>在 Spring MVC 中，<code>DispatcherServlet</code> 根据请求信息调用 <code>HandlerMapping</code>，解析请求对应的 <code>Handler</code>。解析到对应的 <code>Handler</code>（也就是我们平常说的 <code>Controller</code> 控制器）后，开始由<code>HandlerAdapter</code> 适配器处理。<code>HandlerAdapter</code> 作为期望接口，具体的适配器实现类用于对目标类进行适配，<code>Controller</code> 作为需要适配的类。</p>
+<h4 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a><strong>模板方法模式</strong></h4><p>Spring 中 <code>JdbcTemplate</code>、<code>HibernateTemplate</code> 等以 Template 结尾的对数据库操作的类，它们就使用到了模板模式。一般情况下，我们都是使用继承的方式来实现模板模式，但是 Spring 并没有使用这种方式，而是使用Callback 模式与模板方法模式配合，既达到了代码复用的效果，同时增加了灵活性。</p>
+<h4 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a><strong>装饰者模式</strong></h4><p>装饰者模式可以动态地给对象添加一些额外的属性或行为。相比于使用继承，装饰者模式更加灵活。简单点儿说就是当我们需要修改原有的功能，但我们又不愿直接去修改原有的代码时，设计一个 Decorator 套在原有代码外面。其实在 JDK 中就有很多地方用到了装饰者模式，比如 <code>InputStream</code>家族，<code>InputStream</code> 类下有 <code>FileInputStream</code> (读取文件)、<code>BufferedInputStream</code> (增加缓存,使读取文件速度大大提升)等子类都在不修改<code>InputStream</code> 代码的情况下扩展了它的功能。</p>
+<p>Spring 中配置 DataSource 的时候，DataSource 可能是不同的数据库和数据源。我们能否根据客户的需求在少修改原有类的代码下动态切换不同的数据源？这个时候就要用到装饰者模式(这一点我自己还没太理解具体原理)。Spring 中用到的包装器模式在类名上含有 <code>Wrapper</code>或者 <code>Decorator</code>。这些类基本上都是动态地给一个对象添加一些额外的职责</p>
+<h3 id="SpringBoot常用注解有哪些"><a href="#SpringBoot常用注解有哪些" class="headerlink" title="SpringBoot常用注解有哪些"></a><strong>SpringBoot常用注解有哪些</strong></h3><h4 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a><strong>@SpringBootApplication</strong></h4><p>这里先单独拎出<code>@SpringBootApplication</code> 注解说一下，虽然我们一般不会主动去使用它。</p>
 <p><em>Guide：这个注解是 Spring Boot 项目的基石，创建 SpringBoot 项目之后会默认在主类加上。</em></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringSecurityJwtGuideApplication</span> &#123;<br>      <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(java.lang.String[] args)</span> &#123;<br>        SpringApplication.run(SpringSecurityJwtGuideApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -396,11 +431,11 @@
 <li><strong>DELETE</strong>：从服务器删除特定的资源。举个例子：<code>DELETE /users/12</code>（删除编号为 12 的学生）</li>
 <li><strong>PATCH</strong>：更新服务器上的资源（客户端提供更改的属性，可以看做作是部分更新），使用的比较少，这里就不举例子了。</li>
 </ul>
-<h4 id="GET-请求"><a href="#GET-请求" class="headerlink" title="GET 请求"></a><strong>GET 请求</strong></h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@GetMapping</span>(<span class="hljs-string">&quot;users&quot;</span>)<span class="hljs-built_in">` 等价于`</span><span class="hljs-variable">@RequestMapping</span>(value=<span class="hljs-string">&quot;/users&quot;</span>,method=RequestMethod.GET)<br></code></pre></td></tr></table></figure>
+<h4 id="GET-请求"><a href="#GET-请求" class="headerlink" title="GET 请求"></a><strong>GET 请求</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;users&quot;)</span>` 等价于`<span class="hljs-meta">@RequestMapping(value=&quot;/users&quot;,method=RequestMethod.GET)</span><br></code></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/users&quot;)</span><br><span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;User&gt;&gt; <span class="hljs-title function_">getAllUsers</span><span class="hljs-params">()</span> &#123;<br> <span class="hljs-keyword">return</span> userRepository.findAll();<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h4 id="POST-请求"><a href="#POST-请求" class="headerlink" title="POST 请求"></a><strong>POST 请求</strong></h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@PostMapping</span>(<span class="hljs-string">&quot;users&quot;</span>)<span class="hljs-built_in">` 等价于`</span><span class="hljs-variable">@RequestMapping</span>(value=<span class="hljs-string">&quot;/users&quot;</span>,method=RequestMethod.POST)<br></code></pre></td></tr></table></figure>
+<h4 id="POST-请求"><a href="#POST-请求" class="headerlink" title="POST 请求"></a><strong>POST 请求</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping(&quot;users&quot;)</span>` 等价于`<span class="hljs-meta">@RequestMapping(value=&quot;/users&quot;,method=RequestMethod.POST)</span><br></code></pre></td></tr></table></figure>
 
 <p>关于<code>@RequestBody</code>注解的使用，在下面的“前后端传值”这块会讲到。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping(&quot;/users&quot;)</span><br><span class="hljs-keyword">public</span> ResponseEntity&lt;User&gt; <span class="hljs-title function_">createUser</span><span class="hljs-params">(<span class="hljs-meta">@Valid</span> <span class="hljs-meta">@RequestBody</span> UserCreateRequest userCreateRequest)</span> &#123;<br> <span class="hljs-keyword">return</span> userRepository.save(userCreateRequest);<br>&#125;<br></code></pre></td></tr></table></figure>

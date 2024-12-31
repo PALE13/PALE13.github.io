@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240503223440843.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240503223415528.png">
 <meta property="article:published_time" content="2024-03-29T10:46:25.000Z">
-<meta property="article:modified_time" content="2024-12-09T02:41:43.609Z">
+<meta property="article:modified_time" content="2024-12-24T10:47:48.285Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary_large_image">
@@ -368,7 +368,7 @@
 <p>通常情况下，我们会配合其他机制来确保静态资源被盗用，一种常用的机制是 <strong>时间戳防盗链</strong> 。相比之下，<strong>时间戳防盗链</strong> 的安全性更强一些。时间戳防盗链加密的 URL 具有时效性，过期之后就无法再被允许访问。</p>
 <p>时间戳防盗链的 URL 通常会有两个参数一个是签名字符串，一个是过期时间。签名字符串一般是通过对用户设定的加密字符串、请求路径、过期时间通过 MD5 哈希算法取哈希的方式获得。</p>
 <p>时间戳防盗链 URL 示例：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">http://cdn.wangsu.com/4/123.mp3? wsSecret=79aead3bd7b5db4adeffb93a010298b5&amp;wsTime=1601026312<br></code></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://cdn.wangsu.com/<span class="hljs-number">4</span>/<span class="hljs-number">123</span>.mp3? wsSecret=<span class="hljs-number">79</span>aead3bd7b5db4adeffb93a010298b5&amp;wsTime=<span class="hljs-number">1601026312</span><br></code></pre></td></tr></table></figure>
 
 <ul>
 <li><code>wsSecret</code>：签名字符串。</li>

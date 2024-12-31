@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511171529766.png">
 <meta property="og:image" content="https://palepics.oss-cn-guangzhou.aliyuncs.com/img/image-20240511172505838.png">
 <meta property="article:published_time" content="2024-01-15T07:46:25.000Z">
-<meta property="article:modified_time" content="2024-10-30T15:04:24.264Z">
+<meta property="article:modified_time" content="2024-12-16T15:51:47.332Z">
 <meta property="article:author" content="PALE13">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
@@ -616,7 +616,7 @@
 <p>singletonObjects + earlySingletonObjects 理论可以解决依赖注入，也可以解决代理，但需要每次加入二级缓存都要是代理对象，如果没有代理就完全没有必要，同时也不符合 Spring 对 Bean 生命周期的定义。(对象都应该在创建之后再进行动态代理而不是单纯的实例化以后就急着进行代理，如果循环依赖就是没办法的事)</p>
 <p>组合二：一级缓存 + 三级缓存</p>
 <p>singletonObjects + singletonFactories 可以解决依赖注入的问题，但是没法解决代理的问题，若要进行代理从 ObjectFactory 中获取对象实例进行代理，但是这样每次获取对象都不是同一个。<strong>需要借助二级缓存保存半成品的代理对象，等到被代理对象创建完成，代理对象再完成创建</strong></p>
-<h3 id="Spring启动过程"><a href="#Spring启动过程" class="headerlink" title="Spring启动过程"></a><strong>Spring启动过程</strong></h3><ol>
+<h3 id="Spring的启动过程"><a href="#Spring的启动过程" class="headerlink" title="Spring的启动过程"></a><strong>Spring的启动过程</strong></h3><ol>
 <li>读取web.xml文件。</li>
 <li>创建 ServletContext，为 ioc 容器提供宿主环境。</li>
 <li>触发容器初始化事件，调用 contextLoaderListener.contextInitialized()方法，在这个方法会初始化一个应用上下文WebApplicationContext，即 Spring 的 ioc 容器。ioc 容器初始化完成之后，会被存储到 ServletContext 中。</li>
